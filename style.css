@@ -1,0 +1,239 @@
+@font-face{
+    font-family:"Pixelated MS Sans Serif";
+    font-style:normal;
+    font-weight:400;
+    src:url(fonts/ms_sans_serif.woff) format("woff");
+    src:url(fonts/ms_sans_serif.woff2) format("woff2")
+}
+@font-face{
+    font-family:"Pixelated MS Sans Serif";
+    font-style:normal;
+    font-weight:700;
+    src:url(fonts/ms_sans_serif_bold.woff) format("woff");
+    src:url(fonts/ms_sans_serif_bold.woff2) format("woff2")
+}
+@font-face{
+    font-family:"Alagard";
+    font-style:normal;
+    font-weight:700;
+    src:url(fonts/alagard.woff) format("woff");
+}
+
+html, body {
+  margin: 0;
+  height: 100%;
+  width: 100%;
+  background-color: #222;
+  background-image: url('img/back.png');
+  overflow: hidden;
+  user-select: none;
+  cursor: all-scroll;
+  font-smooth: never;
+  -webkit-font-smoothing: none;
+}
+
+.box {
+  position: absolute;
+  top: 100px;
+  left: 100px;
+  transform: translate(-50%, -50%);
+}
+
+p {
+  margin-left: 4px;
+  font-family: "Pixelated MS Sans Serif", Arial;
+}
+
+.titleText {
+  font-family: 'Alagard';
+  font-size: 24px;
+  margin-top: 6px;
+  margin-bottom: 0;
+}
+
+.status-bar {
+  gap: 1px;
+  display: flex;
+  margin: 0 1px;
+  position: absolute;
+  bottom: 4px;
+  width: 298px;
+}
+
+.status-bar-field {
+  box-shadow: inset -1px -1px #dfdfdf,inset 1px 1px grey;
+  flex-grow: 1;
+  margin: 0;
+  padding: 2px 3px;
+  color: #444;
+}
+
+button {
+  margin-left: 4px;
+  margin-bottom: 4px;
+  cursor: pointer;
+}
+
+img {
+  image-rendering: pixelated;
+  pointer-events: none;
+}
+
+#mobileCover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  z-index: 2;
+  display: none;
+}
+
+.confirmationToggle {
+  width: 16px;
+  height: 16px;
+  background-image: url('img/iconMagic.png');
+  border: 2px solid #0f0;
+  cursor: pointer;
+  image-rendering: pixelated;
+}
+
+.resourceRow {
+  margin-top: 4px;
+  margin-bottom: 0;
+}
+
+.resourceIcon {
+  padding-right: 5px;
+}
+
+.fireUpgrade {
+  text-align: left;
+}
+
+.fireBuyMaxButton {
+  min-width: 46px;
+  display: none;
+}
+
+#fireMaxAllButton {
+  position: absolute;
+  bottom: 4px;
+  right: 8px;
+  display: none;
+}
+
+#platinumConvertButton {
+  width: 242px;
+  margin-top: 5px;
+  background-color: #bcc;
+  text-align: center;
+}
+
+.platinumUpgrade {
+  height: 34px;
+  background-color: #bcc;
+  text-align: left;
+}
+
+#platinumMaxAllButton {
+  position: absolute;
+  bottom: 4px;
+  right: 8px;
+  display: none;
+}
+
+.magicUpgrade {
+  height: 46px;
+  margin: 5px 2px 0 2px;
+  background-color: #95a;
+  text-align: left;
+}
+
+.magicUpgrade:disabled {
+  color: #444;
+  text-shadow: 1px 1px 0 #777;
+}
+
+#uraniumMagicUpgrade {
+  display: none;
+  background-image: url('img/uraniumButtonBack.png');
+  background-size: 150px;
+  image-rendering: pixelated;
+}
+
+#uraniumMagicUpgrade:disabled {
+  color: #666;
+  text-shadow: 1px 1px 0 #999;
+}
+
+#magicChallengesContainer {
+  margin: 4px;
+  margin-bottom: 10px;
+  width: 200px;
+  height: 200px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  justify-self: stretch
+}
+
+.magicChallenge {
+  margin: 2px;
+  border: 3px solid #308;
+  background-color: #53a;
+  background-image: linear-gradient(to top, #42a, #63a);
+  text-align: center;
+  color: white;
+  cursor: pointer;
+}
+
+#home {
+  color: white;
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  width: 50px;
+  cursor: pointer;
+  pointer-events: auto;
+  image-rendering: pixelated;
+}
+
+#uraniumConvertButton {
+  width: 242px;
+  margin-top: 5px;
+  background-color: #ada;
+  text-align: center;
+}
+
+.uraniumUpgrade {
+  height: 34px;
+  background-color: #ada;
+  text-align: left;
+}
+
+#dragonSpendTimeButton {
+  text-align: left;
+  height: 34px;
+  background-color: #ffb;
+}
+
+#dragonFeedButton {
+  text-align: left;
+  height: 46px;
+  background-color: #fdb;
+}
+
+.darkMagicUpgrade {
+  height: 46px;
+  margin: 5px 2px 0 2px;
+  background-color: #426;
+  color: #bbf;
+  text-align: left;
+}
+
+.darkMagicUpgrade:disabled {
+  color: #77d;
+  text-shadow: 1px 1px 0 #448;
+}

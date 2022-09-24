@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>DodecaDragons</title>
+  <link rel="icon" type="image/x-icon" href="img/iconGoldCoins.png">
+  <link rel="stylesheet" href="98.css" />
+  <link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body onmousedown="mouseDown()" onmouseup="mouseUp()">
+  <!--Main tab-->
+    <div class="window box" style="width: 350px; height: 300px">
+      <div class="title-bar">
+        <div class="title-bar-text">DodecaDragons</div>
+      </div>
+      <div class="window-body">
+        <p class="titleText">You have <a id="gold">0</a> gold</p>
+        <p style="margin-top: 4px">(<a id="goldPerSecond">0</a>/s, <a id="goldPerClick">0</a>/click)</p>
+        <button style="min-width: 74px" onclick="produceGold()">Mine gold</button><br>
+        <button id="buyMinerButton" style="height: 34px; text-align: left" onclick="buyMiner()">Hire a gold miner<br>Costs <a id="minerCost">20</a> gold</button>
+        <button style="height: 34px; min-width: 49px" onclick="buyMaxMiners()">Buy<br>max</button><br>
+        <button id="unlockDragonButton" style="height: 34px" onclick="unlockDragon()">Get a young dragon<br>Costs 200 gold</button>
+        <button id="unlockAlchemyButton" style="height: 34px; display: none" onclick="unlockAlchemy()">Unlock alchemy<br>Costs 20,000,000 gold</button>
+        <button id="unlockMagicButton" style="height: 34px; display: none" onclick="unlockMagic()">Unlock <a style="color: #707">magic</a><br>Costs 1.000e15 gold</button>
+        <button id="morePUupgradesButton" style="height: 34px; display: none" onclick="morePUupgrades()">Gain more platinum and uranium upgrades<br>Costs 1.000e450 gold</button>
+        <button id="unlockDarkMagicUpgradesButton" style="height: 46px; display: none" onclick="unlockDarkMagicUpgrades()">Unlock <a style="color: #404; text-shadow: 1px 1px #88f">dark magic upgrades</a><br>You are gaining stronger control over your magic powers.<br>Costs 1.000e1,000 gold</button>
+      </div>
+    </div>
+  
+  <!--Settings and info-->
+  <div class="window box" style="width: 150px; height: 300px">
+    <div class="title-bar" style="background-image: linear-gradient(90deg,grey,#b5b5b5);">
+      <div class="title-bar-text">Settings and info</div>
+    </div>
+    <div class="window-body">
+      <p style="margin: 3px; color: #666">Move around by clicking and dragging.<br>If you find the text is too small, you might want to zoom in the window :)</p>
+      <hr>
+      <button style="width: 142px" onclick="save()">Manual save</button><br>
+      <button style="min-width: 68px" onclick="exportGame()">Export</button>
+      <button style="min-width: 68px" onclick="importGame()">Import</button><br>
+      <button style="width: 142px; background-color: #daa" onclick="hardReset()">Hard reset</button>
+      <div id="confirmationToggleBox" style="display: none;">
+        <hr>
+        <center><p style="margin-top: 2px; margin-bottom: 3px">Confirmation popups</p>
+        <div class="confirmationToggle" onclick="toggleConfirmations(1)"></div></center>
+      </div>
+      <p style="position: absolute; bottom: 4px; right: 4px; text-align: right; margin: 0; color: #666;"><a href="https://discord.gg/7PChmUV3wk">Discord</a><br><a href="changelog.txt">Changelog</a><br>Created by Demonin<br>v0.3.2</p>
+    </div>
+  </div>
+
+  <!--Resources tab-->
+  <div class="window box" style="width: 200px; top: 5px; left: 5px; transform: none; padding-bottom: 8px; z-index: 1;">
+    <div class="title-bar">
+      <div class="title-bar-text">Resources</div>
+    </div>
+    <div class="window-body">
+      <p class="resourceRow"><img src="img/iconGoldCoins.png" class="resourceIcon"></img>Gold: <a class="resourceText">0</a></p>
+      <p class="resourceRow" style="display: none"><img src="img/iconMiner.png" class="resourceIcon"></img>Miners: <a class="resourceText">0</a></p>
+      <p class="resourceRow" style="display: none"><img src="img/iconFire.png" class="resourceIcon"></img>Fire: <a class="resourceText">0</a></p>
+      <p class="resourceRow" style="display: none"><img src="img/iconPlatinumCoins.png" class="resourceIcon"></img>Platinum: <a class="resourceText">0</a></p>
+      <p class="resourceRow" style="display: none"><img src="img/iconMagic.png" class="resourceIcon"></img>Magic: <a class="resourceText">0</a></p>
+      <p class="resourceRow" style="display: none"><img src="img/iconMagifold.png" class="resourceIcon"></img>Magifolds: <a class="resourceText">0</a></p>
+      <p class="resourceRow" style="display: none"><img src="img/iconUraniumCoins.png" class="resourceIcon"></img>Uranium: <a class="resourceText">0</a></p>
+    </div>
+  </div>
+
+  <!--Dragon tab-->
+  <div class="window box" style="width: 350px; height: 400px; display: none">
+    <div class="title-bar">
+      <div class="title-bar-text">Dragon</div>
+    </div>
+    <div class="window-body">
+      <center>
+        <p id="dragonTitle" class="titleText" style="margin-top: 0;"><a style="font-size: 14px">You have a</a><br>Young dragon</p>
+        <img id="dragonImg" src="img/iconDragon1.png" style="width: 128px; margin: 4px">
+      </center>
+      <p id="dragonInfo" style="margin-right: 4px">Your wild young dragon produces fire for you. It enjoys playing around on your gold stash.</p>
+      <p style="color: #630">Your fire is multiplying miner production by <a id="fireGoldMultiplier">1.00</a></p>
+      <button id="buyFireUpgradesButton" style="height: 34px" onclick="buyFireUpgrades()">Unlock fire upgrades<br>Costs 5,000 gold</button>
+      <button class="upgradeDragonButton" style="height: 46px; display: none;" onclick="upgradeDragon(1)">Age your dragon into an adult<br>Multiplies fire gain by 100<br>Costs 2,500,000 gold</button>
+      <button class="upgradeDragonButton" style="height: 46px; display: none;" onclick="upgradeDragon(2)">Age your dragon into an elder<br>Multiplies fire gain by 100<br>Costs 1.000e12 gold</button>
+      <button class="upgradeDragonButton" style="height: 46px; display: none;" onclick="upgradeDragon(3)">Corrupt your dragon with the power of darkness<br>Multiplies fire gain by 10,000<br>Costs 1.000e25 gold</button>
+      <button class="upgradeDragonButton" style="height: 46px; display: none;" onclick="upgradeDragon(4)">Infuse your dragon with the power of light<br>Multiplies fire gain by 10,000,000<br>Costs 1.000e150 gold</button>
+      <div id="dragonAffectionStuff" style="display: none">
+        <hr>
+        <p>Your dragon is seeking affection!<br>(You cannot do anything with your dragon while inside challenges)</p><br>
+        <button id="dragonSpendTimeButton" onclick="dragonSpendTime()"><b>Spend time with your dragon</b> (<a id="dragonTimeCooldown">0</a>)<br>You are unable to enter challenges for the next 30 seconds</button>
+        <p style="margin-top: 3px">You have spent time with your dragon <a id="dragonTimeSpent">0</a> times, increasing gold gain by ^<a id="dragonTimeEffect" style="color: #660">1.000</a></p>
+        <button id="dragonFeedButton" onclick="dragonFeed()"><b>Feed your dragon</b><br>Turns all your score and magifolds into dragon food<br>Next feed requires <a id="dragonFeedCost">100,000,000</a> magifolds</button>
+        <p style="margin-top: 3px">You have fed your dragon <a id="dragonFood">0</a> times, increasing fire gain by ^<a id="dragonFoodEffect" style="color: #630">1.000</a></p>
+      </div>
+    </div>
+  </div>
+
+  <!--Fire upgrades tab-->
+  <div class="window box" style="width: 320px; height: 400px; background-color: #eca; display: none">
+    <div class="title-bar">
+      <div class="title-bar-text">Fire upgrades</div>
+    </div>
+    <div class="window-body">
+      <p class="titleText">You have <a id="fire">0</a> fire</p>
+      <p style="margin-top: 4px">(<a id="firePerSecond">0</a>/s)</p>
+      <button class="fireUpgrade" style="height: 46px" onclick="buyFireUpgrade(1)">Increase fire production<br>Currently x<a id="fireUpgrade1Effect">1.00</a><br>Costs <a id="fireUpgrade1Cost">50</a> fire</button>
+      <button class="fireBuyMaxButton" onclick="fireBuyMax(1)">Buy max</button><br>
+      <button class="fireUpgrade" style="height: 46px" onclick="buyFireUpgrade(2)">Increase fire effect<br>Currently x<a id="fireUpgrade2Effect">1.00</a><br>Costs <a id="fireUpgrade2Cost">100</a> fire</button>
+      <button class="fireBuyMaxButton" onclick="fireBuyMax(2)">Buy max</button><br>
+      <button class="fireUpgrade" style="height: 46px" onclick="buyFireUpgrade(3)">Increase gold/click<br>Currently x<a id="fireUpgrade3Effect">1.00</a><br>Costs <a id="fireUpgrade3Cost">100</a> fire</button>
+      <button class="fireBuyMaxButton" onclick="fireBuyMax(3)">Buy max</button><br>
+      <button class="fireUpgrade" style="height: 46px" onclick="buyFireUpgrade(4)">Miners increase gold/second<br>Currently x<a id="fireUpgrade4Effect">1.00</a><br>Costs <a id="fireUpgrade4Cost">500</a> fire</button>
+      <button class="fireBuyMaxButton" onclick="fireBuyMax(4)">Buy max</button><br>
+      <button class="fireUpgrade" style="height: 46px" onclick="buyFireUpgrade(5)">Gold increases fire/second<br>Currently x<a id="fireUpgrade5Effect">1.00</a><br>Costs <a id="fireUpgrade5Cost">500</a> fire</button>
+      <button class="fireBuyMaxButton" onclick="fireBuyMax(5)">Buy max</button><br>
+      <button class="fireUpgrade" style="height: 46px; display: none" onclick="buyFireUpgrade(6)">Increase platinum gain<br>Currently x<a id="fireUpgrade6Effect">1.00</a><br>Costs <a id="fireUpgrade6Cost">20,000,000</a> fire</button>
+      <button class="fireBuyMaxButton" onclick="fireBuyMax(6)">Buy max</button><br>
+      <button id="fireMaxAllButton" onclick="fireMaxAll()">Max all</button>
+    </div>
+  </div>
+
+  <!--Alchemy tab-->
+  <div class="window box" style="width: 250px; height: 500px; display: none;">
+    <div class="title-bar">
+      <div class="title-bar-text">Alchemy</div>
+    </div>
+    <div class="window-body">
+      <button id="platinumConvertButton" onclick="platinumConvert()">Convert all gold into <a id="platinumToGet">0</a> platinum (<a id="platinumConvertCooldown">0</a>)</button>
+      <p style="margin-top: 4px">You have <a id="platinum">0</a> platinum</p><br>
+      <button class="platinumUpgrade" onclick="buyPlatinumUpgrade(1)">Gain 20% more gold/second (<a class="platinumUpgradesBought">0</a>/20)<br>Costs 200 platinum</button><br>
+      <button class="platinumUpgrade" onclick="buyPlatinumUpgrade(2)">Gain 20% more fire/second (<a class="platinumUpgradesBought">0</a>/20)<br>Costs 500 platinum</button><br>
+      <button class="platinumUpgrade" onclick="buyPlatinumUpgrade(3)">Unlock a new fire upgrade (<a class="platinumUpgradesBought">0</a>/1)<br>Costs 750 platinum</button><br>
+      <button class="platinumUpgrade" onclick="buyPlatinumUpgrade(4)">Miner cost scales 5% slower (<a class="platinumUpgradesBought">0</a>/5)<br>Costs 1,500 platinum</button><br>
+      <button class="platinumUpgrade" onclick="buyPlatinumUpgrade(5)"> Automatically gain platinum every second (<a class="platinumUpgradesBought">0</a>/1)<br>Costs 2,000 platinum</button><br>
+      <button class="platinumUpgrade" onclick="buyPlatinumUpgrade(6)" style="height: 46px">Platinum increases gold/second (<a class="platinumUpgradesBought">0</a>/4)<br>Currently x<a id="platinumUpgrade6Effect">1.00</a><br>Costs 15,000 platinum</button><br>
+      <button class="platinumUpgrade" onclick="buyPlatinumUpgrade(7)" style="height: 46px; display: none">Increase magic effect (<a class="platinumUpgradesBought">0</a>/20)<br>Currently x<a id="platinumUpgrade7Effect">1.00</a><br>Costs 1,000,000 platinum</button><br>
+      <button class="platinumUpgrade" onclick="buyPlatinumUpgrade(8)" style="display: none">Double uranium gain (<a class="platinumUpgradesBought">0</a>/5)<br>Costs 1.000e22 platinum</button><br>
+      <button class="platinumUpgrade" onclick="buyPlatinumUpgrade(9)" style="display: none">Fire upgrade 4 is boosted (<a class="platinumUpgradesBought">0</a>/5)<br>Costs 1.000e30 platinum</button><br>
+      <button id="platinumMaxAllButton" onclick="platinumMaxAll()">Max all</button>
+    </div>
+  </div>
+
+  <!--Magic tab-->
+  <div class="window box" style="width: 515px; height: 225px; background-color: #b8b; display: none;">
+    <div class="title-bar" style="background:linear-gradient(90deg,#408,#94d)">
+      <div class="title-bar-text">Magic</div>
+    </div>
+    <div class="window-body">
+      <center><p class="titleText">You have <a id="magic">0</a> magic</p>
+      <button style="height: 34px; margin-top: 5px; background-color: #95a; background-image: url('img/magicBack.png')" onclick="magicCheck()">Reset all previous resources and upgrades<br>You will gain <a id="magicToGet" style="color: #508">0</a> magic</button>
+      <p style="margin-top: 2px"><a id="nextMagic"></a>Your magic is multiplying your gold gain by <a id="magicEffect">1</a></p>
+      <button id="moreMagicUpgradesButton" style="background-color: #95a; height: 46px; display: none;" onclick="unlockMoreMagicUpgrades()">Unlock more magic upgrades<br>Costs 200,000,000 magic,<br>Requires 275,000 magifolds</button></center>
+    </div>
+  </div>
+
+  <!--Magic upgrades tab-->
+  <div class="window box" style="width: 350px; height: 330px; background-color: #b8b; display: none;">
+    <div class="title-bar" style="background:linear-gradient(90deg,#408,#94d)">
+      <div class="title-bar-text">Magic upgrades</div>
+    </div>
+    <div class="window-body" style="display: grid; grid-template-columns: 1fr 1fr; justify-self: stretch;">
+      <button class="magicUpgrade" onclick="buyMagicUpgrade(1)">Gold multiplies its own gain<br>Currently x<a id="magicUpgrade1Effect">1.00</a><br>Costs 2 magic</button>
+      <button class="magicUpgrade" onclick="buyMagicUpgrade(2)">Unlock buy max and max all for fire upgrades<br>Costs 3 magic</button>
+      <button class="magicUpgrade" onclick="buyMagicUpgrade(3)">Multiply gold and fire gain by 55.5. Waow.<br>Costs 5 magic</button>
+      <button class="magicUpgrade" onclick="buyMagicUpgrade(4)">Magic multiplies its own gain<br>Currently x<a id="magicUpgrade4Effect">1.00</a><br>Costs 8 magic</button>
+      <button class="magicUpgrade" onclick="buyMagicUpgrade(5)">Unlock max all for platinum upgrades<br>Costs 25 magic</button>
+      <button class="magicUpgrade" onclick="buyMagicUpgrade(6)">Miners increase gold/second<br>Currently x<a id="magicUpgrade6Effect">1.00</a><br>Costs 75 magic</button>
+      <button class="magicUpgrade" onclick="buyMagicUpgrade(7)">Triple magic gain. Simple.<br>Costs 200 magic</button>
+      <button class="magicUpgrade" onclick="buyMagicUpgrade(8)">Unlock a new platinum upgrade (kept on reset)<br>Costs 1,500 magic</button>
+      <button class="magicUpgrade" onclick="buyMagicUpgrade(9)">Fire upgrades 2 and 3 are strongly boosted<br>Costs 4,000 magic</button>
+      <button class="magicUpgrade" onclick="buyMagicUpgrade(10)">Magic upgrades 4 and 6 are boosted<br>Costs 30,000 magic</button>
+      <button class="magicUpgrade" onclick="buyMagicUpgrade(11)">Keep platinum upgrades on magic reset<br>Costs 150,000 magic</button>
+      <button class="magicUpgrade" style="background-color: #74a" onclick="buyMagicUpgrade(12)">Unlock <b>Magic Challenges</b><br>Costs 400,000 magic</button>
+      <button class="magicUpgrade" style="display: none" onclick="buyMagicUpgrade(13)">Challenge score gain is doubled<br>Costs 100,000,000 magic</button>
+      <button class="magicUpgrade" style="display: none" onclick="buyMagicUpgrade(14)">Fire upgrade 1 is boosted<br>Costs 300,000,000 magic</button>
+      <button class="magicUpgrade" style="display: none" onclick="buyMagicUpgrade(15)">Challenge B1's effect is better<br>Costs 1.500e9 magic</button>
+      <button class="magicUpgrade" style="display: none" onclick="buyMagicUpgrade(16)">Magic effect is squared<br>Costs 3.000e9 magic</button>
+      <button class="magicUpgrade" style="display: none" onclick="buyMagicUpgrade(17)">Magifolds multiply score gain<br>Currently x<a id="magicUpgrade17Effect">1.00</a><br>Costs 1.000e11 magic</button>
+      <button class="magicUpgrade" style="display: none" onclick="buyMagicUpgrade(18)">Triple magic gain again. Easy peasy.<br>Costs 4.000e12 magic</button>
+      <button class="magicUpgrade" style="display: none" onclick="buyMagicUpgrade(19)">Magifold effect is boosted from (x^4) to (x^6)<br>Costs 1.000e13 magic</button>
+      <button class="magicUpgrade" id="uraniumMagicUpgrade" style="" onclick="buyMagicUpgrade(20)">Unlock <b>Uranium</b><br>Costs 1.000e16 magic</button>
+    </div>
+  </div>
+  
+  <!--Magic challenges tab-->
+  <div class="window box" style="width: 400px; height: 400px; background-color: #97b; display: none;">
+    <div class="title-bar" style="background:linear-gradient(90deg,#408,#94d)">
+      <div class="title-bar-text">Magic challenges</div>
+    </div>
+    <div class="window-body" style="margin-left: 4px; margin-top: 4px; display: grid; grid-template-columns: 200px 188px; grid-gap: 4px">
+      <div id="magicChallengesContainer">
+        <div class="magicChallenge" onmouseover="showMagicChallenge(1)" onmouseout="showMagicChallenge(0)" onclick="activateMagicChallenge(1)"><p style="font-size: 32px; line-height: 100%">A1</p></div>
+        <div class="magicChallenge" onmouseover="showMagicChallenge(2)" onmouseout="showMagicChallenge(0)" onclick="activateMagicChallenge(2)"><p style="font-size: 32px; line-height: 100%"">A2</p></div>
+        <div class="magicChallenge" onmouseover="showMagicChallenge(3)" onmouseout="showMagicChallenge(0)" onclick="activateMagicChallenge(3)"><p style="font-size: 32px; line-height: 100%"">B1</p></div>
+        <div class="magicChallenge" onmouseover="showMagicChallenge(4)" onmouseout="showMagicChallenge(0)" onclick="activateMagicChallenge(4)"><p style="font-size: 32px; line-height: 100%"">B2</p></div>
+      </div>
+      <div>
+        <p>HIGHEST SCORES:<br>1 challenge: <a id="magicScore1" style="color: #066">0</a><br>2 challenges: <a id="magicScore2" style="color: #047">0</a><br>3 challenges: <a id="magicScore3" style="color: #008">0</a><br>4 challenges: <a id="magicScore4" style="color: #508">0</a><br><br>You have <a id="magifolds">1</a> (<a id="magicMult1">1</a> * <a id="magicMult2">1</a> * <a id="magicMult3">1</a> * <a id="magicMult4">1</a>) <a style="color: #409">magic manifolds</a> (magifolds), which give<br><a style="font-size: 16px">x</a><a id="magifoldEffect" style="font-size: 16px">1.00</a><br>gold gain</p>
+      </div>
+      <div style="margin-top: 4px; grid-column: 1 / span 2; text-align: center; border-top: 2px solid #658; height: 110px">
+        <p style="font-size: 30px; margin-bottom: 0; margin-top: 8px; color: #008" id="magicChallengeTitle"></p>
+        <p style="font-size: 14px" id="magicChallengeInfo"><a style="color: #606">Hover over a challenge to see what it does!</a><br><a style="color: #060">You can select up to 4 challenges, and you will earn separate scores for each amount of challenges you enter at once (1, 2, 3 and 4).</a><a style="color: #046"> Bonuses are based on the highest score achieved in each amount of challenges, multiplied together.</a></p>
+      </div>
+      <div style="margin-top: 4px; grid-column: 1 / span 2; border-top: 2px solid #658">
+        <button id="magicChallengeButton" style="display: inline-block; margin-top: 6px; background-color: #b9f; width: 225px" onclick="enterExitMagicChallenges()">Enter challenges</button>
+        <p id="activeChallenges" style="display: inline-block">You are not in any challenges!</p>
+      </div>
+    </div>
+  </div>
+
+  <!--Alchemy tab II-->
+  <div class="window box" style="width: 250px; height: 500px; display: none;">
+    <div class="title-bar">
+      <div class="title-bar-text">Alchemy II</div>
+    </div>
+    <div class="window-body">
+      <button id="uraniumConvertButton" onclick="uraniumConvert()">Convert all platinum into <a id="uraniumToGet">0</a> uranium (<a id="uraniumConvertCooldown">0</a>)</button>
+      <p style="margin-top: 4px">You have <a id="uranium">0</a> uranium<br>You gain 1 free uranium per second (but only 1)<br>Uranium upgrades are kept on magic resets.</p><br>
+      <button class="uraniumUpgrade" style="height: 46px" onclick="buyUraniumUpgrade(1)">Increase platinum gain by 20% (multiplicative)<br>(<a class="uraniumUpgradesBought">0</a>/100)<br>Costs 100 uranium</button><br>
+      <button class="uraniumUpgrade" onclick="buyUraniumUpgrade(2)">Increase uranium gain by 10% (additive) (<a class="uraniumUpgradesBought">0</a>/20)<br>Costs 300 uranium</button><br>
+      <button class="uraniumUpgrade" onclick="buyUraniumUpgrade(3)">Double score gain (<a class="uraniumUpgradesBought">0</a>/5)<br>Costs 1,000 uranium</button><br>
+      <button class="uraniumUpgrade" onclick="buyUraniumUpgrade(4)" style="display: none">Platinum upgrade 6 is boosted (<a class="uraniumUpgradesBought">0</a>/1)<br>Costs 10,000 uranium</button><br>
+      <button class="uraniumUpgrade" onclick="buyUraniumUpgrade(5)" style="display: none">Increase platinum gain tenfold (<a class="uraniumUpgradesBought">0</a>/10)<br>Costs 50,000 uranium</button><br>
+      <button class="uraniumUpgrade" onclick="buyUraniumUpgrade(6)" style="height: 46px; display: none">Automatically gain 100% of your potential magic<br>every second (<a class="uraniumUpgradesBought">0</a>/1)<br>Costs 100,000 uranium</button><br>
+    </div>
+  </div>
+
+  <!--Dark magic upgrades tab-->
+  <div class="window box" style="width: 350px; height: 540px; background-color: #528; display: none;">
+    <div class="title-bar" style="background:linear-gradient(90deg,#408,#94d)">
+      <div class="title-bar-text">Dark magic upgrades</div>
+    </div>
+    <div class="window-body" style="display: grid; grid-template-columns: 1fr 1fr; justify-self: stretch;">
+      <button class="darkMagicUpgrade" onclick="buyDarkMagicUpgrade(1)">Score gain is increased by ^1.30<br>Costs 1.000e110 magic</button>
+      <button class="darkMagicUpgrade" onclick="buyDarkMagicUpgrade(2)">Uranium increases magic gain<br>Currently ^<a id="darkMagicUpgrade2Effect">1.00</a><br>Costs 1.000e125 magic</button>
+      <button class="darkMagicUpgrade" onclick="buyDarkMagicUpgrade(3)">You gain 10x as much time spent with your dragon<br>Costs 1.000e165 magic</button>
+      <button class="darkMagicUpgrade" onclick="buyDarkMagicUpgrade(4)">Magifold effect is boosted again to (x^8)<br>Costs 1.000e240 magic</button>
+      <button class="darkMagicUpgrade" onclick="buyDarkMagicUpgrade(5)">Multiply uranium gain by 100<br>Costs 1.000e285 magic</button>
+      <button class="darkMagicUpgrade" onclick="buyDarkMagicUpgrade(6)">Fire upgrade 2 is boosted again<br>Costs 1.000e320 magic</button>
+      <button class="darkMagicUpgrade" onclick="buyDarkMagicUpgrade(7)">Score gain is doubled<br>Costs 1.000e360 magic</button>
+      <button class="darkMagicUpgrade" style="display: none;" onclick="buyDarkMagicUpgrade(8)">Automatically spend time with your dragon when possible<br>Costs 1.000e450 magic</button>
+    </div>
+  </div>
+  
+  <img src="img/homeIcon.png" id="home" onclick="posHome()">
+  <div id="mobileCover"><p style="color: white; font-size: 24px; margin-left: 4px">It looks like you're on a mobile device! Since I haven't yet figured out how to make the game work properly on mobile, it's disabled for now. Sorry...<br><br>If you aren't on a mobile device and are seeing this, please let me know on discord!</p></div>
+
+  <script src="break_eternity.js"></script>
+  <script src="numberFormatting.js"></script>
+  <script src="script.js"></script>
+  <script src="render.js"></script>
+</body>
+
+</html>
