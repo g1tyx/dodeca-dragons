@@ -62,7 +62,7 @@ var cnItems = {
     "Increase gold/click": "提高 黄金/点击",
     "Increase magic effect (": "提高魔法效果 （",
     "Increase platinum gain": "提高铂金增益",
-    "(magifolds), which give": "（Magifolds），它给",
+    "(magifolds), which give": "（Magifolds），它给了",
     "(You cannot do anything with your dragon while inside challenges)": "（在挑战中你不能对你的龙做任何事情）",
     "Buy max": "购买最大",
     "Buy": "购买",
