@@ -407,7 +407,7 @@ var cnRegReplace = new Map([
     [/^You have (.+) points$/, '你有 $1 点数'],
     [/^Next at (.+) points$/, '下一个在 $1 点数'],
     [/^Platinum upgrade (.+)\'s effect is \/(.+) and gold\/click is always (.+).$/, '白金升级 $1 的效果是\/$2，黄金\/点击总是 $2。'],
-    [/^magic effect is (.+) then \/(.+).$/, '魔术效果是 $1 然后 \/ $2'],
+    [/^magic effect is (.+) then \/(.+).$/, '魔法效果是 $1 然后 \/ $2'],
     [/^Exit challenges for (.+) score$/, '退出挑战获得 $1 积分'],
     [/^Next magic at (.+) gold$/, '下一个魔法在 $1 黄金'],
 	[/^([\d\.]+)\/sec$/, '$1\/秒'],
