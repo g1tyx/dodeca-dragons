@@ -1297,10 +1297,10 @@ function unlockMagic() {
 //Confirmation popups for magic resets
 function magicCheck() {
   if (game.magicToGet.eq(0)) {
-    if (confirm("Woah, hold on! You won't gain any magic! Are you sure you want to perform a magic reset?")) magicReset()
+    if (confirm("哇，等一下！你不会获得任何魔法！您确定要执行魔法重置吗？")) magicReset()
   }
   else if (game.confirmations[0]) {
-    if (confirm("Are you sure you want to perform a magic reset?")) magicReset()
+    if (confirm("你确定要进行魔法重置吗?")) magicReset()
   }
   else {magicReset()}
 }
