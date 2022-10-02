@@ -19,6 +19,10 @@
     src:url(fonts/alagard.woff) format("woff");
 }
 
+*:disabled {
+  pointer-events: none;
+}
+
 html, body {
   margin: 0;
   height: 100%;
@@ -93,10 +97,10 @@ img {
 .confirmationToggle {
   width: 16px;
   height: 16px;
-  background-image: url('img/iconMagic.png');
   border: 2px solid #0f0;
   cursor: pointer;
   image-rendering: pixelated;
+  display: inline-block;
 }
 
 .resourceRow {
@@ -124,11 +128,19 @@ img {
   display: none;
 }
 
+#fireAutoMaxAllButton {
+  position: absolute;
+  bottom: 34px;
+  right: 8px;
+  display: none;
+}
+
 #platinumConvertButton {
   width: 242px;
   margin-top: 5px;
   background-color: #bcc;
   text-align: center;
+  height: 32px;
 }
 
 .platinumUpgrade {
@@ -205,12 +217,20 @@ img {
   margin-top: 5px;
   background-color: #ada;
   text-align: center;
+  height: 32px;
 }
 
 .uraniumUpgrade {
   height: 34px;
   background-color: #ada;
   text-align: left;
+}
+
+#uraniumMaxAllButton {
+  position: absolute;
+  bottom: 4px;
+  right: 8px;
+  display: none;
 }
 
 #dragonSpendTimeButton {
@@ -236,4 +256,56 @@ img {
 .darkMagicUpgrade:disabled {
   color: #77d;
   text-shadow: 1px 1px 0 #448;
+}
+
+#sigilMagicUpgrade {
+  background-color: rgb(70, 70, 70);
+  background-image: url('img/sigilButtonBack.png');
+  background-size: 150px;
+  image-rendering: pixelated;
+  color: #bdf;
+}
+
+#sigilMagicUpgrade:disabled {
+  color: #69c;
+  text-shadow: 1px 1px 0 #468;
+}
+
+.cyanSigilUpgrade {
+  height: 46px;
+  margin: 5px 2px 0 2px;
+  background-color: #444;
+  color: #4af;
+  text-align: left;
+}
+
+.cyanSigilUpgrade:disabled {
+  color: #58b;
+  text-shadow: 1px 1px 0 #357;
+}
+
+.blueSigilUpgrade {
+  height: 46px;
+  margin: 5px 2px 0 2px;
+  background-color: #444;
+  color: #77f;
+  text-align: left;
+}
+
+.blueSigilUpgrade:disabled {
+  color: #66a;
+  text-shadow: 1px 1px 0 #448;
+}
+
+.indigoSigilUpgrade {
+  height: 46px;
+  margin: 5px 2px 0 2px;
+  background-color: #444;
+  color: #97f;
+  text-align: left;
+}
+
+.indigoSigilUpgrade:disabled {
+  color: #76a;
+  text-shadow: 1px 1px 0 #548;
 }

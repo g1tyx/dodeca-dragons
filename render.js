@@ -21,9 +21,9 @@ function render(x, y) {
   //Main tab
   document.getElementsByClassName("box")[0].style.left = (window.innerWidth / 2 + x) + "px"
   document.getElementsByClassName("box")[0].style.top = (window.innerHeight / 2 + y) + "px"
-  //Settings and info
-  document.getElementsByClassName("box")[1].style.left = (window.innerWidth / 2 + x - 265) + "px"
-  document.getElementsByClassName("box")[1].style.top = (window.innerHeight / 2 + y) + "px"
+  //Settings and info (stays in top left corner of screen)
+  //document.getElementsByClassName("box")[1].style.left = (window.innerWidth / 2 + x - 265) + "px"
+  //document.getElementsByClassName("box")[1].style.top = (window.innerHeight / 2 + y) + "px"
   //Resources tab (stays in top left corner of screen)
   //document.getElementsByClassName("box")[2].style.left = (window.innerWidth / 2 + x + 265) + "px"
   //document.getElementsByClassName("box")[2].style.top = (window.innerHeight / 2 + y - 153) + "px"
@@ -43,12 +43,12 @@ function render(x, y) {
   }
   if (game.unlocks >= 3) {
     //Magic tab
-    document.getElementsByClassName("box")[6].style.left = (window.innerWidth / 2 + x - 83) + "px"
-    document.getElementsByClassName("box")[6].style.top = (window.innerHeight / 2 + y - 277) + "px"
+    document.getElementsByClassName("box")[6].style.left = (window.innerWidth / 2 + x) + "px"
+    document.getElementsByClassName("box")[6].style.top = (window.innerHeight / 2 + y - 287) + "px"
     //Magic upgrades tab
-    document.getElementsByClassName("box")[7].style.left = (window.innerWidth / 2 + x - 530) + "px"
-    if (game.unlocks >= 6) {document.getElementsByClassName("box")[7].style.top = (window.innerHeight / 2 + y - 120) + "px"}
-    else {document.getElementsByClassName("box")[7].style.top = (window.innerHeight / 2 + y - 247) + "px"}
+    document.getElementsByClassName("box")[7].style.left = (window.innerWidth / 2 + x - 365) + "px"
+    if (game.unlocks >= 6) {document.getElementsByClassName("box")[7].style.top = (window.innerHeight / 2 + y - 130) + "px"}
+    else {document.getElementsByClassName("box")[7].style.top = (window.innerHeight / 2 + y - 257) + "px"}
   }
   if (game.unlocks >= 4) {
     //Magic challenges tab
@@ -62,8 +62,23 @@ function render(x, y) {
   }
   if (game.unlocks >= 8) {
     //Dark magic upgrades tab
-    document.getElementsByClassName("box")[10].style.left = (window.innerWidth / 2 + x - 895) + "px"
-    document.getElementsByClassName("box")[10].style.top = (window.innerHeight / 2 + y - 120) + "px"
+    document.getElementsByClassName("box")[10].style.left = (window.innerWidth / 2 + x - 730) + "px"
+    document.getElementsByClassName("box")[10].style.top = (window.innerHeight / 2 + y - 130) + "px"
+  }
+  if (game.unlocks >= 9) {
+    //Cyan sigils tab
+    document.getElementsByClassName("box")[11].style.left = (window.innerWidth / 2 + x + 365) + "px"
+    document.getElementsByClassName("box")[11].style.top = (window.innerHeight / 2 + y + 540) + "px"
+  }
+  if (game.unlocks >= 10) {
+    //Blue sigils tab
+    document.getElementsByClassName("box")[12].style.left = (window.innerWidth / 2 + x + 730) + "px"
+    document.getElementsByClassName("box")[12].style.top = (window.innerHeight / 2 + y + 540) + "px"
+  }
+  if (game.unlocks >= 11) {
+    //Indigo sigils tab
+    document.getElementsByClassName("box")[13].style.left = (window.innerWidth / 2 + x + 1095) + "px"
+    document.getElementsByClassName("box")[13].style.top = (window.innerHeight / 2 + y + 540) + "px"
   }
   document.body.style.backgroundPosition = (x / 4) + "px " + (y / 4) + "px" 
 }

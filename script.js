@@ -6,6 +6,39 @@ window.mobileCheck = function() {
 };
 if (mobileCheck()) document.getElementById("mobileCover").style.display = "block"
 
+//Formatting code taken from RedShark77's games
+function format(ex, acc=2, max=9) {
+  function E(x) {return new Decimal(x)}
+  ex = E(ex)
+  neg = ex.lt(0)?"-":""
+  if (ex.mag == Infinity) return neg + 'Infinity'
+  if (Number.isNaN(ex.mag)) return neg + 'NaN'
+  //The bit I added, this rounds the mag if it's extremely close to an integer due to rounding errors during calculations
+  if (ex.layer > 0 && ex.mag % 1 != 0 && (ex.mag % 1) > 0.9999) ex.mag = Math.round(ex.mag)
+  if (ex.lt(0)) ex = ex.mul(-1)
+  if (ex.eq(0)) return ex.toFixed(acc)
+  let e = ex.log10().floor()
+  if (ex.log10().lt(Math.min(-acc,0)) && acc > 1) {
+    let e = ex.log10().ceil()
+    let m = ex.div(e.eq(-1)?E(0.1):E(10).pow(e))
+    let be = e.mul(-1).max(1).log10().gte(9)
+    return neg+(be?'':m.toFixed(3))+'e'+format(e, 0, max)
+  }
+  else if (e.lt(max)) {
+    let a = Math.max(Math.min(acc-e.toNumber(), acc), 0)
+    return neg+(a>0?ex.toFixed(a):ex.toFixed(a).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,'))
+  }
+  else {
+    if (ex.gte("eeee10")) {
+      let slog = ex.slog()
+      return (slog.gte(1e9)?'':E(10).pow(slog.sub(slog.floor())).toFixed(4)) + "F" + format(slog.floor(), 0)
+    }
+    let m = ex.div(E(10).pow(e))
+    let be = e.log10().gte(4)
+    return neg+(be?'':m.toFixed(3))+'e'+format(e, 0, max)
+  }
+}
+
 //Sets all variables to their base values
 function reset() {
 	game = {
@@ -17,6 +50,7 @@ function reset() {
     
     fire: new Decimal(0),
     firePerSecond: new Decimal(1),
+    //I hate that these don't work when I condense them into an array *cries*
     fireGoldMultiplier: new Decimal(1),
     fireUpgrade1Bought: new Decimal(0),
     fireUpgrade1Cost: new Decimal(50),
@@ -52,7 +86,7 @@ function reset() {
     magicScore3: new Decimal(0),
     magicScore4: new Decimal(0),
     magifolds: new Decimal(1),
-    confirmations: [true],
+    confirmations: [true, true],
 
     uraniumConvertCooldown: 0,
     uraniumToGet: new Decimal(0),
@@ -66,11 +100,59 @@ function reset() {
 
     darkMagicUpgradesBought: [],
     dragonTimeEffect: new Decimal(1),
+
+    //Sigil stuff (SOMEBODY PLEASE TELL ME HOW TO PUT THESE IN ARRAYS SO I DON'T NEED SO MANY VARIABLES AAAAGGGGHHHHH)
+    cyanSigils: new Decimal(0),
+    cyanSigilsToGet: new Decimal(0),
+    cyanSigilPower: new Decimal(0),
+    cyanSigilPowerPerSecond: new Decimal(0),
+    cyanSigilUpgrade1Bought: new Decimal(0),
+    cyanSigilUpgrade1Cost: new Decimal(1),
+    cyanSigilUpgrade2Bought: new Decimal(0),
+    cyanSigilUpgrade2Cost: new Decimal(20),
+    cyanSigilUpgrade3Bought: new Decimal(0),
+    cyanSigilUpgrade3Cost: new Decimal(500),
+    cyanSigilUpgrade4Bought: new Decimal(0),
+    cyanSigilUpgrade5Bought: new Decimal(0),
+    cyanSigilUpgrade6Bought: new Decimal(0),
+
+    blueSigils: new Decimal(0),
+    blueSigilsToGet: new Decimal(0),
+    blueSigilPower: new Decimal(0),
+    blueSigilPowerPerSecond: new Decimal(0),
+    blueSigilUpgrade1Bought: new Decimal(0),
+    blueSigilUpgrade1Cost: new Decimal(1),
+    blueSigilUpgrade2Bought: new Decimal(0),
+    blueSigilUpgrade2Cost: new Decimal(20),
+    blueSigilUpgrade3Bought: new Decimal(0),
+    blueSigilUpgrade3Cost: new Decimal(100),
+    blueSigilUpgrade4Bought: new Decimal(0),
+    blueSigilUpgrade5Bought: new Decimal(0),
+    blueSigilUpgrade6Bought: new Decimal(0),
+    fireAutoMaxAll: true,
+
+    timePlayed: 0,
+
+    indigoSigils: new Decimal(0),
+    indigoSigilsToGet: new Decimal(0),
+    indigoSigilPower: new Decimal(0),
+    indigoSigilPowerPerSecond: new Decimal(0),
+    indigoSigilUpgrade1Bought: new Decimal(0),
+    indigoSigilUpgrade1Cost: new Decimal(1),
+    indigoSigilUpgrade2Bought: new Decimal(0),
+    indigoSigilUpgrade2Cost: new Decimal(20),
+    indigoSigilUpgrade3Bought: new Decimal(0),
+    indigoSigilUpgrade3Cost: new Decimal(100),
+    indigoSigilUpgrade4Bought: new Decimal(0),
+    indigoSigilUpgrade4Cost: new Decimal(400),
+    indigoSigilUpgrade5Bought: new Decimal(0),
+    indigoSigilUpgrade6Bought: new Decimal(0),
   }
 
-  for (i=3;i<11;i++) document.getElementsByClassName("box")[i].style.display = "none"
-  for (i=1;i<6;i++) document.getElementsByClassName("resourceRow")[i].style.display = "none"
+  for (i=3;i<14;i++) document.getElementsByClassName("box")[i].style.display = "none"
+  for (i=1;i<10;i++) document.getElementsByClassName("resourceRow")[i].style.display = "none"
   for (i=12;i<20;i++) {document.getElementsByClassName("magicUpgrade")[i].style.display = "none"}
+  for (i=8;i<12;i++) {document.getElementsByClassName("darkMagicUpgrade")[i].style.display = "none"}
   document.getElementById("dragonAffectionStuff").style.display = "none"
 }
 
@@ -132,10 +214,11 @@ function loadGame(loadgame) {
     }
   }
 
-  //Changes what's visible/available based on game progress
+  //All of these change what's visible/available based on game progress
   document.getElementById("minerCost").innerHTML = format(game.minerCost, 0)
   if (game.miners.gte(1)) document.getElementsByClassName("resourceRow")[1].style.display = "block"
-  if (game.confirmations[0]) document.getElementsByClassName("confirmationToggle")[0].style.border = "2px solid red"
+  //Make the sigil confirmation toggle "true" if it's not defined
+  if (game.confirmations[1] != true && game.confirmations[1] != false) game.confirmations[1] = true
   //Dragon box stuff
   if (game.unlocks >= 1) {
     document.getElementById("unlockDragonButton").style.display = "none"
@@ -255,10 +338,10 @@ function loadGame(loadgame) {
     else {document.getElementById("activeChallenges").innerHTML = "You are not in any challenges!"}
   }
   //More magic upgrade stuff
-  if (game.unlocks < 6) document.getElementsByClassName("box")[7].style.height = "330px"
+  if (game.unlocks < 6) document.getElementsByClassName("box")[7].style.height = "350px"
   if (game.unlocks >= 6) {
     document.getElementById("moreMagicUpgradesButton").style.display = "none"
-    document.getElementsByClassName("box")[7].style.height = "540px"
+    document.getElementsByClassName("box")[7].style.height = "560px"
     for (i=12;i<20;i++) {document.getElementsByClassName("magicUpgrade")[i].style.display = "block"}
   }
   //Uranium stuff
@@ -304,11 +387,83 @@ function loadGame(loadgame) {
   if (game.unlocks >= 9) {
     document.getElementById("unlockDarkMagicUpgradesButton").style.display = "none"
     document.getElementsByClassName("box")[10].style.display = "block"
-    for (i=0;i<7;i++) {
+    for (i=0;i<12;i++) {
       if (game.darkMagicUpgradesBought[i] == true) {document.getElementsByClassName("darkMagicUpgrade")[i].disabled = true}
       else {document.getElementsByClassName("darkMagicUpgrade")[i].disabled = false}
     }
+    if (game.darkMagicUpgradesBought[8] == true) document.getElementById("magicUpgradeBuyMaxButton").style.display = "block"
   }
+  //Cyan sigil stuff
+  if (game.unlocks >= 10) {
+    if (game.confirmations[1] == false) {document.getElementsByClassName("confirmationToggle")[1].style.border = "2px solid red"}
+    else {document.getElementsByClassName("confirmationToggle")[1].style.border = "2px solid #0f0"}
+    document.getElementsByClassName("box")[11].style.display = "block"
+    document.getElementsByClassName("resourceRow")[7].style.display = "block"
+    document.getElementsByClassName("confirmationToggle")[1].style.display = "inline-block"
+    document.getElementById("cyanSigilUpgrade1Cost").innerHTML = format(game.cyanSigilUpgrade1Cost, 0)
+    document.getElementById("cyanSigilUpgrade1Effect").innerHTML = format(game.cyanSigilUpgrade1Bought.add(1), 2)
+    document.getElementById("cyanSigilUpgrade2Cost").innerHTML = format(game.cyanSigilUpgrade2Cost, 0)
+    document.getElementById("cyanSigilUpgrade2Effect").innerHTML = format(game.cyanSigilUpgrade2Bought.add(1).pow(1.5), 2)
+    document.getElementById("cyanSigilUpgrade3Cost").innerHTML = format(game.cyanSigilUpgrade3Cost, 0)
+    document.getElementById("cyanSigilUpgrade3Effect").innerHTML = format(new Decimal(1.2).pow(game.cyanSigilUpgrade3Bought.pow(0.4)), 2)
+    if (game.cyanSigilUpgrade4Bought == 1) {document.getElementsByClassName("cyanSigilUpgrade")[3].disabled = true}
+    else {document.getElementsByClassName("cyanSigilUpgrade")[3].disabled = false}
+    if (game.cyanSigilUpgrade5Bought == 1) {
+      document.getElementsByClassName("cyanSigilUpgrade")[4].disabled = true
+      document.getElementById("uraniumMaxAllButton").style.display = "block"
+    }
+    else {
+      document.getElementsByClassName("cyanSigilUpgrade")[4].disabled = false
+      document.getElementById("uraniumMaxAllButton").style.display = "none"
+    }
+    if (game.cyanSigilUpgrade6Bought == 1) {document.getElementsByClassName("cyanSigilUpgrade")[5].disabled = true}
+    else {document.getElementsByClassName("cyanSigilUpgrade")[5].disabled = false}
+  }
+  //Blue sigil stuff
+  if (game.unlocks >= 11) {
+    document.getElementsByClassName("box")[12].style.display = "block"
+    document.getElementsByClassName("resourceRow")[8].style.display = "block"
+    document.getElementById("blueSigilUpgrade1Cost").innerHTML = format(game.blueSigilUpgrade1Cost, 0)
+    document.getElementById("blueSigilUpgrade1Effect").innerHTML = format(game.blueSigilUpgrade1Bought.add(1), 2)
+    document.getElementById("blueSigilUpgrade2Cost").innerHTML = format(game.blueSigilUpgrade2Cost, 0)
+    document.getElementById("blueSigilUpgrade2Effect").innerHTML = format(new Decimal(1e15).pow(game.blueSigilUpgrade2Bought.pow(0.6)), 2)
+    document.getElementById("blueSigilUpgrade3Cost").innerHTML = format(game.blueSigilUpgrade3Cost, 0)
+    document.getElementById("blueSigilUpgrade3Bought").innerHTML = format(game.blueSigilUpgrade3Bought, 0)
+    if (game.blueSigilUpgrade3Bought.gte(10)) {document.getElementsByClassName("blueSigilUpgrade")[2].disabled = true}
+    else {document.getElementsByClassName("blueSigilUpgrade")[2].disabled = false}
+    if (game.blueSigilUpgrade4Bought == 1) {document.getElementsByClassName("blueSigilUpgrade")[3].disabled = true}
+    else {document.getElementsByClassName("blueSigilUpgrade")[3].disabled = false}
+    if (game.blueSigilUpgrade5Bought == 1) {
+      document.getElementsByClassName("blueSigilUpgrade")[4].disabled = true
+      document.getElementById("fireAutoMaxAllButton").style.display = "block"
+    }
+    else {
+      document.getElementsByClassName("blueSigilUpgrade")[4].disabled = false
+      document.getElementById("fireAutoMaxAllButton").style.display = "none"
+    }
+    if (!game.fireAutoMaxAll) document.getElementById("fireAutoMaxAllButton").innerHTML = "Auto max all: Off"
+    if (game.blueSigilUpgrade6Bought == 1) {document.getElementsByClassName("blueSigilUpgrade")[5].disabled = true}
+    else {document.getElementsByClassName("blueSigilUpgrade")[5].disabled = false}
+  }
+  //Indigo sigil stuff
+  if (game.unlocks >= 12) {
+    document.getElementsByClassName("box")[13].style.display = "block"
+    document.getElementsByClassName("resourceRow")[9].style.display = "block"
+    document.getElementById("indigoSigilUpgrade1Cost").innerHTML = format(game.indigoSigilUpgrade1Cost, 0)
+    document.getElementById("indigoSigilUpgrade1Effect").innerHTML = format(game.indigoSigilUpgrade1Bought.add(1), 2)
+    document.getElementById("indigoSigilUpgrade2Cost").innerHTML = format(game.indigoSigilUpgrade2Cost, 0)
+    document.getElementById("indigoSigilUpgrade2Effect").innerHTML = format(new Decimal(1.15).pow(game.indigoSigilUpgrade2Bought.pow(0.7)), 2)
+    document.getElementById("indigoSigilUpgrade3Cost").innerHTML = format(game.indigoSigilUpgrade3Cost, 0)
+    document.getElementById("indigoSigilUpgrade3Effect").innerHTML = format(new Decimal(1.4).pow(game.indigoSigilUpgrade3Bought.pow(0.5)), 2)
+    document.getElementById("indigoSigilUpgrade4Cost").innerHTML = format(game.indigoSigilUpgrade4Cost, 0)
+    document.getElementById("indigoSigilUpgrade4Effect").innerHTML = format(new Decimal(2.5).pow(game.indigoSigilUpgrade4Bought.pow(0.7)), 2)
+    if (game.indigoSigilUpgrade5Bought == 1) {
+      for (i=8;i<12;i++) {document.getElementsByClassName("darkMagicUpgrade")[i].style.display = "inline-block"}
+      document.getElementsByClassName("indigoSigilUpgrade")[4].disabled = true
+    }
+    else {document.getElementsByClassName("indigoSigilUpgrade")[4].disabled = false}
+  }
+  
 
   //Dragon stage stuff
   if (game.dragonStage >= 2) {
@@ -344,12 +499,16 @@ function loadGame(loadgame) {
     document.getElementById("dragonTimeSpent").innerHTML = format(game.dragonTimeSpent, 0)
     game.dragonTimeEffect = new Decimal(1.2).pow(game.dragonTimeSpent.pow(0.3))
     if (game.dragonTimeEffect.gt(2)) game.dragonTimeEffect = game.dragonTimeEffect.add(2).pow(0.5)
-    if (game.dragonTimeEffect.gt(2.5)) game.dragonTimeEffect = new Decimal(2.5)
+    if (game.dragonTimeEffect.gt(2.5)) {
+      game.dragonTimeEffect = new Decimal(2.5)
+      document.getElementById("dragonTimeEffectCap").innerHTML = " (capped)"
+    }
+    else {document.getElementById("dragonTimeEffectCap").innerHTML = ""}
     document.getElementById("dragonTimeEffect").innerHTML = format(game.dragonTimeEffect, 3)
     if (game.dragonTimeCooldown > 0) {document.getElementById("dragonSpendTimeButton").disabled = true}
     else {document.getElementById("dragonSpendTimeButton").disabled = false}
     //The dragon feed cost used to be higher, this changes it for old players with the old cost
-    if (game.dragonFeedCost.eq(new Decimal(10).pow(new Decimal(2).pow(game.dragonFood).mul(10)))) game.dragonFeedCost = new Decimal(10).pow(new Decimal(2).pow(game.dragonFood).mul(8))
+    if (game.dragonFeedCost.eq(new Decimal(10).pow(new Decimal(2).pow(game.dragonFood).mul(10)))) game.dragonFeedCost = new Decimal(10).pow(new Decimal(2).pow(game.dragonFood).mul(8).round())
     document.getElementById("dragonFeedCost").innerHTML = format(game.dragonFeedCost, 0)
     document.getElementById("dragonFood").innerHTML = format(game.dragonFood, 0)
     document.getElementById("dragonFoodEffect").innerHTML = format(new Decimal(1.3).pow(game.dragonFood), 3)
@@ -383,6 +542,7 @@ function updateSmall() {
     else {game.goldPerSecond = game.goldPerSecond.mul(game.magifolds.pow(4))}
   }
   if (game.dragonStage >= 5) game.goldPerSecond = game.goldPerSecond.pow(game.dragonTimeEffect)
+  if (game.unlocks >= 10) game.goldPerSecond = game.goldPerSecond.pow(new Decimal(1.2).pow(game.cyanSigilUpgrade3Bought.pow(0.4)))
   if (game.challengesActive && game.selectedChallenges[1]) game.goldPerSecond = game.goldPerSecond.pow(0.25)
     
   //Gold/click formula and multipliers
@@ -426,7 +586,8 @@ function updateSmall() {
   document.getElementById("firePerSecond").innerHTML = format(game.firePerSecond, 0)
   
   //Fire gold multiplier formula and multipliers
-  if (game.magicUpgradesBought[8]) {game.fireGoldMultiplier = game.fire.div(10).add(1).log10().mul(2).add(1).mul(new Decimal(1.6).pow(game.fireUpgrade2Bought.pow(0.8)))}
+  if (game.darkMagicUpgradesBought[5]) {game.fireGoldMultiplier = game.fire.div(10).add(1).log10().mul(2).add(1).mul(new Decimal(5).pow(game.fireUpgrade2Bought.pow(0.8)))}
+  else if (game.magicUpgradesBought[8]) {game.fireGoldMultiplier = game.fire.div(10).add(1).log10().mul(2).add(1).mul(new Decimal(1.6).pow(game.fireUpgrade2Bought.pow(0.8)))}
   else {game.fireGoldMultiplier = game.fire.div(10).add(1).log10().mul(2).add(1).mul(new Decimal(1.25).pow(game.fireUpgrade2Bought.pow(0.8)))}
   document.getElementById("fireGoldMultiplier").innerHTML = format(game.fireGoldMultiplier, 2)
   
@@ -463,6 +624,7 @@ function updateSmall() {
     game.platinumToGet = game.gold.add(1).log2().mul(new Decimal(3).pow(game.fireUpgrade6Bought.pow(0.6)))
     if (game.unlocks >= 7) game.platinumToGet = game.platinumToGet.mul(1.2 ** game.uraniumUpgradesBought[0])
     if (game.unlocks >= 8) game.platinumToGet = game.platinumToGet.mul(10 ** game.uraniumUpgradesBought[4])
+    if (game.unlocks >= 11) game.platinumToGet = game.platinumToGet.mul(new Decimal(1e15).pow(game.blueSigilUpgrade2Bought.pow(0.6)))
     if (game.challengesActive && game.selectedChallenges[1]) game.platinumToGet = game.platinumToGet.pow(0.25)
     game.platinumToGet = game.platinumToGet.floor()
     document.getElementById("platinumToGet").innerHTML = format(game.platinumToGet, 0)
@@ -480,16 +642,26 @@ function updateSmall() {
     }
     if (game.magicUpgradesBought[6]) game.magicToGet = game.magicToGet.mul(3)
     if (game.magicUpgradesBought[17]) game.magicToGet = game.magicToGet.mul(3)
+    if (game.unlocks >= 10) game.magicToGet = game.magicToGet.mul(game.cyanSigils.add(1).pow(2))
+    if (game.unlocks >= 11) game.magicToGet = game.magicToGet.mul(game.blueSigils.add(1).pow(3))
+    if (game.unlocks >= 12) game.magicToGet = game.magicToGet.mul(game.blueSigils.add(1).pow(4))
+    if (game.darkMagicUpgradesBought[11] == true) game.magicToGet = game.magicToGet.pow(1.1)
     if (game.darkMagicUpgradesBought[1]) game.magicToGet = game.magicToGet.pow(game.uranium.add(1).log10().div(30).add(1))
     game.magicToGet = game.magicToGet.floor()
     document.getElementById("magicToGet").innerHTML = format(game.magicToGet, 0)
-    if (game.magicUpgradesBought[3] || game.magicUpgradesBought[6] || game.magicUpgradesBought[17]) {document.getElementById("nextMagic").innerHTML = ""}
+    if (game.magicUpgradesBought[3] || game.magicUpgradesBought[6] || game.magicUpgradesBought[17] || game.unlocks >= 10) {document.getElementById("nextMagic").innerHTML = ""}
     else {document.getElementById("nextMagic").innerHTML = "Next magic at " + format(game.magicToGet.add(1).pow(10).mul(1e15), 0) + " gold<br>"}
     document.getElementById("magic").innerHTML = format(game.magic, 0)
     document.getElementsByClassName("resourceText")[4].innerHTML = format(game.magic, 0)
     game.magicEffect = game.magic.mul(3).mul(new Decimal(1.5).pow(game.platinumUpgradesBought[6])).add(1)
     if (game.magicUpgradesBought[15]) game.magicEffect = game.magicEffect.pow(2)
     if (game.challengesActive && game.selectedChallenges[0]) game.magicEffect = game.magic.pow(0.2).div(1e15)
+    if (game.magicEffect.gt("e1000")) {
+      game.magicEffect = game.magicEffect.mul("e1000").pow(0.5)
+      document.getElementById("magicEffectCap").innerHTML = " (softcapped)"
+    }
+    else {document.getElementById("magicEffectCap").innerHTML = ""}
+    if (game.magicEffect.gt("e100000")) {game.magicEffect = game.magicEffect.mul("e900000").pow(0.1)}
     document.getElementById("magicEffect").innerHTML = format(game.magicEffect, 2)
     document.getElementById("magicUpgrade1Effect").innerHTML = format(game.gold.add(1).log10().add(1), 2)
     if (game.magicUpgradesBought[9]) {
@@ -503,14 +675,40 @@ function updateSmall() {
   }
   if (game.unlocks >= 5) {
     //Sets the magic score to get from exiting magic challenges
+    game.magicScoreToGet = game.gold.add(1).multiply(game.fire.add(1)).log10()
+    if (game.magicUpgradesBought[12]) game.magicScoreToGet = game.magicScoreToGet.mul(2)
+    if (game.magicUpgradesBought[16]) game.magicScoreToGet = game.magicScoreToGet.mul(game.magifolds.log10().add(1).div(3))
+    if (game.unlocks >= 7) game.magicScoreToGet = game.magicScoreToGet.mul(2 ** game.uraniumUpgradesBought[2])
+    if (game.darkMagicUpgradesBought[6]) game.magicScoreToGet = game.magicScoreToGet.mul(2)
+    if (game.unlocks >= 10) game.magicScoreToGet = game.magicScoreToGet.mul(game.cyanSigils.add(1).pow(2))
+    if (game.unlocks >= 11) game.magicScoreToGet = game.magicScoreToGet.mul(game.blueSigils.add(1).pow(3))
+    if (game.unlocks >= 12) {
+      game.magicScoreToGet = game.magicScoreToGet.mul(game.blueSigils.add(1).pow(4))
+      game.magicScoreToGet = game.magicScoreToGet.pow(new Decimal(1.4).pow(game.indigoSigilUpgrade3Bought.pow(0.5)))
+    }
+    if (game.darkMagicUpgradesBought[0]) game.magicScoreToGet = game.magicScoreToGet.pow(1.3)
+    game.magicScoreToGet = game.magicScoreToGet.floor()
+    if (game.darkMagicUpgradesBought[9] == true) {
+      game.magicScore1 = game.magicScoreToGet
+      game.magicScore2 = game.magicScoreToGet
+      game.magicScore3 = game.magicScoreToGet
+      game.magicScore4 = game.magicScoreToGet
+      document.getElementById("magicScore1").innerHTML = format(game.magicScore1, 0)
+      document.getElementById("magicScore2").innerHTML = format(game.magicScore2, 0)
+      document.getElementById("magicScore3").innerHTML = format(game.magicScore3, 0)
+      document.getElementById("magicScore4").innerHTML = format(game.magicScore4, 0)
+      document.getElementById("magicMult1").innerHTML = format(game.magicScore1.add(1), 0)
+      document.getElementById("magicMult2").innerHTML = format(game.magicScore2.add(1), 0)
+      document.getElementById("magicMult3").innerHTML = format(game.magicScore3.add(1), 0)
+      document.getElementById("magicMult4").innerHTML = format(game.magicScore4.add(1), 0)
+      game.magifolds = game.magicScore1.add(1).mul(game.magicScore2.add(1)).mul(game.magicScore3.add(1)).mul(game.magicScore4.add(1))
+      document.getElementById("magifolds").innerHTML = format(game.magifolds, 0)
+      if (game.darkMagicUpgradesBought[3]) {document.getElementById("magifoldEffect").innerHTML = format(game.magifolds.pow(8), 2)}
+      else if (game.magicUpgradesBought[18]) {document.getElementById("magifoldEffect").innerHTML = format(game.magifolds.pow(6), 2)}
+      else {document.getElementById("magifoldEffect").innerHTML = format(game.magifolds.pow(4), 2)}
+      document.getElementsByClassName("resourceText")[5].innerHTML = format(game.magifolds, 0)
+    }
     if (game.challengesActive) {
-      game.magicScoreToGet = game.gold.add(1).multiply(game.fire.add(1)).log10()
-      if (game.magicUpgradesBought[12]) game.magicScoreToGet = game.magicScoreToGet.mul(2)
-      if (game.magicUpgradesBought[16]) game.magicScoreToGet = game.magicScoreToGet.mul(game.magifolds.log10().add(1).div(3))
-      if (game.unlocks >= 7) game.magicScoreToGet = game.magicScoreToGet.mul(2 ** game.uraniumUpgradesBought[2])
-      if (game.darkMagicUpgradesBought[6]) game.magicScoreToGet = game.magicScoreToGet.mul(2)
-      if (game.darkMagicUpgradesBought[0]) game.magicScoreToGet = game.magicScoreToGet.pow(1.3)
-      game.magicScoreToGet = game.magicScoreToGet.floor()
       document.getElementById("magicChallengeButton").innerHTML = "Exit challenges for " + format(game.magicScoreToGet, 0) + " score"
     }
     else {
@@ -527,14 +725,52 @@ function updateSmall() {
     game.uraniumToGet = game.platinum.add(1).log2().mul(1 + 0.1 * game.uraniumUpgradesBought[1])
     if (game.unlocks >= 8) game.uraniumToGet = game.uraniumToGet.mul(2 ** game.platinumUpgradesBought[7])
     if (game.darkMagicUpgradesBought[4]) game.uraniumToGet = game.uraniumToGet.mul(100)
+    if (game.unlocks >= 10) game.uraniumToGet = game.uraniumToGet.mul(game.cyanSigilUpgrade2Bought.add(1).pow(1.5))
     game.uraniumToGet = game.uraniumToGet.floor()
     document.getElementById("uraniumToGet").innerHTML = format(game.uraniumToGet, 0)
   }
   if (game.unlocks >= 9) {
     document.getElementById("darkMagicUpgrade2Effect").innerHTML = format(game.uranium.add(1).log10().div(30).add(1), 2)
   }
+  if (game.unlocks >= 10) {
+    game.cyanSigilsToGet = game.gold.add(1).log10().div(new Decimal(3000).sub(game.blueSigilUpgrade3Bought.mul(100))).floor()
+    document.getElementById("nextCyanSigil").innerHTML = format(new Decimal(10).pow(game.cyanSigilsToGet.add(1).mul(new Decimal(3000).sub(game.blueSigilUpgrade3Bought.mul(100)))), 0)
+    if (game.darkMagicUpgradesBought[10] == true) game.cyanSigilsToGet = game.cyanSigilsToGet.mul(3)
+    document.getElementById("cyanSigils").innerHTML = format(game.cyanSigils, 0)
+    document.getElementById("cyanSigilsToGet").innerHTML = format(game.cyanSigilsToGet, 0)
+    document.getElementsByClassName("resourceText")[7].innerHTML = format(game.cyanSigils, 0)
+    document.getElementById("cyanSigilEffect").innerHTML = format(game.cyanSigils.add(1).pow(2), 0)
+    game.cyanSigilPowerPerSecond = game.cyanSigils.pow(2).div(100).mul(game.cyanSigilUpgrade1Bought.add(1))
+    if (game.unlocks >= 12) game.cyanSigilPowerPerSecond = game.cyanSigilPowerPerSecond.pow(new Decimal(1.15).pow(game.indigoSigilUpgrade2Bought.pow(0.7)))
+    document.getElementById("cyanSigilPower").innerHTML = format(game.cyanSigilPower, 2)
+    document.getElementById("cyanSigilPowerPerSecond").innerHTML = format(game.cyanSigilPowerPerSecond, 2)
+  }
+  if (game.unlocks >= 11) {
+    game.blueSigilsToGet = game.gold.add(1).log10().div(8000).floor()
+    document.getElementById("nextBlueSigil").innerHTML = format(new Decimal(10).pow(game.blueSigilsToGet.add(1).mul(8000)), 0)
+    if (game.darkMagicUpgradesBought[10] == true) game.blueSigilsToGet = game.blueSigilsToGet.mul(3)
+    document.getElementById("blueSigils").innerHTML = format(game.blueSigils, 0)
+    document.getElementById("blueSigilsToGet").innerHTML = format(game.blueSigilsToGet, 0)
+    document.getElementsByClassName("resourceText")[8].innerHTML = format(game.blueSigils, 0)
+    document.getElementById("blueSigilEffect").innerHTML = format(game.blueSigils.add(1).pow(3), 0)
+    game.blueSigilPowerPerSecond = game.blueSigils.pow(2).div(100).mul(game.blueSigilUpgrade1Bought.add(1))
+    document.getElementById("blueSigilPower").innerHTML = format(game.blueSigilPower, 2)
+    document.getElementById("blueSigilPowerPerSecond").innerHTML = format(game.blueSigilPowerPerSecond, 2)
+  }
+  if (game.unlocks >= 12) {
+    game.indigoSigilsToGet = game.gold.add(1).log10().div(17500).floor()
+    document.getElementById("indigoSigils").innerHTML = format(game.indigoSigils, 0)
+    document.getElementsByClassName("resourceText")[9].innerHTML = format(game.indigoSigils, 0)
+    document.getElementById("indigoSigilEffect").innerHTML = format(game.indigoSigils.add(1).pow(4), 0)
+    document.getElementById("indigoSigilsToGet").innerHTML = format(game.indigoSigilsToGet, 0)
+    document.getElementById("nextIndigoSigil").innerHTML = format(new Decimal(10).pow(game.indigoSigilsToGet.add(1).mul(17500)), 0)
+    game.indigoSigilPowerPerSecond = game.indigoSigils.pow(2).div(100).mul(game.indigoSigilUpgrade1Bought.add(1))
+    document.getElementById("indigoSigilPower").innerHTML = format(game.indigoSigilPower, 2)
+    document.getElementById("indigoSigilPowerPerSecond").innerHTML = format(game.indigoSigilPowerPerSecond, 2)
+  }
 }
-setInterval(updateSmall, 30)
+updateSmall()
+//setInterval(updateSmall, 30)
 
 //Large update (occurs once per second)
 function updateLarge() {
@@ -542,6 +778,8 @@ function updateLarge() {
   game.gold = game.gold.add(game.goldPerSecond)
   //Adds to the user's fire
   if (game.unlocks >= 1) game.fire = game.fire.add(game.firePerSecond)
+  //Auto maxes all if the upgrade is bought
+  if (game.blueSigilUpgrade5Bought == 1 && game.fireAutoMaxAll) fireMaxAll()
   //Handles the platinum convert button cooldown
   if (game.platinumConvertCooldown > 0) {
     game.platinumConvertCooldown--
@@ -556,14 +794,37 @@ function updateLarge() {
     if (game.uraniumConvertCooldown == 0) document.getElementById("uraniumConvertButton").disabled = false
   }
   if (game.unlocks >= 7) game.uranium = game.uranium.add(1)
+  //Handles the dragon time spending cooldown
   if (game.dragonTimeCooldown > 0) {
     game.dragonTimeCooldown--
     document.getElementById("dragonTimeCooldown").innerHTML = game.dragonTimeCooldown
     if (game.dragonTimeCooldown == 0) document.getElementById("dragonSpendTimeButton").disabled = false
   }
+  if (game.dragonTimeCooldown == 0 && game.cyanSigilUpgrade4Bought == 1 && !game.challengesActive) dragonSpendTime()
   if (game.uraniumUpgradesBought[5]) game.magic = game.magic.add(game.magicToGet)
+  if (game.unlocks >= 10) game.cyanSigilPower = game.cyanSigilPower.add(game.cyanSigilPowerPerSecond)
+  if (game.unlocks >= 11) game.blueSigilPower = game.blueSigilPower.add(game.blueSigilPowerPerSecond)
+  if (game.unlocks >= 12) game.indigoSigilPower = game.indigoSigilPower.add(game.indigoSigilPowerPerSecond)
+  updateSmall()
 }
 setInterval(updateLarge, 1000)
+
+function changeTab(x) {
+  switch(x) {
+    case 1:
+      document.getElementsByClassName("box")[2].style.display = "block"
+      document.getElementsByClassName("box")[1].style.display = "none"
+      break
+    case 2:
+      document.getElementsByClassName("box")[2].style.display = "none"
+      document.getElementsByClassName("box")[1].style.display = "block"
+      break
+    default:
+      document.getElementsByClassName("box")[2].style.display = "block"
+      document.getElementsByClassName("box")[1].style.display = "none"
+      break
+  }
+}
 
 function toggleConfirmations(x) {
   if (x==1) {
@@ -576,7 +837,39 @@ function toggleConfirmations(x) {
       document.getElementsByClassName("confirmationToggle")[0].style.border = "2px solid #0f0"
     }
   }
+  else if (x==2) {
+    if (game.confirmations[1]) {
+      game.confirmations[1] = false
+      document.getElementsByClassName("confirmationToggle")[1].style.border = "2px solid red"
+    }
+    else {
+      game.confirmations[1] = true
+      document.getElementsByClassName("confirmationToggle")[1].style.border = "2px solid #0f0"
+    }
+  }
 }
+
+lastTimePlayedUp = Date.now()
+function timePlayedUp() {
+  timePlayedDiff = (Date.now() - lastTimePlayedUp) / 1000
+  game.timePlayed += timePlayedDiff
+  timePlayedFloor = Math.floor(game.timePlayed)
+  timePlayedHours = Math.floor(timePlayedFloor / 3600)
+  timePlayedMinutes = Math.floor(timePlayedFloor / 60) % 60
+  timePlayedSeconds = timePlayedFloor % 60
+  timeString = (timePlayedHours + ":" + ((timePlayedMinutes < 10 ? '0' : '') + timePlayedMinutes) + ":" + ((timePlayedSeconds < 10 ? '0' : '') + timePlayedSeconds))
+  document.getElementById("timePlayed").innerHTML = timeString
+  lastTimePlayedUp = Date.now()
+}
+
+setInterval(timePlayedUp, 100)
+
+
+
+
+
+
+
 
 function produceGold() {
   game.gold = game.gold.add(game.goldPerClick)
@@ -641,7 +934,7 @@ function upgradeDragon(x) {
   else if (x == 3 && game.gold.gte(1e25)) {
     game.gold = game.gold.sub(1e25)
     document.getElementsByClassName("upgradeDragonButton")[2].style.display = "none"
-    document.getElementsByClassName("upgradeDragonButton")[3].style.display = "none"
+    document.getElementsByClassName("upgradeDragonButton")[3].style.display = "block"
     document.getElementById("dragonImg").src = "img/iconDragon4.png"
     document.getElementById("dragonTitle").innerHTML = "<a style='font-size: 14px'>You have a</a><br>Dark dragon"
     document.getElementById("dragonInfo").innerHTML = "Your menacing dark dragon calls upon the power of the void itself to defend your empire."
@@ -818,6 +1111,17 @@ function fireMaxAll() {
   document.getElementById("fireUpgrade6Effect").innerHTML = format(new Decimal(3).pow(game.fireUpgrade6Bought.pow(0.6)), 2)
 }
 
+function fireAutoMaxAll() {
+  if (!game.fireAutoMaxAll) {
+    game.fireAutoMaxAll = true
+    document.getElementById("fireAutoMaxAllButton").innerHTML = "Auto max all: On"
+  }
+  else {
+    game.fireAutoMaxAll = false
+    document.getElementById("fireAutoMaxAllButton").innerHTML = "Auto max all: Off"
+  }
+}
+
 //Unlocks alchemy
 function unlockAlchemy() {
   if (game.gold.gte(2e7)) {
@@ -950,7 +1254,7 @@ function platinumMaxAll() {
   document.getElementsByClassName("platinumUpgradesBought")[5].innerHTML = game.platinumUpgradesBought[5]
   if (game.platinumUpgradesBought[5] == 4) document.getElementsByClassName("platinumUpgrade")[5].disabled = true
 
-  if (game.magicUpgradesBought[7]) {
+  if (game.magicUpgradesBought[7] || game.unlocks >= 10) {
     PU7AmountCanBuy = game.platinum.div(1e6).floor()
     PU7AmountToBuy = Decimal.min(PU7AmountCanBuy, 20 - game.platinumUpgradesBought[6]).toNumber()
     game.platinum = game.platinum.sub(PU7AmountToBuy * 1e6)
@@ -960,7 +1264,7 @@ function platinumMaxAll() {
     document.getElementById("platinumUpgrade7Effect").innerHTML = format(new Decimal(1.5).pow(game.platinumUpgradesBought[6]), 2)
   }
 
-  if (game.unlocks >= 8) {
+  if (game.unlocks >= 8 || game.unlocks >= 10) {
     PU8AmountCanBuy = game.platinum.div(1e22).floor()
     PU8AmountToBuy = Decimal.min(PU8AmountCanBuy, 5 - game.platinumUpgradesBought[7]).toNumber()
     game.platinum = game.platinum.sub(PU8AmountToBuy * 1e22)
@@ -992,13 +1296,11 @@ function unlockMagic() {
 
 //Confirmation popups for magic resets
 function magicCheck() {
-  if (game.confirmations[0]) {
-    if (game.magicToGet.eq(0)) {
-      if (confirm("哇，等一下！ 你不会获得任何魔法！ 您确定要执行魔法重置吗？")) magicReset()
-    }
-    else {
-      if (confirm("您确定要执行魔法重置吗？")) magicReset()
-    }
+  if (game.magicToGet.eq(0)) {
+    if (confirm("Woah, hold on! You won't gain any magic! Are you sure you want to perform a magic reset?")) magicReset()
+  }
+  else if (game.confirmations[0]) {
+    if (confirm("Are you sure you want to perform a magic reset?")) magicReset()
   }
   else {magicReset()}
 }
@@ -1034,32 +1336,14 @@ function magicReset() {
 
   game.platinum = new Decimal(0)
   if (game.magicUpgradesBought[10] != true) {
-    //This could probably be a lot more condensed, but I can't do a for loop because I have to skip upgrade 3
-    game.platinumUpgradesBought[0] = 0
-    game.platinumUpgradesBought[1] = 0
-    game.platinumUpgradesBought[3] = 0
-    game.platinumUpgradesBought[4] = 0
-    game.platinumUpgradesBought[5] = 0
-    game.platinumUpgradesBought[6] = 0
-    game.platinumUpgradesBought[7] = 0
-    game.platinumUpgradesBought[8] = 0
-    document.getElementsByClassName("platinumUpgradesBought")[0].innerHTML = "0"
-    document.getElementsByClassName("platinumUpgradesBought")[1].innerHTML = "0"
+    for (i=0;i<9;i++) {
+      if (i!=2) {
+        game.platinumUpgradesBought[i] = 0
+        document.getElementsByClassName("platinumUpgradesBought")[i].innerHTML = "0"
+        document.getElementsByClassName("platinumUpgrade")[i].disabled = false
+      }
+    }
     document.getElementsByClassName("platinumUpgradesBought")[2].innerHTML = "1"
-    document.getElementsByClassName("platinumUpgradesBought")[3].innerHTML = "0"
-    document.getElementsByClassName("platinumUpgradesBought")[4].innerHTML = "0"
-    document.getElementsByClassName("platinumUpgradesBought")[5].innerHTML = "0"
-    document.getElementsByClassName("platinumUpgradesBought")[6].innerHTML = "0"
-    document.getElementsByClassName("platinumUpgradesBought")[7].innerHTML = "0"
-    document.getElementsByClassName("platinumUpgradesBought")[8].innerHTML = "0"
-    document.getElementsByClassName("platinumUpgrade")[0].disabled = false
-    document.getElementsByClassName("platinumUpgrade")[1].disabled = false
-    document.getElementsByClassName("platinumUpgrade")[3].disabled = false
-    document.getElementsByClassName("platinumUpgrade")[4].disabled = false
-    document.getElementsByClassName("platinumUpgrade")[5].disabled = false
-    document.getElementsByClassName("platinumUpgrade")[6].disabled = false
-    document.getElementsByClassName("platinumUpgrade")[7].disabled = false
-    document.getElementsByClassName("platinumUpgrade")[8].disabled = false
   }
 
   game.magic = game.magic.add(game.magicToGet)
@@ -1096,6 +1380,8 @@ function buyMagicUpgrade(x) {
     }
   }
 }
+
+function magicUpgradeBuyMax() {for (i=1;i<21;i++) buyMagicUpgrade(i)}
 
 //Sets the info for magic hcallenges based on which one you're hovering over
 function showMagicChallenge(x) {
@@ -1144,11 +1430,12 @@ function activateMagicChallenge(x) {
 //Enters/exits magic challenges
 function enterExitMagicChallenges() {
   //Checks if you're not running challenges and also if you have more than 0 selected
-  if (!game.challengesActive && game.dragonTimeCooldown == 0 && (game.selectedChallenges[0] || game.selectedChallenges[1] || game.selectedChallenges[2] || game.selectedChallenges[3])) {
+  if (!game.challengesActive && (game.dragonTimeCooldown == 0 || game.cyanSigilUpgrade4Bought == 1) && (game.selectedChallenges[0] || game.selectedChallenges[1] || game.selectedChallenges[2] || game.selectedChallenges[3])) {
     magicReset()
     game.challengesActive = true
     game.noOfSelectedChallenges = + game.selectedChallenges[0] + game.selectedChallenges[1] + game.selectedChallenges[2] + game.selectedChallenges[3]
     document.getElementById("activeChallenges").innerHTML = "Challenges active: " + (game.selectedChallenges[0] ? 'A1 ' : '') + (game.selectedChallenges[1] ? 'A2 ' : '') + (game.selectedChallenges[2] ? 'B1 ' : '') + (game.selectedChallenges[3] ? 'B2' : '') + " (" + game.noOfSelectedChallenges + ")"
+    updateSmall()
   }
   else if (game.challengesActive) {
     //A bunch of stuff for setting scores
@@ -1182,7 +1469,7 @@ function unlockMoreMagicUpgrades() {
   if (game.magifolds.gte(275000) && game.magic.gte(2e8)) {
     game.magic = game.magic.sub(2e8)
     document.getElementById("moreMagicUpgradesButton").style.display = "none"
-    document.getElementsByClassName("box")[7].style.height = "540px"
+    document.getElementsByClassName("box")[7].style.height = "560px"
     document.getElementsByClassName("box")[7].style.top = (window.innerHeight / 2 + renderVars.posY + renderVars.diffY - 133) + "px"
     for (i=12;i<20;i++) {document.getElementsByClassName("magicUpgrade")[i].style.display = "block"}
     game.unlocks++
@@ -1240,18 +1527,69 @@ function buyUraniumUpgrade(x) {
   }
 }
 
+function uraniumMaxAll() {
+  //For each upgrade in order (if affordable): determines the maximum upgrades buyable, subtracts uranium based on cost, adds to the upgrade amount bought (up to the maximum), disables button if maximum amount is reached
+  UU1AmountCanBuy = game.uranium.div(100).floor()
+  UU1AmountToBuy = Decimal.min(UU1AmountCanBuy, 100 - game.uraniumUpgradesBought[0]).toNumber()
+  game.uranium = game.uranium.sub(UU1AmountToBuy * 100)
+  game.uraniumUpgradesBought[0] += UU1AmountToBuy
+  document.getElementsByClassName("uraniumUpgradesBought")[0].innerHTML = game.uraniumUpgradesBought[0]
+  if (game.uraniumUpgradesBought[0] == 100) document.getElementsByClassName("uraniumUpgrade")[0].disabled = true
+
+  UU2AmountCanBuy = game.uranium.div(300).floor()
+  UU2AmountToBuy = Decimal.min(UU2AmountCanBuy, 20 - game.uraniumUpgradesBought[1]).toNumber()
+  game.uranium = game.uranium.sub(UU2AmountToBuy * 300)
+  game.uraniumUpgradesBought[1] += UU2AmountToBuy
+  document.getElementsByClassName("uraniumUpgradesBought")[1].innerHTML = game.uraniumUpgradesBought[1]
+  if (game.uraniumUpgradesBought[1] == 20) document.getElementsByClassName("uraniumUpgrade")[1].disabled = true
+
+  UU3AmountCanBuy = game.uranium.div(1000).floor()
+  UU3AmountToBuy = Decimal.min(UU3AmountCanBuy, 5 - game.uraniumUpgradesBought[2]).toNumber()
+  game.uranium = game.uranium.sub(UU3AmountToBuy * 1000)
+  game.uraniumUpgradesBought[2] += UU3AmountToBuy
+  document.getElementsByClassName("uraniumUpgradesBought")[2].innerHTML = game.uraniumUpgradesBought[2]
+  if (game.uraniumUpgradesBought[2] == 5) document.getElementsByClassName("uraniumUpgrade")[2].disabled = true
+
+  if (game.uraniumUpgradesBought[3] < 1 && game.uranium.gte(10000)) {
+    game.uranium = game.uranium.sub(10000)
+    game.uraniumUpgradesBought[3]++
+    document.getElementsByClassName("uraniumUpgradesBought")[3].innerHTML = game.uraniumUpgradesBought[3]
+    document.getElementsByClassName("uraniumUpgrade")[3].disabled = true
+  }
+
+  UU5AmountCanBuy = game.uranium.div(50000).floor()
+  UU5AmountToBuy = Decimal.min(UU5AmountCanBuy, 10 - game.uraniumUpgradesBought[4]).toNumber()
+  game.uranium = game.uranium.sub(UU5AmountToBuy * 50000)
+  game.uraniumUpgradesBought[4] += UU5AmountToBuy
+  document.getElementsByClassName("uraniumUpgradesBought")[4].innerHTML = game.uraniumUpgradesBought[4]
+  if (game.uraniumUpgradesBought[4] == 10) document.getElementsByClassName("uraniumUpgrade")[4].disabled = true
+
+  if (game.uraniumUpgradesBought[5] < 1 && game.uranium.gte(100000)) {
+    game.uranium = game.uranium.sub(100000)
+    game.uraniumUpgradesBought[5]++
+    document.getElementsByClassName("uraniumUpgradesBought")[5].innerHTML = game.uraniumUpgradesBought[5]
+    document.getElementsByClassName("uraniumUpgrade")[5].disabled = true
+  }
+}
+
 //Spending time with your dragon
 function dragonSpendTime() {
   if (game.dragonTimeCooldown == 0 && !game.challengesActive) {
-    if (game.darkMagicUpgradesBought[2]) {game.dragonTimeSpent = game.dragonTimeSpent.add(10)}
-    else {game.dragonTimeSpent = game.dragonTimeSpent.add(1)}
+    if (game.darkMagicUpgradesBought[2]) {dragonTimeToGet = new Decimal(10)}
+    else {dragonTimeToGet = new Decimal(1)}
+    if (game.unlocks >= 12) dragonTimeToGet = dragonTimeToGet.mul(new Decimal(2.5).pow(game.indigoSigilUpgrade4Bought.pow(0.7)))
+    game.dragonTimeSpent = game.dragonTimeSpent.add(dragonTimeToGet.floor())
     game.dragonTimeCooldown = 30
     document.getElementById("dragonSpendTimeButton").disabled = true
     document.getElementById("dragonTimeCooldown").innerHTML = game.dragonTimeCooldown
     document.getElementById("dragonTimeSpent").innerHTML = format(game.dragonTimeSpent, 0)
     game.dragonTimeEffect = new Decimal(1.2).pow(game.dragonTimeSpent.pow(0.3))
     if (game.dragonTimeEffect.gt(2)) game.dragonTimeEffect = game.dragonTimeEffect.add(2).pow(0.5)
-    if (game.dragonTimeEffect.gt(2.5)) game.dragonTimeEffect = new Decimal(2.5)
+    if (game.dragonTimeEffect.gt(2.5)) {
+      game.dragonTimeEffect = new Decimal(2.5)
+      document.getElementById("dragonTimeEffectCap").innerHTML = " (capped)"
+    }
+    else {document.getElementById("dragonTimeEffectCap").innerHTML = ""}
     document.getElementById("dragonTimeEffect").innerHTML = format(game.dragonTimeEffect, 3)
   }
 }
@@ -1260,27 +1598,29 @@ function dragonSpendTime() {
 function dragonFeed() {
   if (game.magifolds.gte(game.dragonFeedCost) && !game.challengesActive) {
     game.dragonFood = game.dragonFood.add(1)
-    game.dragonFeedCost = new Decimal(10).pow(new Decimal(2).pow(game.dragonFood).mul(8))
+    game.dragonFeedCost = new Decimal(10).pow(new Decimal(2).pow(game.dragonFood).mul(8).round())
     document.getElementById("dragonFeedCost").innerHTML = format(game.dragonFeedCost, 0)
     document.getElementById("dragonFood").innerHTML = format(game.dragonFood, 0)
     document.getElementById("dragonFoodEffect").innerHTML = format(new Decimal(1.3).pow(game.dragonFood), 3)
     //Resetting all the score and magifold stuff
-    game.magicScore1 = new Decimal(0)
-    game.magicScore2 = new Decimal(0)
-    game.magicScore3 = new Decimal(0)
-    game.magicScore4 = new Decimal(0)
-    document.getElementById("magicScore1").innerHTML = format(game.magicScore1, 0)
-    document.getElementById("magicScore2").innerHTML = format(game.magicScore2, 0)
-    document.getElementById("magicScore3").innerHTML = format(game.magicScore3, 0)
-    document.getElementById("magicScore4").innerHTML = format(game.magicScore4, 0)
-    document.getElementById("magicMult1").innerHTML = format(game.magicScore1.add(1), 0)
-    document.getElementById("magicMult2").innerHTML = format(game.magicScore2.add(1), 0)
-    document.getElementById("magicMult3").innerHTML = format(game.magicScore3.add(1), 0)
-    document.getElementById("magicMult4").innerHTML = format(game.magicScore4.add(1), 0)
-    game.magifolds = new Decimal(1)
-    document.getElementById("magifolds").innerHTML = format(game.magifolds, 0)
-    document.getElementById("magifoldEffect").innerHTML = "1.00"
-    document.getElementsByClassName("resourceText")[5].innerHTML = format(game.magifolds, 0)
+    if (game.blueSigilUpgrade4Bought != 1) {
+      game.magicScore1 = new Decimal(0)
+      game.magicScore2 = new Decimal(0)
+      game.magicScore3 = new Decimal(0)
+      game.magicScore4 = new Decimal(0)
+      document.getElementById("magicScore1").innerHTML = format(game.magicScore1, 0)
+      document.getElementById("magicScore2").innerHTML = format(game.magicScore2, 0)
+      document.getElementById("magicScore3").innerHTML = format(game.magicScore3, 0)
+      document.getElementById("magicScore4").innerHTML = format(game.magicScore4, 0)
+      document.getElementById("magicMult1").innerHTML = format(game.magicScore1.add(1), 0)
+      document.getElementById("magicMult2").innerHTML = format(game.magicScore2.add(1), 0)
+      document.getElementById("magicMult3").innerHTML = format(game.magicScore3.add(1), 0)
+      document.getElementById("magicMult4").innerHTML = format(game.magicScore4.add(1), 0)
+      game.magifolds = new Decimal(1)
+      document.getElementById("magifolds").innerHTML = format(game.magifolds, 0)
+      document.getElementById("magifoldEffect").innerHTML = "1.00"
+      document.getElementsByClassName("resourceText")[5].innerHTML = format(game.magifolds, 0)
+    }
   }
 }
 
@@ -1308,7 +1648,7 @@ function unlockDarkMagicUpgrades() {
   }
 }
 
-darkMagicUpgradeCosts = ["e110", "e125", "e165", "e240", "e285", "e320", "e360", "e450"]
+darkMagicUpgradeCosts = ["e110", "e125", "e165", "e240", "e285", "e320", "e360", "e450", "e2000", "e2750", "e3500", "e7500"]
 //Dark magic upgrades
 function buyDarkMagicUpgrade(x) {
   //Checks that the magic upgrade is not bought and that the player's magic is greater/equal to the corresponding upgrade cost
@@ -1317,5 +1657,213 @@ function buyDarkMagicUpgrade(x) {
     game.darkMagicUpgradesBought[x-1] = true
     document.getElementsByClassName("darkMagicUpgrade")[x-1].disabled = true
     if (x==4) document.getElementById("magifoldEffect").innerHTML = format(game.magifolds.pow(8), 2)
+    if (x==8) {
+      document.getElementsByClassName("box")[11].style.display = "block"
+      document.getElementsByClassName("resourceRow")[7].style.display = "block"
+      document.getElementsByClassName("confirmationToggle")[1].style.display = "inline-block"
+      game.unlocks++
+    }
+    if (x==9) document.getElementById("magicUpgradeBuyMaxButton").style.display = "block"
+  }
+}
+
+//Confirmation popups for magic resets
+function sigilCheck(x) {
+  if (game.cyanSigilsToGet.eq(0)) {
+    if (confirm("Woah, hold on! You won't gain any sigils! Are you sure you want to perform a sigil reset?")) sigilReset(x)
+  }
+  else if (game.confirmations[1]) {
+    if (confirm("Are you sure you want to perform a sigil reset?")) sigilReset(x)
+  }
+  else {sigilReset(x)}
+}
+
+function sigilReset(x) {
+  switch(x) {
+    case 1: game.cyanSigils = game.cyanSigils.add(game.cyanSigilsToGet); break
+    case 2: game.blueSigils = game.blueSigils.add(game.blueSigilsToGet); break
+    case 3: game.indigoSigils = game.indigoSigils.add(game.indigoSigilsToGet); break
+  }
+  magicReset()
+  for (i=0;i<9;i++) {
+    if (i!=2) {
+      game.platinumUpgradesBought[i] = 0
+      document.getElementsByClassName("platinumUpgradesBought")[i].innerHTML = "0"
+      document.getElementsByClassName("platinumUpgrade")[i].disabled = false
+    }
+  }
+  document.getElementsByClassName("platinumUpgradesBought")[2].innerHTML = "1"
+  for (i=0;i<6;i++) {
+    game.uraniumUpgradesBought[i] = 0
+    document.getElementsByClassName("uraniumUpgradesBought")[i].innerHTML = "0"
+    document.getElementsByClassName("uraniumUpgrade")[i].disabled = false
+  }
+  
+  game.magic = new Decimal(0)
+  game.magicScore1 = new Decimal(0)
+  game.magicScore2 = new Decimal(0)
+  game.magicScore3 = new Decimal(0)
+  game.magicScore4 = new Decimal(0)
+  document.getElementById("magicScore1").innerHTML = format(game.magicScore1, 0)
+  document.getElementById("magicScore2").innerHTML = format(game.magicScore2, 0)
+  document.getElementById("magicScore3").innerHTML = format(game.magicScore3, 0)
+  document.getElementById("magicScore4").innerHTML = format(game.magicScore4, 0)
+  document.getElementById("magicMult1").innerHTML = format(game.magicScore1.add(1), 0)
+  document.getElementById("magicMult2").innerHTML = format(game.magicScore2.add(1), 0)
+  document.getElementById("magicMult3").innerHTML = format(game.magicScore3.add(1), 0)
+  document.getElementById("magicMult4").innerHTML = format(game.magicScore4.add(1), 0)
+  game.magifolds = new Decimal(1)
+  document.getElementById("magifolds").innerHTML = format(game.magifolds, 0)
+  document.getElementById("magifoldEffect").innerHTML = "1.00"
+  document.getElementsByClassName("resourceText")[5].innerHTML = format(game.magifolds, 0)
+  for (i=0;i<19;i++) {
+    if (i!=1 && i!=4 && i!=7 && i!=11) {
+      game.magicUpgradesBought[i] = false
+      document.getElementsByClassName("magicUpgrade")[i].disabled = false
+    }
+  }
+  game.uranium = new Decimal(0)
+  for (i=0;i<7;i++) {
+    game.darkMagicUpgradesBought[i] = false
+    document.getElementsByClassName("darkMagicUpgrade")[i].disabled = false
+  }
+  
+  game.dragonTimeSpent = new Decimal(0)
+  document.getElementById("dragonTimeSpent").innerHTML = format(game.dragonTimeSpent, 0)
+  game.dragonTimeEffect = new Decimal(1.2).pow(game.dragonTimeSpent.pow(0.3))
+  document.getElementById("dragonTimeEffectCap").innerHTML = ""
+  document.getElementById("dragonTimeEffect").innerHTML = format(game.dragonTimeEffect, 3)
+
+  game.dragonFood = new Decimal(0)
+  game.dragonFeedCost = new Decimal(10).pow(new Decimal(2).pow(game.dragonFood).mul(8).round())
+  document.getElementById("dragonFeedCost").innerHTML = format(game.dragonFeedCost, 0)
+  document.getElementById("dragonFood").innerHTML = format(game.dragonFood, 0)
+  document.getElementById("dragonFoodEffect").innerHTML = format(new Decimal(1.3).pow(game.dragonFood), 3)
+}
+
+function buyCyanSigilUpgrade(x) {
+  //For each upgrade (if affordable): subtracts cyan sigil power based on cost, adds 1 to the upgrade amount bought, updates the cost
+  if (x==1 && game.cyanSigilPower.gte(game.cyanSigilUpgrade1Cost)) {
+    game.cyanSigilPower = game.cyanSigilPower.sub(game.cyanSigilUpgrade1Cost)
+    game.cyanSigilUpgrade1Bought = game.cyanSigilUpgrade1Bought.add(1)
+    game.cyanSigilUpgrade1Cost = new Decimal(1.5).pow(game.cyanSigilUpgrade1Bought).floor()
+    document.getElementById("cyanSigilUpgrade1Cost").innerHTML = format(game.cyanSigilUpgrade1Cost, 0)
+    document.getElementById("cyanSigilUpgrade1Effect").innerHTML = format(game.cyanSigilUpgrade1Bought.add(1), 2)
+  }
+  else if (x==2 && game.cyanSigilPower.gte(game.cyanSigilUpgrade2Cost)) {
+    game.cyanSigilPower = game.cyanSigilPower.sub(game.cyanSigilUpgrade2Cost)
+    game.cyanSigilUpgrade2Bought = game.cyanSigilUpgrade2Bought.add(1)
+    game.cyanSigilUpgrade2Cost = new Decimal(1.5).pow(game.cyanSigilUpgrade2Bought).mul(20).floor()
+    document.getElementById("cyanSigilUpgrade2Cost").innerHTML = format(game.cyanSigilUpgrade2Cost, 0)
+    document.getElementById("cyanSigilUpgrade2Effect").innerHTML = format(game.cyanSigilUpgrade2Bought.add(1).pow(1.5), 2)
+  }
+  else if (x==3 && game.cyanSigilPower.gte(game.cyanSigilUpgrade3Cost)) {
+    game.cyanSigilPower = game.cyanSigilPower.sub(game.cyanSigilUpgrade3Cost)
+    game.cyanSigilUpgrade3Bought = game.cyanSigilUpgrade3Bought.add(1)
+    game.cyanSigilUpgrade3Cost = new Decimal(2).pow(game.cyanSigilUpgrade3Bought).mul(500).floor()
+    document.getElementById("cyanSigilUpgrade3Cost").innerHTML = format(game.cyanSigilUpgrade3Cost, 0)
+    document.getElementById("cyanSigilUpgrade3Effect").innerHTML = format(new Decimal(1.2).pow(game.cyanSigilUpgrade3Bought.pow(0.4)), 2)
+  }
+  else if (x==4 && game.cyanSigilPower.gte(2500)) {
+    game.cyanSigilPower = game.cyanSigilPower.sub(2500)
+    game.cyanSigilUpgrade4Bought = new Decimal(1)
+    document.getElementsByClassName("cyanSigilUpgrade")[3].disabled = true
+  }
+  else if (x==5 && game.cyanSigilPower.gte(10000)) {
+    game.cyanSigilPower = game.cyanSigilPower.sub(10000)
+    game.cyanSigilUpgrade5Bought = new Decimal(1)
+    document.getElementsByClassName("cyanSigilUpgrade")[4].disabled = true
+    document.getElementById("uraniumMaxAllButton").style.display = "block"
+  }
+  else if (x==6 && game.cyanSigilPower.gte(33333)) {
+    game.cyanSigilPower = game.cyanSigilPower.sub(33333)
+    game.cyanSigilUpgrade6Bought = new Decimal(1)
+    document.getElementsByClassName("cyanSigilUpgrade")[5].disabled = true
+    document.getElementsByClassName("box")[12].style.display = "block"
+    document.getElementsByClassName("resourceRow")[8].style.display = "block"
+    game.unlocks++
+  }
+}
+
+function buyBlueSigilUpgrade(x) {
+  //For each upgrade (if affordable): subtracts blue sigil power based on cost, adds 1 to the upgrade amount bought, updates the cost
+  if (x==1 && game.blueSigilPower.gte(game.blueSigilUpgrade1Cost)) {
+    game.blueSigilPower = game.blueSigilPower.sub(game.blueSigilUpgrade1Cost)
+    game.blueSigilUpgrade1Bought = game.blueSigilUpgrade1Bought.add(1)
+    game.blueSigilUpgrade1Cost = new Decimal(1.5).pow(game.blueSigilUpgrade1Bought).floor()
+    document.getElementById("blueSigilUpgrade1Cost").innerHTML = format(game.blueSigilUpgrade1Cost, 0)
+    document.getElementById("blueSigilUpgrade1Effect").innerHTML = format(game.blueSigilUpgrade1Bought.add(1), 2)
+  }
+  else if (x==2 && game.blueSigilPower.gte(game.blueSigilUpgrade2Cost)) {
+    game.blueSigilPower = game.blueSigilPower.sub(game.blueSigilUpgrade2Cost)
+    game.blueSigilUpgrade2Bought = game.blueSigilUpgrade2Bought.add(1)
+    game.blueSigilUpgrade2Cost = new Decimal(1.5).pow(game.blueSigilUpgrade2Bought).mul(20).floor()
+    document.getElementById("blueSigilUpgrade2Cost").innerHTML = format(game.blueSigilUpgrade2Cost, 0)
+    document.getElementById("blueSigilUpgrade2Effect").innerHTML = format(new Decimal(1e15).pow(game.blueSigilUpgrade2Bought.pow(0.6)), 2)
+  }
+  else if (x==3 && game.blueSigilPower.gte(game.blueSigilUpgrade3Cost) && game.blueSigilUpgrade3Bought.lt(10)) {
+    game.blueSigilPower = game.blueSigilPower.sub(game.blueSigilUpgrade3Cost)
+    game.blueSigilUpgrade3Bought = game.blueSigilUpgrade3Bought.add(1)
+    game.blueSigilUpgrade3Cost = new Decimal(2).pow(game.blueSigilUpgrade3Bought).mul(100).floor()
+    document.getElementById("blueSigilUpgrade3Cost").innerHTML = format(game.blueSigilUpgrade3Cost, 0)
+    document.getElementById("blueSigilUpgrade3Bought").innerHTML = format(game.blueSigilUpgrade3Bought, 0)
+    if (game.blueSigilUpgrade3Bought.gte(10)) document.getElementsByClassName("blueSigilUpgrade")[2].disabled = true
+  }
+  else if (x==4 && game.blueSigilPower.gte(750)) {
+    game.blueSigilPower = game.blueSigilPower.sub(750)
+    game.blueSigilUpgrade4Bought = new Decimal(1)
+    document.getElementsByClassName("blueSigilUpgrade")[3].disabled = true
+  }
+  else if (x==5 && game.blueSigilPower.gte(2000)) {
+    game.blueSigilPower = game.blueSigilPower.sub(2000)
+    game.blueSigilUpgrade5Bought = new Decimal(1)
+    document.getElementsByClassName("blueSigilUpgrade")[4].disabled = true
+    document.getElementById("fireAutoMaxAllButton").style.display = "block"
+  }
+  else if (x==6 && game.blueSigilPower.gte(10000)) {
+    game.blueSigilPower = game.blueSigilPower.sub(10000)
+    game.blueSigilUpgrade6Bought = new Decimal(1)
+    document.getElementsByClassName("blueSigilUpgrade")[5].disabled = true
+    document.getElementsByClassName("box")[13].style.display = "block"
+    document.getElementsByClassName("resourceRow")[9].style.display = "block"
+    game.unlocks++
+  }
+}
+
+function buyIndigoSigilUpgrade(x) {
+  //For each upgrade (if affordable): subtracts indigo sigil power based on cost, adds 1 to the upgrade amount bought, updates the cost
+  if (x==1 && game.indigoSigilPower.gte(game.indigoSigilUpgrade1Cost)) {
+    game.indigoSigilPower = game.indigoSigilPower.sub(game.indigoSigilUpgrade1Cost)
+    game.indigoSigilUpgrade1Bought = game.indigoSigilUpgrade1Bought.add(1)
+    game.indigoSigilUpgrade1Cost = new Decimal(1.5).pow(game.indigoSigilUpgrade1Bought).floor()
+    document.getElementById("indigoSigilUpgrade1Cost").innerHTML = format(game.indigoSigilUpgrade1Cost, 0)
+    document.getElementById("indigoSigilUpgrade1Effect").innerHTML = format(game.indigoSigilUpgrade1Bought.add(1), 2)
+  }
+  else if (x==2 && game.indigoSigilPower.gte(game.indigoSigilUpgrade2Cost)) {
+    game.indigoSigilPower = game.indigoSigilPower.sub(game.indigoSigilUpgrade2Cost)
+    game.indigoSigilUpgrade2Bought = game.indigoSigilUpgrade2Bought.add(1)
+    game.indigoSigilUpgrade2Cost = new Decimal(1.5).pow(game.indigoSigilUpgrade2Bought).mul(20).floor()
+    document.getElementById("indigoSigilUpgrade2Cost").innerHTML = format(game.indigoSigilUpgrade2Cost, 0)
+    document.getElementById("indigoSigilUpgrade2Effect").innerHTML = format(new Decimal(1.15).pow(game.indigoSigilUpgrade2Bought.pow(0.7)), 2)
+  }
+  else if (x==3 && game.indigoSigilPower.gte(game.indigoSigilUpgrade3Cost)) {
+    game.indigoSigilPower = game.indigoSigilPower.sub(game.indigoSigilUpgrade3Cost)
+    game.indigoSigilUpgrade3Bought = game.indigoSigilUpgrade3Bought.add(1)
+    game.indigoSigilUpgrade3Cost = new Decimal(2).pow(game.indigoSigilUpgrade3Bought).mul(100).floor()
+    document.getElementById("indigoSigilUpgrade3Cost").innerHTML = format(game.indigoSigilUpgrade3Cost, 0)
+    document.getElementById("indigoSigilUpgrade3Effect").innerHTML = format(new Decimal(1.4).pow(game.indigoSigilUpgrade3Bought.pow(0.5)), 2)
+  }
+  else if (x==4 && game.indigoSigilPower.gte(game.indigoSigilUpgrade4Cost)) {
+    game.indigoSigilPower = game.indigoSigilPower.sub(game.indigoSigilUpgrade4Cost)
+    game.indigoSigilUpgrade4Bought = game.indigoSigilUpgrade4Bought.add(1)
+    game.indigoSigilUpgrade4Cost = new Decimal(2.5).pow(game.indigoSigilUpgrade4Bought).mul(400).floor()
+    document.getElementById("indigoSigilUpgrade4Cost").innerHTML = format(game.indigoSigilUpgrade4Cost, 0)
+    document.getElementById("indigoSigilUpgrade4Effect").innerHTML = format(new Decimal(2.5).pow(game.indigoSigilUpgrade4Bought.pow(0.7)), 2)
+  }
+  else if (x==5 && game.indigoSigilPower.gte(1250)) {
+    game.indigoSigilPower = game.indigoSigilPower.sub(1250)
+    game.indigoSigilUpgrade5Bought = new Decimal(1)
+    document.getElementsByClassName("indigoSigilUpgrade")[4].disabled = true
+    for (i=8;i<12;i++) {document.getElementsByClassName("darkMagicUpgrade")[i].style.display = "inline-block"}
   }
 }
