@@ -1,19 +1,19 @@
 //Confirmation popups for magic resets
 function sigilCheck(x) {
   if (x==1 && game.cyanSigilsToGet.eq(0)) {
-    if (confirm("Woah, hold on! You won't gain any sigils! Are you sure you want to perform a sigil reset?")) sigilReset(x)
+    if (confirm("哇，等一下！ 你不会获得任何印记！ 您确定要执行印记重置吗？")) sigilReset(x)
   }
   else if (x==2 && game.blueSigilsToGet.eq(0)) {
-    if (confirm("Woah, hold on! You won't gain any sigils! Are you sure you want to perform a sigil reset?")) sigilReset(x)
+    if (confirm("哇，等一下！ 你不会获得任何印记！ 您确定要执行印记重置吗？")) sigilReset(x)
   }
   else if (x==3 && game.indigoSigilsToGet.eq(0)) {
-    if (confirm("Woah, hold on! You won't gain any sigils! Are you sure you want to perform a sigil reset?")) sigilReset(x)
+    if (confirm("哇，等一下！ 你不会获得任何印记！ 您确定要执行印记重置吗？")) sigilReset(x)
   }
   else if (x==4 && game.violetSigilsToGet.eq(0)) {
-    if (confirm("Woah, hold on! You won't gain any sigils! Are you sure you want to perform a sigil reset?")) sigilReset(x)
+    if (confirm("哇，等一下！ 你不会获得任何印记！ 您确定要执行印记重置吗？")) sigilReset(x)
   }
   else if (game.confirmations[1]) {
-    if (confirm("Are you sure you want to perform a sigil reset?")) sigilReset(x)
+    if (confirm("您确定要执行印记重置吗？")) sigilReset(x)
   }
   else {sigilReset(x)}
 }
