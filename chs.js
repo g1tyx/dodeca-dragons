@@ -225,7 +225,7 @@ var cnItems = {
     "Reset all previous progress for": "重置所有以前的进度",
     "Sigil resets erase almost all upgrades and resources, but you keep unlocks": "印记重置会抹去几乎所有的升级和资源，但你会继续解锁",
     "Sigils": "印记",
-    "Time played:": "出场时间：",
+    "Time played:": "游戏时长：",
     "Triple cyan and blue sigil gain": "三倍青色和蓝色印记增益",
     "Unlock 4 new dark magic upgrades (kept on sigil reset)": "解锁 4 个新的黑魔法升级（在印记重置时保留）",
     "Unlock auto max all for fire upgrades": "解锁自动最大值以进行火力升级",
