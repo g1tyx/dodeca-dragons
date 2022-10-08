@@ -6,6 +6,8 @@ body{
 }
 .title-bar,.window,button,input,label,option,select,textarea,ul.tree-view{
     -webkit-font-smoothing:none;
+    font-smooth: never;
+    text-rendering: geometricPrecision;
     font-family:"Pixelated MS Sans Serif",Arial;
     font-size:11px
 }

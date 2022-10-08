@@ -3,9 +3,10 @@
 
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
   <meta content="DodecaDragons" property="og:title" />
-  <meta content="why do they call it oven when you of in the cold food of out hot eat the food" property="og:description" />
+  <meta content="why do they call it oven when you of in the cold food of out hot eat the food"
+    property="og:description" />
   <meta content="https://demonins-item-shop.demonin.repl.co/games/dodecaDragons/" property="og:url" />
   <meta content="logo.png" property="og:image" />
   <meta content="#408000" data-react-helmet="true" name="theme-color" />
@@ -15,70 +16,106 @@
   <link href="style.css" rel="stylesheet" type="text/css" />
 </head>
 
-<body onmousedown="mouseDown()" onmouseup="mouseUp()" onclick="updateSmall()">
+<body onclick="updateSmall()">
   <script src="chs.js"></script>
   <script src="core.js"></script>
   <!--Main tab-->
-    <div class="window box" style="width: 350px; height: 300px">
-      <div class="title-bar">
-        <div class="title-bar-text">DodecaDragons</div>
-      </div>
-      <div class="window-body">
-        <p class="titleText">You have <a id="gold">0</a> gold</p>
-        <p style="margin-top: 4px">(<a id="goldPerSecond">0</a>/s, <a id="goldPerClick">0</a>/click)</p>
-        <button style="min-width: 74px" onclick="produceGold()">Mine gold</button><br>
-        <button id="buyMinerButton" style="height: 34px; text-align: left" onclick="buyMiner()">Hire a gold miner<br>Costs <a id="minerCost">20</a> gold</button>
-        <button style="height: 34px; min-width: 49px" onclick="buyMaxMiners()">Buy<br>max</button><br>
-        <button id="unlockDragonButton" style="height: 34px" onclick="unlockDragon()">Get a young dragon<br>Costs 200 gold</button>
-        <button id="unlockAlchemyButton" style="height: 34px; display: none" onclick="unlockAlchemy()">Unlock alchemy<br>Costs 20,000,000 gold</button>
-        <button id="unlockMagicButton" style="height: 34px; display: none" onclick="unlockMagic()">Unlock <a style="color: #707">magic</a><br>Costs 1.000e15 gold</button>
-        <button id="morePUupgradesButton" style="height: 34px; display: none" onclick="morePUupgrades()">Gain more platinum and uranium upgrades<br>Costs 1.000e450 gold</button>
-        <button id="unlockDarkMagicUpgradesButton" style="height: 46px; display: none" onclick="unlockDarkMagicUpgrades()">Unlock <a style="color: #404; text-shadow: 1px 1px #88f">dark magic upgrades</a><br>You are gaining stronger control over your magic powers.<br>Costs 1.000e1,000 gold</button>
-      </div>
+  <div class="window box" style="width: 350px; height: 300px">
+    <div class="title-bar">
+      <div class="title-bar-text">DodecaDragons</div>
     </div>
-  
+    <div class="window-body">
+      <p class="titleText">You have <a id="gold">0</a> gold</p>
+      <p style="margin-top: 4px">(<a id="goldPerSecond">0</a>/s, <a id="goldPerClick">0</a>/click)</p>
+      <button style="min-width: 74px" onclick="produceGold()">Mine gold</button><br>
+      <button id="buyMinerButton" style="height: 34px; text-align: left" onclick="buyMiner()">Hire a gold
+        miner<br>Costs <a id="minerCost">20</a> gold</button>
+      <button style="height: 34px; min-width: 49px" onclick="buyMaxMiners()">Buy<br>max</button><br>
+      <button id="minerAutoBuyMaxButton" style="display: none" onclick="minerAutoBuyMax()">Auto buy max: On</button>
+      <button id="unlockDragonButton" style="height: 34px" onclick="unlockDragon()">Get a young dragon<br>Costs 200
+        gold</button>
+      <button id="unlockAlchemyButton" style="height: 34px; display: none" onclick="unlockAlchemy()">Unlock
+        alchemy<br>Costs 20,000,000 gold</button>
+      <button id="unlockMagicButton" style="height: 34px; display: none" onclick="unlockMagic()">Unlock <a
+          style="color: #707">magic</a><br>Costs 1.000e15 gold</button>
+      <button id="morePUupgradesButton" style="height: 34px; display: none" onclick="morePUupgrades()">Gain more
+        platinum and uranium upgrades<br>Costs 1.000e450 gold</button>
+      <button id="unlockDarkMagicUpgradesButton" style="height: 46px; display: none"
+        onclick="unlockDarkMagicUpgrades()">Unlock <a style="color: #404; text-shadow: 1px 1px #88f">dark magic
+          upgrades</a><br>You are gaining stronger control over your magic powers.<br>Costs 1.000e1,000 gold</button>
+    </div>
+  </div>
+
   <!--Settings and info-->
-  <div class="window box" style="width: 150px; height: 330px; top: 30px; left: 5px; transform: none; padding-bottom: 8px; z-index: 1; display: none;">
+  <div class="window box"
+    style="width: 150px; height: 360px; top: 30px; left: 5px; transform: none; padding-bottom: 8px; z-index: 1; display: none;">
     <div class="title-bar" style="background-image: linear-gradient(90deg,grey,#b5b5b5);">
       <div class="title-bar-text">Settings and info</div>
     </div>
     <div class="window-body">
-      <p style="margin: 3px; color: #666">Move around by clicking and dragging.<br>If you find the text is too small, you might want to zoom in the window :)</p>
+      <p style="margin: 3px; color: #666">Move around by clicking and dragging.<br>If you find the text is too small,
+        you might want to zoom in the window :)</p>
       <hr>
       <button style="width: 142px" onclick="save()">&#8202;&#8202;Manual save</button><br>
       <button style="min-width: 68px" onclick="exportGame()">&#8202;&#8202;Export</button>
       <button style="min-width: 68px" onclick="importGame()">Import</button><br>
       <button style="width: 142px; background-color: #daa" onclick="hardReset()">&#8202;&#8202;Hard reset</button>
       <hr>
+      <button id="backgroundPatternButton" style="width: 142px"
+        onclick="changeBackgroundPattern()">&#8202;&#8202;Background pattern: On</button><br>
+      <hr>
       <p>Time played: <a id="timePlayed">0:00:00</a></p>
       <div id="confirmationToggleBox" style="display: none;">
         <hr>
-        <center><p style="margin-top: 2px; margin-bottom: 3px">&#8202;&#8202;Confirmation popups</p>
-        <div class="confirmationToggle" style="background-image: url('img/iconMagic.png')" onclick="toggleConfirmations(1)"></div>
-        <div class="confirmationToggle" style="background-image: url('img/iconSigil1.png'); display: none;" onclick="toggleConfirmations(2)"></div></center>
+        <center>
+          <p style="margin-top: 2px; margin-bottom: 3px">&#8202;&#8202;Confirmation popups</p>
+          <div class="confirmationToggle" style="background-image: url('img/iconMagic.png')"
+            onclick="toggleConfirmations(1)"></div>
+          <div class="confirmationToggle" style="background-image: url('img/iconSigil1.png'); display: none;"
+            onclick="toggleConfirmations(2)"></div>
+        </center>
       </div>
-      <p style="position: absolute; bottom: 4px; right: 4px; text-align: right; margin: 0; color: #666;"><a href="https://discord.gg/7PChmUV3wk">Discord</a><br><a href="changelog.txt">Changelog</a><br>Created by Demonin<br>v0.4.2</p>
+      <p style="position: absolute; bottom: 4px; right: 4px; text-align: right; margin: 0; color: #666;"><a
+          href="https://discord.gg/7PChmUV3wk">Discord</a><br><a href="changelog.txt">Changelog</a><br>Created by
+        Demonin<br>v0.4.3</p>
     </div>
   </div>
 
-  <button style="position: absolute; top: 5px; left: 5px; min-width: 76px; min-height: 20px; margin: 0; z-index: 1;" onclick="changeTab(1)">Resources</button>
-  <button style="position: absolute; top: 5px; left: 85px; min-height: 20px; margin: 0; z-index: 1;" onclick="changeTab(2)">Settings</button>
+  <button style="position: absolute; top: 5px; left: 5px; min-width: 76px; min-height: 20px; margin: 0; z-index: 1;"
+    onclick="changeTab(1)">Resources</button>
+  <button style="position: absolute; top: 5px; left: 85px; min-height: 20px; margin: 0; z-index: 1;"
+    onclick="changeTab(2)">Settings</button>
   <!--Resources tab-->
   <div class="window box" style="width: 200px; top: 30px; left: 5px; transform: none; padding-bottom: 8px; z-index: 1">
     <div class="title-bar">
       <div class="title-bar-text">Resources</div>
     </div>
     <div class="window-body" style="max-height: 300px; overflow: auto">
-      <p class="resourceRow"><img src="img/iconGoldCoins.png" class="resourceIcon"></img>Gold: <a class="resourceText">0</a></p>
-      <p class="resourceRow" style="display: none"><img src="img/iconMiner.png" class="resourceIcon"></img>Miners: <a class="resourceText">0</a></p>
-      <p class="resourceRow" style="display: none"><img src="img/iconFire.png" class="resourceIcon"></img>Fire: <a class="resourceText">0</a></p>
-      <p class="resourceRow" style="display: none"><img src="img/iconPlatinumCoins.png" class="resourceIcon"></img>Platinum: <a class="resourceText">0</a></p>
-      <p class="resourceRow" style="display: none"><img src="img/iconMagic.png" class="resourceIcon"></img>Magic: <a class="resourceText">0</a></p>
-      <p class="resourceRow" style="display: none"><img src="img/iconMagifold.png" class="resourceIcon"></img>Magifolds: <a class="resourceText">0</a></p>
-      <p class="resourceRow" style="display: none"><img src="img/iconUraniumCoins.png" class="resourceIcon"></img>Uranium: <a class="resourceText">0</a></p>
-      <p class="resourceRow" style="display: none"><img src="img/iconSigil1.png" class="resourceIcon"></img>Cyan sigils: <a class="resourceText">0</a></p>
-      <p class="resourceRow" style="display: none"><img src="img/iconSigil2.png" class="resourceIcon"></img>Blue sigils: <a class="resourceText">0</a></p>
-      <p class="resourceRow" style="display: none"><img src="img/iconSigil3.png" class="resourceIcon"></img>Indigo sigils: <a class="resourceText">0</a></p>
+      <p class="resourceRow"><img src="img/iconGoldCoins.png" class="resourceIcon"></img>Gold: <a
+          class="resourceText">0</a></p>
+      <p class="resourceRow" style="display: none"><img src="img/iconMiner.png" class="resourceIcon"></img>Miners: <a
+          class="resourceText">0</a></p>
+      <p class="resourceRow" style="display: none"><img src="img/iconFire.png" class="resourceIcon"></img>Fire: <a
+          class="resourceText">0</a></p>
+      <p class="resourceRow" style="display: none"><img src="img/iconPlatinumCoins.png"
+          class="resourceIcon"></img>Platinum: <a class="resourceText">0</a></p>
+      <p class="resourceRow" style="display: none"><img src="img/iconMagic.png" class="resourceIcon"></img>Magic: <a
+          class="resourceText">0</a></p>
+      <p class="resourceRow" style="display: none"><img src="img/iconMagifold.png" class="resourceIcon"></img>Magifolds:
+        <a class="resourceText">0</a>
+      </p>
+      <p class="resourceRow" style="display: none"><img src="img/iconUraniumCoins.png"
+          class="resourceIcon"></img>Uranium: <a class="resourceText">0</a></p>
+      <p class="resourceRow" style="display: none"><img src="img/iconSigil1.png" class="resourceIcon"></img>Cyan sigils:
+        <a class="resourceText">0</a>
+      </p>
+      <p class="resourceRow" style="display: none"><img src="img/iconSigil2.png" class="resourceIcon"></img>Blue sigils:
+        <a class="resourceText">0</a>
+      </p>
+      <p class="resourceRow" style="display: none"><img src="img/iconSigil3.png" class="resourceIcon"></img>Indigo
+        sigils: <a class="resourceText">0</a></p>
+      <p class="resourceRow" style="display: none"><img src="img/iconSigil4.png" class="resourceIcon"></img>Violet
+        sigils: <a class="resourceText">0</a></p>
     </div>
   </div>
 
@@ -89,16 +126,23 @@
     </div>
     <div class="window-body">
       <center>
-        <p id="dragonTitle" class="titleText" style="margin-top: 0;"><a style="font-size: 14px">You have a</a><br>Young dragon</p>
+        <p id="dragonTitle" class="titleText" style="margin-top: 0;"><a style="font-size: 14px">You have a</a><br>Young
+          dragon</p>
         <img id="dragonImg" src="img/iconDragon1.png" style="width: 128px; margin: 4px">
       </center>
-      <p id="dragonInfo" style="margin-right: 4px">Your wild young dragon produces fire for you. It enjoys playing around on your gold stash.</p>
+      <p id="dragonInfo" style="margin-right: 4px">Your wild young dragon produces fire for you. It enjoys playing
+        around on your gold stash.</p>
       <p style="color: #630">Your fire is multiplying miner production by <a id="fireGoldMultiplier">1.00</a></p>
-      <button id="buyFireUpgradesButton" style="height: 34px" onclick="buyFireUpgrades()">Unlock fire upgrades<br>Costs 5,000 gold</button>
-      <button class="upgradeDragonButton" style="height: 46px; display: none;" onclick="upgradeDragon(1)">Age your dragon into an adult<br>Multiplies fire gain by 100<br>Costs 2,500,000 gold</button>
-      <button class="upgradeDragonButton" style="height: 46px; display: none;" onclick="upgradeDragon(2)">Age your dragon into an elder<br>Multiplies fire gain by 100<br>Costs 1.000e12 gold</button>
-      <button class="upgradeDragonButton" style="height: 46px; display: none;" onclick="upgradeDragon(3)">Corrupt your dragon with the power of darkness<br>Multiplies fire gain by 10,000<br>Costs 1.000e25 gold</button>
-      <button class="upgradeDragonButton" style="height: 46px; display: none;" onclick="upgradeDragon(4)">Infuse your dragon with the power of light<br>Multiplies fire gain by 10,000,000<br>Costs 1.000e150 gold</button>
+      <button id="buyFireUpgradesButton" style="height: 34px" onclick="buyFireUpgrades()">Unlock fire upgrades<br>Costs
+        5,000 gold</button>
+      <button class="upgradeDragonButton" style="height: 46px; display: none;" onclick="upgradeDragon(1)">Age your
+        dragon into an adult<br>Multiplies fire gain by 100<br>Costs 2,500,000 gold</button>
+      <button class="upgradeDragonButton" style="height: 46px; display: none;" onclick="upgradeDragon(2)">Age your
+        dragon into an elder<br>Multiplies fire gain by 100<br>Costs 1.000e12 gold</button>
+      <button class="upgradeDragonButton" style="height: 46px; display: none;" onclick="upgradeDragon(3)">Corrupt your
+        dragon with the power of darkness<br>Multiplies fire gain by 10,000<br>Costs 1.000e25 gold</button>
+      <button class="upgradeDragonButton" style="height: 46px; display: none;" onclick="upgradeDragon(4)">Infuse your
+        dragon with the power of light<br>Multiplies fire gain by 10,000,000<br>Costs 1.000e150 gold</button>
       <div id="dragonAffectionStuff" style="display: none">
         <hr>
         <p>Your dragon is seeking affection!<br>(You cannot do anything with your dragon while inside challenges)</p><br>
@@ -106,6 +150,10 @@
         <p style="margin-top: 3px">You have spent time with your dragon <a id="dragonTimeSpent">0</a> times, increasing gold gain by ^<a id="dragonTimeEffect" style="color: #660">1.000</a><a id="dragonTimeEffectCap"></a></p>
         <button id="dragonFeedButton" onclick="dragonFeed()"><b>Feed your dragon</b><br>Turns all your score and magifolds into dragon food<br>Next feed requires <a id="dragonFeedCost">100,000,000</a> magifolds</button>
         <p style="margin-top: 3px">You have fed your dragon <a id="dragonFood">0</a> times, increasing fire gain by ^<a id="dragonFoodEffect" style="color: #630">1.000</a></p>
+      </div>
+      <div id="dragonPetStuff" style="display: none">
+        <button id="dragonPetButton" onclick="dragonPet()"><b>Pet your dragon!</b><br>Why does this cost, you ask? Stop asking so many questions!<br>Next pet costs 1,000 <a id="dragonPetRequirement">cyan</a> sigils</button>
+        <p style="margin-top: 3px">You have pet your dragon <a id="dragonPets">0</a> times, multiplying sigil gain by <a id="dragonPetEffect" style="color: #603">1.000</a></p>
       </div>
     </div>
   </div>
@@ -118,17 +166,26 @@
     <div class="window-body">
       <p class="titleText">You have <a id="fire">0</a> fire</p>
       <p style="margin-top: 4px">(<a id="firePerSecond">0</a>/s)</p>
-      <button class="fireUpgrade" style="height: 46px" onclick="buyFireUpgrade(1)">Increase fire production<br>Currently x<a id="fireUpgrade1Effect">1.00</a><br>Costs <a id="fireUpgrade1Cost">50</a> fire</button>
+      <button class="fireUpgrade" style="height: 46px" onclick="buyFireUpgrade(1)">Increase fire production<br>Currently
+        x<a id="fireUpgrade1Effect">1.00</a><br>Costs <a id="fireUpgrade1Cost">50</a> fire</button>
       <button class="fireBuyMaxButton" onclick="fireBuyMax(1)">Buy max</button><br>
-      <button class="fireUpgrade" style="height: 46px" onclick="buyFireUpgrade(2)">Increase fire effect<br>Currently x<a id="fireUpgrade2Effect">1.00</a><br>Costs <a id="fireUpgrade2Cost">100</a> fire</button>
+      <button class="fireUpgrade" style="height: 46px" onclick="buyFireUpgrade(2)">Increase fire effect<br>Currently x<a
+          id="fireUpgrade2Effect">1.00</a><br>Costs <a id="fireUpgrade2Cost">100</a> fire</button>
       <button class="fireBuyMaxButton" onclick="fireBuyMax(2)">Buy max</button><br>
-      <button class="fireUpgrade" style="height: 46px" onclick="buyFireUpgrade(3)">Increase gold/click<br>Currently x<a id="fireUpgrade3Effect">1.00</a><br>Costs <a id="fireUpgrade3Cost">100</a> fire</button>
+      <button class="fireUpgrade" style="height: 46px" onclick="buyFireUpgrade(3)">Increase gold/click<br>Currently x<a
+          id="fireUpgrade3Effect">1.00</a><br>Costs <a id="fireUpgrade3Cost">100</a> fire</button>
       <button class="fireBuyMaxButton" onclick="fireBuyMax(3)">Buy max</button><br>
-      <button class="fireUpgrade" style="height: 46px" onclick="buyFireUpgrade(4)">Miners increase gold/second<br>Currently x<a id="fireUpgrade4Effect">1.00</a><br>Costs <a id="fireUpgrade4Cost">500</a> fire</button>
+      <button class="fireUpgrade" style="height: 46px" onclick="buyFireUpgrade(4)">Miners increase
+        gold/second<br>Currently x<a id="fireUpgrade4Effect">1.00</a><br>Costs <a id="fireUpgrade4Cost">500</a>
+        fire</button>
       <button class="fireBuyMaxButton" onclick="fireBuyMax(4)">Buy max</button><br>
-      <button class="fireUpgrade" style="height: 46px" onclick="buyFireUpgrade(5)">Gold increases fire/second<br>Currently x<a id="fireUpgrade5Effect">1.00</a><br>Costs <a id="fireUpgrade5Cost">500</a> fire</button>
+      <button class="fireUpgrade" style="height: 46px" onclick="buyFireUpgrade(5)">Gold increases
+        fire/second<br>Currently x<a id="fireUpgrade5Effect">1.00</a><br>Costs <a id="fireUpgrade5Cost">500</a>
+        fire</button>
       <button class="fireBuyMaxButton" onclick="fireBuyMax(5)">Buy max</button><br>
-      <button class="fireUpgrade" style="height: 46px; display: none" onclick="buyFireUpgrade(6)">Increase platinum gain<br>Currently x<a id="fireUpgrade6Effect">1.00</a><br>Costs <a id="fireUpgrade6Cost">20,000,000</a> fire</button>
+      <button class="fireUpgrade" style="height: 46px; display: none" onclick="buyFireUpgrade(6)">Increase platinum
+        gain<br>Currently x<a id="fireUpgrade6Effect">1.00</a><br>Costs <a id="fireUpgrade6Cost">20,000,000</a>
+        fire</button>
       <button class="fireBuyMaxButton" onclick="fireBuyMax(6)">Buy max</button><br>
       <button id="fireAutoMaxAllButton" onclick="fireAutoMaxAll()">Auto max all: On</button>
       <button id="fireMaxAllButton" onclick="fireMaxAll()">Max all</button>
@@ -141,17 +198,29 @@
       <div class="title-bar-text">Alchemy</div>
     </div>
     <div class="window-body">
-      <button id="platinumConvertButton" onclick="platinumConvert()">Convert all gold into <a id="platinumToGet">0</a> platinum (<a id="platinumConvertCooldown">0</a>)</button>
+      <button id="platinumConvertButton" onclick="platinumConvert()">Convert all gold into <a id="platinumToGet">0</a>
+        platinum (<a id="platinumConvertCooldown">0</a>)</button>
       <p style="margin-top: 4px">You have <a id="platinum">0</a> platinum</p><br>
-      <button class="platinumUpgrade" onclick="buyPlatinumUpgrade(1)">Gain 20% more gold/second (<a class="platinumUpgradesBought">0</a>/20)<br>Costs 200 platinum</button><br>
-      <button class="platinumUpgrade" onclick="buyPlatinumUpgrade(2)">Gain 20% more fire/second (<a class="platinumUpgradesBought">0</a>/20)<br>Costs 500 platinum</button><br>
-      <button class="platinumUpgrade" onclick="buyPlatinumUpgrade(3)">Unlock a new fire upgrade (<a class="platinumUpgradesBought">0</a>/1)<br>Costs 750 platinum</button><br>
-      <button class="platinumUpgrade" onclick="buyPlatinumUpgrade(4)">Miner cost scales 5% slower (<a class="platinumUpgradesBought">0</a>/5)<br>Costs 1,500 platinum</button><br>
-      <button class="platinumUpgrade" onclick="buyPlatinumUpgrade(5)"> Automatically gain platinum every second (<a class="platinumUpgradesBought">0</a>/1)<br>Costs 2,000 platinum</button><br>
-      <button class="platinumUpgrade" onclick="buyPlatinumUpgrade(6)" style="height: 46px">Platinum increases gold/second (<a class="platinumUpgradesBought">0</a>/4)<br>Currently x<a id="platinumUpgrade6Effect">1.00</a><br>Costs 15,000 platinum</button><br>
-      <button class="platinumUpgrade" onclick="buyPlatinumUpgrade(7)" style="height: 46px; display: none">Increase magic effect (<a class="platinumUpgradesBought">0</a>/20)<br>Currently x<a id="platinumUpgrade7Effect">1.00</a><br>Costs 1,000,000 platinum</button><br>
-      <button class="platinumUpgrade" onclick="buyPlatinumUpgrade(8)" style="display: none">Double uranium gain (<a class="platinumUpgradesBought">0</a>/5)<br>Costs 1.000e22 platinum</button><br>
-      <button class="platinumUpgrade" onclick="buyPlatinumUpgrade(9)" style="display: none">Fire upgrade 4 is boosted (<a class="platinumUpgradesBought">0</a>/5)<br>Costs 1.000e30 platinum</button><br>
+      <button class="platinumUpgrade" onclick="buyPlatinumUpgrade(1)">Gain 20% more gold/second (<a
+          class="platinumUpgradesBought">0</a>/20)<br>Costs 200 platinum</button><br>
+      <button class="platinumUpgrade" onclick="buyPlatinumUpgrade(2)">Gain 20% more fire/second (<a
+          class="platinumUpgradesBought">0</a>/20)<br>Costs 500 platinum</button><br>
+      <button class="platinumUpgrade" onclick="buyPlatinumUpgrade(3)">Unlock a new fire upgrade (<a
+          class="platinumUpgradesBought">0</a>/1)<br>Costs 750 platinum</button><br>
+      <button class="platinumUpgrade" onclick="buyPlatinumUpgrade(4)">Miner cost scales 5% slower (<a
+          class="platinumUpgradesBought">0</a>/5)<br>Costs 1,500 platinum</button><br>
+      <button class="platinumUpgrade" onclick="buyPlatinumUpgrade(5)"> Automatically gain platinum every second (<a
+          class="platinumUpgradesBought">0</a>/1)<br>Costs 2,000 platinum</button><br>
+      <button class="platinumUpgrade" onclick="buyPlatinumUpgrade(6)" style="height: 46px">Platinum increases
+        gold/second (<a class="platinumUpgradesBought">0</a>/4)<br>Currently x<a
+          id="platinumUpgrade6Effect">1.00</a><br>Costs 15,000 platinum</button><br>
+      <button class="platinumUpgrade" onclick="buyPlatinumUpgrade(7)" style="height: 46px; display: none">Increase magic
+        effect (<a class="platinumUpgradesBought">0</a>/20)<br>Currently x<a
+          id="platinumUpgrade7Effect">1.00</a><br>Costs 1,000,000 platinum</button><br>
+      <button class="platinumUpgrade" onclick="buyPlatinumUpgrade(8)" style="display: none">Double uranium gain (<a
+          class="platinumUpgradesBought">0</a>/5)<br>Costs 1.000e22 platinum</button><br>
+      <button class="platinumUpgrade" onclick="buyPlatinumUpgrade(9)" style="display: none">Fire upgrade 4 is boosted
+        (<a class="platinumUpgradesBought">0</a>/5)<br>Costs 1.000e30 platinum</button><br>
       <button id="platinumMaxAllButton" onclick="platinumMaxAll()">Max all</button>
     </div>
   </div>
@@ -162,10 +231,18 @@
       <div class="title-bar-text">Magic</div>
     </div>
     <div class="window-body">
-      <center><p class="titleText">You have <a id="magic">0</a> magic</p>
-      <button style="height: 34px; margin-top: 5px; background-color: #95a; background-image: url('img/magicBack.png')" onclick="magicCheck()">Reset all previous resources and upgrades<br>You will gain <a id="magicToGet" style="color: #508">0</a> magic</button>
-      <p style="margin-top: 2px"><a id="nextMagic"></a>Your magic is multiplying your gold gain by <a id="magicEffect">1</a><a id="magicEffectCap"></a></p>
-      <button id="moreMagicUpgradesButton" style="background-color: #95a; height: 46px; display: none;" onclick="unlockMoreMagicUpgrades()">Unlock more magic upgrades<br>Costs 200,000,000 magic,<br>Requires 275,000 magifolds</button></center>
+      <center>
+        <p class="titleText">You have <a id="magic">0</a> magic</p>
+        <button
+          style="height: 34px; margin-top: 5px; background-color: #95a; background-image: url('img/magicBack.png')"
+          onclick="magicCheck()">Reset all previous resources and upgrades<br>You will gain <a id="magicToGet"
+            style="color: #508">0</a> magic</button>
+        <p style="margin-top: 2px"><a id="nextMagic"></a>Your magic is multiplying your gold gain by <a
+            id="magicEffect">1</a><a id="magicEffectCap"></a></p>
+        <button id="moreMagicUpgradesButton" style="background-color: #95a; height: 46px; display: none;"
+          onclick="unlockMoreMagicUpgrades()">Unlock more magic upgrades<br>Costs 200,000,000 magic,<br>Requires 275,000
+          magifolds</button>
+      </center>
     </div>
   </div>
 
@@ -175,191 +252,333 @@
       <div class="title-bar-text">Magic upgrades</div>
     </div>
     <div class="window-body" style="display: grid; grid-template-columns: 1fr 1fr; justify-self: stretch;">
-      <button class="magicUpgrade" onclick="buyMagicUpgrade(1)">Gold multiplies its own gain<br>Currently x<a id="magicUpgrade1Effect">1.00</a><br>Costs 2 magic</button>
-      <button class="magicUpgrade" onclick="buyMagicUpgrade(2)">Unlock buy max and max all for fire upgrades<br>Costs 3 magic</button>
-      <button class="magicUpgrade" onclick="buyMagicUpgrade(3)">Multiply gold and fire gain by 55.5. Waow.<br>Costs 5 magic</button>
-      <button class="magicUpgrade" onclick="buyMagicUpgrade(4)">Magic multiplies its own gain<br>Currently x<a id="magicUpgrade4Effect">1.00</a><br>Costs 8 magic</button>
-      <button class="magicUpgrade" onclick="buyMagicUpgrade(5)">Unlock max all for platinum upgrades<br>Costs 25 magic</button>
-      <button class="magicUpgrade" onclick="buyMagicUpgrade(6)">Miners increase gold/second<br>Currently x<a id="magicUpgrade6Effect">1.00</a><br>Costs 75 magic</button>
+      <button class="magicUpgrade" onclick="buyMagicUpgrade(1)">Gold multiplies its own gain<br>Currently x<a
+          id="magicUpgrade1Effect">1.00</a><br>Costs 2 magic</button>
+      <button class="magicUpgrade" onclick="buyMagicUpgrade(2)">Unlock buy max and max all for fire upgrades<br>Costs 3
+        magic</button>
+      <button class="magicUpgrade" onclick="buyMagicUpgrade(3)">Multiply gold and fire gain by 55.5. Waow.<br>Costs 5
+        magic</button>
+      <button class="magicUpgrade" onclick="buyMagicUpgrade(4)">Magic multiplies its own gain<br>Currently x<a
+          id="magicUpgrade4Effect">1.00</a><br>Costs 8 magic</button>
+      <button class="magicUpgrade" onclick="buyMagicUpgrade(5)">Unlock max all for platinum upgrades<br>Costs 25
+        magic</button>
+      <button class="magicUpgrade" onclick="buyMagicUpgrade(6)">Miners increase gold/second<br>Currently x<a
+          id="magicUpgrade6Effect">1.00</a><br>Costs 75 magic</button>
       <button class="magicUpgrade" onclick="buyMagicUpgrade(7)">Triple magic gain. Simple.<br>Costs 200 magic</button>
-      <button class="magicUpgrade" onclick="buyMagicUpgrade(8)">Unlock a new platinum upgrade (kept on reset)<br>Costs 1,500 magic</button>
-      <button class="magicUpgrade" onclick="buyMagicUpgrade(9)">Fire upgrades 2 and 3 are strongly boosted<br>Costs 4,000 magic</button>
-      <button class="magicUpgrade" onclick="buyMagicUpgrade(10)">Magic upgrades 4 and 6 are boosted<br>Costs 30,000 magic</button>
-      <button class="magicUpgrade" onclick="buyMagicUpgrade(11)">Keep platinum upgrades on magic reset<br>Costs 150,000 magic</button>
-      <button class="magicUpgrade" style="background-color: #74a" onclick="buyMagicUpgrade(12)">Unlock <b>Magic Challenges</b><br>Costs 400,000 magic</button>
-      <button class="magicUpgrade" style="display: none" onclick="buyMagicUpgrade(13)">Challenge score gain is doubled<br>Costs 100,000,000 magic</button>
-      <button class="magicUpgrade" style="display: none" onclick="buyMagicUpgrade(14)">Fire upgrade 1 is boosted<br>Costs 300,000,000 magic</button>
-      <button class="magicUpgrade" style="display: none" onclick="buyMagicUpgrade(15)">Challenge B1's effect is better<br>Costs 1.500e9 magic</button>
-      <button class="magicUpgrade" style="display: none" onclick="buyMagicUpgrade(16)">Magic effect is squared<br>Costs 3.000e9 magic</button>
-      <button class="magicUpgrade" style="display: none" onclick="buyMagicUpgrade(17)">Magifolds multiply score gain<br>Currently x<a id="magicUpgrade17Effect">1.00</a><br>Costs 1.000e11 magic</button>
-      <button class="magicUpgrade" style="display: none" onclick="buyMagicUpgrade(18)">Triple magic gain again. Easy peasy.<br>Costs 4.000e12 magic</button>
-      <button class="magicUpgrade" style="display: none" onclick="buyMagicUpgrade(19)">Magifold effect is boosted from (x^4) to (x^6)<br>Costs 1.000e13 magic</button>
-      <button class="magicUpgrade" id="uraniumMagicUpgrade" style="" onclick="buyMagicUpgrade(20)">Unlock <b>Uranium</b><br>Costs 1.000e16 magic</button>
-      <button id="magicUpgradeBuyMaxButton" style="margin: 5px 2px 0 2px; width: 50px; display: none" onclick="magicUpgradeBuyMax()">Buy max</button>
+      <button class="magicUpgrade" onclick="buyMagicUpgrade(8)">Unlock a new platinum upgrade (kept on magic
+        reset)<br>Costs
+        1,500 magic</button>
+      <button class="magicUpgrade" onclick="buyMagicUpgrade(9)">Fire upgrades 2 and 3 are strongly boosted<br>Costs
+        4,000 magic</button>
+      <button class="magicUpgrade" onclick="buyMagicUpgrade(10)">Magic upgrades 4 and 6 are boosted<br>Costs 30,000
+        magic</button>
+      <button class="magicUpgrade" onclick="buyMagicUpgrade(11)">Keep platinum upgrades on magic reset<br>Costs 150,000
+        magic</button>
+      <button class="magicUpgrade" style="background-color: #74a" onclick="buyMagicUpgrade(12)">Unlock <b>Magic
+          Challenges</b><br>Costs 400,000 magic</button>
+      <button class="magicUpgrade" style="display: none" onclick="buyMagicUpgrade(13)">Challenge score gain is
+        doubled<br>Costs 100,000,000 magic</button>
+      <button class="magicUpgrade" style="display: none" onclick="buyMagicUpgrade(14)">Fire upgrade 1 is
+        boosted<br>Costs 300,000,000 magic</button>
+      <button class="magicUpgrade" style="display: none" onclick="buyMagicUpgrade(15)">Challenge B1's effect is
+        better<br>Costs 1.500e9 magic</button>
+      <button class="magicUpgrade" style="display: none" onclick="buyMagicUpgrade(16)">Magic effect is squared<br>Costs
+        3.000e9 magic</button>
+      <button class="magicUpgrade" style="display: none" onclick="buyMagicUpgrade(17)">Magifolds multiply score
+        gain<br>Currently x<a id="magicUpgrade17Effect">1.00</a><br>Costs 1.000e11 magic</button>
+      <button class="magicUpgrade" style="display: none" onclick="buyMagicUpgrade(18)">Triple magic gain again. Easy
+        peasy.<br>Costs 4.000e12 magic</button>
+      <button class="magicUpgrade" style="display: none" onclick="buyMagicUpgrade(19)">Magifold effect is boosted from
+        (x^4) to (x^6)<br>Costs 1.000e13 magic</button>
+      <button class="magicUpgrade" id="uraniumMagicUpgrade" style="" onclick="buyMagicUpgrade(20)">Unlock
+        <b>Uranium</b><br>Costs 1.000e16 magic</button>
+      <button id="magicUpgradeBuyMaxButton" style="margin: 5px 2px 0 2px; width: 50px; display: none"
+        onclick="magicUpgradeBuyMax()">Buy max</button>
     </div>
   </div>
-  
+
   <!--Magic challenges tab-->
   <div class="window box" style="width: 400px; height: 400px; background-color: #97b; display: none;">
     <div class="title-bar" style="background:linear-gradient(90deg,#408,#94d)">
       <div class="title-bar-text">Magic challenges</div>
     </div>
-    <div class="window-body" style="margin-left: 4px; margin-top: 4px; display: grid; grid-template-columns: 200px 188px; grid-gap: 4px">
+    <div class="window-body"
+      style="margin-left: 4px; margin-top: 4px; display: grid; grid-template-columns: 200px 188px; grid-gap: 4px">
       <div id="magicChallengesContainer">
-        <div class="magicChallenge" onmouseover="showMagicChallenge(1)" onmouseout="showMagicChallenge(0)" onclick="activateMagicChallenge(1)"><p style="font-size: 32px; line-height: 100%">A1</p></div>
-        <div class="magicChallenge" onmouseover="showMagicChallenge(2)" onmouseout="showMagicChallenge(0)" onclick="activateMagicChallenge(2)"><p style="font-size: 32px; line-height: 100%"">A2</p></div>
-        <div class="magicChallenge" onmouseover="showMagicChallenge(3)" onmouseout="showMagicChallenge(0)" onclick="activateMagicChallenge(3)"><p style="font-size: 32px; line-height: 100%"">B1</p></div>
-        <div class="magicChallenge" onmouseover="showMagicChallenge(4)" onmouseout="showMagicChallenge(0)" onclick="activateMagicChallenge(4)"><p style="font-size: 32px; line-height: 100%"">B2</p></div>
+        <div class="magicChallenge" onmouseover="showMagicChallenge(1)" onmouseout="showMagicChallenge(0)"
+          onclick="activateMagicChallenge(1)">
+          <p style="font-size: 32px; line-height: 100%">A1</p>
+        </div>
+        <div class="magicChallenge" onmouseover="showMagicChallenge(2)" onmouseout="showMagicChallenge(0)"
+          onclick="activateMagicChallenge(2)">
+          <p style="font-size: 32px; line-height: 100%"">A2</p></div>
+        <div class=" magicChallenge" onmouseover="showMagicChallenge(3)" onmouseout="showMagicChallenge(0)"
+            onclick="activateMagicChallenge(3)">
+          <p style="font-size: 32px; line-height: 100%"">B1</p></div>
+        <div class=" magicChallenge" onmouseover="showMagicChallenge(4)" onmouseout="showMagicChallenge(0)"
+            onclick="activateMagicChallenge(4)">
+          <p style="font-size: 32px; line-height: 100%"">B2</p></div>
       </div>
       <div>
-        <p>HIGHEST SCORES:<br>1 challenge: <a id="magicScore1" style="color: #066">0</a><br>2 challenges: <a id="magicScore2" style="color: #047">0</a><br>3 challenges: <a id="magicScore3" style="color: #008">0</a><br>4 challenges: <a id="magicScore4" style="color: #508">0</a><br><br>You have <a id="magifolds" style="font-weight: bold">1</a> (<a id="magicMult1">1</a> * <a id="magicMult2">1</a> * <a id="magicMult3">1</a> * <a id="magicMult4">1</a>) <a style="color: #409">magic manifolds</a> (magifolds), which give<br><a style="font-size: 16px; font-weight: bold">x</a><a id="magifoldEffect" style="font-size: 16px; font-weight: bold">1.00</a><br>gold gain</p>
-      </div>
-      <div style="margin-top: 4px; grid-column: 1 / span 2; text-align: center; border-top: 2px solid #658; height: 110px">
-        <p style="font-size: 30px; margin-bottom: 0; margin-top: 8px; color: #008" id="magicChallengeTitle"></p>
-        <p style="font-size: 14px" id="magicChallengeInfo"><a style="color: #606">Hover over a challenge to see what it does!</a><br><a style="color: #060">You can select up to 4 challenges, and you will earn separate scores for each amount of challenges you enter at once (1, 2, 3 and 4).</a><a style="color: #046"> Bonuses are based on the highest score achieved in each amount of challenges, multiplied together.</a></p>
-      </div>
-      <div style="margin-top: 4px; grid-column: 1 / span 2; border-top: 2px solid #658">
-        <button id="magicChallengeButton" style="display: inline-block; margin-top: 6px; background-color: #b9f; width: 225px" onclick="enterExitMagicChallenges()">Enter challenges</button>
-        <p id="activeChallenges" style="display: inline-block">You are not in any challenges!</p>
+        <p>HIGHEST SCORES:<br>1 challenge: <a id="magicScore1" style="color: #066">0</a><br>2 challenges: <a
+              id="magicScore2" style="color: #047">0</a><br>3 challenges: <a id="magicScore3"
+              style="color: #008">0</a><br>4 challenges: <a id="magicScore4" style="color: #508">0</a><br><br>You have
+            <a id="magifolds" style="font-weight: bold">1</a> (<a id="magicMult1">1</a> * <a id="magicMult2">1</a> * <a
+              id="magicMult3">1</a> * <a id="magicMult4">1</a>) <a style="color: #409">magic manifolds</a> (magifolds),
+            which give<br><a style="font-size: 16px; font-weight: bold">x</a><a id="magifoldEffect"
+              style="font-size: 16px; font-weight: bold">1.00</a><br>gold gain
+          </p>
+        </div>
+        <div
+          style="margin-top: 4px; grid-column: 1 / span 2; text-align: center; border-top: 2px solid #658; height: 110px">
+          <p style="font-size: 30px; margin-bottom: 0; margin-top: 8px; color: #008" id="magicChallengeTitle"></p>
+          <p style="font-size: 14px" id="magicChallengeInfo"><a style="color: #606">Hover over a challenge to see what
+              it does!</a><br><a style="color: #060">You can select up to 4 challenges, and you will earn separate
+              scores for each amount of challenges you enter at once (1, 2, 3 and 4).</a><a style="color: #046"> Bonuses
+              are based on the highest score achieved in each amount of challenges, multiplied together.</a></p>
+        </div>
+        <div style="margin-top: 4px; grid-column: 1 / span 2; border-top: 2px solid #658">
+          <button id="magicChallengeButton"
+            style="display: inline-block; margin-top: 6px; background-color: #b9f; width: 225px"
+            onclick="enterExitMagicChallenges()">Enter challenges</button>
+          <p id="activeChallenges" style="display: inline-block">You are not in any challenges!</p>
+        </div>
       </div>
     </div>
-  </div>
 
-  <!--Alchemy tab II-->
-  <div class="window box" style="width: 250px; height: 500px; display: none;">
-    <div class="title-bar">
-      <div class="title-bar-text">Alchemy II</div>
+    <!--Alchemy tab II-->
+    <div class="window box" style="width: 250px; height: 500px; display: none;">
+      <div class="title-bar">
+        <div class="title-bar-text">Alchemy II</div>
+      </div>
+      <div class="window-body">
+        <button id="uraniumConvertButton" onclick="uraniumConvert()">Convert all platinum into <a
+            id="uraniumToGet">0</a> uranium (<a id="uraniumConvertCooldown">0</a>)</button>
+        <p style="margin-top: 4px">You have <a id="uranium">0</a> uranium<br>You gain 1 free uranium per second (but
+          only 1)<br>Uranium upgrades are kept on magic resets.</p><br>
+        <button class="uraniumUpgrade" style="height: 46px" onclick="buyUraniumUpgrade(1)">Increase platinum gain by 20%
+          (multiplicative)<br>(<a class="uraniumUpgradesBought">0</a>/100)<br>Costs 100 uranium</button><br>
+        <button class="uraniumUpgrade" onclick="buyUraniumUpgrade(2)">Increase uranium gain by 10% (additive) (<a
+            class="uraniumUpgradesBought">0</a>/20)<br>Costs 300 uranium</button><br>
+        <button class="uraniumUpgrade" onclick="buyUraniumUpgrade(3)">Double score gain (<a
+            class="uraniumUpgradesBought">0</a>/5)<br>Costs 1,000 uranium</button><br>
+        <button class="uraniumUpgrade" onclick="buyUraniumUpgrade(4)" style="display: none">Platinum upgrade 6 is
+          boosted (<a class="uraniumUpgradesBought">0</a>/1)<br>Costs 10,000 uranium</button><br>
+        <button class="uraniumUpgrade" onclick="buyUraniumUpgrade(5)" style="display: none">Increase platinum gain
+          tenfold (<a class="uraniumUpgradesBought">0</a>/10)<br>Costs 50,000 uranium</button><br>
+        <button class="uraniumUpgrade" onclick="buyUraniumUpgrade(6)" style="height: 46px; display: none">Automatically
+          gain 100% of your potential magic<br>every second (<a class="uraniumUpgradesBought">0</a>/1)<br>Costs 100,000
+          uranium</button><br>
+        <button id="uraniumMaxAllButton" onclick="uraniumMaxAll()">Max all</button>
+      </div>
     </div>
-    <div class="window-body">
-      <button id="uraniumConvertButton" onclick="uraniumConvert()">Convert all platinum into <a id="uraniumToGet">0</a> uranium (<a id="uraniumConvertCooldown">0</a>)</button>
-      <p style="margin-top: 4px">You have <a id="uranium">0</a> uranium<br>You gain 1 free uranium per second (but only 1)<br>Uranium upgrades are kept on magic resets.</p><br>
-      <button class="uraniumUpgrade" style="height: 46px" onclick="buyUraniumUpgrade(1)">Increase platinum gain by 20% (multiplicative)<br>(<a class="uraniumUpgradesBought">0</a>/100)<br>Costs 100 uranium</button><br>
-      <button class="uraniumUpgrade" onclick="buyUraniumUpgrade(2)">Increase uranium gain by 10% (additive) (<a class="uraniumUpgradesBought">0</a>/20)<br>Costs 300 uranium</button><br>
-      <button class="uraniumUpgrade" onclick="buyUraniumUpgrade(3)">Double score gain (<a class="uraniumUpgradesBought">0</a>/5)<br>Costs 1,000 uranium</button><br>
-      <button class="uraniumUpgrade" onclick="buyUraniumUpgrade(4)" style="display: none">Platinum upgrade 6 is boosted (<a class="uraniumUpgradesBought">0</a>/1)<br>Costs 10,000 uranium</button><br>
-      <button class="uraniumUpgrade" onclick="buyUraniumUpgrade(5)" style="display: none">Increase platinum gain tenfold (<a class="uraniumUpgradesBought">0</a>/10)<br>Costs 50,000 uranium</button><br>
-      <button class="uraniumUpgrade" onclick="buyUraniumUpgrade(6)" style="height: 46px; display: none">Automatically gain 100% of your potential magic<br>every second (<a class="uraniumUpgradesBought">0</a>/1)<br>Costs 100,000 uranium</button><br>
-      <button id="uraniumMaxAllButton" onclick="uraniumMaxAll()">Max all</button>
-    </div>
-  </div>
 
-  <!--Dark magic upgrades tab-->
-  <div class="window box" style="width: 350px; height: 560px; background-color: #528; display: none;">
-    <div class="title-bar" style="background:linear-gradient(90deg,#408,#94d)">
-      <div class="title-bar-text">Dark magic upgrades</div>
+    <!--Dark magic upgrades tab-->
+    <div class="window box" style="width: 350px; height: 560px; background-color: #528; display: none;">
+      <div class="title-bar" style="background:linear-gradient(90deg,#408,#94d)">
+        <div class="title-bar-text">Dark magic upgrades</div>
+      </div>
+      <div class="window-body" style="display: grid; grid-template-columns: 1fr 1fr; justify-self: stretch;">
+        <button class="darkMagicUpgrade" onclick="buyDarkMagicUpgrade(1)">Score gain is increased by ^1.30<br>Costs
+          1.000e110 magic</button>
+        <button class="darkMagicUpgrade" onclick="buyDarkMagicUpgrade(2)">Uranium increases magic gain<br>Currently ^<a
+            id="darkMagicUpgrade2Effect">1.00</a><br>Costs 1.000e125 magic</button>
+        <button class="darkMagicUpgrade" onclick="buyDarkMagicUpgrade(3)">You gain 10x as much time spent with your
+          dragon<br>Costs 1.000e165 magic</button>
+        <button class="darkMagicUpgrade" onclick="buyDarkMagicUpgrade(4)">Magifold effect is boosted again to
+          (x^8)<br>Costs 1.000e240 magic</button>
+        <button class="darkMagicUpgrade" onclick="buyDarkMagicUpgrade(5)">Multiply uranium gain by 100<br>Costs
+          1.000e285 magic</button>
+        <button class="darkMagicUpgrade" onclick="buyDarkMagicUpgrade(6)">Fire upgrade 2 is boosted again<br>Costs
+          1.000e320 magic</button>
+        <button class="darkMagicUpgrade" onclick="buyDarkMagicUpgrade(7)">Score gain is doubled<br>Costs 1.000e360
+          magic</button>
+        <button class="darkMagicUpgrade" id="sigilMagicUpgrade" onclick="buyDarkMagicUpgrade(8)">Unlock
+          <b>Sigils</b><br>Costs 1.000e450 magic</button>
+        <button class="darkMagicUpgrade" style="display: none" onclick="buyDarkMagicUpgrade(9)">Unlock buy max for magic
+          upgrades<br>Costs 1.000e2,000 magic</button>
+        <button class="darkMagicUpgrade" style="display: none" onclick="buyDarkMagicUpgrade(10)">Automatically gain
+          score outside of challenges<br>Costs 1.000e2,750 magic</button>
+        <button class="darkMagicUpgrade" style="display: none" onclick="buyDarkMagicUpgrade(11)">Triple cyan and blue
+          sigil gain<br>Costs 1.000e3,500 magic</button>
+        <button class="darkMagicUpgrade" style="display: none" onclick="buyDarkMagicUpgrade(12)">Increase magic gain by
+          ^1.10<br>Costs 1.000e7,500 magic</button>
+      </div>
     </div>
-    <div class="window-body" style="display: grid; grid-template-columns: 1fr 1fr; justify-self: stretch;">
-      <button class="darkMagicUpgrade" onclick="buyDarkMagicUpgrade(1)">Score gain is increased by ^1.30<br>Costs 1.000e110 magic</button>
-      <button class="darkMagicUpgrade" onclick="buyDarkMagicUpgrade(2)">Uranium increases magic gain<br>Currently ^<a id="darkMagicUpgrade2Effect">1.00</a><br>Costs 1.000e125 magic</button>
-      <button class="darkMagicUpgrade" onclick="buyDarkMagicUpgrade(3)">You gain 10x as much time spent with your dragon<br>Costs 1.000e165 magic</button>
-      <button class="darkMagicUpgrade" onclick="buyDarkMagicUpgrade(4)">Magifold effect is boosted again to (x^8)<br>Costs 1.000e240 magic</button>
-      <button class="darkMagicUpgrade" onclick="buyDarkMagicUpgrade(5)">Multiply uranium gain by 100<br>Costs 1.000e285 magic</button>
-      <button class="darkMagicUpgrade" onclick="buyDarkMagicUpgrade(6)">Fire upgrade 2 is boosted again<br>Costs 1.000e320 magic</button>
-      <button class="darkMagicUpgrade" onclick="buyDarkMagicUpgrade(7)">Score gain is doubled<br>Costs 1.000e360 magic</button>
-      <button class="darkMagicUpgrade" id="sigilMagicUpgrade" onclick="buyDarkMagicUpgrade(8)">Unlock <b>Sigils</b><br>Costs 1.000e450 magic</button>
-      <button class="darkMagicUpgrade" style="display: none" onclick="buyDarkMagicUpgrade(9)">Unlock buy max for magic upgrades<br>Costs 1.000e2,000 magic</button>
-      <button class="darkMagicUpgrade" style="display: none" onclick="buyDarkMagicUpgrade(10)">Automatically gain score outside of challenges<br>Costs 1.000e2,750 magic</button>
-      <button class="darkMagicUpgrade" style="display: none" onclick="buyDarkMagicUpgrade(11)">Triple cyan and blue sigil gain<br>Costs 1.000e3,500 magic</button>
-      <button class="darkMagicUpgrade" style="display: none" onclick="buyDarkMagicUpgrade(12)">Increase magic gain by ^1.10<br>Costs 1.000e7,500 magic</button>
-    </div>
-  </div>
 
-  <!--Cyan sigils tab-->
-  <div class="window box" style="width: 350px; height: 350px; background-color: #666; display: none;">
-    <div class="title-bar" style="background:linear-gradient(90deg,#444,#06b)">
-      <div class="title-bar-text">Cyan sigils</div>
-    </div>
-    <div class="window-body">
-      <img src="img/iconSigil1.png" style="position: absolute; top: 26px; left: 4px; width: 64px"><br>
-      <div style="margin-left: 68px; width: 226px; height: 60px">
-        <p style="font-size: 16px; color: #8bf; text-shadow: 1px 1px #024; margin: 0; font-weight: bold">You have <a id="cyanSigils">0</a> cyan sigils</p>
-        <p style="color: #8bf; text-shadow: 1px 1px #024; margin-left: 0; margin-top: 6px">Multiplying magic and score gain by <a id="cyanSigilEffect">1</a></p>
+    <!--Cyan sigils tab-->
+    <div class="window box" style="width: 350px; height: 350px; background-color: #666; display: none;">
+      <div class="title-bar" style="background:linear-gradient(90deg,#444,#06b)">
+        <div class="title-bar-text">Cyan sigils</div>
       </div>
-      <button style="width: 342px; margin: 4px; background-color: #9bd; height: 32px; text-align: left" onclick="sigilCheck(1)">Reset all previous progress for <a id="cyanSigilsToGet">0</a> cyan sigils<br>Next at <a id="nextCyanSigil">1.000e3,000</a> gold</button>
-      <p style="text-align: center; margin: 0; color: #ccc">Sigil resets erase almost all upgrades and resources, but you keep unlocks<br>&#8202;&#8202;(and your dragon, because it's linked to your soul)</p>
-      <p style="text-align: center; margin: 0; margin-top: 6px; color: #8bf">You have <a id="cyanSigilPower">0.00</a> cyan sigil power (CSP) (<a id="cyanSigilPowerPerSecond">0.00</a>/s)</p>
-      <div style="width: 348px; position: absolute; bottom: 4px; left: 4px; display: grid; grid-template-columns: 1fr 1fr; justify-self: stretch">
-        <button class="cyanSigilUpgrade" onclick="buyCyanSigilUpgrade(1)">Increase CSP gain<br>Currently x<a id="cyanSigilUpgrade1Effect">1.00</a><br>Costs <a id="cyanSigilUpgrade1Cost">1</a> CSP</button>
-        <button class="cyanSigilUpgrade" onclick="buyCyanSigilUpgrade(2)">Increase uranium gain<br>Currently x<a id="cyanSigilUpgrade2Effect">1.00</a><br>Costs <a id="cyanSigilUpgrade2Cost">20</a> CSP</button>
-        <button class="cyanSigilUpgrade" onclick="buyCyanSigilUpgrade(3)">Increase gold per second<br>Currently ^<a id="cyanSigilUpgrade3Effect">1.00</a><br>Costs <a id="cyanSigilUpgrade3Cost">500</a> CSP</button>
-        <button class="cyanSigilUpgrade" onclick="buyCyanSigilUpgrade(4)">Automatically spend time with your dragon when possible<br>Costs 2,500 CSP</button>
-        <button class="cyanSigilUpgrade" onclick="buyCyanSigilUpgrade(5)">Unlock max all for uranium upgrades<br>Costs 10,000 CSP</button>
-        <button class="cyanSigilUpgrade" onclick="buyCyanSigilUpgrade(6)">Unlock <a style="color: #66f">blue sigils</a><br>Costs 33,333 CSP</button>
+      <div class="window-body">
+        <img src="img/iconSigil1.png" style="position: absolute; top: 26px; left: 4px; width: 64px"><br>
+        <div style="margin-left: 68px; width: 226px; height: 60px">
+          <p style="font-size: 16px; color: #8bf; text-shadow: 1px 1px #024; margin: 0; font-weight: bold">You have <a
+              id="cyanSigils">0</a> cyan sigils</p>
+          <p style="color: #8bf; text-shadow: 1px 1px #024; margin-left: 0; margin-top: 6px">Multiplying magic and score
+            gain by <a id="cyanSigilEffect">1</a></p>
+        </div>
+        <button style="width: 342px; margin: 4px; background-color: #9bd; height: 32px; text-align: left"
+          onclick="sigilCheck(1)">Reset all previous progress for <a id="cyanSigilsToGet">0</a> cyan sigils<br>Next at
+          <a id="nextCyanSigil">1.000e3,000</a> gold</button>
+        <p style="text-align: center; margin: 0; color: #ccc">Sigil resets erase almost all upgrades and resources, but
+          you keep unlocks<br>&#8202;&#8202;(and your dragon, because it's linked to your soul)</p>
+        <p style="text-align: center; margin: 0; margin-top: 6px; color: #8bf">You have <a id="cyanSigilPower">0.00</a>
+          cyan sigil power (CSP) (<a id="cyanSigilPowerPerSecond">0.00</a>/s)</p>
+        <div
+          style="width: 348px; position: absolute; bottom: 4px; left: 4px; display: grid; grid-template-columns: 1fr 1fr; justify-self: stretch">
+          <button class="cyanSigilUpgrade" onclick="buyCyanSigilUpgrade(1)">Increase CSP gain<br>Currently x<a
+              id="cyanSigilUpgrade1Effect">1.00</a><br>Costs <a id="cyanSigilUpgrade1Cost">1</a> CSP</button>
+          <button class="cyanSigilUpgrade" onclick="buyCyanSigilUpgrade(2)">Increase uranium gain<br>Currently x<a
+              id="cyanSigilUpgrade2Effect">1.00</a><br>Costs <a id="cyanSigilUpgrade2Cost">20</a> CSP</button>
+          <button class="cyanSigilUpgrade" onclick="buyCyanSigilUpgrade(3)">Increase gold per second<br>Currently ^<a
+              id="cyanSigilUpgrade3Effect">1.00</a><br>Costs <a id="cyanSigilUpgrade3Cost">500</a> CSP</button>
+          <button class="cyanSigilUpgrade" onclick="buyCyanSigilUpgrade(4)">Automatically spend time with your dragon
+            when possible<br>Costs 2,500 CSP</button>
+          <button class="cyanSigilUpgrade" onclick="buyCyanSigilUpgrade(5)">Unlock max all for uranium upgrades<br>Costs
+            10,000 CSP</button>
+          <button class="cyanSigilUpgrade" onclick="buyCyanSigilUpgrade(6)">Unlock <a style="color: #66f">blue
+              Sigils</a><br>Costs 33,333 CSP</button>
+        </div>
       </div>
     </div>
-  </div>
 
-  <!--Blue sigils tab-->
-  <div class="window box" style="width: 350px; height: 350px; background-color: #666; display: none;">
-    <div class="title-bar" style="background:linear-gradient(90deg,#444,#00b)">
-      <div class="title-bar-text">Blue sigils</div>
-    </div>
-    <div class="window-body">
-      <img src="img/iconSigil2.png" style="position: absolute; top: 26px; left: 8px; width: 64px"><br>
-      <div style="margin-left: 76px; width: 218px; height: 60px">
-        <p style="font-size: 16px; color: #aaf; text-shadow: 1px 1px #114; margin: 0; font-weight: bold">You have <a id="blueSigils">0</a> blue sigils</p>
-        <p style="color: #aaf; text-shadow: 1px 1px #114; margin-left: 0; margin-top: 6px">Multiplying magic and score gain by <a id="blueSigilEffect">1</a></p>
+    <!--Blue sigils tab-->
+    <div class="window box" style="width: 350px; height: 350px; background-color: #666; display: none;">
+      <div class="title-bar" style="background:linear-gradient(90deg,#444,#00b)">
+        <div class="title-bar-text">Blue sigils</div>
       </div>
-      <button style="width: 342px; margin: 4px; background-color: #aad; height: 32px; text-align: left" onclick="sigilCheck(2)">Reset all previous progress for <a id="blueSigilsToGet">0</a> blue sigils<br>Next at <a id="nextBlueSigil">1.000e8,000</a> gold</button>
-      <p style="text-align: center; margin: 0; color: #ccc">&#8202;&#8202;(Sigil resets don't erase your other sigils or sigil upgrades)</p>
-      <p style="text-align: center; margin: 0; margin-top: 6px; color: #aaf">You have <a id="blueSigilPower">0.00</a> blue sigil power (BSP) (<a id="blueSigilPowerPerSecond">0.00</a>/s)</p>
-      <div style="width: 348px; position: absolute; bottom: 4px; left: 4px; display: grid; grid-template-columns: 1fr 1fr; justify-self: stretch">
-        <button class="blueSigilUpgrade" onclick="buyBlueSigilUpgrade(1)">Increase BSP gain<br>Currently x<a id="blueSigilUpgrade1Effect">1.00</a><br>Costs <a id="blueSigilUpgrade1Cost">1</a> BSP</button>
-        <button class="blueSigilUpgrade" onclick="buyBlueSigilUpgrade(2)">Increase platinum gain<br>Currently x<a id="blueSigilUpgrade2Effect">1.00</a><br>Costs <a id="blueSigilUpgrade2Cost">20</a> BSP</button>
-        <button class="blueSigilUpgrade" onclick="buyBlueSigilUpgrade(3)">Cyan sigil requirement is lower (<a id="blueSigilUpgrade3Bought">0</a>/10)<br>Costs <a id="blueSigilUpgrade3Cost">100</a> BSP</button>
-        <button class="blueSigilUpgrade" onclick="buyBlueSigilUpgrade(4)">Feeding your dragon no longer resets your score<br>Costs <a id="blueSigilUpgrade4Cost">750</a> BSP</button>
-        <button class="blueSigilUpgrade" onclick="buyBlueSigilUpgrade(5)">Unlock auto max all for fire upgrades<br>Costs <a id="blueSigilUpgrade5Cost">2,000</a> BSP</button>
-        <button class="blueSigilUpgrade" onclick="buyBlueSigilUpgrade(6)">Unlock <a style="color: #84f">Indigo sigils</a><br>Costs <a id="blueSigilUpgrade6Cost">10,000</a> BSP</button>
+      <div class="window-body">
+        <img src="img/iconSigil2.png" style="position: absolute; top: 26px; left: 8px; width: 64px"><br>
+        <div style="margin-left: 76px; width: 218px; height: 60px">
+          <p style="font-size: 16px; color: #aaf; text-shadow: 1px 1px #114; margin: 0; font-weight: bold">You have <a
+              id="blueSigils">0</a> blue sigils</p>
+          <p style="color: #aaf; text-shadow: 1px 1px #114; margin-left: 0; margin-top: 6px">Multiplying magic and score
+            gain by <a id="blueSigilEffect">1</a></p>
+        </div>
+        <button style="width: 342px; margin: 4px; background-color: #aad; height: 32px; text-align: left"
+          onclick="sigilCheck(2)">Reset all previous progress for <a id="blueSigilsToGet">0</a> blue sigils<br>Next at
+          <a id="nextBlueSigil">1.000e8,000</a> gold</button>
+        <p style="text-align: center; margin: 0; color: #ccc">&#8202;&#8202;(Sigil resets don't erase your other sigils
+          or sigil upgrades)</p>
+        <p style="text-align: center; margin: 0; margin-top: 6px; color: #aaf">You have <a id="blueSigilPower">0.00</a>
+          blue sigil power (BSP) (<a id="blueSigilPowerPerSecond">0.00</a>/s)</p>
+        <div
+          style="width: 348px; position: absolute; bottom: 4px; left: 4px; display: grid; grid-template-columns: 1fr 1fr; justify-self: stretch">
+          <button class="blueSigilUpgrade" onclick="buyBlueSigilUpgrade(1)">Increase BSP gain<br>Currently x<a
+              id="blueSigilUpgrade1Effect">1.00</a><br>Costs <a id="blueSigilUpgrade1Cost">1</a> BSP</button>
+          <button class="blueSigilUpgrade" onclick="buyBlueSigilUpgrade(2)">Increase platinum gain<br>Currently x<a
+              id="blueSigilUpgrade2Effect">1.00</a><br>Costs <a id="blueSigilUpgrade2Cost">20</a> BSP</button>
+          <button class="blueSigilUpgrade" onclick="buyBlueSigilUpgrade(3)">Cyan sigil requirement is lower (<a
+              id="blueSigilUpgrade3Bought">0</a>/10)<br>Costs <a id="blueSigilUpgrade3Cost">100</a> BSP</button>
+          <button class="blueSigilUpgrade" onclick="buyBlueSigilUpgrade(4)">Feeding your dragon no longer resets your
+            score<br>Costs 750 BSP</button>
+          <button class="blueSigilUpgrade" onclick="buyBlueSigilUpgrade(5)">Unlock auto max all for fire
+            upgrades<br>Costs 2,000 BSP</button>
+          <button class="blueSigilUpgrade" onclick="buyBlueSigilUpgrade(6)">Unlock <a style="color: #84f">Indigo
+              Sigils</a><br>Costs 10,000 BSP</button>
+        </div>
       </div>
     </div>
-  </div>
 
-  <!--Indigo sigils tab-->
-  <div class="window box" style="width: 350px; height: 350px; background-color: #666; display: none;">
-    <div class="title-bar" style="background:linear-gradient(90deg,#444,#40b)">
-      <div class="title-bar-text">Indigo sigils</div>
-    </div>
-    <div class="window-body">
-      <img src="img/iconSigil3.png" style="position: absolute; top: 26px; left: 8px; width: 64px"><br>
-      <div style="margin-left: 76px; width: 218px; height: 60px">
-        <p style="font-size: 16px; color: #baf; text-shadow: 1px 1px #114; margin: 0; font-weight: bold">You have <a id="indigoSigils">0</a> indigo sigils</p>
-        <p style="color: #baf; text-shadow: 1px 1px #114; margin-left: 0; margin-top: 6px">Multiplying magic and score gain by <a id="indigoSigilEffect">1</a></p>
+    <!--Indigo sigils tab-->
+    <div class="window box" style="width: 350px; height: 350px; background-color: #666; display: none;">
+      <div class="title-bar" style="background:linear-gradient(90deg,#444,#40b)">
+        <div class="title-bar-text">Indigo sigils</div>
       </div>
-      <button style="width: 342px; margin: 4px; background-color: #aaa0d0; height: 32px; text-align: left" onclick="sigilCheck(3)">Reset all previous progress for <a id="indigoSigilsToGet">0</a> indigo sigils<br>Next at <a id="nextIndigoSigil">1.000e17,500</a> gold</button>
-      <p style="text-align: center; margin: 0; margin-top: 6px; color: #baf">You have <a id="indigoSigilPower">0.00</a> indigo sigil power (ISP) (<a id="indigoSigilPowerPerSecond">0.00</a>/s)</p>
-      <div style="width: 348px; position: absolute; bottom: 4px; left: 4px; display: grid; grid-template-columns: 1fr 1fr; justify-self: stretch">
-        <button class="indigoSigilUpgrade" onclick="buyIndigoSigilUpgrade(1)">Increase ISP gain<br>Currently x<a id="indigoSigilUpgrade1Effect">1.00</a><br>Costs <a id="indigoSigilUpgrade1Cost">1</a> ISP</button>
-        <button class="indigoSigilUpgrade" onclick="buyIndigoSigilUpgrade(2)">Increase CSP gain again<br>Currently ^<a id="indigoSigilUpgrade2Effect">1.00</a><br>Costs <a id="indigoSigilUpgrade2Cost">20</a> ISP</button>
-        <button class="indigoSigilUpgrade" onclick="buyIndigoSigilUpgrade(3)">Increase score gain<br>Currently ^<a id="indigoSigilUpgrade3Effect">1.00</a><br>Costs <a id="indigoSigilUpgrade3Cost">100</a> ISP</button>
-        <button class="indigoSigilUpgrade" onclick="buyIndigoSigilUpgrade(4)">Gain more time with your dragon<br>Currently x<a id="indigoSigilUpgrade4Effect">1.00</a><br>Costs <a id="indigoSigilUpgrade4Cost">400</a> ISP</button>
-        <button class="indigoSigilUpgrade" onclick="buyIndigoSigilUpgrade(5)">Unlock 4 new dark magic upgrades (kept on sigil reset)<br>Costs <a id="indigoSigilUpgrade5Cost">1,250</a> ISP</button>
+      <div class="window-body">
+        <img src="img/iconSigil3.png" style="position: absolute; top: 26px; left: 8px; width: 64px"><br>
+        <div style="margin-left: 76px; width: 218px; height: 60px">
+          <p style="font-size: 16px; color: #baf; text-shadow: 1px 1px #114; margin: 0; font-weight: bold">You have <a
+              id="indigoSigils">0</a> indigo sigils</p>
+          <p style="color: #baf; text-shadow: 1px 1px #214; margin-left: 0; margin-top: 6px">Multiplying magic and score
+            gain by <a id="indigoSigilEffect">1</a></p>
+        </div>
+        <button style="width: 342px; margin: 4px; background-color: #a9d; height: 32px; text-align: left"
+          onclick="sigilCheck(3)">Reset all previous progress for <a id="indigoSigilsToGet">0</a> indigo sigils<br>Next
+          at <a id="nextIndigoSigil">1.000e17,500</a> gold</button>
+        <p style="text-align: center; margin: 0; margin-top: 6px; color: #baf">You have <a
+            id="indigoSigilPower">0.00</a> indigo sigil power (ISP) (<a id="indigoSigilPowerPerSecond">0.00</a>/s)</p>
+        <div
+          style="width: 348px; position: absolute; bottom: 4px; left: 4px; display: grid; grid-template-columns: 1fr 1fr; justify-self: stretch">
+          <button class="indigoSigilUpgrade" onclick="buyIndigoSigilUpgrade(1)">Increase ISP gain<br>Currently x<a
+              id="indigoSigilUpgrade1Effect">1.00</a><br>Costs <a id="indigoSigilUpgrade1Cost">1</a> ISP</button>
+          <button class="indigoSigilUpgrade" onclick="buyIndigoSigilUpgrade(2)">Increase CSP gain again<br>Currently ^<a
+              id="indigoSigilUpgrade2Effect">1.00</a><br>Costs <a id="indigoSigilUpgrade2Cost">20</a> ISP</button>
+          <button class="indigoSigilUpgrade" onclick="buyIndigoSigilUpgrade(3)">Increase score gain<br>Currently ^<a
+              id="indigoSigilUpgrade3Effect">1.00</a><br>Costs <a id="indigoSigilUpgrade3Cost">100</a> ISP</button>
+          <button class="indigoSigilUpgrade" onclick="buyIndigoSigilUpgrade(4)">Gain more time with your
+            dragon<br>Currently x<a id="indigoSigilUpgrade4Effect">1.00</a><br>Costs <a
+              id="indigoSigilUpgrade4Cost">400</a> ISP</button>
+          <button class="indigoSigilUpgrade" onclick="buyIndigoSigilUpgrade(5)">Unlock 4 new dark magic upgrades (kept
+            on sigil reset)<br>Costs 1,250 ISP</button>
+          <button class="indigoSigilUpgrade" onclick="buyIndigoSigilUpgrade(6)">Unlock <a style="color: #b2f">Violet
+              Sigils</a><br>Costs 25,000 ISP</button>
+        </div>
       </div>
     </div>
-  </div>
-  
-  <img src="img/homeIcon.png" id="home" onclick="posHome()">
-  <div id="mobileCover"><p style="color: white; font-size: 24px; margin-left: 4px">It looks like you're on a mobile device! Since I haven't yet figured out how to make the game work properly on mobile, it's disabled for now. Sorry...<br><br>If you aren't on a mobile device and are seeing this, please let me know on discord!</p></div>
 
-  <script src="break_eternity.js"></script>
-  <script src="script.js"></script>
-  <script src="render.js"></script>
+    <!--Violet sigils tab-->
+    <div class="window box" style="width: 350px; height: 350px; background-color: #666; display: none;">
+      <div class="title-bar" style="background:linear-gradient(90deg,#444,#60b)">
+        <div class="title-bar-text">Violet sigils</div>
+      </div>
+      <div class="window-body">
+        <img src="img/iconSigil4.png" style="position: absolute; top: 26px; left: 8px; width: 64px"><br>
+        <div style="margin-left: 76px; width: 218px; height: 60px">
+          <p style="font-size: 16px; color: #b8f; text-shadow: 1px 1px #114; margin: 0; font-weight: bold">You have <a id="violetSigils">0</a> violet sigils</p>
+          <p style="color: #b8f; text-shadow: 1px 1px #204; margin-left: 0; margin-top: 6px">Multiplying magic and score gain by <a id="violetSigilEffect">1</a></p>
+        </div>
+        <button style="width: 342px; margin: 4px; background-color: #b9d; height: 32px; text-align: left" onclick="sigilCheck(4)">Reset all previous progress for <a id="violetSigilsToGet">0</a> violet sigils<br>Next at <a id="nextVioletSigil">1.000e150,000</a> gold</button>
+        <p style="text-align: center; margin: 0; margin-top: 6px; color: #b8f">You have <a id="violetSigilPower">0.00</a> violet sigil power (VSP) (<a id="violetSigilPowerPerSecond">0.00</a>/s)</p>
+        <div
+          style="width: 348px; position: absolute; bottom: 4px; left: 4px; display: grid; grid-template-columns: 1fr 1fr; justify-self: stretch">
+          <button class="violetSigilUpgrade" onclick="buyVioletSigilUpgrade(1)">Increase VSP gain<br>Currently x<a id="violetSigilUpgrade1Effect">1.00</a><br>Costs <a id="violetSigilUpgrade1Cost">1</a> VSP</button>
+          <button class="violetSigilUpgrade" onclick="buyVioletSigilUpgrade(2)">Increase BSP gain again<br>Currently ^<a id="violetSigilUpgrade2Effect">1.00</a><br>Costs <a id="violetSigilUpgrade2Cost">5</a> VSP</button>
+          <button class="violetSigilUpgrade" onclick="buyVioletSigilUpgrade(3)">Unlock the abiliy to pet your dragon<br>Costs 50 VSP</button>
+          <button class="violetSigilUpgrade" onclick="buyVioletSigilUpgrade(4)">Unlock auto buy max for miners (and keep 1 miner on reset)<br>Costs 1,000 VSP</button>
+          <button class="violetSigilUpgrade" onclick="buyVioletSigilUpgrade(5)">Magifold effect is boosted again<br>Costs 5,000 VSP</button>
+        </div>
+      </div>
+    </div>
+
+    <img src="img/homeIcon.png" id="home" class="clickButton" onclick="posHome()">
+    <div id="navArrows">
+      <img src="img/arrowUp.png" id="arrowUp" class="clickButton">
+      <img src="img/arrowDown.png" id="arrowDown" class="clickButton">
+      <img src="img/arrowLeft.png" id="arrowLeft" class="clickButton">
+      <img src="img/arrowRight.png" id="arrowRight" class="clickButton">
+    </div>
+
+    <script src="break_eternity.js"></script>
+    <script src="constants.js"></script>
+    <script src="script.js"></script>
+    <script src="gold.js"></script>
+    <script src="dragon.js"></script>
+    <script src="fire.js"></script>
+    <script src="alchemy.js"></script>
+    <script src="magic.js"></script>
+    <script src="magicChallenges.js"></script>
+    <script src="sigils.js"></script>
+    <script src="render.js"></script>
 <!--客服 开始-->
-<script src="//g8hh.com/static/js/jquery.min.js"></script>
-<link rel="stylesheet" href="//g8hh.com/static/css/kf.css" type="text/css" media="screen" charset="utf-8">
-<script src="//g8hh.com/static/js/kf.js"></script>
+<script src="//g8hh.github.io/static/js/jquery.min.js"></script>
+<link rel="stylesheet" href="//g8hh.github.io/static/css/kf.css" type="text/css" media="screen" charset="utf-8">
+<script src="//g8hh.github.io/static/js/kf.js"></script>
 <!-- 客服 结束 -->
-<!--站长统计-->
+<!--站长统计--> 
 <div style="display: none">
     <script>
-    var _hmt = _hmt || [];
-    (function() {
-      var hm = document.createElement("script");
-      hm.src = "https://hm.baidu.com/hm.js?dbb7ff142f4d4b68546c93b9cd6e9328";
-      var s = document.getElementsByTagName("script")[0]; 
-      s.parentNode.insertBefore(hm, s);
-    })();
-    </script>
-        </div>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?028b1b5f659ed138230f4cafd7ad0dfc";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+    </div>
 </body>
 
 </html>

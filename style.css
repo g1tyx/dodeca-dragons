@@ -94,6 +94,35 @@ img {
   display: none;
 }
 
+.clickButton {
+  color: white;
+  position: absolute;
+  width: 64px;
+  cursor: pointer;
+  pointer-events: auto;
+  image-rendering: pixelated;
+  bottom: 5px;
+}
+
+#home {
+  right: 8px;
+}
+#arrowRight {
+  right: 80px;
+}
+#arrowLeft {
+  right: 152px;
+}
+#arrowDown {
+  right: 224px;
+}
+#arrowUp {
+  right: 296px;
+}
+#navArrows {
+  display:none;
+}
+
 .confirmationToggle {
   width: 16px;
   height: 16px;
@@ -201,17 +230,6 @@ img {
   cursor: pointer;
 }
 
-#home {
-  color: white;
-  position: absolute;
-  bottom: 5px;
-  right: 5px;
-  width: 50px;
-  cursor: pointer;
-  pointer-events: auto;
-  image-rendering: pixelated;
-}
-
 #uraniumConvertButton {
   width: 242px;
   margin-top: 5px;
@@ -243,6 +261,12 @@ img {
   text-align: left;
   height: 46px;
   background-color: #fdb;
+}
+
+#dragonPetButton {
+  text-align: left;
+  height: 46px;
+  background-color: #fbd;
 }
 
 .darkMagicUpgrade {
@@ -308,4 +332,17 @@ img {
 .indigoSigilUpgrade:disabled {
   color: #76a;
   text-shadow: 1px 1px 0 #548;
+}
+
+.violetSigilUpgrade {
+  height: 46px;
+  margin: 5px 2px 0 2px;
+  background-color: #444;
+  color: #a5f;
+  text-align: left;
+}
+
+.violetSigilUpgrade:disabled {
+  color: #85b;
+  text-shadow: 1px 1px 0 #537;
 }
