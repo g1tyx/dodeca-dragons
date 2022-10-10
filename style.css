@@ -346,3 +346,16 @@ img {
   color: #85b;
   text-shadow: 1px 1px 0 #537;
 }
+
+.pinkSigilUpgrade {
+  height: 46px;
+  margin: 5px 2px 0 2px;
+  background-color: #444;
+  color: #d4d;
+  text-align: left;
+}
+
+.pinkSigilUpgrade:disabled {
+  color: #949;
+  text-shadow: 1px 1px 0 #626;
+}

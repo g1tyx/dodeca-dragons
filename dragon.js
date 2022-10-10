@@ -134,4 +134,10 @@ function dragonPet() {
     document.getElementById("dragonPets").innerHTML = game.dragonPets
     document.getElementById("dragonPetEffect").innerHTML = format(new Decimal(5).pow(game.dragonPets ** 0.5), 2)
   }
+  else if (game.dragonPets == 4 && game.pinkSigils.gte(1000)) {
+    game.pinkSigils = game.pinkSigils.sub(1000)
+    game.dragonPets++
+    document.getElementById("dragonPetButton").disabled = true
+    document.getElementById("dragonPetEffect").innerHTML = format(new Decimal(5).pow(game.dragonPets ** 0.5), 2)
+  }
 }

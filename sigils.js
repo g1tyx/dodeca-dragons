@@ -1,19 +1,19 @@
 //Confirmation popups for magic resets
 function sigilCheck(x) {
   if (x==1 && game.cyanSigilsToGet.eq(0)) {
-    if (confirm("哇，等一下！ 你不会获得任何印记！ 您确定要执行印记重置吗？")) sigilReset(x)
+    if (confirm("Woah, hold on! You won't gain any sigils! Are you sure you want to perform a sigil reset?")) sigilReset(x)
   }
   else if (x==2 && game.blueSigilsToGet.eq(0)) {
-    if (confirm("哇，等一下！ 你不会获得任何印记！ 您确定要执行印记重置吗？")) sigilReset(x)
+    if (confirm("Woah, hold on! You won't gain any sigils! Are you sure you want to perform a sigil reset?")) sigilReset(x)
   }
   else if (x==3 && game.indigoSigilsToGet.eq(0)) {
-    if (confirm("哇，等一下！ 你不会获得任何印记！ 您确定要执行印记重置吗？")) sigilReset(x)
+    if (confirm("Woah, hold on! You won't gain any sigils! Are you sure you want to perform a sigil reset?")) sigilReset(x)
   }
   else if (x==4 && game.violetSigilsToGet.eq(0)) {
-    if (confirm("哇，等一下！ 你不会获得任何印记！ 您确定要执行印记重置吗？")) sigilReset(x)
+    if (confirm("Woah, hold on! You won't gain any sigils! Are you sure you want to perform a sigil reset?")) sigilReset(x)
   }
   else if (game.confirmations[1]) {
-    if (confirm("您确定要执行印记重置吗？")) sigilReset(x)
+    if (confirm("Are you sure you want to perform a sigil reset?")) sigilReset(x)
   }
   else {sigilReset(x)}
 }
@@ -24,20 +24,25 @@ function sigilReset(x) {
     case 2: game.blueSigils = game.blueSigils.add(game.blueSigilsToGet); break
     case 3: game.indigoSigils = game.indigoSigils.add(game.indigoSigilsToGet); break
     case 4: game.violetSigils = game.violetSigils.add(game.violetSigilsToGet); break
+    case 5: game.pinkSigils = game.pinkSigils.add(game.pinkSigilsToGet); break
   }
   magicReset()
-  for (i=0;i<9;i++) {
-    if (i!=2) {
-      game.platinumUpgradesBought[i] = 0
-      document.getElementsByClassName("platinumUpgradesBought")[i].innerHTML = "0"
-      document.getElementsByClassName("platinumUpgrade")[i].disabled = false
+  if (!game.pinkSigilUpgradesBought[3]) {
+    for (i=0;i<9;i++) {
+      if (i!=2) {
+        game.platinumUpgradesBought[i] = 0
+        document.getElementsByClassName("platinumUpgradesBought")[i].innerHTML = "0"
+        document.getElementsByClassName("platinumUpgrade")[i].disabled = false
+      }
     }
+    document.getElementsByClassName("platinumUpgradesBought")[2].innerHTML = "1"
   }
-  document.getElementsByClassName("platinumUpgradesBought")[2].innerHTML = "1"
-  for (i=0;i<6;i++) {
-    game.uraniumUpgradesBought[i] = 0
-    document.getElementsByClassName("uraniumUpgradesBought")[i].innerHTML = "0"
-    document.getElementsByClassName("uraniumUpgrade")[i].disabled = false
+  if (!game.pinkSigilUpgradesBought[4]) {
+    for (i=0;i<6;i++) {
+      game.uraniumUpgradesBought[i] = 0
+      document.getElementsByClassName("uraniumUpgradesBought")[i].innerHTML = "0"
+      document.getElementsByClassName("uraniumUpgrade")[i].disabled = false
+    }
   }
   
   game.magic = new Decimal(0)
@@ -75,12 +80,14 @@ function sigilReset(x) {
   document.getElementById("dragonTimeEffectCap").innerHTML = ""
   document.getElementById("dragonTimeEffect").innerHTML = format(game.dragonTimeEffect, 3)
 
-  game.dragonFood = new Decimal(0)
-  game.dragonFeedCost = new Decimal(10).pow(new Decimal(2).pow(game.dragonFood).mul(8).round())
-  document.getElementById("dragonFeedCost").innerHTML = format(game.dragonFeedCost, 0)
-  document.getElementById("dragonFood").innerHTML = format(game.dragonFood, 0)
-  document.getElementById("dragonFoodEffect").innerHTML = format(new Decimal(1.3).pow(game.dragonFood), 3)
-
+  if (!game.pinkSigilUpgradesBought[1]) {
+    game.dragonFood = new Decimal(0)
+    game.dragonFeedCost = new Decimal(10).pow(new Decimal(2).pow(game.dragonFood).mul(8).round())
+    document.getElementById("dragonFeedCost").innerHTML = format(game.dragonFeedCost, 0)
+    document.getElementById("dragonFood").innerHTML = format(game.dragonFood, 0)
+    document.getElementById("dragonFoodEffect").innerHTML = format(new Decimal(1.3).pow(game.dragonFood), 3)
+  }
+  
   updateSmall()
 }
 
@@ -252,5 +259,44 @@ function buyVioletSigilUpgrade(x) {
     game.violetSigilPower = game.violetSigilPower.sub(5000)
     game.violetSigilUpgrade5Bought = new Decimal(1)
     document.getElementsByClassName("violetSigilUpgrade")[4].disabled = true
+  }
+  else if (x==6 && game.violetSigilPower.gte(1e7)) {
+    game.violetSigilPower = game.violetSigilPower.sub(1e7)
+    game.violetSigilUpgrade6Bought = new Decimal(1)
+    document.getElementsByClassName("violetSigilUpgrade")[5].disabled = true
+    document.getElementsByClassName("box")[16].style.display = "block"
+    document.getElementsByClassName("resourceRow")[11].style.display = "block"
+    game.unlocks++
+  }
+}
+
+//This could definitely be shortened!
+function buyPinkSigilUpgrade(x) {
+  //For each upgrade (if affordable): subtracts pink sigil power based on cost, adds 1 to the upgrade amount bought, updates the cost
+  if (x==1 && game.pinkSigilPower.gte(100)) {
+    game.pinkSigilPower = game.pinkSigilPower.sub(100)
+    game.pinkSigilUpgradesBought[0] = 1
+    document.getElementsByClassName("pinkSigilUpgrade")[0].disabled = true
+  }
+  else if (x==2 && game.pinkSigilPower.gte(10000)) {
+    game.pinkSigilPower = game.pinkSigilPower.sub(10000)
+    game.pinkSigilUpgradesBought[1] = 1
+    document.getElementsByClassName("pinkSigilUpgrade")[1].disabled = true
+  }
+  else if (x==3 && game.pinkSigilPower.gte(150000)) {
+    game.pinkSigilPower = game.pinkSigilPower.sub(150000)
+    game.pinkSigilUpgradesBought[2] = 1
+    document.getElementsByClassName("pinkSigilUpgrade")[2].disabled = true
+    document.getElementById("darkMagicUpgradeBuyMaxButton").style.display = "block"
+  }
+  else if (x==4 && game.pinkSigilPower.gte(300000)) {
+    game.pinkSigilPower = game.pinkSigilPower.sub(300000)
+    game.pinkSigilUpgradesBought[3] = 1
+    document.getElementsByClassName("pinkSigilUpgrade")[3].disabled = true
+  }
+  else if (x==5 && game.pinkSigilPower.gte(500000)) {
+    game.pinkSigilPower = game.pinkSigilPower.sub(500000)
+    game.pinkSigilUpgradesBought[4] = 1
+    document.getElementsByClassName("pinkSigilUpgrade")[4].disabled = true
   }
 }

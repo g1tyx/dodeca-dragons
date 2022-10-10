@@ -75,6 +75,7 @@ function buyFireUpgrade(x) {
   }
 }
 
+/*
 function fireBuyMax(x) {
   //Determines the maximum upgrades buyable, subtracts fire based on cost, adds to the upgrade amount bought, updates the cost
   switch(x) {
@@ -131,8 +132,41 @@ function fireBuyMax(x) {
       break
   }
 }
+*/
+
+function fireBuyMax(x) {
+  let amtToSpend = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : game.fire; //provide an optional second argument for amount to spend
+  let costString = 'fireUpgrade' + x + 'Cost'; //string identifying the property for this upgrade's cost
+  let boughtString = 'fireUpgrade' + x + 'Bought'; //string identifying the property for how many times this upgrade has been bought
+  let amtToBuy = Decimal.affordGeometricSeries(amtToSpend, fireUpgradeInitialCosts[x], fireUpgradeBase[x], game[boughtString]); //calculate how many we can afford
+  let costToBuy = Decimal.sumGeometricSeries(amtToBuy, fireUpgradeInitialCosts[x], fireUpgradeBase[x], game[boughtString]); //determine total cost
+  game.fire = game.fire.sub(costToBuy);
+  game[boughtString] = game[boughtString].add(amtToBuy);
+  game[costString] = new Decimal(fireUpgradeBase[x]).pow(game[boughtString]).mul(fireUpgradeInitialCosts[x]).floor(); //update cost to reflect new count
+  document.getElementById(costString).innerHTML = format(game[costString], 0);
+  switch (x) {
+    case 1:
+      //the effect of upgrade 1 depends on whether magic upgrade 13 has been purchased
+      let upg1eff = game.magicUpgradesBought[13] ? new Decimal(3.5).pow(game.fireUpgrade1Bought.pow(0.7)) : new Decimal(2).pow(game.fireUpgrade1Bought.pow(0.6));
+      document.getElementById("fireUpgrade1Effect").innerHTML = format(upg1eff, 2)
+      break;
+    case 6:
+      document.getElementById("fireUpgrade6Effect").innerHTML = format(new Decimal(3).pow(game.fireUpgrade6Bought.pow(0.6)), 2)
+      break;
+  }
+}
 
 function fireMaxAll() {
+
+  if (game.platinumUpgradesBought[2]) {
+    for(let i = 1; i<7; i++) {
+      fireBuyMax(i, game.fire.div(6).floor())
+    }
+  } else {
+    for(let i = 1; i<6; i++) {
+      fireBuyMax(i, game.fire.div(5).floor())
+    }
+  }
   //For each upgrade in order (if affordable): determines the maximum upgrades buyable, subtracts fire based on cost, adds to the upgrade amount bought, updates the cost
   FU1amountCanBuy = Decimal.affordGeometricSeries(game.fire, 50, 1.8, game.fireUpgrade1Bought)
   FU1Cost = Decimal.sumGeometricSeries(FU1amountCanBuy, 50, 1.8, game.fireUpgrade1Bought)
@@ -171,6 +205,7 @@ function fireMaxAll() {
   game.fireUpgrade5Cost = new Decimal(2.5).pow(game.fireUpgrade5Bought).mul(500).floor()
   document.getElementById("fireUpgrade5Cost").innerHTML = format(game.fireUpgrade5Cost, 0)
 
+  if (!game.platinumUpgradesBought[2]) return; //back out if this upgrade hasn't been unlocked yet
   FU6amountCanBuy = Decimal.affordGeometricSeries(game.fire, 2e7, 5, game.fireUpgrade6Bought)
   FU6Cost = Decimal.sumGeometricSeries(FU6amountCanBuy, 2e7, 5, game.fireUpgrade6Bought)
   game.fire = game.fire.sub(FU6Cost)
@@ -178,6 +213,10 @@ function fireMaxAll() {
   game.fireUpgrade6Cost = new Decimal(5).pow(game.fireUpgrade6Bought).mul(2e7).floor()
   document.getElementById("fireUpgrade6Cost").innerHTML = format(game.fireUpgrade6Cost, 0)
   document.getElementById("fireUpgrade6Effect").innerHTML = format(new Decimal(3).pow(game.fireUpgrade6Bought.pow(0.6)), 2)
+}
+
+function fireMaxAlll() {
+  
 }
 
 function fireAutoMaxAll() {

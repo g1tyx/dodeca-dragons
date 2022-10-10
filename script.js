@@ -1,3 +1,6 @@
+//TO DO LIST
+//Change rich info link in <head>
+
 //Stolen code to check if the user is on a mobile device
 window.mobileCheck = function() {
   let check = false;
@@ -30,7 +33,7 @@ function format(ex, acc=2, max=9) {
     let e = ex.log10().ceil()
     let m = ex.div(e.eq(-1)?E(0.1):E(10).pow(e))
     let be = e.mul(-1).max(1).log10().gte(9)
-    return neg+(be?'':m.toFixed(3))+'e'+format(e, 0, max)
+    return neg+(be?'':m.toFixed(2))+'e'+format(e, 0, max)
   }
   else if (e.lt(max)) {
     let a = Math.max(Math.min(acc-e.toNumber(), acc), 0)
@@ -43,7 +46,7 @@ function format(ex, acc=2, max=9) {
     }
     let m = ex.div(E(10).pow(e))
     let be = e.log10().gte(4)
-    return neg+(be?'':m.toFixed(3))+'e'+format(e, 0, max)
+    return neg+(be?'':m.toFixed(2))+'e'+format(e, 0, max)
   }
 }
 
@@ -173,12 +176,30 @@ function reset() {
 
     dragonPets: 0,
     minerAutoBuyMax: true,
+
+    pinkSigils: new Decimal(0),
+    pinkSigilsToGet: new Decimal(0),
+    pinkSigilPower: new Decimal(0),
+    pinkSigilPowerPerSecond: new Decimal(0),
+    pinkSigilUpgradesBought: [0, 0, 0, 0, 0, 0],
   }
 
-  for (i=3;i<15;i++) document.getElementsByClassName("box")[i].style.display = "none"
-  for (i=1;i<11;i++) document.getElementsByClassName("resourceRow")[i].style.display = "none"
+  for (i=3;i<17;i++) document.getElementsByClassName("box")[i].style.display = "none"
+  for (i=1;i<12;i++) document.getElementsByClassName("resourceRow")[i].style.display = "none"
   for (i=12;i<20;i++) {document.getElementsByClassName("magicUpgrade")[i].style.display = "none"}
   for (i=8;i<12;i++) {document.getElementsByClassName("darkMagicUpgrade")[i].style.display = "none"}
+  document.getElementsByClassName("fireUpgrade")[5].style.display = "none"
+  document.getElementById("fireMaxAllButton").style.display = "none"
+  for (i=0;i<6;i++) document.getElementsByClassName("fireBuyMaxButton")[i].style.display = "none"
+  document.getElementById("platinumMaxAllButton").style.display = "none"
+  document.getElementsByClassName("platinumUpgrade")[6].style.display = "none"
+  document.getElementById("magicUpgradeBuyMaxButton").style.display = "none"
+  document.getElementById("uraniumMaxAllButton").style.display = "none"
+  document.getElementById("fireAutoMaxAllButton").style.display = "none"
+  document.getElementById("dragonPetStuff").style.display = "none"
+  document.getElementById("minerAutoBuyMaxButton").style.display = "none"
+  document.getElementById("darkMagicUpgradeBuyMaxButton").style.display = "none"
+  document.getElementById("dragonPetButton").disabled = false
 }
 
 reset()
@@ -195,6 +216,7 @@ function hardReset() {
 function save() {
 	localStorage.setItem("dodecaSave", JSON.stringify(game))
 }
+
 setInterval(save, 5000)
 
 function exportGame() {
@@ -293,10 +315,7 @@ function loadGame(loadgame) {
       document.getElementsByClassName("platinumUpgrade")[2].disabled = true
       document.getElementsByClassName("fireUpgrade")[5].style.display = "inline-block"
     }
-    else {
-      document.getElementsByClassName("platinumUpgrade")[2].disabled = false
-      document.getElementsByClassName("fireUpgrade")[5].style.display = "none"
-    }
+    else {document.getElementsByClassName("platinumUpgrade")[2].disabled = false}
     if (game.platinumUpgradesBought[3] == 5) {document.getElementsByClassName("platinumUpgrade")[3].disabled = true}
     else {document.getElementsByClassName("platinumUpgrade")[3].disabled = false}
     if (game.platinumUpgradesBought[4] == 1) {document.getElementsByClassName("platinumUpgrade")[4].disabled = true}
@@ -331,14 +350,8 @@ function loadGame(loadgame) {
       document.getElementById("fireMaxAllButton").style.display = "block"
       for (i=0;i<6;i++) document.getElementsByClassName("fireBuyMaxButton")[i].style.display = "inline-block"
     }
-    else {
-      document.getElementById("fireMaxAllButton").style.display = "none"
-      for (i=0;i<6;i++) document.getElementsByClassName("fireBuyMaxButton")[i].style.display = "none"
-    }
-    if (game.magicUpgradesBought[4]) {document.getElementById("platinumMaxAllButton").style.display = "block"}
-    else {document.getElementById("platinumMaxAllButton").style.display = "none"}
-    if (game.magicUpgradesBought[7]) {document.getElementsByClassName("platinumUpgrade")[6].style.display = "inline-block"}
-    else {document.getElementsByClassName("platinumUpgrade")[6].style.display = "none"}
+    if (game.magicUpgradesBought[4]) document.getElementById("platinumMaxAllButton").style.display = "block"
+    if (game.magicUpgradesBought[7]) document.getElementsByClassName("platinumUpgrade")[6].style.display = "inline-block"
   }
   //Magic challenge stuff
   if (game.unlocks >= 5) {
@@ -424,9 +437,11 @@ function loadGame(loadgame) {
     if (game.darkMagicUpgradesBought[8] == true) document.getElementById("magicUpgradeBuyMaxButton").style.display = "block"
   }
   //Cyan sigil stuff
+  if (game.unlocks < 10) document.getElementById("horrorTabButton").style.display = "none"
   if (game.unlocks >= 10) {
     if (game.confirmations[1] == false) {document.getElementsByClassName("confirmationToggle")[1].style.border = "2px solid red"}
     else {document.getElementsByClassName("confirmationToggle")[1].style.border = "2px solid #0f0"}
+    document.getElementById("horrorTabButton").style.display = "block"
     document.getElementsByClassName("box")[11].style.display = "block"
     document.getElementsByClassName("resourceRow")[7].style.display = "block"
     document.getElementsByClassName("confirmationToggle")[1].style.display = "inline-block"
@@ -442,10 +457,8 @@ function loadGame(loadgame) {
       document.getElementsByClassName("cyanSigilUpgrade")[4].disabled = true
       document.getElementById("uraniumMaxAllButton").style.display = "block"
     }
-    else {
-      document.getElementsByClassName("cyanSigilUpgrade")[4].disabled = false
-      document.getElementById("uraniumMaxAllButton").style.display = "none"
-    }
+    else {document.getElementsByClassName("cyanSigilUpgrade")[4].disabled = false
+}
     if (game.cyanSigilUpgrade6Bought == 1) {document.getElementsByClassName("cyanSigilUpgrade")[5].disabled = true}
     else {document.getElementsByClassName("cyanSigilUpgrade")[5].disabled = false}
   }
@@ -467,10 +480,7 @@ function loadGame(loadgame) {
       document.getElementsByClassName("blueSigilUpgrade")[4].disabled = true
       document.getElementById("fireAutoMaxAllButton").style.display = "block"
     }
-    else {
-      document.getElementsByClassName("blueSigilUpgrade")[4].disabled = false
-      document.getElementById("fireAutoMaxAllButton").style.display = "none"
-    }
+    else {document.getElementsByClassName("blueSigilUpgrade")[4].disabled = false}
     if (game.fireAutoMaxAll) {document.getElementById("fireAutoMaxAllButton").innerHTML = "Auto max all: On"}
     else {document.getElementById("fireAutoMaxAllButton").innerHTML = "Auto max all: Off"}
     if (game.blueSigilUpgrade6Bought.eq(1)) {document.getElementsByClassName("blueSigilUpgrade")[5].disabled = true}
@@ -508,30 +518,37 @@ function loadGame(loadgame) {
       document.getElementsByClassName("violetSigilUpgrade")[2].disabled = true
       document.getElementById("dragonPetStuff").style.display = "block"
     }
-    else {
-      document.getElementsByClassName("violetSigilUpgrade")[2].disabled = false
-      document.getElementById("dragonPetStuff").style.display = "none"
-    }
+    else {document.getElementsByClassName("violetSigilUpgrade")[2].disabled = false}
     if (game.violetSigilUpgrade4Bought.eq(1)) {
       document.getElementsByClassName("violetSigilUpgrade")[3].disabled = true
       document.getElementById("minerAutoBuyMaxButton").style.display = "block"
     }
-    else {
-      document.getElementsByClassName("violetSigilUpgrade")[3].disabled = false
-      document.getElementById("minerAutoBuyMaxButton").style.display = "none"
-    }
+    else {document.getElementsByClassName("violetSigilUpgrade")[3].disabled = false}
     if (game.minerAutoBuyMax) {document.getElementById("minerAutoBuyMaxButton").innerHTML = "Auto max all: On"}
     else {document.getElementById("minerAutoBuyMaxButton").innerHTML = "Auto max all: Off"}
     if (game.violetSigilUpgrade5Bought.eq(1)) {document.getElementsByClassName("violetSigilUpgrade")[4].disabled = true}
     else {document.getElementsByClassName("violetSigilUpgrade")[4].disabled = false}
+    if (game.violetSigilUpgrade6Bought.eq(1)) {document.getElementsByClassName("violetSigilUpgrade")[5].disabled = true}
+    else {document.getElementsByClassName("violetSigilUpgrade")[5].disabled = false}
     //This is so bad and I know how to condense it and I WON'T because I'm EVIL (and tired)
     if (game.dragonPets >= 4) {document.getElementById("dragonPetRequirement").innerHTML = "pink"}
     else if (game.dragonPets >= 3) {document.getElementById("dragonPetRequirement").innerHTML = "violet"}
     else if (game.dragonPets >= 2) {document.getElementById("dragonPetRequirement").innerHTML = "indigo"}
     else if (game.dragonPets >= 1) {document.getElementById("dragonPetRequirement").innerHTML = "blue"}
     else {document.getElementById("dragonPetRequirement").innerHTML = "cyan"}
+    if (game.dragonPets >= 5) document.getElementById("dragonPetButton").disabled = true
     document.getElementById("dragonPets").innerHTML = game.dragonPets
     document.getElementById("dragonPetEffect").innerHTML = format(new Decimal(5).pow(game.dragonPets ** 0.5), 2)
+  }
+  //Pink sigil stuff
+  if (game.unlocks >= 14) {
+    document.getElementsByClassName("box")[16].style.display = "block"
+    document.getElementsByClassName("resourceRow")[11].style.display = "block"
+    for (i=0;i<5;i++) {
+      if (game.pinkSigilUpgradesBought[i]) {document.getElementsByClassName("pinkSigilUpgrade")[i].disabled = true}
+      else {document.getElementsByClassName("pinkSigilUpgrade")[i].disabled = false}
+    }
+    if (game.pinkSigilUpgradesBought[2]) document.getElementById("darkMagicUpgradeBuyMaxButton").style.display = "block"
   }
 
   //Dragon stage stuff
@@ -721,6 +738,7 @@ function updateSmall() {
     if (game.unlocks >= 11) game.magicToGet = game.magicToGet.mul(game.blueSigils.add(1).pow(3))
     if (game.unlocks >= 12) game.magicToGet = game.magicToGet.mul(game.indigoSigils.add(1).pow(4))
     if (game.unlocks >= 13) game.magicToGet = game.magicToGet.mul(game.violetSigils.add(1).pow(5))
+    if (game.unlocks >= 14) game.magicToGet = game.magicToGet.mul(game.pinkSigils.add(1).pow(6))
     if (game.darkMagicUpgradesBought[11] == true) game.magicToGet = game.magicToGet.pow(1.1)
     if (game.darkMagicUpgradesBought[1]) game.magicToGet = game.magicToGet.pow(game.uranium.add(1).log10().div(30).add(1))
     game.magicToGet = game.magicToGet.floor()
@@ -763,6 +781,7 @@ function updateSmall() {
       game.magicScoreToGet = game.magicScoreToGet.pow(new Decimal(1.4).pow(game.indigoSigilUpgrade3Bought.pow(0.5)))
     }
     if (game.unlocks >= 13) game.magicScoreToGet = game.magicScoreToGet.mul(game.violetSigils.add(1).pow(5))
+    if (game.unlocks >= 14) game.magicScoreToGet = game.magicScoreToGet.mul(game.pinkSigils.add(1).pow(6))
     if (game.darkMagicUpgradesBought[0]) game.magicScoreToGet = game.magicScoreToGet.pow(1.3)
     game.magicScoreToGet = game.magicScoreToGet.floor()
     if (game.darkMagicUpgradesBought[9] == true) {
@@ -863,6 +882,18 @@ function updateSmall() {
     document.getElementById("violetSigilPower").innerHTML = format(game.violetSigilPower, 2)
     document.getElementById("violetSigilPowerPerSecond").innerHTML = format(game.violetSigilPowerPerSecond, 2)
   }
+  if (game.unlocks >= 14) {
+    game.pinkSigilsToGet = game.gold.add(1).log10().div(750000).floor()
+    document.getElementById("nextPinkSigil").innerHTML = format(new Decimal(10).pow(game.pinkSigilsToGet.add(1).mul(750000)), 0)
+    game.pinkSigilsToGet = game.pinkSigilsToGet.mul(new Decimal(5).pow(game.dragonPets ** 0.5)).round()
+    document.getElementById("pinkSigils").innerHTML = format(game.pinkSigils, 0)
+    document.getElementsByClassName("resourceText")[11].innerHTML = format(game.pinkSigils, 0)
+    document.getElementById("pinkSigilEffect").innerHTML = format(game.pinkSigils.add(1).pow(6), 0)
+    document.getElementById("pinkSigilsToGet").innerHTML = format(game.pinkSigilsToGet, 0)
+    game.pinkSigilPowerPerSecond = game.pinkSigils.pow(2).div(100)
+    document.getElementById("pinkSigilPower").innerHTML = format(game.pinkSigilPower, 2)
+    document.getElementById("pinkSigilPowerPerSecond").innerHTML = format(game.pinkSigilPowerPerSecond, 2)
+  }
 }
 updateSmall()
 //setInterval(updateSmall, 30)
@@ -901,6 +932,10 @@ function updateLarge() {
   if (game.unlocks >= 11) game.blueSigilPower = game.blueSigilPower.add(game.blueSigilPowerPerSecond)
   if (game.unlocks >= 12) game.indigoSigilPower = game.indigoSigilPower.add(game.indigoSigilPowerPerSecond)
   if (game.unlocks >= 13) game.violetSigilPower = game.violetSigilPower.add(game.violetSigilPowerPerSecond)
+  if (game.unlocks >= 14) game.pinkSigilPower = game.pinkSigilPower.add(game.pinkSigilPowerPerSecond)
+
+  if (game.pinkSigilUpgradesBought[0]) game.uranium = game.uranium.add(game.uraniumToGet)
+  
   if (game.violetSigilUpgrade4Bought.eq(1) && game.minerAutoBuyMax) buyMaxMiners()
   updateSmall()
 }
@@ -909,14 +944,22 @@ setInterval(updateLarge, 1000)
 function changeTab(x) {
   switch(x) {
     case 1:
+      document.getElementsByClassName("box")[15].style.display = "none"
       document.getElementsByClassName("box")[2].style.display = "block"
       document.getElementsByClassName("box")[1].style.display = "none"
       break
     case 2:
+      document.getElementsByClassName("box")[15].style.display = "none"
       document.getElementsByClassName("box")[2].style.display = "none"
       document.getElementsByClassName("box")[1].style.display = "block"
       break
+    case 3:
+      document.getElementsByClassName("box")[15].style.display = "block"
+      document.getElementsByClassName("box")[2].style.display = "none"
+      document.getElementsByClassName("box")[1].style.display = "none"
+      break
     default:
+      document.getElementsByClassName("box")[15].style.display = "none"
       document.getElementsByClassName("box")[2].style.display = "block"
       document.getElementsByClassName("box")[1].style.display = "none"
       break

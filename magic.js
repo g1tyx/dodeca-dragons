@@ -14,10 +14,10 @@ function unlockMagic() {
 //Confirmation popups for magic resets
 function magicCheck() {
   if (game.magicToGet.eq(0)) {
-    if (confirm("哇，等一下！ 你不会获得任何魔法！ 您确定要执行魔法重置吗？")) magicReset()
+    if (confirm("Woah, hold on! You won't gain any magic! Are you sure you want to perform a magic reset?")) magicReset()
   }
   else if (game.confirmations[0]) {
-    if (confirm("您确定要执行魔法重置吗？")) magicReset()
+    if (confirm("Are you sure you want to perform a magic reset?")) magicReset()
   }
   else {magicReset()}
 }
@@ -53,7 +53,7 @@ function magicReset() {
   document.getElementById("fireUpgrade6Effect").innerHTML = format(new Decimal(3).pow(game.fireUpgrade6Bought.pow(0.6)), 2)
 
   game.platinum = new Decimal(0)
-  if (game.magicUpgradesBought[10] != true) {
+  if (game.magicUpgradesBought[10] != true && !game.pinkSigilUpgradesBought[3]) {
     for (i=0;i<9;i++) {
       if (i!=2 && i!=6) {
         game.platinumUpgradesBought[i] = 0
@@ -102,7 +102,7 @@ function magicUpgradeBuyMax() {for (i=1;i<21;i++) buyMagicUpgrade(i)}
 
 //Unlocks more magic upgrades lol
 function unlockMoreMagicUpgrades() {
-  if (game.magifolds.gte(275000) && game.magic.gte(2e8)) {
+  if (game.magifolds.gte(150000) && game.magic.gte(2e8)) {
     game.magic = game.magic.sub(2e8)
     document.getElementById("moreMagicUpgradesButton").style.display = "none"
     document.getElementsByClassName("box")[7].style.height = "560px"
@@ -130,6 +130,7 @@ function buyDarkMagicUpgrade(x) {
     document.getElementsByClassName("darkMagicUpgrade")[x-1].disabled = true
     if (x==4) document.getElementById("magifoldEffect").innerHTML = format(game.magifolds.pow(8), 2)
     if (x==8) {
+      document.getElementById("horrorTabButton").style.display = "block"
       document.getElementsByClassName("box")[11].style.display = "block"
       document.getElementsByClassName("resourceRow")[7].style.display = "block"
       document.getElementsByClassName("confirmationToggle")[1].style.display = "inline-block"
@@ -138,3 +139,5 @@ function buyDarkMagicUpgrade(x) {
     if (x==9) document.getElementById("magicUpgradeBuyMaxButton").style.display = "block"
   }
 }
+
+function darkMagicUpgradeBuyMax() {for (i=1;i<13;i++) buyDarkMagicUpgrade(i)}

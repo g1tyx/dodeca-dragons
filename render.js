@@ -8,6 +8,7 @@ renderVars = {
   diffY: 0,
   currentMousePos: [0, 0],
   zoomMultiplier: 2,
+  lastRender: Date.now()
 }
 
 inputVars = {
@@ -28,7 +29,12 @@ inputVars = {
     "ArrowLeft": false,
     "ArrowRight": false,
     "ArrowDown": false,
-  }
+  },
+  touchIsDown: false,
+  lastTouch: null,
+  currentTouchPos: [0, 0],
+  touchPosX: 0,
+  touchPosY: 0
 }
 
 arrowElements = {
@@ -111,11 +117,18 @@ function render(x, y) {
     document.getElementsByClassName("box")[13].style.top = (window.innerHeight / 2 + y + 540) + "px"
   }
   if (game.unlocks >= 12) {
-    //Purple sigils tab
+    //Violet sigils tab
     document.getElementsByClassName("box")[14].style.left = (window.innerWidth / 2 + x + 365) + "px"
     document.getElementsByClassName("box")[14].style.top = (window.innerHeight / 2 + y + 905) + "px"
   }
+  if (game.unlocks >= 13) {
+    //Pink sigils tab
+    document.getElementsByClassName("box")[16].style.left = (window.innerWidth / 2 + x + 730) + "px"
+    document.getElementsByClassName("box")[16].style.top = (window.innerHeight / 2 + y + 905) + "px"
+  }
   document.body.style.backgroundPosition = (x / 4) + "px " + (y / 4) + "px"
+  //console.log(Date.now() - renderVars.lastRender)
+  renderVars.lastRender = Date.now();
 }
 render(renderVars.posX, renderVars.posY)
 
@@ -178,7 +191,12 @@ function handleMouseMove(event) {
     //renderVars.diffY = (event.pageY - renderVars.currentMousePos[1]) / renderVars.zoomMultiplier
     renderVars.diffX = event.pageX - renderVars.currentMousePos[0]
     renderVars.diffY = event.pageY - renderVars.currentMousePos[1]
-    if (renderVars.diffX > 8 || renderVars.diffY > 8 || renderVars.diffX < -8 || renderVars.diffY < -8) render(renderVars.posX + renderVars.diffX, renderVars.posY + renderVars.diffY)
+    if (Date.now() - renderVars.lastRender >= 20 && Math.abs(renderVars.diffX) + Math.abs(renderVars.diffY) > 8) {
+      render(renderVars.posX + renderVars.diffX, renderVars.posY + renderVars.diffY)
+    }
+    //if (renderVars.diffX > 8 || renderVars.diffY > 8 || renderVars.diffX < -8 || renderVars.diffY < -8) {
+      //render(renderVars.posX + renderVars.diffX, renderVars.posY + renderVars.diffY)
+    //}
   }
 }
 
@@ -196,6 +214,7 @@ function processKeyUp(event) {
 function arrowClick(dir) {
   inputVars.keysHeld[dir] = true;
   updatePanKeys();
+  clearTouch();
 }
 
 function arrowRelease(dir) {
@@ -245,6 +264,62 @@ function resetPressedKeys() {
   updatePanKeys();
 }
 
+function touchDown(event) {
+  if (!event.changedTouches || !event.changedTouches[0]) return //make sure the event data is proper
+  if (inputVars.touchIsDown) clearTouch(); //if there's already an active touch, clear it
+  let thisTouch = event.changedTouches[0]; //if multiple new touches registered on same event, arbitrarily choose first one in the list
+  let shouldBreak = false;
+  Object.keys(inputVars.keysHeld).forEach((k) => {
+    if (inputVars.keysHeld[k] == true) shouldBreak = true;
+  })
+  if (shouldBreak) return;
+  inputVars.lastTouch = thisTouch.identifier;
+  inputVars.touchIsDown = true;
+  inputVars.currentTouchPos[0] = [thisTouch.pageX];
+  inputVars.currentTouchPos[1] = [thisTouch.pageY];
+}
+
+function touchMove(event) {
+  //need to iterate through and make sure one of the moved touches is the active touch
+  for (let i = 0; i < event.changedTouches.length; i++) {
+    if (event.changedTouches[i].identifier === inputVars.lastTouch) {
+      let thisTouch = event.changedTouches[i];
+      renderVars.touchPosX = thisTouch.pageX
+      renderVars.touchPosY = thisTouch.pageY
+      if (inputVars.touchIsDown) {
+        renderVars.diffX = thisTouch.pageX - inputVars.currentTouchPos[0]
+        renderVars.diffY = thisTouch.pageY - inputVars.currentTouchPos[1]
+        if (Math.abs(renderVars.diffX) + Math.abs(renderVars.diffY) > 8) {
+        //if (Date.now() - renderVars.lastRender >= 20 && Math.abs(renderVars.diffX) + Math.abs(renderVars.diffY) > 8) {
+          render(renderVars.posX + renderVars.diffX, renderVars.posY + renderVars.diffY)
+        }
+      }
+    }
+  }
+}
+
+function touchUp(event) {
+  for (let i = 0; i < event.changedTouches.length; i++) {
+    if (event.changedTouches[i].identifier === inputVars.lastTouch) {
+      clearTouch();
+    }
+  }
+  resetPressedKeys();
+}
+
+function clearTouch() {
+  inputVars.touchIsDown = false;
+  inputVars.lastTouch = null;
+  renderVars.posX = renderVars.posX + renderVars.diffX
+  renderVars.posY = renderVars.posY + renderVars.diffY
+  renderVars.diffX = 0
+  renderVars.diffY = 0
+}
+
+function mobileDebug(inputString) {
+  document.getElementById("devinfo").innerHTML=inputString;
+}
+
 //this is to cover special case where user clicks to drag and releases click outside of frame
 document.body.addEventListener('mouseover', (e) => {
   if (e.buttons % 2 === 0) mouseUp(); //the conditional checks whether the left mouse button is held
@@ -271,4 +346,11 @@ arrowElements.left.addEventListener('pointerup', (e) => { arrowRelease('ArrowLef
 arrowElements.right.addEventListener('pointerdown', (e) => { arrowClick('ArrowRight') });
 arrowElements.right.addEventListener('pointerup', (e) => { arrowRelease('ArrowRight') });
 
-if (inputVars.isMobile) document.addEventListener('pointerup', (e) => { resetPressedKeys(); }) //on mobile always reset all when any arrow is released, just to proof against weird edge cases
+if (inputVars.isMobile) { //event for mobile only
+  document.addEventListener('pointerup', (e) => { resetPressedKeys(); }); //on mobile always reset all when any arrow is released, just to proof against weird edge cases
+  document.addEventListener('touchstart',(e) => { touchDown(e); });
+  document.addEventListener('touchmove',(e) => { touchMove(e); });
+  document.addEventListener('touchend',(e) => { touchUp(e); });
+}
+
+//addEventListener('wheel', (event) => {console.log(event.deltaY)});
