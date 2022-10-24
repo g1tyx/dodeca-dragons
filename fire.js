@@ -6,7 +6,7 @@ function buyFireUpgrades() {
     document.getElementById("buyFireUpgradesButton").style.display = "none"
     document.getElementsByClassName("box")[4].style.display = "block"
     document.getElementsByClassName("upgradeDragonButton")[0].style.display = "block"
-    game.unlocks++
+    addUnlock() //sets unlock to 2
   }
 }
 
@@ -213,10 +213,6 @@ function fireMaxAll() {
   game.fireUpgrade6Cost = new Decimal(5).pow(game.fireUpgrade6Bought).mul(2e7).floor()
   document.getElementById("fireUpgrade6Cost").innerHTML = format(game.fireUpgrade6Cost, 0)
   document.getElementById("fireUpgrade6Effect").innerHTML = format(new Decimal(3).pow(game.fireUpgrade6Bought.pow(0.6)), 2)
-}
-
-function fireMaxAlll() {
-  
 }
 
 function fireAutoMaxAll() {

@@ -64,9 +64,9 @@ function render(x, y) {
   //document.getElementsByClassName("box")[2].style.top = (window.innerHeight / 2 + y - 153) + "px"
   //Dragon tab
   document.getElementsByClassName("box")[3].style.left = (window.innerWidth / 2 + x) + "px"
-  if (game.violetSigilUpgrade3Bought.eq(1)) {document.getElementsByClassName("box")[3].style.top = (window.innerHeight / 2 + y + 455) + "px"}
-  else if (game.dragonStage >= 5) {document.getElementsByClassName("box")[3].style.top = (window.innerHeight / 2 + y + 415) + "px"}
-  else {document.getElementsByClassName("box")[3].style.top = (window.innerHeight / 2 + y + 365) + "px"}
+  if (game.unlockedAchievements[9] > 0) {document.getElementsByClassName("box")[3].style.top = (window.innerHeight / 2 + y + 465) + "px"}
+  else if (game.dragonStage >= 5) {document.getElementsByClassName("box")[3].style.top = (window.innerHeight / 2 + y + 425) + "px"}
+  else {document.getElementsByClassName("box")[3].style.top = (window.innerHeight / 2 + y + 375) + "px"}
   if (game.unlocks >= 1) {
     //Fire upgrades tab
     document.getElementsByClassName("box")[4].style.left = (window.innerWidth / 2 + x - 350) + "px"
@@ -104,27 +104,27 @@ function render(x, y) {
   if (game.unlocks >= 9) {
     //Cyan sigils tab
     document.getElementsByClassName("box")[11].style.left = (window.innerWidth / 2 + x + 365) + "px"
-    document.getElementsByClassName("box")[11].style.top = (window.innerHeight / 2 + y + 540) + "px"
+    document.getElementsByClassName("box")[11].style.top = (window.innerHeight / 2 + y + 515) + "px"
   }
   if (game.unlocks >= 10) {
     //Blue sigils tab
     document.getElementsByClassName("box")[12].style.left = (window.innerWidth / 2 + x + 730) + "px"
-    document.getElementsByClassName("box")[12].style.top = (window.innerHeight / 2 + y + 540) + "px"
+    document.getElementsByClassName("box")[12].style.top = (window.innerHeight / 2 + y + 515) + "px"
   }
   if (game.unlocks >= 11) {
     //Indigo sigils tab
     document.getElementsByClassName("box")[13].style.left = (window.innerWidth / 2 + x + 1095) + "px"
-    document.getElementsByClassName("box")[13].style.top = (window.innerHeight / 2 + y + 540) + "px"
+    document.getElementsByClassName("box")[13].style.top = (window.innerHeight / 2 + y + 515) + "px"
   }
   if (game.unlocks >= 12) {
     //Violet sigils tab
     document.getElementsByClassName("box")[14].style.left = (window.innerWidth / 2 + x + 365) + "px"
-    document.getElementsByClassName("box")[14].style.top = (window.innerHeight / 2 + y + 905) + "px"
+    document.getElementsByClassName("box")[14].style.top = (window.innerHeight / 2 + y + 830) + "px"
   }
   if (game.unlocks >= 13) {
     //Pink sigils tab
     document.getElementsByClassName("box")[16].style.left = (window.innerWidth / 2 + x + 730) + "px"
-    document.getElementsByClassName("box")[16].style.top = (window.innerHeight / 2 + y + 905) + "px"
+    document.getElementsByClassName("box")[16].style.top = (window.innerHeight / 2 + y + 830) + "px"
   }
   document.body.style.backgroundPosition = (x / 4) + "px " + (y / 4) + "px"
   //console.log(Date.now() - renderVars.lastRender)
@@ -185,7 +185,7 @@ function handleMouseMove(event) {
   event = event || window.event;
   renderVars.mousePosX = event.pageX
   renderVars.mousePosY = event.pageY
-  if (renderVars.mouseIsDown) {
+  if (renderVars.mouseIsDown && document.querySelector('#dragonNameBox') != document.activeElement) {
     //Zoom stuff!
     //renderVars.diffX = (event.pageX - renderVars.currentMousePos[0]) / renderVars.zoomMultiplier
     //renderVars.diffY = (event.pageY - renderVars.currentMousePos[1]) / renderVars.zoomMultiplier
@@ -224,12 +224,14 @@ function arrowRelease(dir) {
 
 //Update the input values. Only needs to fire when keys are pressed or released.
 function updatePanKeys() {
-  if (inputVars.isMobile) {
-    inputVars.keyInputX = inputVars.keysHeld["a"] + inputVars.keysHeld["ArrowLeft"] - inputVars.keysHeld["d"] - inputVars.keysHeld["ArrowRight"]
-    inputVars.keyInputY = inputVars.keysHeld["w"] + inputVars.keysHeld["ArrowUp"] - inputVars.keysHeld["s"] - inputVars.keysHeld["ArrowDown"]
-  } else {
-    inputVars.keyInputX = inputVars.keysHeld["a"] + inputVars.keysHeld["ArrowLeft"] - inputVars.keysHeld["d"] - inputVars.keysHeld["ArrowRight"]
-    inputVars.keyInputY = inputVars.keysHeld["w"] + inputVars.keysHeld["ArrowUp"] - inputVars.keysHeld["s"] - inputVars.keysHeld["ArrowDown"]
+  if (document.querySelector('#dragonNameBox') != document.activeElement) {
+    if (inputVars.isMobile) {
+      inputVars.keyInputX = inputVars.keysHeld["a"] + inputVars.keysHeld["ArrowLeft"] - inputVars.keysHeld["d"] - inputVars.keysHeld["ArrowRight"]
+      inputVars.keyInputY = inputVars.keysHeld["w"] + inputVars.keysHeld["ArrowUp"] - inputVars.keysHeld["s"] - inputVars.keysHeld["ArrowDown"]
+    } else {
+      inputVars.keyInputX = inputVars.keysHeld["a"] + inputVars.keysHeld["ArrowLeft"] - inputVars.keysHeld["d"] - inputVars.keysHeld["ArrowRight"]
+      inputVars.keyInputY = inputVars.keysHeld["w"] + inputVars.keysHeld["ArrowUp"] - inputVars.keysHeld["s"] - inputVars.keysHeld["ArrowDown"]
+    }
   }
 }
 
@@ -320,10 +322,30 @@ function mobileDebug(inputString) {
   document.getElementById("devinfo").innerHTML=inputString;
 }
 
-//this is to cover special case where user clicks to drag and releases click outside of frame
+
 document.body.addEventListener('mouseover', (e) => {
-  if (e.buttons % 2 === 0) mouseUp(); //the conditional checks whether the left mouse button is held
+  //had to move this code to mouseenter because cursed firefox sometimes shows buttons == 0 even when it doesn't :(
+  //if (e.target === document.body && e.buttons % 2 === 0) mouseUp();
+
+  //check for hovering over achievements
+  let selectedAchieve = getHoveredAchievement();
+  if (selectedAchieve === null) {
+    showAchievementInfo(null,null) ;
+  } else {
+    var identifiers = selectedAchieve.slice(3).split("x"); //takes an achievement id and returns an array - e.g. "ach1x3" will become [1,3]
+    showAchievementInfo(parseInt(identifiers[0]),parseInt(identifiers[1]));
+  }
 })
+
+document.body.addEventListener('mouseenter', (e) => {
+  if (e.buttons % 2 === 0) mouseUp(); //this is to cover special case where user clicks to drag and releases click outside of frame
+})
+
+//document.body.addEventListener('mouseleave', (e) => {
+  //if (e.target && e.target.classList && e.target.classList.contains('achievement')) {
+    //showAchievementInfo(null,null)
+  //}
+//})
 
 
 
@@ -353,4 +375,4 @@ if (inputVars.isMobile) { //event for mobile only
   document.addEventListener('touchend',(e) => { touchUp(e); });
 }
 
-//addEventListener('wheel', (event) => {console.log(event.deltaY)});
+//addEventListener('wheel', (event) => {console.log(event.deltaY)})

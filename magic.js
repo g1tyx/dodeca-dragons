@@ -7,7 +7,7 @@ function unlockMagic() {
     document.getElementsByClassName("box")[6].style.display = "block"
     document.getElementsByClassName("box")[7].style.display = "block"
     document.getElementsByClassName("resourceRow")[4].style.display = "block"
-    game.unlocks++
+    addUnlock() //sets unlock to 4
   }
 }
 
@@ -22,10 +22,10 @@ function magicCheck() {
   else {magicReset()}
 }
 
-function magicReset() {
+function magicReset(triggerLayer = "magic") {
   //Sets most pre-magic veriables back to their original states
   game.gold = new Decimal(0)
-  if (game.violetSigilUpgrade4Bought.eq(1)) {game.miners = new Decimal(1)}
+  if (game.unlockedAchievements[0] > 8) {game.miners = new Decimal(1)}
   else {game.miners = new Decimal(0)}
   game.minerCost = new Decimal(20)
   document.getElementById("minerCost").innerHTML = "20"
@@ -53,7 +53,7 @@ function magicReset() {
   document.getElementById("fireUpgrade6Effect").innerHTML = format(new Decimal(3).pow(game.fireUpgrade6Bought.pow(0.6)), 2)
 
   game.platinum = new Decimal(0)
-  if (game.magicUpgradesBought[10] != true && !game.pinkSigilUpgradesBought[3]) {
+  if ( (triggerLayer === "magic" && game.unlockedAchievements[3] < 5) || (triggerLayer === "sigil" && game.unlockedAchievements[7] < 3) ) {
     for (i=0;i<9;i++) {
       if (i!=2 && i!=6) {
         game.platinumUpgradesBought[i] = 0
@@ -74,17 +74,13 @@ function buyMagicUpgrade(x) {
     game.magic = game.magic.sub(magicUpgradeCosts[x-1])
     game.magicUpgradesBought[x-1] = true
     document.getElementsByClassName("magicUpgrade")[x-1].disabled = true
-    if (x==2) {
-      document.getElementById("fireMaxAllButton").style.display = "block"
-      for (i=0;i<6;i++) document.getElementsByClassName("fireBuyMaxButton")[i].style.display = "inline-block"
-    }
-    if (x==5) document.getElementById("platinumMaxAllButton").style.display = "block"
     if (x==8) document.getElementsByClassName("platinumUpgrade")[6].style.display = "block"
+    if (x==11 && game.platinumUpgradesBought[6] == 10) document.getElementsByClassName("platinumUpgrade")[6].disabled = false 
     if (x==12) {
       document.getElementsByClassName("box")[8].style.display = "block"
       document.getElementsByClassName("resourceRow")[5].style.display = "block"
       document.getElementById("moreMagicUpgradesButton").style.display = "block"
-      game.unlocks++
+      addUnlock() //sets unlock to 5
     }
     if (x==14) document.getElementById("fireUpgrade1Effect").innerHTML = format(new Decimal(3.5).pow(game.fireUpgrade1Bought.pow(0.7)), 2)
     if (x==19) document.getElementById("magifoldEffect").innerHTML = format(game.magifolds.pow(6), 2)
@@ -93,7 +89,7 @@ function buyMagicUpgrade(x) {
       document.getElementsByClassName("box")[9].style.display = "block"
       document.getElementsByClassName("resourceRow")[6].style.display = "inline-block"
       document.getElementById("morePUupgradesButton").style.display = "block"
-      game.unlocks++
+      addUnlock() //sets unlock to 7
     }
   }
 }
@@ -108,7 +104,7 @@ function unlockMoreMagicUpgrades() {
     document.getElementsByClassName("box")[7].style.height = "560px"
     document.getElementsByClassName("box")[7].style.top = (window.innerHeight / 2 + renderVars.posY + renderVars.diffY - 133) + "px"
     for (i=12;i<20;i++) {document.getElementsByClassName("magicUpgrade")[i].style.display = "block"}
-    game.unlocks++
+    addUnlock() //sets unlock to 6
   }
 }
 
@@ -117,7 +113,7 @@ function unlockDarkMagicUpgrades() {
     game.gold = game.gold.sub("e1000")
     document.getElementById("unlockDarkMagicUpgradesButton").style.display = "none"
     document.getElementsByClassName("box")[10].style.display = "block"
-    game.unlocks++
+    addUnlock() //sets unlock to 9
   }
 }
 
@@ -134,10 +130,54 @@ function buyDarkMagicUpgrade(x) {
       document.getElementsByClassName("box")[11].style.display = "block"
       document.getElementsByClassName("resourceRow")[7].style.display = "block"
       document.getElementsByClassName("confirmationToggle")[1].style.display = "inline-block"
-      game.unlocks++
+      document.getElementById("cyanSigilUpgrade1Cost").innerHTML = format(game.cyanSigilUpgrade1Cost, 0)
+      document.getElementById("cyanSigilUpgrade1Effect").innerHTML = format(game.cyanSigilUpgradesBought[0].add(1), 2)
+      document.getElementById("cyanSigilUpgrade2Cost").innerHTML = format(game.cyanSigilUpgrade2Cost, 0)
+      document.getElementById("cyanSigilUpgrade2Effect").innerHTML = format(game.cyanSigilUpgradesBought[1].add(1).pow(1.5), 2)
+      document.getElementById("cyanSigilUpgrade3Cost").innerHTML = format(game.cyanSigilUpgrade3Cost, 0)
+      document.getElementById("cyanSigilUpgrade3Effect").innerHTML = format(new Decimal(1.2).pow(game.cyanSigilUpgradesBought[2].pow(0.4)), 2)
+      if (game.cyanSigilUpgradesBought[3] == 1) {document.getElementsByClassName("cyanSigilUpgrade")[3].disabled = true}
+      else {document.getElementsByClassName("cyanSigilUpgrade")[3].disabled = false}
+      addUnlock() //sets unlock to 10
     }
-    if (x==9) document.getElementById("magicUpgradeBuyMaxButton").style.display = "block"
-  }
+  } 
 }
 
-function darkMagicUpgradeBuyMax() {for (i=1;i<13;i++) buyDarkMagicUpgrade(i)}
+function darkMagicUpgradeBuyMax() {
+  for (i=1;i<9;i++) buyDarkMagicUpgrade(i)
+  if (game.pinkSigilUpgradesBought[1].eq(1)) {for (i=9;i<11;i++) buyDarkMagicUpgrade(i)}
+}
+
+function getMagicGain() {
+  let toGet = game.gold.div(1e15).pow(0.1);
+  if (game.magicUpgradesBought[3]) {
+    if (game.magicUpgradesBought[9]) {toGet = toGet.mul(game.magic.add(1).log2().mul(4).add(1))}
+    else {toGet = toGet.mul(game.magic.add(1).log2().mul(1.5).add(1))}
+  }
+  if (game.magicUpgradesBought[1]) toGet = toGet.mul(1.5);
+  if (game.magicUpgradesBought[6]) toGet = toGet.mul(2);
+  if (game.magicUpgradesBought[17]) toGet = toGet.mul(3);
+  if (game.unlocks >= 10) toGet = toGet.mul(game.cyanSigils.add(1).pow(2));
+  if (game.unlocks >= 11) toGet = toGet.mul(game.blueSigils.add(1).pow(3));
+  if (game.unlocks >= 12) toGet = toGet.mul(game.indigoSigils.add(1).pow(4));
+  if (game.unlocks >= 13) toGet = toGet.mul(game.violetSigils.add(1).pow(5));
+  if (game.unlocks >= 14) toGet = toGet.mul(game.pinkSigils.add(1).pow(6));
+  if (game.darkMagicUpgradesBought[9] == true) toGet = toGet.pow(1.1);
+  if (game.darkMagicUpgradesBought[1]) toGet = toGet.pow(game.uranium.add(1).log10().div(30).add(1));
+  toGet = toGet.floor();
+  return toGet;
+}
+
+function getNextMagicAt() {
+  let nextMagic = game.magicToGet.add(1);
+  if (game.magicUpgradesBought[17]) nextMagic = nextMagic.div(3);
+  if (game.magicUpgradesBought[6]) nextMagic = nextMagic.div(2);
+  if (game.magicUpgradesBought[1]) nextMagic = nextMagic.div(1.5);
+  if (game.magicUpgradesBought[3]) {
+    if (game.magicUpgradesBought[9]) {nextMagic = nextMagic.div(game.magic.add(1).log2().mul(4).add(1))}
+    else {nextMagic = nextMagic.div(game.magic.add(1).log2().mul(1.5).add(1))}
+  }
+  nextMagic = nextMagic.pow(10).mul(1e15).add(1);
+  if (game.unlocks >= 10) nextMagic = new Decimal(6969); //should be hidden by this point, so nobody should see this
+  return nextMagic;
+}

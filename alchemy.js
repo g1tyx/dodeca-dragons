@@ -6,7 +6,7 @@ function unlockAlchemy() {
     document.getElementById("unlockMagicButton").style.display = "block"
     document.getElementsByClassName("box")[5].style.display = "block"
     document.getElementsByClassName("resourceRow")[3].style.display = "block"
-    game.unlocks++
+    addUnlock() //sets unlock to 3
   }
 }
 
@@ -66,7 +66,7 @@ function buyPlatinumUpgrade(x) {
     game.platinum = game.platinum.sub(1e6)
     game.platinumUpgradesBought[6]++
     document.getElementsByClassName("platinumUpgradesBought")[6].innerHTML = game.platinumUpgradesBought[6]
-    if (game.platinumUpgradesBought[6] == 20) document.getElementsByClassName("platinumUpgrade")[6].disabled = true
+    if ((!game.magicUpgradesBought[10] && game.platinumUpgradesBought[6] == 10) || game.platinumUpgradesBought[6] == 20) document.getElementsByClassName("platinumUpgrade")[6].disabled = true
     document.getElementById("platinumUpgrade7Effect").innerHTML = format(new Decimal(1.5).pow(game.platinumUpgradesBought[6]), 2)
   }
   else if (x==8 && game.platinumUpgradesBought[7] < 5 && game.platinum.gte(1e22)) {
@@ -136,7 +136,7 @@ function platinumMaxAll() {
     game.platinum = game.platinum.sub(PU7AmountToBuy * 1e6)
     game.platinumUpgradesBought[6] += PU7AmountToBuy
     document.getElementsByClassName("platinumUpgradesBought")[6].innerHTML = game.platinumUpgradesBought[6]
-    if (game.platinumUpgradesBought[6] == 20) document.getElementsByClassName("platinumUpgrade")[6].disabled = true
+    if ((!game.magicUpgradesBought[10] && game.platinumUpgradesBought[6] == 10) || game.platinumUpgradesBought[6] == 20) document.getElementsByClassName("platinumUpgrade")[6].disabled = true
     document.getElementById("platinumUpgrade7Effect").innerHTML = format(new Decimal(1.5).pow(game.platinumUpgradesBought[6]), 2)
   }
 
@@ -201,12 +201,6 @@ function buyUraniumUpgrade(x) {
     document.getElementsByClassName("uraniumUpgradesBought")[4].innerHTML = game.uraniumUpgradesBought[4]
     if (game.uraniumUpgradesBought[4] == 10) document.getElementsByClassName("uraniumUpgrade")[4].disabled = true
   }
-  else if (x==6 && game.uraniumUpgradesBought[5] < 1 && game.uranium.gte(100000)) {
-    game.uranium = game.uranium.sub(100000)
-    game.uraniumUpgradesBought[5]++
-    document.getElementsByClassName("uraniumUpgradesBought")[5].innerHTML = game.uraniumUpgradesBought[5]
-    document.getElementsByClassName("uraniumUpgrade")[5].disabled = true
-  }
 }
 
 function uraniumMaxAll() {
@@ -245,13 +239,6 @@ function uraniumMaxAll() {
   game.uraniumUpgradesBought[4] += UU5AmountToBuy
   document.getElementsByClassName("uraniumUpgradesBought")[4].innerHTML = game.uraniumUpgradesBought[4]
   if (game.uraniumUpgradesBought[4] == 10) document.getElementsByClassName("uraniumUpgrade")[4].disabled = true
-
-  if (game.uraniumUpgradesBought[5] < 1 && game.uranium.gte(100000)) {
-    game.uranium = game.uranium.sub(100000)
-    game.uraniumUpgradesBought[5]++
-    document.getElementsByClassName("uraniumUpgradesBought")[5].innerHTML = game.uraniumUpgradesBought[5]
-    document.getElementsByClassName("uraniumUpgrade")[5].disabled = true
-  }
 }
 
 //Unlocks more platinum and uranium upgrades
@@ -264,7 +251,6 @@ function morePUupgrades() {
     document.getElementsByClassName("platinumUpgrade")[8].style.display = "inline-block"
     document.getElementsByClassName("uraniumUpgrade")[3].style.display = "inline-block"
     document.getElementsByClassName("uraniumUpgrade")[4].style.display = "inline-block"
-    document.getElementsByClassName("uraniumUpgrade")[5].style.display = "inline-block"
-    game.unlocks++
+    addUnlock() //sets unlock to 8
   }
 }

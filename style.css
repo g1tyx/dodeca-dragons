@@ -359,3 +359,32 @@ img {
   color: #949;
   text-shadow: 1px 1px 0 #626;
 }
+
+.achievementUnlocked {
+  background-image: linear-gradient(#5a5, #464);
+  background-color: #464 !important;
+}
+
+#achievementPopup {
+  position: fixed;
+  top:initial;
+  width: 350px; 
+  bottom: 30px; 
+  left: -380px; 
+  transform: none; 
+  z-index: 2; 
+  transition: left 800ms ease-in-out;
+}
+
+#testdiv {
+  position: absolute;
+  height:100px;
+  width: 350px;
+  top: initial;
+  bottom: 30px; 
+  left: 30px; 
+  transform: none; 
+  z-index: 2; 
+  transition: left 800ms ease-in-out;
+  border: 5px solid pink;
+}
