@@ -99,7 +99,7 @@ function dragonFeed() {
     //Resetting all the score and magifold stuff
     if (game.unlockedAchievements[7] > 1) {
       //do nothing :D
-    } else if (game.unlockedAchievements[6] > 0) {
+    } else if (game.unlockedAchievements[6] > 1) {
       game.magicScore1 = game.magicScore1.sqrt();
       game.magicScore2 = game.magicScore2.sqrt();
       game.magicScore3 = game.magicScore3.sqrt();

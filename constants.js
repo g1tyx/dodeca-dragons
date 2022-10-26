@@ -69,8 +69,8 @@ const achievementRewards = {
   ach5x2: "Unlocks Max All button for uranium upgrades!",
   ach5x3: "Automatically gain uranium without resetting!",
   //cyan sigils
-  ach6x0: "Feeding your dragon reduces scores by ^0.5 instead of resetting them!",
-  ach6x1: "Automatically spend time with your dragon when available! Also allows you to enter challenges while on cooldown.",
+  ach6x0: "Automatically spend time with your dragon when available! Also allows you to enter challenges while on cooldown.",
+  ach6x1: "Feeding your dragon reduces scores by ^0.5 instead of resetting them!",
   ach6x2: "Automatically max all fire upgrades!",
   //blue sigils
   ach7x0: "Sigil resets reduce scores by ^0.5 instead of resetting them!",

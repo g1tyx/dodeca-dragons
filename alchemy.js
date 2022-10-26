@@ -132,7 +132,8 @@ function platinumMaxAll() {
 
   if (game.magicUpgradesBought[7] || game.unlocks >= 10) {
     PU7AmountCanBuy = game.platinum.div(1e6).floor()
-    PU7AmountToBuy = Decimal.min(PU7AmountCanBuy, 20 - game.platinumUpgradesBought[6]).toNumber()
+    if (game.magicUpgradesBought[10]) {PU7AmountToBuy = Decimal.min(PU7AmountCanBuy, 20 - game.platinumUpgradesBought[6]).toNumber()}
+    else {PU7AmountToBuy = Decimal.min(PU7AmountCanBuy, 10 - game.platinumUpgradesBought[6]).toNumber()}
     game.platinum = game.platinum.sub(PU7AmountToBuy * 1e6)
     game.platinumUpgradesBought[6] += PU7AmountToBuy
     document.getElementsByClassName("platinumUpgradesBought")[6].innerHTML = game.platinumUpgradesBought[6]
@@ -243,8 +244,8 @@ function uraniumMaxAll() {
 
 //Unlocks more platinum and uranium upgrades
 function morePUupgrades() {
-  if (game.gold.gte("e450")) {
-    game.gold = game.gold.sub("e450")
+  if (game.gold.gte("e420")) {
+    game.gold = game.gold.sub("e420")
     document.getElementById("morePUupgradesButton").style.display = "none"
     document.getElementById("unlockDarkMagicUpgradesButton").style.display = "block"
     document.getElementsByClassName("platinumUpgrade")[7].style.display = "inline-block"

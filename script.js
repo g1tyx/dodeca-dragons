@@ -208,8 +208,6 @@ function reset() {
   console.log("Game variables are loaded")
 }
 
-var pageIsLoaded = false;
-
 reset()
 
 //If the user confirms the hard reset, resets all variables, saves and refreshes the page
@@ -222,10 +220,10 @@ function hardReset() {
 }
 
 function save() {
-	if (pageIsLoaded) localStorage.setItem("dodecaSave", JSON.stringify(game));
+	localStorage.setItem("dodecaSave", JSON.stringify(game));
 }
 
-setInterval(save, 5000)
+//setInterval(save, 5000)
 
 function exportGame() {
   save()
@@ -246,11 +244,6 @@ function importGame() {
   else {
     alert("Invalid input.")
   }
-}
-
-function pageLoaded() {
-  load()
-  pageIsLoaded = true;
 }
 
 function load() {
@@ -374,6 +367,7 @@ function loadGame(loadgame) {
     else {document.getElementsByClassName("platinumUpgrade")[4].disabled = false}
     if (game.platinumUpgradesBought[5] == 4) {document.getElementsByClassName("platinumUpgrade")[5].disabled = true}
     else {document.getElementsByClassName("platinumUpgrade")[5].disabled = false}
+    if (!game.magicUpgradesBought[10] && game.platinumUpgradesBought[6] > 10) game.platinumUpgradesBought[6] = 10
     if ((!game.magicUpgradesBought[10] && game.platinumUpgradesBought[6] == 10) || game.platinumUpgradesBought[6] == 20) {document.getElementsByClassName("platinumUpgrade")[6].disabled = true}
     else {document.getElementsByClassName("platinumUpgrade")[6].disabled = false}
     if (game.platinumUpgradesBought[7] == 5) {document.getElementsByClassName("platinumUpgrade")[7].disabled = true}
@@ -949,7 +943,7 @@ function updateSmall() {
   //game.gold = game.gold.add(game.goldPerSecond.mul(diff));
   //if (game.unlocks >= 1) game.fire = game.fire.add(game.firePerSecond.mul(diff)) // .mul(diff)
   //if (game.unlockedAchievements[6] > 2 && game.fireAutoMaxAll) fireMaxAll()
-  //if (game.unlockedAchievements[6] > 1) dragonSpendTime()
+  //if (game.unlockedAchievements[6] > 0) dragonSpendTime()
   //if (game.unlockedAchievements[10] > 0) dragonFeed();
   //if (game.unlockedAchievements[3] > 7) {game.magic = game.magic.add(game.magicToGet.mul(diff)) }
   //else if (game.unlockedAchievements[3] > 5) {game.magic = game.magic.add(game.magicToGet.mul(diff).div(100))}
@@ -992,7 +986,7 @@ function updateLarge() {
     document.getElementById("dragonTimeCooldown").innerHTML = game.dragonTimeCooldown
     if (game.dragonTimeCooldown == 0) document.getElementById("dragonSpendTimeButton").disabled = false
   }
-  if (game.unlockedAchievements[6] > 1) dragonSpendTime()
+  if (game.unlockedAchievements[6] > 0) dragonSpendTime()
   if (game.unlockedAchievements[10] > 0) dragonFeed();
   
   if (game.unlockedAchievements[3] > 7) {game.magic = game.magic.add(game.magicToGet) }

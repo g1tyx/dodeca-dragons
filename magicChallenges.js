@@ -45,7 +45,7 @@ function activateMagicChallenge(x) {
 //Enters/exits magic challenges
 function enterExitMagicChallenges() {
   //Checks if you're not running challenges and also if you have more than 0 selected
-  if (!game.challengesActive && (game.dragonTimeCooldown == 0 || game.unlockedAchievements[6] > 1) && (game.selectedChallenges[0] || game.selectedChallenges[1] || game.selectedChallenges[2] || game.selectedChallenges[3])) {
+  if (!game.challengesActive && (game.dragonTimeCooldown == 0 || game.unlockedAchievements[6] > 0) && (game.selectedChallenges[0] || game.selectedChallenges[1] || game.selectedChallenges[2] || game.selectedChallenges[3])) {
     magicReset()
     game.challengesActive = true
     game.noOfSelectedChallenges = + game.selectedChallenges[0] + game.selectedChallenges[1] + game.selectedChallenges[2] + game.selectedChallenges[3]

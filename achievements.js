@@ -239,7 +239,7 @@ function processAchievementRewards() {
   //Uranium rewards
   if (game.unlockedAchievements[5] > 2) document.getElementById("uraniumMaxAllButton").style.display = "block";
   //cyan sigil rewards
-  if (game.unlockedAchievements[6] > 0) document.getElementById("dragonFeedButton").innerHTML = '<b>Feed your dragon</b><br>Turns some of your score and magifolds into dragon food<br>Next feed requires <a id="dragonFeedCost">' + format(game.dragonFeedCost, 0) + '</a> magifolds'
+  if (game.unlockedAchievements[6] > 1) document.getElementById("dragonFeedButton").innerHTML = '<b>Feed your dragon</b><br>Turns some of your score and magifolds into dragon food<br>Next feed requires <a id="dragonFeedCost">' + format(game.dragonFeedCost, 0) + '</a> magifolds'
   if (game.unlockedAchievements[6] > 2) document.getElementById("fireAutoMaxAllButton").style.display = "block";
   
   //blue sigil rewards
