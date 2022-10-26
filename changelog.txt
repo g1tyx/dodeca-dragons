@@ -1,0 +1,160 @@
+v0.5.1 (25/10/22)
+-Fixed issue where certain early game players would have platinum upgrade 7 at 20/10 instead of 10/10
+-Swapped the rewards for cyan sigil achievements 1 and 2, meaning automatic spending time comes earlier
+-"Gain more platinum and uranium upgrades" cost has been reduced from e450 to e420
+-Achievement info no longer scrolls with the achievement icons, keeping it readable if you scroll down
+
+v0.5.0 (23/10/22)
+-Added achievements, which can give you QoL bonuses
+-The QoL bonuses now work differently! Most now come from the new achievements instead of upgrades. They have also been generally moved earlier in order to make the game a bit less grindy
+-Reworked several magic upgrades to rebalance for achievements
+-Removed QoL related sigil upgrades and uranium upgrades as they have now been replaced with achievements
+-You can now name your dragon! It doesn't have any practical effect, but it's cool
+-Some sigil requirements and upgrade prices have been changed
+-"Next magic at" text now persists for longer
+-Other minor bug fixes and changes
+
+v0.4.4 (10/10/22)
+-Added pink sigils!
+-All traces of "purple" sigils have been wiped from existence. We are not to speak of them any further.
+-Fire max all now divides gold up equally between the upgrades instead of maxing each upgrade in a row
+-Fixed performance issue in which render would occur too often when clicking and dragging
+-Reduced "Unlock more magic upgrades" requirement from 275k magifolds to 150k
+-Number formatting now has 2 digits of precision for the mantissa instead of 3
+-Fixed some issues with loading earlier saves
+-Dragging controls are now implemented for mobile
+-Other minor bug fixes and changes
+
+v0.4.3 (05/10/22)
+-Added violet sigils!
+-You can now pet the dragon (unlockable with violet sigils)
+-Nerfed some of the indigo sigil upgrades
+-The game now works on mobile!
+-Added movement using the arrow keys
+-Added option to disable the background pattern
+-Some icons have been changed
+-Fixed endgame inflation issue (magic effect is now softcapped again past e100,000)
+-Fixed issue with clicking and dragging getting stuck if you drag your cursor out of the window
+-Fixed issue with right clicks causing undesired panning
+-Fixed fire upgrades resetting to the wrong price on magic reset
+-Fixed more weird rounding issues
+-Platinum upgrade 7 is now actually kept on magic reset like it says
+-Fire upgrade 3 has been buffed slightly
+-Began splitting script.js into multiple files for ease of reading going forward
+-Other minor bug fixes and changes
+
+v0.4.2 (30/09/22)
+-Added indigo sigils!
+-There's finally an upgrade to gain score automatically! YIPPEE
+-Blue sigil effect is slightly stronger
+-Fixed weird rounding issues for large powers of 10
+-Changed number formatting for numbers over 1e10,000
+-Changed magic and sigil resets so that you will always be asked to confirm if you will gain nothing from resetting
+-Hopefully finally fixed the issue with dragging getting stuck on if your mouse is over a disabled button
+-Other minor bug fixes and changes
+
+v0.4.1 (27/09/22)
+-Added blue sigils!
+-Added a time played stat (in the settings and info tab)
+-Fixed exploit that allowed players to gain lots of free gold at the start of challenges
+-Fire effect text in dragon tab now displays correctly if you have dark magic upgrade 6
+-Other minor bug fixes and changes
+
+v0.4.0 (25/09/22)
+-Added a new prestige layer: sigils!
+-Dragon time spent effect now says "capped" when you hit the cap (^2.5)
+-Magic effect is now softcapped past 1e1,000
+-Rearranged a few tabs (settings tab is now in the top left corner with the resources tab)
+-Screen now pops up for mobile users telling them they are unable to play on mobile (I haven't yet been able to get mobile to work)
+-Even more buttons are no longer fuzzy
+-Other minor bug fixes and changes
+
+v0.3.2 (18/09/22)
+-Added dark magic upgrades!
+-Fixed fire buy max buttons not appearing when upgrade is bought
+-Made the magic upgrade code a LOT shorter and faster
+
+v0.3.1 (17/09/22)
+-Added some new platinum and uranium upgrades!
+-Added buy max buttons for fire upgrades
+-Replaced the home icon with a better image
+-More buttons are no longer fuzzy (yay!)
+-Other minor bug fixes and changes
+
+v0.3.0 (16/09/22)
+-Added a new alchemy element: uranium!
+-Added a new dragon stage with some fancy new features (Surprise! Your dragon has feelings)
+-Made all the buttons left-aligned to get rid of that annoying unfixable subpixel rendering antialiasing crap
+-Magic tab now shows the amount of gold needed for the next magic (as long as you don't have any magic-increasing upgrades)
+-Fixed bug with max all for fire upgrades
+-Fixed bug with fire upgrades 4 and 5
+-Other minor bug fixes and changes
+
+v0.2.3 (11/09/22)
+-Added 2 new magic upgrades
+-Added confirmation popup toggle for magic resets
+-Importing earlier saves now makes later stuff disappear
+-Fixed fire resource text not updating until fire upgrades are unlocked
+-Some small balances to make early game easier
+
+v0.2.2 (10/09/22)
+-Various bug fixes
+
+v0.2.1 (08/09/22)
+-Fixed a bug where the game is completely broken and unplayable lol
+
+v0.2.0 (08/09/22)
+-Added magic challenges
+-Added manifolds, which boost gold gain
+-Added some new magic upgrades
+
+v0.1.2 (06/09/22)
+-Fixed bug where importing a save wouldn't hide max all buttons
+-Added discord and changelog links
+
+v0.1.1 (04/09/22)
+-Added 4 new magic upgrades and a new platinum upgrade
+-Main tab now display gold/click
+-Fixed fire upgrade 2 not affecting production
+-Fixed fire upgrade 3 being slightly incorrect
+-Platinum upgrade 6 has been made slightly less powerful
+-Added some new info text
+
+v0.1.0 (04/09/22)
+-Added magic (lose all resources and upgrades for a big bonus!)
+-Added magic upgrades
+-Added new dragon stage (dark dragon)
+-Updated fire texture to better fit with the rest of the icons
+
+v0.0.7 (30/08/22)
+-Finished the rest of the platinum upgrades
+-Added new dragon stage (elder dragon)
+-Minor bug fixes
+
+v0.0.6 (29/08/22)
+-Added platinum and platinum upgrades (only upgrades 1 and 2 work)
+
+v0.0.5 (28/08/22)
+-Added saving and loading, as well as export/import
+-Slight performance improvements
+-More magic upgrades require 275,000 magifolds and cost 100,000,000 magic
+
+v0.0.4 (27/08/22)
+-Fire upgrades now do something
+-Moved resources tab to top corner (fixed in place)
+-Dragon can now become an adult
+
+v0.0.3 (27/08/22)
+-Fire now multiplies miner production
+-Added fire upgrades (currently don't work)
+-Numbers ported over to break_eternity
+-Fixed home icon not working
+
+v0.0.2 (26/08/22)
+-Theme changed to dragons
+-Added a dragon
+-Added fire (does nothing for now)
+
+v0.0.1 (25/08/22)
+-Created game (Sushi Beans 2)
+-Click and drag feature with two basic boxes
