@@ -360,6 +360,14 @@ img {
   text-shadow: 1px 1px 0 #626;
 }
 
+.knowledgeTradeDiv {
+  display: inline-block;
+  height: 200px;
+  background-color: #987;
+  text-align: center;
+  margin: 3px;
+}
+
 #achievementInfo {
   position: absolute;
   width: calc(100% - 20px);
@@ -387,15 +395,9 @@ img {
   transition: left 800ms ease-in-out;
 }
 
-#testdiv {
-  position: absolute;
-  height:100px;
-  width: 350px;
-  top: initial;
-  bottom: 30px; 
-  left: 30px; 
-  transform: none; 
-  z-index: 2; 
-  transition: left 800ms ease-in-out;
-  border: 5px solid pink;
+#autosaveWarning {
+  position: fixed;
+  top:20px;
+  right:20px;
+  width:200px;
 }

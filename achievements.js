@@ -1,11 +1,12 @@
 // Steps for adding new achievements:
 // 1. add name and requirements to relevant arrays in constants.js
 // 2. if reward, add reward description to reward object in constants.js
-// 3. if reward, implement rewards via handleAchievementRewards and whatever other means are needed
+// 3. if reward, implement rewards via processAchievementRewards and/or whatever other means are needed
 
 // Adding new achievement categories:
 // 1. add new array to achievementNames and achievementRequirements, ideally with proper comment labels, in constants.js
-// 2. add new object to achievementResources array
+// 2. add new object to achievementResources array and a new string to the achievementColours array
+// 3. add new int onto the end of each sub-array in the achievementDisplayUnlocks array
 // 3. add new int to the end of game.unlockedAchievements array
 
 //Sets aspects of the achievement element
@@ -245,7 +246,11 @@ function processAchievementRewards() {
   //blue sigil rewards
   if (game.unlockedAchievements[7] > 1) document.getElementById("dragonFeedButton").innerHTML = '<b>Feed your dragon</b><br>Next feed requires <a id="dragonFeedCost">' + format(game.dragonFeedCost, 0) + '</a> magifolds'
   //violet sigil rewards
-  if (game.unlockedAchievements[9] > 0) {document.getElementsByClassName("box")[3].style.height = "600px"; document.getElementById("dragonPetStuff").style.display = "block"}
+  if (game.unlockedAchievements[9] > 0) {document.getElementById("dragonPetStuff").style.display = "block"}
+  //pink sigil rewards
+  if (game.unlockedAchievements[10] > 1) {document.getElementsByClassName("box")[20].style.display = "block"}
+  //knowledge rewards
+  if (game.unlockedAchievements[11] > 0) {document.getElementById("sigilResetAutomation").style.display = "block"}
 }
 
 function achievementBoxOpen(x,y) {

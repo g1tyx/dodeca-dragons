@@ -46,7 +46,6 @@ function upgradeDragon(x) {
     document.getElementById("dragonTitle").innerHTML = "<a style='font-size: 14px'>You have a</a><br>Light dragon"
     document.getElementById("dragonInfo").innerHTML = "Your heavenly light dragon focuses the power of the gods themselves to protect your people from harm. It can also fire lightning out of its claws, because it's cool like that."
     game.dragonStage = 5
-    document.getElementsByClassName("box")[3].style.height = "520px"
     document.getElementById("dragonAffectionStuff").style.display = "block"
     document.getElementById("dragonTimeCooldown").innerHTML = game.dragonTimeCooldown
     document.getElementById("dragonTimeSpent").innerHTML = format(game.dragonTimeSpent, 0)
@@ -163,6 +162,7 @@ function dragonPet() {
     game.pinkSigils = game.pinkSigils.sub(250)
     game.dragonPets++
     document.getElementById("dragonPetButton").disabled = true
+    document.getElementById("dragonPets").innerHTML = game.dragonPets
     document.getElementById("dragonPetEffect").innerHTML = format(new Decimal(5).pow(game.dragonPets ** 0.5), 2)
   }
 }

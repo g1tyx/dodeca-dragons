@@ -19,6 +19,27 @@ if (mobileCheck()) {
   };
 }
 
+window.isDevVersion = window.location.href.indexOf('dodecadragons-indev') !== -1
+if (isDevVersion) {
+  document.getElementById("inDevSpan").innerHTML = "INDEV";
+    //FPS stuff
+  window.times = []
+  window.fps = 0
+  
+  function refreshLoop() {
+    window.requestAnimationFrame(() => {
+      const now = performance.now()
+      while (times.length > 0 && times[0] <= now - 1000) times.shift()
+      times.push(now)
+      fps = times.length
+      refreshLoop()
+    });
+  }
+  refreshLoop()
+
+  setInterval(function() {document.getElementById("fps").innerHTML = fps + " fps"}, 200);
+}
+
 //Formatting code taken from RedShark77's games
 function format(ex, acc=2, max=9) {
   function E(x) {return new Decimal(x)}
@@ -52,25 +73,32 @@ function format(ex, acc=2, max=9) {
   }
 }
 
+
+var autosaveStarted = false;
 //Sets all variables to their base values
 function reset() {
 	game = {
     unlockedAchievements: [0,0,0,0,0,0,0,0,0,0,0],
 
+    unlocks: 0,
     lastMajorChangeVersion: 2, //tracks what version was last played so adjustments can be made in the loading code when necessary. 
     lastUpdate: Date.now(),
+    lastSave: 0,
     timePlayed: 0,
     backgroundPatternOn: true,
     confirmations: [true, true],
     achievementFlashActive: false,
     currentTab: 1,
     dragonName: "Unnamed dragon",
+
+    sigilResetterActive: false,
+    sigilResetterType: 0,
+    sigilResetterAmount: new Decimal(1),
     
     gold: new Decimal(0),
     goldPerSecond: new Decimal(0),
     miners: new Decimal(0),
     minerCost: new Decimal(20),
-    unlocks: 0,
     
     fire: new Decimal(0),
     firePerSecond: new Decimal(1),
@@ -186,11 +214,32 @@ function reset() {
     pinkSigilUpgrade1Cost: new Decimal(1),
     //pinkSigilUpgrade3Bought: new Decimal(0),
     pinkSigilUpgrade3Cost: new Decimal(150000),
-    pinkSigilUpgradesBought: [new Decimal(0), new Decimal(0), new Decimal(0)],
+    pinkSigilUpgradesBought: [new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0)],
+
+    knowledge: new Decimal(0),
+    highestKnowledge: new Decimal(0),
+    knowledgeTradeLevel: new Decimal(1),
+    knowledgeTradeLevelCap: new Decimal(3),
+    knowledgeTrade1SigilTypes: [1, 2, 3],
+    knowledgeTrade1Amounts: [new Decimal(0), new Decimal(0), new Decimal(0)],
+    knowledgeTrade1Multipliers: [new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0)],
+    knowledgeTrade1Reward: new Decimal(0),
+    knowledgeTrade2SigilTypes: [1, 2, 3],
+    knowledgeTrade2Amounts: [new Decimal(0), new Decimal(0), new Decimal(0)],
+    knowledgeTrade2Multipliers: [new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0)],
+    knowledgeTrade2Reward: new Decimal(0),
+    knowledgeTrade3SigilTypes: [1, 2, 3],
+    knowledgeTrade3Amounts: [new Decimal(0), new Decimal(0), new Decimal(0)],
+    knowledgeTrade3Multipliers: [new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0)],
+    knowledgeTrade3Reward: new Decimal(0),
+    knowledgeUpgradesBought: [new Decimal(0), new Decimal(0), new Decimal(0)],
+    knowledgeUpgradeCosts: [new Decimal(20), new Decimal(50)]
   }
 
-  for (i=3;i<17;i++) document.getElementsByClassName("box")[i].style.display = "none"
-  for (i=1;i<12;i++) document.getElementsByClassName("resourceRow")[i].style.display = "none"
+  for (i=3;i<21;i++) {
+    if (i != 18) document.getElementsByClassName("box")[i].style.display = "none"
+  }
+  for (i=1;i<13;i++) document.getElementsByClassName("resourceRow")[i].style.display = "none"
   for (i=12;i<20;i++) {document.getElementsByClassName("magicUpgrade")[i].style.display = "none"}
   for (i=8;i<10;i++) {document.getElementsByClassName("darkMagicUpgrade")[i].style.display = "none"}
   document.getElementsByClassName("fireUpgrade")[5].style.display = "none"
@@ -205,7 +254,7 @@ function reset() {
   document.getElementById("minerAutoBuyMaxButton").style.display = "none"
   document.getElementById("darkMagicUpgradeBuyMaxButton").style.display = "none"
   document.getElementById("dragonPetButton").disabled = false
-  console.log("Game variables are loaded")
+  document.getElementById("sigilResetAutomation").style.display = "none"
 }
 
 reset()
@@ -220,18 +269,51 @@ function hardReset() {
 }
 
 function save() {
-	localStorage.setItem("dodecaSave", JSON.stringify(game));
+  //console.log("saving")
+  game.lastSave = Date.now();
+  localStorage.setItem("dodecaSave", JSON.stringify(game));
+  localStorage.setItem("dodecaLastSaved", game.lastSave);
 }
 
+function setAutoSave() {
+  setInterval(save, 5000);
+  autosaveStarted = true;
+}
 //setInterval(save, 5000)
 
 function exportGame() {
   save()
-  navigator.clipboard.writeText(btoa(JSON.stringify(game))).then(function() {
-    alert("Copied to clipboard!")
-  }, function() {
-    alert("Error copying to clipboard, try again...")
-  });
+  if (mobileCheck()) {
+    let inputField = document.getElementById("exportField");
+    inputField.type = 'text';
+    inputField.value = btoa(JSON.stringify(game));
+    if (navigator.userAgent.match(/ipad|ipod|iphone/i)) {
+      let editable = inputField.contentEditable;
+      let readOnly = inputField.readOnly;
+      inputField.contentEditable = 'true';
+      inputField.readOnly = 'false';
+      let range = document.createRange();
+      range.selectNodeContents(inputField);
+      let sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+      inputField.setSelectionRange(0, 999999);
+      inputField.contentEditable = editable;
+      inputField.readOnly = readOnly;
+    } else {
+      inputField.select();
+    }
+    //mobileDebug(inputField.value);
+    document.execCommand('copy');
+    inputField.type = 'hidden';
+    inputField.blur();
+  } else {
+    navigator.clipboard.writeText(btoa(JSON.stringify(game))).then(function() {
+      alert("Copied to clipboard!")
+    }, function() {
+      alert("Error copying to clipboard, try again...")
+    }); 
+  }
 }
 
 function importGame() {
@@ -247,11 +329,10 @@ function importGame() {
 }
 
 function load() {
-  console.log("Attempting to load save...")
 	reset()
 	let loadgame = JSON.parse(localStorage.getItem("dodecaSave"))
+  //loadgame.kkkgl();
 	if (loadgame != null) {
-    console.log("Save file found")
 		loadGame(loadgame)
 	}
 }
@@ -307,6 +388,23 @@ function loadGame(loadgame) {
   if (game.fireAutoMaxAll) {document.getElementById("fireAutoMaxAllButton").innerHTML = "Auto max all: On"} //Toggle the fire auto max all button
   else {document.getElementById("fireAutoMaxAllButton").innerHTML = "Auto max all: Off"}
   if (game.dragonName !== undefined) document.getElementById("dragonNameBox").value = game.dragonName
+  if (game.minerAutoBuyMax) {document.getElementById("minerAutoBuyMaxButton").innerHTML = "Auto max all: On"}
+  else {document.getElementById("minerAutoBuyMaxButton").innerHTML = "Auto max all: Off"}
+  if (game.dragonPets >= 4) {document.getElementById("dragonPetRequirement").innerHTML = "pink"}
+  else if (game.dragonPets >= 3) {document.getElementById("dragonPetRequirement").innerHTML = "violet"}
+  else if (game.dragonPets >= 2) {document.getElementById("dragonPetRequirement").innerHTML = "indigo"}
+  else if (game.dragonPets >= 1) {document.getElementById("dragonPetRequirement").innerHTML = "blue"}
+  else {document.getElementById("dragonPetRequirement").innerHTML = "cyan"}
+  if (game.dragonPets >= 5) document.getElementById("dragonPetButton").disabled = true
+  document.getElementById("dragonPets").innerHTML = game.dragonPets
+  document.getElementById("dragonPetEffect").innerHTML = format(new Decimal(5).pow(game.dragonPets ** 0.5), 2)
+  if (game.pinkSigilUpgradesBought.length == 3) game.pinkSigilUpgradesBought[3] = new Decimal(0) //Adds the 4th pink sigil upgrade
+
+  document.getElementById("sigilResetterAmount").value = game.sigilResetterAmount.toString(); //set input field for sigil resetter amount
+  document.getElementById("sigilResetterActive").checked = game.sigilResetterActive;
+  let currentResetterType = sigilColours[game.sigilResetterType];
+  document.getElementById("sigilResetterType").value = currentResetterType[0].toUpperCase() + currentResetterType.slice(1);
+  if (document.getElementById("sigilResetterType").value === '') {document.getElementById("sigilResetterType").value = 'Cyan'; game.sigilResetterType = 0}
   
   //for (let j=0;j<achievementResourceInternals.length;j++) { //achievementResourceInternals tells us the internal names of the resources e.g. cyanSigils
     //for (let i=0;i<game.unlockedAchievements[i];i++) {
@@ -531,21 +629,11 @@ function loadGame(loadgame) {
       document.getElementsByClassName("violetSigilUpgrade")[3].disabled = true
     }
     else {document.getElementsByClassName("violetSigilUpgrade")[3].disabled = false}
-    if (game.minerAutoBuyMax) {document.getElementById("minerAutoBuyMaxButton").innerHTML = "Auto max all: On"}
-    else {document.getElementById("minerAutoBuyMaxButton").innerHTML = "Auto max all: Off"}
     //if (game.violetSigilUpgrade5Bought.eq(1)) {document.getElementsByClassName("violetSigilUpgrade")[2].disabled = true}
     //else {document.getElementsByClassName("violetSigilUpgrade")[2].disabled = false}
     //if (game.violetSigilUpgrade6Bought.eq(1)) {document.getElementsByClassName("violetSigilUpgrade")[3].disabled = true}
     //else {document.getElementsByClassName("violetSigilUpgrade")[3].disabled = false}
     //This is so bad and I know how to condense it and I WON'T because I'm EVIL (and tired)
-    if (game.dragonPets >= 4) {document.getElementById("dragonPetRequirement").innerHTML = "pink"}
-    else if (game.dragonPets >= 3) {document.getElementById("dragonPetRequirement").innerHTML = "violet"}
-    else if (game.dragonPets >= 2) {document.getElementById("dragonPetRequirement").innerHTML = "indigo"}
-    else if (game.dragonPets >= 1) {document.getElementById("dragonPetRequirement").innerHTML = "blue"}
-    else {document.getElementById("dragonPetRequirement").innerHTML = "cyan"}
-    if (game.dragonPets >= 5) document.getElementById("dragonPetButton").disabled = true
-    document.getElementById("dragonPets").innerHTML = game.dragonPets
-    document.getElementById("dragonPetEffect").innerHTML = format(new Decimal(5).pow(game.dragonPets ** 0.5), 2)
   }
   //Pink sigil stuff
   if (game.unlocks >= 14) {
@@ -563,6 +651,22 @@ function loadGame(loadgame) {
       for (i=8;i<10;i++) document.getElementsByClassName("darkMagicUpgrade")[i].style.display = "none"
       document.getElementsByClassName("pinkSigilUpgrade")[1].disabled = false
     }
+    if (game.pinkSigilUpgradesBought[3].gt(0)) {document.getElementsByClassName("pinkSigilUpgrade")[3].disabled = true}
+    else {document.getElementsByClassName("pinkSigilUpgrade")[3].disabled = false}
+  }
+  //Knowledge stuff
+  if (game.unlocks >= 15) {
+    document.getElementsByClassName("box")[19].style.display = "block"
+    document.getElementsByClassName("resourceRow")[12].style.display = "block"
+    document.getElementById("knowledgeTradeLevel").innerHTML = game.knowledgeTradeLevel
+    if (game.knowledgeTradeLevel.lt(1e308)) document.getElementById("knowledgeLevelRange").value = game.knowledgeTradeLevel.toNumber()
+    document.getElementById("knowledgeUpgrade1Cost").innerHTML = format(game.knowledgeUpgradeCosts[0], 0)
+    document.getElementById("knowledgeUpgrade1Effect").innerHTML = format(new Decimal(2).pow(game.knowledgeUpgradesBought[0].pow(0.5)), 2)
+    document.getElementById("knowledgeUpgrade2Cost").innerHTML = format(game.knowledgeUpgradeCosts[1], 0)
+    document.getElementById("knowledgeUpgrade2Effect").innerHTML = format(new Decimal(5).pow(game.knowledgeUpgradesBought[1].pow(0.5)), 2)
+    loadKnowledgeTrade(1)
+    loadKnowledgeTrade(2)
+    loadKnowledgeTrade(3)
   }
 
   //Dragon stage stuff
@@ -588,7 +692,6 @@ function loadGame(loadgame) {
     document.getElementById("dragonInfo").innerHTML = "Your menacing dark dragon calls upon the power of the void itself to defend your empire."
   }
   if (game.dragonStage < 5) {
-    document.getElementsByClassName("box")[3].style.height = "420px"
     document.getElementById("dragonAffectionStuff").style.display = "none"
   }
   if (game.dragonStage >= 5) {
@@ -596,8 +699,6 @@ function loadGame(loadgame) {
     document.getElementById("dragonImg").src = "img/iconDragon5.png"
     document.getElementById("dragonTitle").innerHTML = "<a style='font-size: 14px'>You have a</a><br>Light dragon"
     document.getElementById("dragonInfo").innerHTML = "Your heavenly light dragon focuses the power of the gods themselves to protect your people from harm. It can also fire lightning out of its claws, because it's cool like that."
-    if (game.unlockedAchievements[9] > 0) {document.getElementsByClassName("box")[3].style.height = "600px"}
-    else {document.getElementsByClassName("box")[3].style.height = "520px"}
     document.getElementById("dragonAffectionStuff").style.display = "block"
     document.getElementById("dragonTimeCooldown").innerHTML = game.dragonTimeCooldown
     document.getElementById("dragonTimeSpent").innerHTML = format(game.dragonTimeSpent, 0)
@@ -802,6 +903,10 @@ function updateSmall() {
     }
     else {document.getElementById("magicEffectCap").innerHTML = ""}
     if (game.magicEffect.gt("e100000")) {game.magicEffect = game.magicEffect.mul("e900000").pow(0.1)}
+    if (game.magicEffect.gt("e500000")) {
+      game.magicEffect = new Decimal("e500000")
+      document.getElementById("magicEffectCap").innerHTML = " (hardcapped)"
+    }
     document.getElementById("magicEffect").innerHTML = format(game.magicEffect, 2)
     document.getElementById("magicUpgrade1Effect").innerHTML = format(game.gold.add(1).log10().add(1), 2)
     if (game.magicUpgradesBought[9]) {
@@ -831,10 +936,10 @@ function updateSmall() {
     if (game.darkMagicUpgradesBought[0]) game.magicScoreToGet = game.magicScoreToGet.pow(1.3)
     game.magicScoreToGet = game.magicScoreToGet.floor()
     if (game.unlockedAchievements[8] > 0) {
-      game.magicScore1 = game.magicScoreToGet
-      game.magicScore2 = game.magicScoreToGet
-      game.magicScore3 = game.magicScoreToGet
-      game.magicScore4 = game.magicScoreToGet
+      game.magicScore1 = Decimal.max(game.magicScoreToGet, game.magicScore1);
+      game.magicScore2 = Decimal.max(game.magicScoreToGet, game.magicScore2);
+      game.magicScore3 = Decimal.max(game.magicScoreToGet, game.magicScore3);
+      game.magicScore4 = Decimal.max(game.magicScoreToGet, game.magicScore4);
       document.getElementById("magicScore1").innerHTML = format(game.magicScore1, 0)
       document.getElementById("magicScore2").innerHTML = format(game.magicScore2, 0)
       document.getElementById("magicScore3").innerHTML = format(game.magicScore3, 0)
@@ -869,6 +974,7 @@ function updateSmall() {
     if (game.unlocks >= 8) game.uraniumToGet = game.uraniumToGet.mul(2 ** game.platinumUpgradesBought[7])
     if (game.darkMagicUpgradesBought[4]) game.uraniumToGet = game.uraniumToGet.mul(100)
     if (game.unlocks >= 10) game.uraniumToGet = game.uraniumToGet.mul(game.cyanSigilUpgradesBought[1].add(1).pow(1.5))
+    if (game.unlocks >= 15) game.uraniumToGet = game.uraniumToGet.pow(new Decimal(5).pow(game.knowledgeUpgradesBought[1].pow(0.5)))
     game.uraniumToGet = game.uraniumToGet.floor()
     document.getElementById("uraniumToGet").innerHTML = format(game.uraniumToGet, 0)
   }
@@ -879,7 +985,9 @@ function updateSmall() {
     game.cyanSigilsToGet = game.gold.add(1).log10().div(new Decimal(3000).sub(game.blueSigilUpgradesBought[2].mul(100))).floor()
     document.getElementById("nextCyanSigil").innerHTML = format(new Decimal(10).pow(game.cyanSigilsToGet.add(1).mul(new Decimal(3000).sub(game.blueSigilUpgradesBought[2].mul(100)))), 0)
     if (game.darkMagicUpgradesBought[8] == true) game.cyanSigilsToGet = game.cyanSigilsToGet.mul(3)
-    game.cyanSigilsToGet = game.cyanSigilsToGet.mul(new Decimal(5).pow(game.dragonPets ** 0.5)).round()
+    game.cyanSigilsToGet = game.cyanSigilsToGet.mul(new Decimal(5).pow(game.dragonPets ** 0.5))
+    if (game.unlocks >= 15) game.cyanSigilsToGet = game.cyanSigilsToGet.mul(game.highestKnowledge.div(3).pow(0.7).add(1))
+    game.cyanSigilsToGet = game.cyanSigilsToGet.round()
     document.getElementById("cyanSigils").innerHTML = format(game.cyanSigils, 0)
     document.getElementById("cyanSigilsToGet").innerHTML = format(game.cyanSigilsToGet, 0)
     document.getElementsByClassName("resourceText")[7].innerHTML = format(game.cyanSigils, 0)
@@ -893,7 +1001,9 @@ function updateSmall() {
     game.blueSigilsToGet = game.gold.add(1).log10().div(8000).floor()
     document.getElementById("nextBlueSigil").innerHTML = format(new Decimal(10).pow(game.blueSigilsToGet.add(1).mul(8000)), 0)
     if (game.darkMagicUpgradesBought[8] == true) game.blueSigilsToGet = game.blueSigilsToGet.mul(3)
-    game.blueSigilsToGet = game.blueSigilsToGet.mul(new Decimal(5).pow(game.dragonPets ** 0.5)).round()
+    game.blueSigilsToGet = game.blueSigilsToGet.mul(new Decimal(5).pow(game.dragonPets ** 0.5))
+    if (game.unlocks >= 15) game.blueSigilsToGet = game.blueSigilsToGet.mul(game.highestKnowledge.div(3).pow(0.7).add(1))
+    game.blueSigilsToGet = game.blueSigilsToGet.round()
     document.getElementById("blueSigils").innerHTML = format(game.blueSigils, 0)
     document.getElementById("blueSigilsToGet").innerHTML = format(game.blueSigilsToGet, 0)
     document.getElementsByClassName("resourceText")[8].innerHTML = format(game.blueSigils, 0)
@@ -906,12 +1016,13 @@ function updateSmall() {
   if (game.unlocks >= 12) {
     game.indigoSigilsToGet = game.gold.add(1).log10().div(16000).floor()
     document.getElementById("nextIndigoSigil").innerHTML = format(new Decimal(10).pow(game.indigoSigilsToGet.add(1).mul(16000)), 0)
-    game.indigoSigilsToGet = game.indigoSigilsToGet.mul(new Decimal(5).pow(game.dragonPets ** 0.5)).round()
+    game.indigoSigilsToGet = game.indigoSigilsToGet.mul(new Decimal(5).pow(game.dragonPets ** 0.5))
+    if (game.unlocks >= 15) game.indigoSigilsToGet = game.indigoSigilsToGet.mul(game.highestKnowledge.div(3).pow(0.7).add(1))
+    game.indigoSigilsToGet = game.indigoSigilsToGet.round()
     document.getElementById("indigoSigils").innerHTML = format(game.indigoSigils, 0)
     document.getElementsByClassName("resourceText")[9].innerHTML = format(game.indigoSigils, 0)
     document.getElementById("indigoSigilEffect").innerHTML = format(game.indigoSigils.add(1).pow(4), 0)
     document.getElementById("indigoSigilsToGet").innerHTML = format(game.indigoSigilsToGet, 0)
-    
     game.indigoSigilPowerPerSecond = game.indigoSigils.pow(2).div(100).mul(game.indigoSigilUpgradesBought[0].add(1))
     document.getElementById("indigoSigilPower").innerHTML = format(game.indigoSigilPower, 2)
     document.getElementById("indigoSigilPowerPerSecond").innerHTML = format(game.indigoSigilPowerPerSecond, 2)
@@ -919,7 +1030,9 @@ function updateSmall() {
   if (game.unlocks >= 13) {
     game.violetSigilsToGet = game.gold.add(1).log10().div(30000).floor()
     document.getElementById("nextVioletSigil").innerHTML = format(new Decimal(10).pow(game.violetSigilsToGet.add(1).mul(30000)), 0)
-    game.violetSigilsToGet = game.violetSigilsToGet.mul(new Decimal(5).pow(game.dragonPets ** 0.5)).round()
+    game.violetSigilsToGet = game.violetSigilsToGet.mul(new Decimal(5).pow(game.dragonPets ** 0.5))
+    if (game.unlocks >= 15) game.violetSigilsToGet = game.violetSigilsToGet.mul(game.highestKnowledge.div(3).pow(0.7).add(1))
+    game.violetSigilsToGet = game.violetSigilsToGet.round()
     document.getElementById("violetSigils").innerHTML = format(game.violetSigils, 0)
     document.getElementsByClassName("resourceText")[10].innerHTML = format(game.violetSigils, 0)
     document.getElementById("violetSigilEffect").innerHTML = format(game.violetSigils.add(1).pow(5), 0)
@@ -931,7 +1044,9 @@ function updateSmall() {
   if (game.unlocks >= 14) {
     game.pinkSigilsToGet = game.gold.add(1).log10().div(300000).floor()
     document.getElementById("nextPinkSigil").innerHTML = format(new Decimal(10).pow(game.pinkSigilsToGet.add(1).mul(300000)), 0)
-    game.pinkSigilsToGet = game.pinkSigilsToGet.mul(new Decimal(5).pow(game.dragonPets ** 0.5)).round()
+    game.pinkSigilsToGet = game.pinkSigilsToGet.mul(new Decimal(5).pow(game.dragonPets ** 0.5))
+    if (game.unlocks >= 15) game.pinkSigilsToGet = game.pinkSigilsToGet.mul(game.highestKnowledge.div(3).pow(0.7).add(1))
+    game.pinkSigilsToGet = game.pinkSigilsToGet.round()
     document.getElementById("pinkSigils").innerHTML = format(game.pinkSigils, 0)
     document.getElementsByClassName("resourceText")[11].innerHTML = format(game.pinkSigils, 0)
     document.getElementById("pinkSigilEffect").innerHTML = format(game.pinkSigils.add(1).pow(6), 0)
@@ -939,6 +1054,19 @@ function updateSmall() {
     game.pinkSigilPowerPerSecond = game.pinkSigils.pow(2).div(100).mul(game.pinkSigilUpgradesBought[0].add(1))
     document.getElementById("pinkSigilPower").innerHTML = format(game.pinkSigilPower, 2)
     document.getElementById("pinkSigilPowerPerSecond").innerHTML = format(game.pinkSigilPowerPerSecond, 2)
+  }
+  if (game.unlocks >= 15) {
+    document.getElementById("knowledge").innerHTML = format(game.knowledge, 0)
+    document.getElementsByClassName("resourceText")[12].innerHTML = format(game.knowledge, 0)
+    document.getElementById("highestKnowledge").innerHTML = format(game.highestKnowledge, 0)
+    game.knowledgeTradeLevelCap = game.highestKnowledge.add(1).log2().mul(1.3).add(3).floor()
+    if (game.knowledgeTradeLevelCap.lt(1e308)) document.getElementById("knowledgeLevelRange").max = game.knowledgeTradeLevelCap.toNumber()
+    document.getElementById("knowledgeSigilBoost").innerHTML = format(game.highestKnowledge.div(3).pow(0.7).add(1), 2)
+    document.getElementsByClassName("knowledgeTradeCostRange")[0].innerHTML = format(new Decimal(1.5).pow(game.knowledgeTradeLevel.sub(1)).mul(knowledgeMultipliers[0]).mul(2.5).floor().mul(100), 0) + " - " + format(new Decimal(1.5).pow(game.knowledgeTradeLevel.sub(1)).mul(knowledgeMultipliers[0]).mul(7.5).floor().mul(100), 0)
+    document.getElementsByClassName("knowledgeTradeCostRange")[1].innerHTML = format(new Decimal(1.5).pow(game.knowledgeTradeLevel.sub(1)).mul(knowledgeMultipliers[1]).mul(2.5).floor().mul(100), 0) + " - " + format(new Decimal(1.5).pow(game.knowledgeTradeLevel.sub(1)).mul(knowledgeMultipliers[1]).mul(7.5).floor().mul(100), 0)
+    document.getElementsByClassName("knowledgeTradeCostRange")[2].innerHTML = format(new Decimal(1.5).pow(game.knowledgeTradeLevel.sub(1)).mul(knowledgeMultipliers[2]).mul(2.5).floor().mul(100), 0) + " - " + format(new Decimal(1.5).pow(game.knowledgeTradeLevel.sub(1)).mul(knowledgeMultipliers[2]).mul(7.5).floor().mul(100), 0)
+    document.getElementsByClassName("knowledgeTradeCostRange")[3].innerHTML = format(new Decimal(1.5).pow(game.knowledgeTradeLevel.sub(1)).mul(knowledgeMultipliers[3]).mul(2.5).floor().mul(100), 0) + " - " + format(new Decimal(1.5).pow(game.knowledgeTradeLevel.sub(1)).mul(knowledgeMultipliers[3]).mul(7.5).floor().mul(100), 0)
+    document.getElementsByClassName("knowledgeTradeCostRange")[4].innerHTML = format(new Decimal(1.5).pow(game.knowledgeTradeLevel.sub(1)).mul(knowledgeMultipliers[4]).mul(2.5).floor().mul(100), 0) + " - " + format(new Decimal(1.5).pow(game.knowledgeTradeLevel.sub(1)).mul(knowledgeMultipliers[4]).mul(7.5).floor().mul(100), 0)
   }
   //game.gold = game.gold.add(game.goldPerSecond.mul(diff));
   //if (game.unlocks >= 1) game.fire = game.fire.add(game.firePerSecond.mul(diff)) // .mul(diff)
@@ -1002,6 +1130,17 @@ function updateLarge() {
   if (game.unlockedAchievements[0] > 8 && game.minerAutoBuyMax) buyMaxMiners()
   updateSmall()
   checkAchievements()
+  if (game.sigilResetterActive) sigilAutoResetter();
+  
+  if (!isDevVersion) {
+    let lastConfirmedSave = parseInt(localStorage.getItem("dodecaLastSaved"));
+    if (Date.now() - lastConfirmedSave > 60000) {
+      document.getElementById("autosaveWarning").style.display = 'block';
+      document.getElementById("saveErrorCode").innerHTML = getSaveErrorCode();
+    } else {
+      document.getElementById("autosaveWarning").style.display = 'none';
+    }
+  }
 }
 setInterval(updateLarge, 1000)
 
@@ -1109,6 +1248,20 @@ function timePlayedUp() {
   timeString = (timePlayedHours + ":" + ((timePlayedMinutes < 10 ? '0' : '') + timePlayedMinutes) + ":" + ((timePlayedSeconds < 10 ? '0' : '') + timePlayedSeconds))
   document.getElementById("timePlayed").innerHTML = timeString
   lastTimePlayedUp = Date.now()
+}
+
+function getSaveErrorCode() {
+  //error code will indicate 3 things: 
+  let _validSave = 0; //first value is whether a valid save exists in the storage.
+  let _timeMatches = 0; //second value is whether the time on this save matches the tracked time.
+  let _intervalStarted = 0; //Third value is whether autosave interval ever seemingly initialized.
+  let lastConfirmedSave = parseInt(localStorage.getItem("dodecaLastSaved"));
+  if (lastConfirmedSave > 0) _validSave = 1;
+  if (lastConfirmedSave === game.lastSave) _timeMatches = 1;
+  if (autosaveStarted) _intervalStarted = 1;
+  let errorCode = "" + _validSave + _timeMatches + _intervalStarted;
+  if (_timeMatches === 0) errorCode = errorCode + ": " + (game.lastSave - lastConfirmedSave) / 1000; // if times don't match, this appaends the number of seconds they're off by
+  return errorCode;
 }
 
 setInterval(timePlayedUp, 100)

@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
   <meta content="DodecaDragons" property="og:title" />
-  <meta content="Man... :pensive: :pensive: :pensive:"
+  <meta content="I don’t know man, you’ve been seeming sus lately... It’s almost like we have an impostor among us."
     property="og:description" />
   <meta content="https://demonins-item-shop.demonin.repl.co/games/dodecaDragons/" property="og:url" />
   <meta content="logo.png" property="og:image" />
@@ -13,7 +13,8 @@
   <title>DodecaDragons</title>
   <link rel="icon" type="image/x-icon" href="img/iconGoldCoins.png">
   <link rel="stylesheet" href="98.css" />
-  <link href="style.css" rel="stylesheet" type="text/css" />
+  
+  <link href="style.css" rel="stylesheet" type="text/css" /> 
 </head>
 
 <body onclick="updateSmall()">
@@ -48,17 +49,18 @@
 
   <!--Settings and info-->
   <div class="window box"
-    style="width: 150px; height: 360px; top: 30px; left: 5px; transform: none; padding-bottom: 8px; z-index: 1; display: none;">
+    style="width: 150px; top: 30px; left: 5px; transform: none; padding-bottom: 8px; z-index: 1; display: none;">
     <div class="title-bar" style="background-image: linear-gradient(90deg,grey,#b5b5b5);">
       <div class="title-bar-text">Settings and info</div>
     </div>
-    <div class="window-body">
+    <div class="window-body"  style="max-height: 400px; overflow: auto">
       <p style="margin: 3px; color: #666">Move around by clicking and dragging.<br>If you find the text is too small,
         you might want to zoom in the window :)</p>
       <hr>
       <button style="width: 142px" onclick="save()">&#8202;&#8202;Manual save</button><br>
       <button style="min-width: 68px" onclick="exportGame()">&#8202;&#8202;Export</button>
       <button style="min-width: 68px" onclick="importGame()">Import</button><br>
+      <input id="exportField" type="hidden"></input>
       <button style="width: 142px; background-color: #daa" onclick="hardReset()">&#8202;&#8202;Hard reset</button>
       <hr>
       <button id="backgroundPatternButton" style="width: 142px"
@@ -75,9 +77,10 @@
             onclick="toggleConfirmations(2)"></div>
         </center>
       </div>
+      <br><br><br><br><br>
       <p id ="devinfo" style="position: absolute; bottom: 4px; right: 4px; text-align: right; margin: 0; color: #666;"><a
           href="https://discord.gg/7PChmUV3wk">Discord</a><br><a href="changelog.txt">Changelog</a><br>Created by
-        Demonin<br>v0.5.1</p>
+        Demonin<br>v0.6.0 <span id="inDevSpan"></span></p>
     </div>
   </div>
 
@@ -112,13 +115,13 @@
         sigils: <a class="resourceText">0</a></p>
       <p class="resourceRow" style="display: none"><img src="img/iconSigil4.png" class="resourceIcon"></img>Violet
         sigils: <a class="resourceText">0</a></p>
-      <p class="resourceRow" style="display: none"><img src="img/iconSigil5.png" class="resourceIcon"></img>Pink
-        sigils: <a class="resourceText">0</a></p>
+      <p class="resourceRow" style="display: none"><img src="img/iconSigil5.png" class="resourceIcon"></img>Pink sigils: <a class="resourceText">0</a></p>
+      <p class="resourceRow" style="display: none"><img src="img/iconKnowledge.png" class="resourceIcon"></img>Knowledge: <a class="resourceText">0</a></p>
     </div>
   </div>
 
   <!--Dragon tab-->
-  <div class="window box" style="width: 350px; height: 420px; display: none">
+  <div class="window box" style="width: 350px; display: none">
     <div class="title-bar">
       <div class="title-bar-text">Dragon</div>
     </div>
@@ -214,7 +217,7 @@
         gold/second (<a class="platinumUpgradesBought">0</a>/4)<br>Currently x<a
           id="platinumUpgrade6Effect">1.00</a><br>Costs 15,000 platinum</button><br>
       <button class="platinumUpgrade" onclick="buyPlatinumUpgrade(7)" style="height: 46px; display: none">Increase magic
-        effect (<a class="platinumUpgradesBought">0</a>/<span id="platinumUpgrade7Max">10</span>)<br>Currently x<a
+        effect (<a class="platinumUpgradesBought">0</a>/<a id="platinumUpgrade7Max">10</a>)<br>Currently x<a
           id="platinumUpgrade7Effect">1.00</a><br>Costs 1,000,000 platinum</button><br>
       <button class="platinumUpgrade" onclick="buyPlatinumUpgrade(8)" style="display: none">Double uranium gain (<a
           class="platinumUpgradesBought">0</a>/5)<br>Costs 1.000e22 platinum</button><br>
@@ -393,9 +396,9 @@
       <button class="darkMagicUpgrade" id="sigilMagicUpgrade" onclick="buyDarkMagicUpgrade(8)">Unlock
         <b>Sigils</b><br>Costs 1.00e450 magic</button>
       <button class="darkMagicUpgrade" style="display: none" onclick="buyDarkMagicUpgrade(9)">Triple cyan and blue
-        sigil gain<br>Costs e180,000 magic</button>
+        sigil gain<br>Costs e125,000 magic</button>
       <button class="darkMagicUpgrade" style="display: none" onclick="buyDarkMagicUpgrade(10)">Increase magic gain by
-        ^1.10<br>Costs e200,000 magic</button>
+        ^1.10<br>Costs e150,000 magic</button>
       <button id="darkMagicUpgradeBuyMaxButton" style="margin: 5px 2px 0 2px; width: 50px; display: none"
       onclick="darkMagicUpgradeBuyMax()">Buy max</button>
     </div>
@@ -557,6 +560,7 @@
           on sigil reset)<br>Costs 100,000 PSP</button>
         <button class="pinkSigilUpgrade" onclick="buyPinkSigilUpgrade(3)">Increase score gain<br>Currently ^<a
             id="pinkSigilUpgrade3Effect">1.00</a><br>Costs <a id="pinkSigilUpgrade3Cost">500,000</a> PSP</button>
+        <button class="pinkSigilUpgrade" onclick="buyPinkSigilUpgrade(4)">Unlock <b>knowledge</b><br>Costs 100,000,000 PSP</button>
       </div>
     </div>
   </div>
@@ -573,11 +577,8 @@
         <p>Acquire X of resource Y</p>
       </div>
       <div id="achievementsDiv" style="margin-top: 86px; margin-left: 4px; margin-bottom: 4px"></div>
-      </div>
     </div>
   </div>
-
-  
 
   <!--Achievement pop-up box-->
   <!--Someday I will move this! Unfotunately the tabs have to stay in the order I added them-->
@@ -589,20 +590,99 @@
         <button aria-label="Close" style="background-image: url('img/close.svg'); background-repeat: no-repeat; background-position: 3px 3px" onclick="achievementBoxClose()"></button>
       </div>
     </div>
-      <div class="window-body">
-        <p id="achievementBoxInfo">Achievement name</p>
-      </div>
+    <div class="window-body">
+      <p id="achievementBoxInfo">Achievement name</p>
     </div>
   </div>
 
+<!--Knowledge tab-->
+  <div class="window box" style="width: 500px; height: 540px; background-color: #ba9; display: none;">
+    <div class="title-bar">
+      <div class="title-bar-text">Knowledge</div>
+    </div>
+    <div class="window-body">
+      <p class="titleText">You have <a id="knowledge">0</a> knowledge</p>
+      <p style="margin-top: 4px">Highest ever: <a id="highestKnowledge">0</a><br>Your highest knowledge is multiplying sigil gain by <a id="knowledgeSigilBoost">1.00</a></p>
+      <center><p>&#8202;&#8202;Knowledge trades give you knowledge, at the cost of some of your sigils.<br>&#8202;&#8202;A higher trade level gives you more knowledge, at the cost of more sigils.</p>
+      <div class="field-row" style="width: 300px">
+        <label for="knowledgeLevelRange">Trade level: <a id="knowledgeTradeLevel">1</a></label>
+        <input id="knowledgeLevelRange" type="range" min="1" max="3" value="1" oninput="updateKnowledgeTradeLevel()" />
+      </div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; justify-self: stretch;">
+        <div class="knowledgeTradeDiv">
+          <p style="margin-top: 10px; margin-bottom: 0; font-weight: bold">Knowledge trade 1</p>
+          <p class="knowledgeTradeInfo" style="margin-top: 8px">Lv1 - 1 knowledge<br>Costs:<br><img src="img/iconSigil1.png"> 100,000 cyan sigils<br><img src="img/iconSigil2.png"> 40,000 blue sigils<br><img src="img/iconSigil3.png"> 10,000 indigo sigils</p>
+          <center><button onclick="purchaseKnowledgeTrade(1)">Purchase</button>
+          <button class="knowledgeTradeRerollButton" style="height: 34px" onclick="rerollKnowledgeTrade(1)">Reroll trade<br>Costs 2 knowledge</button></center>
+        </div>
+        <div class="knowledgeTradeDiv">
+          <p style="margin-top: 10px; margin-bottom: 0; font-weight: bold">Knowledge trade 2</p>
+          <p class="knowledgeTradeInfo" style="margin-top: 8px">Lv1 - 1 knowledge<br>Costs:<br><img src="img/iconSigil1.png"> 100,000 cyan sigils<br><img src="img/iconSigil2.png"> 40,000 blue sigils<br><img src="img/iconSigil3.png"> 10,000 indigo sigils</p>
+          <center><button onclick="purchaseKnowledgeTrade(2)">Purchase</button>
+          <button class="knowledgeTradeRerollButton" style="height: 34px" onclick="rerollKnowledgeTrade(2)">Reroll trade<br>Costs 2 knowledge</button></center>
+        </div>
+        <div class="knowledgeTradeDiv">
+          <p style="margin-top: 10px; margin-bottom: 0; font-weight: bold">Knowledge trade 3</p>
+          <p class="knowledgeTradeInfo" style="margin-top: 8px">Lv1 - 1 knowledge<br>Costs:<br><img src="img/iconSigil1.png"> 100,000 cyan sigils<br><img src="img/iconSigil2.png"> 40,000 blue sigils<br><img src="img/iconSigil3.png"> 10,000 indigo sigils</p>
+          <center><button onclick="purchaseKnowledgeTrade(3)">Purchase</button>
+          <button class="knowledgeTradeRerollButton" style="height: 34px" onclick="rerollKnowledgeTrade(3)">Reroll trade<br>Costs 2 knowledge</button></center>
+        </div>
+      </div>
+      <center><button onclick="resetKnowledgeTrades()">Reset trades to level 1 (use if stuck!)</button></center><br>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; justify-self: stretch;">
+        <div style="display: inline-block; height: 125px; background-color: #987; text-align: center; margin: 3px;">
+          <p>Trade cost ranges for this trade level:<br><img src="img/iconSigil1.png"><a class="knowledgeTradeCostRange">0-1</a><br><img src="img/iconSigil2.png"><a class="knowledgeTradeCostRange">0-1</a><br><img src="img/iconSigil3.png"><a class="knowledgeTradeCostRange">0-1</a><br><img src="img/iconSigil4.png"><a class="knowledgeTradeCostRange">0-1</a><br><img src="img/iconSigil5.png"><a class="knowledgeTradeCostRange">0-1</a></p>
+        </div>
+        <div>
+          <button style="height: 46px; float: left; text-align: left; background-color: #c8c0a0" onclick="buyKnowledgeUpgrade(1)">Multiply knowledge gain from trades<br>Currently x<a id="knowledgeUpgrade1Effect">1.00</a><br>Costs <a id="knowledgeUpgrade1Cost">20</a> knowledge</button>
+          <button style="height: 46px; float: left; text-align: left; background-color: #c8c0a0" onclick="buyKnowledgeUpgrade(2)">Increase uranium gain<br>Currently ^<a id="knowledgeUpgrade2Effect">1.00</a><br>Costs <a id="knowledgeUpgrade2Cost">50</a> knowledge</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!--Sigil automation tab-->
+  <div class="window box" style="width: 350px; height: 300px; background-color: #666; display: none;">
+    <div class="title-bar" style="background:linear-gradient(90deg,#444,#b06)">
+      <div class="title-bar-text">Sigil Automation</div>
+    </div>
+    <div class="window-body">
+      <div id="sigilResetAutomation" style="display: none;">
+        <p style="margin: 4px; font-weight: bold">Automatic sigil resetter</p>
+        <input type="checkbox" id="sigilResetterActive" onchange="updateSigilResetter()">
+        <label for="sigilResetterActive">Enabled</label>
+        <input id="sigilResetterAmount" style="width: 200px; background-color: #cbc0b8; text-align: center; font-weight: bold" placeholder="amount" onchange="updateSigilResetter()"></input>
+        <select id="sigilResetterType" onchange="updateSigilResetter()">
+          <option>Cyan</option>
+          <option>Blue</option>
+          <option>Indigo</option>
+          <option>Violet</option>
+          <option>Pink</option>
+        </select><br>
+      </div>
+      <button style="margin-top: 4px" onclick="maxAllSigilUpgrades()">Max all sigil upgrades</button>
+    </div>
+  </div>
+
+  <!-- Warning box for when save is not detected-->
+  <div id="autosaveWarning" class="window" style="background: #ddc0c0; display: none"> 
+    <div class="title-bar" style="background: linear-gradient(90deg,#833,#fbb)">
+      <div class="title-bar-text"">WARNING</div>
+    </div>
+    <div class="window-body">
+      <p style="font-weight: bold">WARNING: AUTO SAVE NOT DETECTED IN THE LAST 60 SECONDS. IF THIS MESSAGE PERSISTS, SOMETHING HAS LIKELY GONE WRONG SO YOU SHOULD EXPORT YOUR SAVE AS A BACKUP!</p>
+      <p style="font-size:10">Error code: <span id="saveErrorCode">0</span></p>
+    </div>
+  </div>
+  
   <button style="position: absolute; top: 5px; left: 5px; min-width: 76px; min-height: 20px; margin: 0; z-index: 1;"
-    onclick="changeTab(1)">Resources</button>
+  onclick="changeTab(1)">Resources</button>
   <button style="position: absolute; top: 5px; left: 85px; min-height: 20px; margin: 0; z-index: 1;"
-    onclick="changeTab(2)">Settings</button>
+  onclick="changeTab(2)">Settings</button>
   <button id ="achievementTabButton" style="position: absolute; top: 5px; left: 164px; min-height: 20px; margin: 0; z-index: 1"
-    onclick="changeTab(3)">Achievements</button>
+  onclick="changeTab(3)">Achievements</button>
   <button id="horrorTabButton" style="position: absolute; top: 5px; left: 260px; min-height: 20px; margin: 0; z-index: 1; display: none"
-    onclick="changeTab(4)">Peep the horror</button>
+  onclick="changeTab(4)">Peep the horror</button>
 
   <img src="img/homeIcon.png" id="home" class="clickButton" onclick="posHome()">
   <div id="navArrows">
@@ -611,6 +691,7 @@
     <img src="img/arrowLeft.png" id="arrowLeft" class="clickButton">
     <img src="img/arrowRight.png" id="arrowRight" class="clickButton">
   </div>
+  <p id="fps" style="color: white; position: absolute; bottom: 0; left: 0; margin: 4px"></p>
 
   <!--<div id="testdiv" class="window box"> Hello world </div>-->
 
@@ -626,10 +707,11 @@
   <script src="magic.js"></script>
   <script src="magicChallenges.js"></script>
   <script src="sigils.js"></script>
+  <script src="knowledge.js"></script>
   <script src="achievements.js"></script>
   <script src="hotkeys.js"></script>
   <script src="render.js"></script>
-  <script>load(); setInterval(save, 5000)</script>
+  <script>load(); if (!isDevVersion) setAutoSave()</script>
   <!--客服 开始-->
 <script src="//g8hh.github.io/static/js/jquery.min.js"></script>
 <link rel="stylesheet" href="//g8hh.github.io/static/css/kf.css" type="text/css" media="screen" charset="utf-8">

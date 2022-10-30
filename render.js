@@ -64,9 +64,8 @@ function render(x, y) {
   //document.getElementsByClassName("box")[2].style.top = (window.innerHeight / 2 + y - 153) + "px"
   //Dragon tab
   document.getElementsByClassName("box")[3].style.left = (window.innerWidth / 2 + x) + "px"
-  if (game.unlockedAchievements[9] > 0) {document.getElementsByClassName("box")[3].style.top = (window.innerHeight / 2 + y + 465) + "px"}
-  else if (game.dragonStage >= 5) {document.getElementsByClassName("box")[3].style.top = (window.innerHeight / 2 + y + 425) + "px"}
-  else {document.getElementsByClassName("box")[3].style.top = (window.innerHeight / 2 + y + 375) + "px"}
+  dragonTabHeight = document.getElementsByClassName("box")[3].offsetHeight 
+  document.getElementsByClassName("box")[3].style.top = (window.innerHeight / 2 + y + 162 + dragonTabHeight/2) + "px"
   if (game.unlocks >= 1) {
     //Fire upgrades tab
     document.getElementsByClassName("box")[4].style.left = (window.innerWidth / 2 + x - 350) + "px"
@@ -125,6 +124,15 @@ function render(x, y) {
     //Pink sigils tab
     document.getElementsByClassName("box")[16].style.left = (window.innerWidth / 2 + x + 730) + "px"
     document.getElementsByClassName("box")[16].style.top = (window.innerHeight / 2 + y + 830) + "px"
+
+    //Sigil automation tab
+    document.getElementsByClassName("box")[20].style.left = (window.innerWidth / 2 + x + 1095) + "px"
+    document.getElementsByClassName("box")[20].style.top = (window.innerHeight / 2 + y + 830) + "px"
+  }
+  if (game.unlocks >= 14) {
+    //Knowledge tab
+    document.getElementsByClassName("box")[19].style.left = (window.innerWidth / 2 + x - 440) + "px"
+    document.getElementsByClassName("box")[19].style.top = (window.innerHeight / 2 + y + 850) + "px"
   }
   document.body.style.backgroundPosition = (x / 4) + "px " + (y / 4) + "px"
   //console.log(Date.now() - renderVars.lastRender)
@@ -185,7 +193,7 @@ function handleMouseMove(event) {
   event = event || window.event;
   renderVars.mousePosX = event.pageX
   renderVars.mousePosY = event.pageY
-  if (renderVars.mouseIsDown && document.querySelector('#dragonNameBox') != document.activeElement) {
+  if (renderVars.mouseIsDown && document.querySelector('#dragonNameBox') != document.activeElement && document.querySelector('#knowledgeLevelRange') != document.activeElement) {
     //Zoom stuff!
     //renderVars.diffX = (event.pageX - renderVars.currentMousePos[0]) / renderVars.zoomMultiplier
     //renderVars.diffY = (event.pageY - renderVars.currentMousePos[1]) / renderVars.zoomMultiplier
@@ -375,4 +383,4 @@ if (inputVars.isMobile) { //event for mobile only
   document.addEventListener('touchend',(e) => { touchUp(e); });
 }
 
-//addEventListener('wheel', (event) => {console.log(event.deltaY)})
+//addEventListener('wheel', (event) => {console.log(event.deltaY)});
