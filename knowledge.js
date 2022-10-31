@@ -5,13 +5,15 @@ function randomizeKnowledgeTrade(trade) {
   if (game["knowledgeTrade" + trade + "SigilTypes"]) game["knowledgeTrade" + trade + "SigilTypes"] = sigilColourOptions;
   if (game["knowledgeTrade" + trade + "Multipliers"]) game["knowledgeTrade" + trade + "Multipliers"] = [Math.random() + 0.5, Math.random() + 0.5, Math.random() + 0.5, Math.random() / 2 + 1]
   if (game["knowledgeTrade" + trade + "Amounts"]) {
-    game["knowledgeTrade" + trade + "Amounts"][0] = new Decimal(1.5).pow(game.knowledgeTradeLevel.sub(1)).mul(knowledgeMultipliers[sigilColourOptions[0]-1]).mul(game["knowledgeTrade" + trade + "Multipliers"][0]).mul(5).floor().mul(100)
-    game["knowledgeTrade" + trade + "Amounts"][1] = new Decimal(1.5).pow(game.knowledgeTradeLevel.sub(1)).mul(knowledgeMultipliers[sigilColourOptions[1]-1]).mul(game["knowledgeTrade" + trade + "Multipliers"][1]).mul(5).floor().mul(100)
-    game["knowledgeTrade" + trade + "Amounts"][2] = new Decimal(1.5).pow(game.knowledgeTradeLevel.sub(1)).mul(knowledgeMultipliers[sigilColourOptions[2]-1]).mul(game["knowledgeTrade" + trade + "Multipliers"][2]).mul(5).floor().mul(100)
+    game["knowledgeTrade" + trade + "Amounts"][0] = new Decimal(1.5).pow(game.knowledgeTradeLevel.sub(1)).mul(knowledgeMultipliers[sigilColourOptions[0]-1]).mul(game["knowledgeTrade" + trade + "Multipliers"][0]).mul(7.5).floor().mul(100)
+    game["knowledgeTrade" + trade + "Amounts"][1] = new Decimal(1.5).pow(game.knowledgeTradeLevel.sub(1)).mul(knowledgeMultipliers[sigilColourOptions[1]-1]).mul(game["knowledgeTrade" + trade + "Multipliers"][1]).mul(7.5).floor().mul(100)
+    game["knowledgeTrade" + trade + "Amounts"][2] = new Decimal(1.5).pow(game.knowledgeTradeLevel.sub(1)).mul(knowledgeMultipliers[sigilColourOptions[2]-1]).mul(game["knowledgeTrade" + trade + "Multipliers"][2]).mul(7.5).floor().mul(100)
   }
   if (game["knowledgeTrade" + trade + "Reward"]) {
     game["knowledgeTrade" + trade + "Reward"] = new Decimal(1.5).pow(game.knowledgeTradeLevel.sub(1)).mul(game["knowledgeTrade" + trade + "Multipliers"][3])
-    game["knowledgeTrade" + trade + "Reward"] = game["knowledgeTrade" + trade + "Reward"].mul(new Decimal(2).pow(game.knowledgeUpgradesBought[0].pow(0.5))).floor()
+    game["knowledgeTrade" + trade + "Reward"] = game["knowledgeTrade" + trade + "Reward"].mul(new Decimal(2).pow(game.knowledgeUpgradesBought[0].pow(0.5)))
+    if (game.tomeUpgradesBought[2]) game["knowledgeTrade" + trade + "Reward"] = game["knowledgeTrade" + trade + "Reward"].mul(2)
+    game["knowledgeTrade" + trade + "Reward"] = game["knowledgeTrade" + trade + "Reward"].floor()
   }
 
   loadKnowledgeTrade(trade)
@@ -19,23 +21,18 @@ function randomizeKnowledgeTrade(trade) {
 
 function setKnowledgeTrade(trade) {
   if (game["knowledgeTrade" + trade + "Amounts"]) {
-    game["knowledgeTrade" + trade + "Amounts"][0] = new Decimal(1.5).pow(game.knowledgeTradeLevel.sub(1)).mul(knowledgeMultipliers[game["knowledgeTrade" + trade + "SigilTypes"][0] - 1]).mul(game["knowledgeTrade" + trade + "Multipliers"][0]).mul(5).floor().mul(100)
-    game["knowledgeTrade" + trade + "Amounts"][1] = new Decimal(1.5).pow(game.knowledgeTradeLevel.sub(1)).mul(knowledgeMultipliers[game["knowledgeTrade" + trade + "SigilTypes"][1] - 1]).mul(game["knowledgeTrade" + trade + "Multipliers"][1]).mul(5).floor().mul(100)
-    game["knowledgeTrade" + trade + "Amounts"][2] = new Decimal(1.5).pow(game.knowledgeTradeLevel.sub(1)).mul(knowledgeMultipliers[game["knowledgeTrade" + trade + "SigilTypes"][2] - 1]).mul(game["knowledgeTrade" + trade + "Multipliers"][2]).mul(5).floor().mul(100)
+    game["knowledgeTrade" + trade + "Amounts"][0] = new Decimal(1.5).pow(game.knowledgeTradeLevel.sub(1)).mul(knowledgeMultipliers[game["knowledgeTrade" + trade + "SigilTypes"][0] - 1]).mul(game["knowledgeTrade" + trade + "Multipliers"][0]).mul(7.5).floor().mul(100)
+    game["knowledgeTrade" + trade + "Amounts"][1] = new Decimal(1.5).pow(game.knowledgeTradeLevel.sub(1)).mul(knowledgeMultipliers[game["knowledgeTrade" + trade + "SigilTypes"][1] - 1]).mul(game["knowledgeTrade" + trade + "Multipliers"][1]).mul(7.5).floor().mul(100)
+    game["knowledgeTrade" + trade + "Amounts"][2] = new Decimal(1.5).pow(game.knowledgeTradeLevel.sub(1)).mul(knowledgeMultipliers[game["knowledgeTrade" + trade + "SigilTypes"][2] - 1]).mul(game["knowledgeTrade" + trade + "Multipliers"][2]).mul(7.5).floor().mul(100)
   }
   if (game["knowledgeTrade" + trade + "Reward"]) {
     game["knowledgeTrade" + trade + "Reward"] = new Decimal(1.5).pow(game.knowledgeTradeLevel.sub(1)).mul(game["knowledgeTrade" + trade + "Multipliers"][3])
-    game["knowledgeTrade" + trade + "Reward"] = game["knowledgeTrade" + trade + "Reward"].mul(new Decimal(2).pow(game.knowledgeUpgradesBought[0].pow(0.5))).floor()
+    game["knowledgeTrade" + trade + "Reward"] = game["knowledgeTrade" + trade + "Reward"].mul(new Decimal(2).pow(game.knowledgeUpgradesBought[0].pow(0.5)))
+    if (game.tomeUpgradesBought[2]) game["knowledgeTrade" + trade + "Reward"] = game["knowledgeTrade" + trade + "Reward"].mul(2)
+    game["knowledgeTrade" + trade + "Reward"] = game["knowledgeTrade" + trade + "Reward"].floor()
   }
   
   loadKnowledgeTrade(trade)
-}
-
-function rerollKnowledgeTrade(trade) {
-  if (game.knowledge.gte(game["knowledgeTrade" + trade + "Reward"].mul(2))) {
-    game.knowledge = game.knowledge.sub(game["knowledgeTrade" + trade + "Reward"].mul(2))
-    randomizeKnowledgeTrade(trade)
-  }
 }
 
 function resetKnowledgeTrades() {
@@ -49,17 +46,16 @@ function resetKnowledgeTrades() {
 
 function loadKnowledgeTrade(trade) {
   document.getElementsByClassName("knowledgeTradeInfo")[trade-1].innerHTML = "Lv" + format(game.knowledgeTradeLevel, 0) + " - " + format(game["knowledgeTrade" + trade + "Reward"], 0) + " knowledge<br>Costs:<br><img src='img/iconSigil" + (game["knowledgeTrade" + trade + "SigilTypes"][0]) + ".png'> " + format(game["knowledgeTrade" + trade + "Amounts"][0], 0) + " " + sigilColours[game["knowledgeTrade" + trade + "SigilTypes"][0]-1] + " sigils<br><img src='img/iconSigil" + (game["knowledgeTrade" + trade + "SigilTypes"][1]) + ".png'> " + format(game["knowledgeTrade" + trade + "Amounts"][1], 0) + " " + sigilColours[game["knowledgeTrade" + trade + "SigilTypes"][1]-1] + " sigils<br><img src='img/iconSigil" + (game["knowledgeTrade" + trade + "SigilTypes"][2]) + ".png'> " + format(game["knowledgeTrade" + trade + "Amounts"][2], 0) + " " + sigilColours[game["knowledgeTrade" + trade + "SigilTypes"][2]-1] + " sigils"
-  document.getElementsByClassName("knowledgeTradeRerollButton")[trade-1].innerHTML = "Reroll trade<br>Costs " + format(game["knowledgeTrade" + trade + "Reward"].mul(2), 0) + " knowledge"
 }
 
 function updateKnowledgeTradeLevel() {
   game.knowledgeTradeLevel = new Decimal(document.getElementById("knowledgeLevelRange").value)
   document.getElementById("knowledgeTradeLevel").innerHTML = game.knowledgeTradeLevel
-  document.getElementsByClassName("knowledgeTradeCostRange")[0].innerHTML = format(new Decimal(1.5).pow(game.knowledgeTradeLevel.sub(1)).mul(knowledgeMultipliers[0]).mul(2.5).floor().mul(100), 0) + " - " + format(new Decimal(1.5).pow(game.knowledgeTradeLevel.sub(1)).mul(knowledgeMultipliers[0]).mul(7.5).floor().mul(100), 0)
-  document.getElementsByClassName("knowledgeTradeCostRange")[1].innerHTML = format(new Decimal(1.5).pow(game.knowledgeTradeLevel.sub(1)).mul(knowledgeMultipliers[1]).mul(2.5).floor().mul(100), 0) + " - " + format(new Decimal(1.5).pow(game.knowledgeTradeLevel.sub(1)).mul(knowledgeMultipliers[1]).mul(7.5).floor().mul(100), 0)
-  document.getElementsByClassName("knowledgeTradeCostRange")[2].innerHTML = format(new Decimal(1.5).pow(game.knowledgeTradeLevel.sub(1)).mul(knowledgeMultipliers[2]).mul(2.5).floor().mul(100), 0) + " - " + format(new Decimal(1.5).pow(game.knowledgeTradeLevel.sub(1)).mul(knowledgeMultipliers[2]).mul(7.5).floor().mul(100), 0)
-  document.getElementsByClassName("knowledgeTradeCostRange")[3].innerHTML = format(new Decimal(1.5).pow(game.knowledgeTradeLevel.sub(1)).mul(knowledgeMultipliers[3]).mul(2.5).floor().mul(100), 0) + " - " + format(new Decimal(1.5).pow(game.knowledgeTradeLevel.sub(1)).mul(knowledgeMultipliers[3]).mul(7.5).floor().mul(100), 0)
-  document.getElementsByClassName("knowledgeTradeCostRange")[4].innerHTML = format(new Decimal(1.5).pow(game.knowledgeTradeLevel.sub(1)).mul(knowledgeMultipliers[4]).mul(2.5).floor().mul(100), 0) + " - " + format(new Decimal(1.5).pow(game.knowledgeTradeLevel.sub(1)).mul(knowledgeMultipliers[4]).mul(7.5).floor().mul(100), 0)
+  document.getElementsByClassName("knowledgeTradeCostRange")[0].innerHTML = format(new Decimal(1.5).pow(game.knowledgeTradeLevel.sub(1)).mul(knowledgeMultipliers[0]).mul(3.75).floor().mul(100), 0) + " - " + format(new Decimal(1.5).pow(game.knowledgeTradeLevel.sub(1)).mul(knowledgeMultipliers[0]).mul(11.25).floor().mul(100), 0)
+  document.getElementsByClassName("knowledgeTradeCostRange")[1].innerHTML = format(new Decimal(1.5).pow(game.knowledgeTradeLevel.sub(1)).mul(knowledgeMultipliers[1]).mul(3.75).floor().mul(100), 0) + " - " + format(new Decimal(1.5).pow(game.knowledgeTradeLevel.sub(1)).mul(knowledgeMultipliers[1]).mul(11.25).floor().mul(100), 0)
+  document.getElementsByClassName("knowledgeTradeCostRange")[2].innerHTML = format(new Decimal(1.5).pow(game.knowledgeTradeLevel.sub(1)).mul(knowledgeMultipliers[2]).mul(3.75).floor().mul(100), 0) + " - " + format(new Decimal(1.5).pow(game.knowledgeTradeLevel.sub(1)).mul(knowledgeMultipliers[2]).mul(11.25).floor().mul(100), 0)
+  document.getElementsByClassName("knowledgeTradeCostRange")[3].innerHTML = format(new Decimal(1.5).pow(game.knowledgeTradeLevel.sub(1)).mul(knowledgeMultipliers[3]).mul(3.75).floor().mul(100), 0) + " - " + format(new Decimal(1.5).pow(game.knowledgeTradeLevel.sub(1)).mul(knowledgeMultipliers[3]).mul(11.25).floor().mul(100), 0)
+  document.getElementsByClassName("knowledgeTradeCostRange")[4].innerHTML = format(new Decimal(1.5).pow(game.knowledgeTradeLevel.sub(1)).mul(knowledgeMultipliers[4]).mul(3.75).floor().mul(100), 0) + " - " + format(new Decimal(1.5).pow(game.knowledgeTradeLevel.sub(1)).mul(knowledgeMultipliers[4]).mul(11.25).floor().mul(100), 0)
 }
 
 function purchaseKnowledgeTrade(trade) {
@@ -91,5 +87,38 @@ function buyKnowledgeUpgrade(x) {
     game.knowledgeUpgradeCosts[1] = new Decimal(5).pow(game.knowledgeUpgradesBought[1]).mul(50).floor()
     document.getElementById("knowledgeUpgrade2Cost").innerHTML = format(game.knowledgeUpgradeCosts[1], 0)
     document.getElementById("knowledgeUpgrade2Effect").innerHTML = format(new Decimal(5).pow(game.knowledgeUpgradesBought[1].pow(0.5)), 2)
+  }
+  else if (x==3 && game.knowledge.gte(100000)) {
+    game.knowledge = game.knowledge.sub(100000)
+    game.knowledgeUpgradesBought[2] = new Decimal(1)
+    document.getElementsByClassName("knowledgeUpgrade")[2].disabled = true
+    document.getElementsByClassName("box")[21].style.display = "block"
+    document.getElementsByClassName("resourceRow")[13].style.display = "block"
+    addUnlock() //sets unlock to 16
+  }
+}
+
+function buyTome() {
+  if (game.knowledge.gte(game.tomeCost)) {
+    game.knowledge = game.knowledge.sub(game.tomeCost)
+    game.tomes = game.tomes.add(1)
+    game.totalTomes = game.totalTomes.add(1)
+    if (game.tomeUpgradesBought[4]) {game.tomeCost = new Decimal(1.3).pow(game.totalTomes).mul(100000)}
+    else {game.tomeCost = new Decimal(1.5).pow(game.totalTomes).mul(100000)}
+    document.getElementById("tomeCost").innerHTML = format(game.tomeCost, 0)
+  }
+}
+
+//Tome upgrades
+function buyTomeUpgrade(x) {
+  //Checks that the tome upgrade is not bought and that the player's tome amount is greater/equal to the corresponding upgrade cost
+  if (game.tomeUpgradesBought[x-1] != true && game.tomes.gte(tomeUpgradeCosts[x-1])) {
+    game.tomes = game.tomes.sub(tomeUpgradeCosts[x-1])
+    game.tomeUpgradesBought[x-1] = true
+    document.getElementsByClassName("tomeUpgrade")[x-1].disabled = true
+    if (x==5) {
+      game.tomeCost = new Decimal(1.3).pow(game.totalTomes).mul(100000)
+      document.getElementById("tomeCost").innerHTML = format(game.tomeCost, 0)
+    }
   }
 }

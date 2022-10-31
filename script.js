@@ -1,3 +1,6 @@
+//TO DO LIST
+//Change rich info link in <head>
+
 //Stolen code to check if the user is on a mobile device
 window.mobileCheck = function() {
   let check = false;
@@ -233,13 +236,18 @@ function reset() {
     knowledgeTrade3Multipliers: [new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0)],
     knowledgeTrade3Reward: new Decimal(0),
     knowledgeUpgradesBought: [new Decimal(0), new Decimal(0), new Decimal(0)],
-    knowledgeUpgradeCosts: [new Decimal(20), new Decimal(50)]
+    knowledgeUpgradeCosts: [new Decimal(20), new Decimal(50)],
+
+    tomes: new Decimal(0),
+    totalTomes: new Decimal(0),
+    tomeCost: new Decimal(100000),
+    tomeUpgradesBought: [],
   }
 
-  for (i=3;i<21;i++) {
+  for (i=3;i<22;i++) {
     if (i != 18) document.getElementsByClassName("box")[i].style.display = "none"
   }
-  for (i=1;i<13;i++) document.getElementsByClassName("resourceRow")[i].style.display = "none"
+  for (i=1;i<14;i++) document.getElementsByClassName("resourceRow")[i].style.display = "none"
   for (i=12;i<20;i++) {document.getElementsByClassName("magicUpgrade")[i].style.display = "none"}
   for (i=8;i<10;i++) {document.getElementsByClassName("darkMagicUpgrade")[i].style.display = "none"}
   document.getElementsByClassName("fireUpgrade")[5].style.display = "none"
@@ -381,6 +389,7 @@ function loadGame(loadgame) {
 
   //achievement stuff
   for (let i=0;i<achievementNames.length;i++) {game.unlockedAchievements[i] = game.unlockedAchievements[i] || 0} //ensure unlocked achievement array doesn't break when new categories are added
+  if (game.unlockedAchievements[0] == 13) game.unlockedAchievements[0] = 12 //Oops
   showAchievements(game.unlocks) //load appropriate achievements in to the DOM
   processAchievementRewards()
   game.achievementFlashActive = false; // make sure flash isn't still set to true through reload
@@ -399,6 +408,7 @@ function loadGame(loadgame) {
   document.getElementById("dragonPets").innerHTML = game.dragonPets
   document.getElementById("dragonPetEffect").innerHTML = format(new Decimal(5).pow(game.dragonPets ** 0.5), 2)
   if (game.pinkSigilUpgradesBought.length == 3) game.pinkSigilUpgradesBought[3] = new Decimal(0) //Adds the 4th pink sigil upgrade
+  document.getElementsByClassName("knowledgeUpgrade")[2].disabled = false
 
   document.getElementById("sigilResetterAmount").value = game.sigilResetterAmount.toString(); //set input field for sigil resetter amount
   document.getElementById("sigilResetterActive").checked = game.sigilResetterActive;
@@ -664,9 +674,20 @@ function loadGame(loadgame) {
     document.getElementById("knowledgeUpgrade1Effect").innerHTML = format(new Decimal(2).pow(game.knowledgeUpgradesBought[0].pow(0.5)), 2)
     document.getElementById("knowledgeUpgrade2Cost").innerHTML = format(game.knowledgeUpgradeCosts[1], 0)
     document.getElementById("knowledgeUpgrade2Effect").innerHTML = format(new Decimal(5).pow(game.knowledgeUpgradesBought[1].pow(0.5)), 2)
+    if (game.knowledgeUpgradesBought[2].eq(1)) document.getElementsByClassName("knowledgeUpgrade")[2].disabled = true
     loadKnowledgeTrade(1)
     loadKnowledgeTrade(2)
     loadKnowledgeTrade(3)
+  }
+  //Tome stuff
+  if (game.unlocks >= 16) {
+    document.getElementsByClassName("box")[21].style.display = "block"
+    document.getElementsByClassName("resourceRow")[13].style.display = "block"
+    document.getElementById("tomeCost").innerHTML = format(game.tomeCost, 0)
+    for (i=0;i<5;i++) {
+      if (game.tomeUpgradesBought[i] == true) {document.getElementsByClassName("tomeUpgrade")[i].disabled = true}
+      else {document.getElementsByClassName("tomeUpgrade")[i].disabled = false}
+    }
   }
 
   //Dragon stage stuff
@@ -718,6 +739,9 @@ function loadGame(loadgame) {
     document.getElementById("dragonFood").innerHTML = format(game.dragonFood, 0)
     document.getElementById("dragonFoodEffect").innerHTML = format(new Decimal(1.3).pow(game.dragonFood), 3)
   }
+
+  render(renderVars.posX, renderVars.posY)
+  document.getElementById("loadingScreenCover").style.display = "none"
 }
 
 function fixSaveVersion(oldVersion) { 
@@ -777,6 +801,7 @@ function updateSmall() {
   if (game.dragonStage >= 5) game.goldPerSecond = game.goldPerSecond.pow(game.dragonTimeEffect)
   if (game.unlocks >= 10) game.goldPerSecond = game.goldPerSecond.pow(new Decimal(1.2).pow(game.cyanSigilUpgradesBought[2].pow(0.4)))
   if (game.challengesActive && game.selectedChallenges[1]) game.goldPerSecond = game.goldPerSecond.pow(0.25)
+  if (game.tomeUpgradesBought[3]) game.goldPerSecond = game.goldPerSecond.pow(game.platinum.add(1e10).slog().div(2))
     
   //Gold/click formula and multipliers
   if (game.magicUpgradesBought[8]) {game.goldPerClick = game.fireUpgrade3Bought.pow(12).mul(4).add(1)}
@@ -903,10 +928,6 @@ function updateSmall() {
     }
     else {document.getElementById("magicEffectCap").innerHTML = ""}
     if (game.magicEffect.gt("e100000")) {game.magicEffect = game.magicEffect.mul("e900000").pow(0.1)}
-    if (game.magicEffect.gt("e500000")) {
-      game.magicEffect = new Decimal("e500000")
-      document.getElementById("magicEffectCap").innerHTML = " (hardcapped)"
-    }
     document.getElementById("magicEffect").innerHTML = format(game.magicEffect, 2)
     document.getElementById("magicUpgrade1Effect").innerHTML = format(game.gold.add(1).log10().add(1), 2)
     if (game.magicUpgradesBought[9]) {
@@ -1024,6 +1045,7 @@ function updateSmall() {
     document.getElementById("indigoSigilEffect").innerHTML = format(game.indigoSigils.add(1).pow(4), 0)
     document.getElementById("indigoSigilsToGet").innerHTML = format(game.indigoSigilsToGet, 0)
     game.indigoSigilPowerPerSecond = game.indigoSigils.pow(2).div(100).mul(game.indigoSigilUpgradesBought[0].add(1))
+    if (game.tomeUpgradesBought[0]) game.indigoSigilPowerPerSecond = game.indigoSigilPowerPerSecond.pow(1.3)
     document.getElementById("indigoSigilPower").innerHTML = format(game.indigoSigilPower, 2)
     document.getElementById("indigoSigilPowerPerSecond").innerHTML = format(game.indigoSigilPowerPerSecond, 2)
   }
@@ -1052,6 +1074,7 @@ function updateSmall() {
     document.getElementById("pinkSigilEffect").innerHTML = format(game.pinkSigils.add(1).pow(6), 0)
     document.getElementById("pinkSigilsToGet").innerHTML = format(game.pinkSigilsToGet, 0)
     game.pinkSigilPowerPerSecond = game.pinkSigils.pow(2).div(100).mul(game.pinkSigilUpgradesBought[0].add(1))
+    if (game.tomeUpgradesBought[1]) game.pinkSigilPowerPerSecond = game.pinkSigilPowerPerSecond.mul(game.totalTomes.pow(0.5).mul(3).add(1))
     document.getElementById("pinkSigilPower").innerHTML = format(game.pinkSigilPower, 2)
     document.getElementById("pinkSigilPowerPerSecond").innerHTML = format(game.pinkSigilPowerPerSecond, 2)
   }
@@ -1059,14 +1082,20 @@ function updateSmall() {
     document.getElementById("knowledge").innerHTML = format(game.knowledge, 0)
     document.getElementsByClassName("resourceText")[12].innerHTML = format(game.knowledge, 0)
     document.getElementById("highestKnowledge").innerHTML = format(game.highestKnowledge, 0)
-    game.knowledgeTradeLevelCap = game.highestKnowledge.add(1).log2().mul(1.3).add(3).floor()
+    game.knowledgeTradeLevelCap = game.highestKnowledge.add(1).log2().mul(1.6).add(3).floor()
     if (game.knowledgeTradeLevelCap.lt(1e308)) document.getElementById("knowledgeLevelRange").max = game.knowledgeTradeLevelCap.toNumber()
     document.getElementById("knowledgeSigilBoost").innerHTML = format(game.highestKnowledge.div(3).pow(0.7).add(1), 2)
-    document.getElementsByClassName("knowledgeTradeCostRange")[0].innerHTML = format(new Decimal(1.5).pow(game.knowledgeTradeLevel.sub(1)).mul(knowledgeMultipliers[0]).mul(2.5).floor().mul(100), 0) + " - " + format(new Decimal(1.5).pow(game.knowledgeTradeLevel.sub(1)).mul(knowledgeMultipliers[0]).mul(7.5).floor().mul(100), 0)
-    document.getElementsByClassName("knowledgeTradeCostRange")[1].innerHTML = format(new Decimal(1.5).pow(game.knowledgeTradeLevel.sub(1)).mul(knowledgeMultipliers[1]).mul(2.5).floor().mul(100), 0) + " - " + format(new Decimal(1.5).pow(game.knowledgeTradeLevel.sub(1)).mul(knowledgeMultipliers[1]).mul(7.5).floor().mul(100), 0)
-    document.getElementsByClassName("knowledgeTradeCostRange")[2].innerHTML = format(new Decimal(1.5).pow(game.knowledgeTradeLevel.sub(1)).mul(knowledgeMultipliers[2]).mul(2.5).floor().mul(100), 0) + " - " + format(new Decimal(1.5).pow(game.knowledgeTradeLevel.sub(1)).mul(knowledgeMultipliers[2]).mul(7.5).floor().mul(100), 0)
-    document.getElementsByClassName("knowledgeTradeCostRange")[3].innerHTML = format(new Decimal(1.5).pow(game.knowledgeTradeLevel.sub(1)).mul(knowledgeMultipliers[3]).mul(2.5).floor().mul(100), 0) + " - " + format(new Decimal(1.5).pow(game.knowledgeTradeLevel.sub(1)).mul(knowledgeMultipliers[3]).mul(7.5).floor().mul(100), 0)
-    document.getElementsByClassName("knowledgeTradeCostRange")[4].innerHTML = format(new Decimal(1.5).pow(game.knowledgeTradeLevel.sub(1)).mul(knowledgeMultipliers[4]).mul(2.5).floor().mul(100), 0) + " - " + format(new Decimal(1.5).pow(game.knowledgeTradeLevel.sub(1)).mul(knowledgeMultipliers[4]).mul(7.5).floor().mul(100), 0)
+    document.getElementsByClassName("knowledgeTradeCostRange")[0].innerHTML = format(new Decimal(1.5).pow(game.knowledgeTradeLevel.sub(1)).mul(knowledgeMultipliers[0]).mul(3.75).floor().mul(100), 0) + " - " + format(new Decimal(1.5).pow(game.knowledgeTradeLevel.sub(1)).mul(knowledgeMultipliers[0]).mul(11.25).floor().mul(100), 0)
+    document.getElementsByClassName("knowledgeTradeCostRange")[1].innerHTML = format(new Decimal(1.5).pow(game.knowledgeTradeLevel.sub(1)).mul(knowledgeMultipliers[1]).mul(3.75).floor().mul(100), 0) + " - " + format(new Decimal(1.5).pow(game.knowledgeTradeLevel.sub(1)).mul(knowledgeMultipliers[1]).mul(11.25).floor().mul(100), 0)
+    document.getElementsByClassName("knowledgeTradeCostRange")[2].innerHTML = format(new Decimal(1.5).pow(game.knowledgeTradeLevel.sub(1)).mul(knowledgeMultipliers[2]).mul(3.75).floor().mul(100), 0) + " - " + format(new Decimal(1.5).pow(game.knowledgeTradeLevel.sub(1)).mul(knowledgeMultipliers[2]).mul(11.25).floor().mul(100), 0)
+    document.getElementsByClassName("knowledgeTradeCostRange")[3].innerHTML = format(new Decimal(1.5).pow(game.knowledgeTradeLevel.sub(1)).mul(knowledgeMultipliers[3]).mul(3.75).floor().mul(100), 0) + " - " + format(new Decimal(1.5).pow(game.knowledgeTradeLevel.sub(1)).mul(knowledgeMultipliers[3]).mul(11.25).floor().mul(100), 0)
+    document.getElementsByClassName("knowledgeTradeCostRange")[4].innerHTML = format(new Decimal(1.5).pow(game.knowledgeTradeLevel.sub(1)).mul(knowledgeMultipliers[4]).mul(3.75).floor().mul(100), 0) + " - " + format(new Decimal(1.5).pow(game.knowledgeTradeLevel.sub(1)).mul(knowledgeMultipliers[4]).mul(11.25).floor().mul(100), 0)
+  }
+  if (game.unlocks >= 16) {
+    document.getElementById("tomes").innerHTML = format(game.tomes, 0)
+    document.getElementsByClassName("resourceText")[13].innerHTML = format(game.tomes, 0)
+    document.getElementById("totalTomes").innerHTML = format(game.totalTomes, 0)
+    document.getElementById("tomeUpgrade2Effect").innerHTML = format(game.totalTomes.pow(0.5).mul(5).add(1), 2)
   }
   //game.gold = game.gold.add(game.goldPerSecond.mul(diff));
   //if (game.unlocks >= 1) game.fire = game.fire.add(game.firePerSecond.mul(diff)) // .mul(diff)
@@ -1117,8 +1146,12 @@ function updateLarge() {
   if (game.unlockedAchievements[6] > 0) dragonSpendTime()
   if (game.unlockedAchievements[10] > 0) dragonFeed();
   
-  if (game.unlockedAchievements[3] > 7) {game.magic = game.magic.add(game.magicToGet) }
+  if (game.unlockedAchievements[3] > 7) {game.magic = game.magic.add(game.magicToGet)}
   else if (game.unlockedAchievements[3] > 5) {game.magic = game.magic.add(game.magicToGet.div(100))}
+  if (game.magic.gt("e5000000")) {
+    game.magic = new Decimal("e5000000")
+    document.getElementById("magicCap").innerHTML = " (hardcapped)"
+  }
   if (game.unlocks >= 10) game.cyanSigilPower = game.cyanSigilPower.add(game.cyanSigilPowerPerSecond)
   if (game.unlocks >= 11) game.blueSigilPower = game.blueSigilPower.add(game.blueSigilPowerPerSecond)
   if (game.unlocks >= 12) game.indigoSigilPower = game.indigoSigilPower.add(game.indigoSigilPowerPerSecond)

@@ -65,6 +65,10 @@ function magicReset(triggerLayer = "magic") {
   }
 
   game.magic = game.magic.add(game.magicToGet)
+  if (game.magic.gt("e5000000")) {
+    game.magic = new Decimal("e5000000")
+    document.getElementById("magicCap").innerHTML = " (hardcapped)"
+  }
 }
 
 //Magic upgrades
@@ -164,6 +168,7 @@ function getMagicGain() {
   if (game.unlocks >= 14) toGet = toGet.mul(game.pinkSigils.add(1).pow(6));
   if (game.darkMagicUpgradesBought[9] == true) toGet = toGet.pow(1.1);
   if (game.darkMagicUpgradesBought[1]) toGet = toGet.pow(game.uranium.add(1).log10().div(30).add(1));
+  if (toGet.gt("e5000000")) toGet = new Decimal("e5000000")
   toGet = toGet.floor();
   return toGet;
 }

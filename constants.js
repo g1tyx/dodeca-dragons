@@ -8,57 +8,62 @@ const magicUpgradeCosts = [2, 3, 8, 12, 30, 100, 300, 1500, 4000, 20000, 100000,
 const darkMagicUpgradeCosts = ["e110", "e125", "e165", "e240", "e285", "e320", "e360", "e450", "e125000", "e150000"]
 const sigilColours = ["cyan", "blue", "indigo", "violet", "pink"]
 const knowledgeMultipliers = [450, 112.5, 18.75, 10, 1]
+const tomeUpgradeCosts = [1, 1, 2, 2, 4]
 const achievementNames = [
   //Gold
-  ["Starting strong", "Growing stronger", "The heap", "Motherlode", "BEZOS BEZOS BEZOS", "Unending mound of cash", "Multiversal", "Endless realm of coins", "Loaded", "Mega-loaded (???)", "Sbiisics", "X-TREME GAMINGGGG", "On my dime!"],
+  ["Starting strong", "Growing stronger", "The heap", "Motherlode", "BEZOS BEZOS BEZOS", "Unending mound of cash", "Multiversal", "Endless realm of coins", "Loaded", "Mega-loaded (???)", "Sbiisics", "On my dime!"],
   //Fire
   ["Spicy", "Burning hands", "The great fire", "Towering inferno", "Hell pit", "Carolina reapers", "Tartarus", "Pandemonium", "Infernal overlord", "Unfortunate events"],
   //Platinum
   ["Alchemagoria", "Jeweller", "Putting in the work", "Magnum opus", "Simple chemistry", "Mirror polished", "Silver skyscrapers", "Advanced chemistry", "God of transmutation", "Platisynthesis"],
   //Magic
-  ["Funny wizard hat", "Sorcery", "Magiccery!", "THE BIGGER HAT", "Thaumaturgy", "Spells galore", "Reshape the Earth", "Unlimited potential", "Star shatterer", "Endless grimoires", "Void tapping"],
+  ["Funny wizard hat", "Sorcery", "Magiccery!", "THE BIGGER HAT", "Thaumaturgy", "Spells galore", "Reshape the Earth", "Unlimited potential", "Star shatterer", "Endless grimoires", "Void tapping", "Threshold memories"],
   //Magifolds
-  ["4-dimensional", "5-dimensional", "10-dimensional", "Infinitely folding", "Incomprehensible", "Megafolds", "GIGAFOLDS", "Nonagon Infinity"],
+  ["4-dimensional", "10-dimensional", "Superstring theory", "Infinitely folding", "Incomprehensible", "Megafolds", "GIGAFOLDS", "Spacetime origami", "Nonagon Infinity"],
   //Uranium
-  ["Ionizing", "Radiating", "Neutralizing", "Terrifying", "Devastating", "Decaying"],
+  ["Ionizing", "Radiating", "Neutralizing", "Terrifying", "Devastating", "Decaying", "Annihilating"],
   //Cyan sigils
-  ["Chromatic", "Chaotic", "Colorific", "Catastrophic", "Catatonic", "Chromatic II"],
+  ["Chromatic", "Chaotic", "Colorific", "Catastrophic", "Catatonic", "Chromatic II", "Chaotic II"],
   //Blue sigils
-  ["Bichromatic", "Basic", "Biologic", "Barbaric", "Balsamic", "Bichromatic II"],
+  ["Bichromatic", "Basic", "Biologic", "Barbaric", "Balsamic", "Bichromatic II", "Basic II"],
   //Indigo sigils
-  ["Interdynamic", "Idealistic", "Isotropic", "Isotonic", "Idyllic", "Interdynamic II"],
+  ["Interdynamic", "Idealistic", "Isotropic", "Isotonic", "Idyllic", "Interdynamic II", "Idealistic II"],
   //Violet sigils
-  ["Volcanic", "Volumetric", "Vitriolic", "Voltaic", "Vinic", "Volcanic II"],
+  ["Volcanic", "Volumetric", "Vitriolic", "Voltaic", "Vinic", "Volcanic II", "Volumetric II"],
   //Pink sigils
-  ["Panchromatic", "Psychotic", "Pathogenic", "Particularistic", "Platonic", "Panchromatic II"],
+  ["Panchromatic", "Psychotic", "Pathogenic", "Particularistic", "Platonic", "Panchromatic II", "Psychotic II"],
   //Knowledge
-  ["Big brain moment", "Deep thought", "Immaterialistic", "Planning ahead"]
+  ["Big brain moment", "Deep thought", "Immaterialistic", "Planning ahead", "I conject"],
+  //Tomes
+  ["History locked away", "The mystical bookshelf"]
 ]
 const achievementRequirements = [
   //Gold
-  ["100", "10000", "1e6", "1e12", "1e20", "1e30", "1e100", "1e250", "1e1000", "1e3000", "1e10000", "1e100000", "1e1000000"],
+  ["100", "10000", "1e6", "1e12", "1e20", "1e30", "1e100", "1e250", "1e1000", "1e3000", "1e10000", "1e100000"],
   //Fire
   ["1000", "1e6", "1e12", "1e18", "1e30", "1e100", "1e250", "1e1000", "1e4000", "1e20000"],
   //Platinum
   ["100", "100000", "2.5e6", "1e8", "1e12", "1e20", "1e30", "1e100", "1e250", "1e1000"],
   //Magic
-  ["1", "5", "50", "1000", "100000", "1e8", "1e20", "1e100", "1e500", "1e10000", "1e50000"],
+  ["1", "5", "50", "1000", "100000", "1e8", "1e20", "1e100", "1e500", "1e10000", "1e50000", "1e1000000"],
   //Magifolds
-  ["10000", "1e6", "1e20", "1e30", "1e50", "1e250", "1e1000", "1e2500"],
+  ["10000", "1e6", "1e20", "1e30", "1e50", "1e250", "1e1000", "1e2500", "1e10000"],
   //Uranium
-  ["100", "100000", "1e7", "5e8", "1e10", "1e100"],
+  ["100", "100000", "1e7", "5e8", "1e10", "1e100", "1e1000"],
   //Cyan sigils
-  ["1", "5", "20", "100", "500", "1000000"],
+  ["1", "5", "20", "100", "500", "1000000", "1e12"],
   //Blue sigils
-  ["1", "5", "20", "100", "500", "1000000"],
+  ["1", "5", "20", "100", "500", "1000000", "1e12"],
   //Indigo sigils
-  ["1", "5", "20", "100", "500", "1000000"],
+  ["1", "5", "20", "100", "500", "1000000", "1e12"],
   //Violet sigils
-  ["1", "5", "20", "100", "500", "1000000"],
+  ["1", "5", "20", "100", "500", "1000000", "1e12"],
   //Pink sigils
-  ["1", "5", "20", "100", "500", "1000000"],
+  ["1", "5", "20", "100", "500", "1000000", "1e12"],
   //Knowledge
-  ["1", "10", "250", "10000"]
+  ["1", "10", "250", "10000", "1e9"],
+  //Tomes
+  ["1", "10"]
 ]
 const achievementRewards = {
   //gold
@@ -106,25 +111,27 @@ const achievementResources = [
   {name:"indigo sigils", shortName:"&#8202;&#8202;I-sigils", internalName:"indigoSigils"},
   {name:"violet sigils", shortName:"&#8202;&#8202;V-sigils", internalName:"violetSigils"},
   {name:"pink sigils", shortName:"P-sigils", internalName:"pinkSigils"},
-  {name:"knowledge", shortName:"Knwlege", internalName:"knowledge"}
+  {name:"knowledge", shortName:"Knwlege", internalName:"knowledge"},
+  {name:"total tomes", shortName:"Tomes", internalName:"totalTomes"}
 ]
-const achievementColours = ["#fd0", "#f80", "#bff", "#90d", "#60d", "#8f8", "#06b", "#00b", "#40b", "#60b", "#b0b", "#ba9"]
+const achievementColours = ["#fd0", "#f80", "#bff", "#90d", "#60d", "#8f8", "#06b", "#00b", "#40b", "#60b", "#b0b", "#987", "#965"]
 //this array tells the display code when each achievement should be visible. each child array corresponds to a value of game.unlocks
 const achievementDisplayUnlocks = [
-  [3,2,1,0,0,0,0,0,0,0,0,0], //unlock 0 - start
-  [3,2,1,0,0,0,0,0,0,0,0,0], //unlock 1 - dragon
-  [3,2,1,0,0,0,0,0,0,0,0,0], //unlock 2 - fire
-  [4,3,2,1,0,0,0,0,0,0,0,0], //unlock 3 - platinum
-  [6,4,3,5,1,0,0,0,0,0,0,0], //unlock 4 - magic
-  [6,4,3,5,1,0,0,0,0,0,0,0], //unlock 5 - magic challenges
-  [7,5,4,6,2,1,0,0,0,0,0,0], //unlock 6 - more magic upgrades
-  [8,6,6,7,3,1,0,0,0,0,0,0], //unlock 7 - uranium
-  [10,6,7,8,4,3,1,0,0,0,0,0], //unlock 8 - more platinum and uranium
-  [10,6,7,8,4,3,1,0,0,0,0,0], //unlock 9 - dark magic
-  [10,6,7,9,4,4,3,1,0,0,0,0], //unlock 10 - cyan
-  [11,7,8,9,5,4,4,4,1,0,0,0], //unlock 11 - blue
-  [12,8,8,10,6,5,5,5,5,1,0,0], //unlock 12 - indigo
-  [12,8,9,11,6,5,5,5,5,5,1,0], //unlock 13 - violet
-  [12,9,9,11,7,5,5,5,5,5,5,1], //unlock 14 - pink
-  [13,10,10,11,8,6,6,6,6,6,6,4], //unlock 15 - knowledge
+  [3,2,1,0,0,0,0,0,0,0,0,0,0], //unlock 0 - start
+  [3,2,1,0,0,0,0,0,0,0,0,0,0], //unlock 1 - dragon
+  [3,2,1,0,0,0,0,0,0,0,0,0,0], //unlock 2 - fire
+  [4,3,2,1,0,0,0,0,0,0,0,0,0], //unlock 3 - platinum
+  [6,4,3,5,1,0,0,0,0,0,0,0,0], //unlock 4 - magic
+  [6,4,3,5,1,0,0,0,0,0,0,0,0], //unlock 5 - magic challenges
+  [7,5,4,6,2,1,0,0,0,0,0,0,0], //unlock 6 - more magic upgrades
+  [8,6,6,7,3,1,0,0,0,0,0,0,0], //unlock 7 - uranium
+  [10,6,7,8,4,3,1,0,0,0,0,0,0], //unlock 8 - more platinum and uranium
+  [10,6,7,8,4,3,1,0,0,0,0,0,0], //unlock 9 - dark magic
+  [10,6,7,9,4,4,3,1,0,0,0,0,0], //unlock 10 - cyan
+  [11,7,8,9,5,4,4,4,1,0,0,0,0], //unlock 11 - blue
+  [12,8,8,10,6,5,5,5,5,1,0,0,0], //unlock 12 - indigo
+  [12,8,9,11,6,5,5,5,5,5,1,0,0], //unlock 13 - violet
+  [12,9,9,11,7,5,5,5,5,5,5,1,0], //unlock 14 - pink
+  [12,10,10,12,8,6,6,6,6,6,6,4,1], //unlock 15 - knowledge
+  [12,10,10,12,9,7,7,7,7,7,7,5,2], //unlock 16 - tomes
 ]

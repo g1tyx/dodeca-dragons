@@ -68,7 +68,7 @@ function render(x, y) {
   document.getElementsByClassName("box")[3].style.top = (window.innerHeight / 2 + y + 162 + dragonTabHeight/2) + "px"
   if (game.unlocks >= 1) {
     //Fire upgrades tab
-    document.getElementsByClassName("box")[4].style.left = (window.innerWidth / 2 + x - 350) + "px"
+    document.getElementsByClassName("box")[4].style.left = (window.innerWidth / 2 + x - 365) + "px"
     document.getElementsByClassName("box")[4].style.top = (window.innerHeight / 2 + y + 365) + "px"
   }
   if (game.unlocks >= 2) {
@@ -132,7 +132,12 @@ function render(x, y) {
   if (game.unlocks >= 14) {
     //Knowledge tab
     document.getElementsByClassName("box")[19].style.left = (window.innerWidth / 2 + x - 440) + "px"
-    document.getElementsByClassName("box")[19].style.top = (window.innerHeight / 2 + y + 850) + "px"
+    document.getElementsByClassName("box")[19].style.top = (window.innerHeight / 2 + y + 830) + "px"
+  }
+  if (game.unlocks >= 15) {
+    //Tomes tab
+    document.getElementsByClassName("box")[21].style.left = (window.innerWidth / 2 + x - 880) + "px"
+    document.getElementsByClassName("box")[21].style.top = (window.innerHeight / 2 + y + 830) + "px"
   }
   document.body.style.backgroundPosition = (x / 4) + "px " + (y / 4) + "px"
   //console.log(Date.now() - renderVars.lastRender)

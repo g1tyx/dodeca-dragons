@@ -12,6 +12,9 @@ function sigilCheck(x) {
   else if (x==4 && game.violetSigilsToGet.eq(0)) {
     if (confirm("Woah, hold on! You won't gain any sigils! Are you sure you want to perform a sigil reset?")) sigilReset(x)
   }
+  else if (x==5 && game.pinkSigilsToGet.eq(0)) {
+    if (confirm("Woah, hold on! You won't gain any sigils! Are you sure you want to perform a sigil reset?")) sigilReset(x)
+  }
   else if (game.confirmations[1]) {
     if (confirm("Are you sure you want to perform a sigil reset?")) sigilReset(x)
   }
@@ -310,6 +313,10 @@ function buyPinkSigilUpgrade(x) {
     randomizeKnowledgeTrade(1)
     randomizeKnowledgeTrade(2)
     randomizeKnowledgeTrade(3)
+    document.getElementById("knowledgeUpgrade1Cost").innerHTML = format(game.knowledgeUpgradeCosts[0], 0)
+    document.getElementById("knowledgeUpgrade1Effect").innerHTML = format(new Decimal(2).pow(game.knowledgeUpgradesBought[0].pow(0.5)), 2)
+    document.getElementById("knowledgeUpgrade2Cost").innerHTML = format(game.knowledgeUpgradeCosts[1], 0)
+    document.getElementById("knowledgeUpgrade2Effect").innerHTML = format(new Decimal(5).pow(game.knowledgeUpgradesBought[1].pow(0.5)), 2)
     addUnlock() //sets unlock to 15
   }
 }

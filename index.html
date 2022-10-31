@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
   <meta content="DodecaDragons" property="og:title" />
-  <meta content="I don’t know man, you’ve been seeming sus lately... It’s almost like we have an impostor among us."
+  <meta content="I hope this helps! and I hope your tunderfal day :-)"
     property="og:description" />
   <meta content="https://demonins-item-shop.demonin.repl.co/games/dodecaDragons/" property="og:url" />
   <meta content="logo.png" property="og:image" />
@@ -80,7 +80,7 @@
       <br><br><br><br><br>
       <p id ="devinfo" style="position: absolute; bottom: 4px; right: 4px; text-align: right; margin: 0; color: #666;"><a
           href="https://discord.gg/7PChmUV3wk">Discord</a><br><a href="changelog.txt">Changelog</a><br>Created by
-        Demonin<br>v0.6.0 <span id="inDevSpan"></span></p>
+        Demonin<br>v0.6.1 <span id="inDevSpan"></span></p>
     </div>
   </div>
 
@@ -89,7 +89,7 @@
     <div class="title-bar">
       <div class="title-bar-text">Resources</div>
     </div>
-    <div class="window-body" style="max-height: 300px; overflow: auto">
+    <div class="window-body" style="max-height: 90vh; overflow: auto">
       <p class="resourceRow"><img src="img/iconGoldCoins.png" class="resourceIcon"></img>Gold: <a
           class="resourceText">0</a></p>
       <p class="resourceRow" style="display: none"><img src="img/iconMiner.png" class="resourceIcon"></img>Miners: <a
@@ -117,6 +117,7 @@
         sigils: <a class="resourceText">0</a></p>
       <p class="resourceRow" style="display: none"><img src="img/iconSigil5.png" class="resourceIcon"></img>Pink sigils: <a class="resourceText">0</a></p>
       <p class="resourceRow" style="display: none"><img src="img/iconKnowledge.png" class="resourceIcon"></img>Knowledge: <a class="resourceText">0</a></p>
+      <p class="resourceRow" style="display: none"><img src="img/iconTome.png" class="resourceIcon"></img>Tomes: <a class="resourceText">0</a></p>
     </div>
   </div>
 
@@ -161,13 +162,14 @@
   </div>
 
   <!--Fire upgrades tab-->
-  <div class="window box" style="width: 320px; height: 400px; background-color: #eca; display: none">
+  <div class="window box" style="width: 350px; height: 400px; background-color: #eca; display: none">
     <div class="title-bar">
       <div class="title-bar-text">Fire upgrades</div>
     </div>
     <div class="window-body">
       <p class="titleText">You have <a id="fire">0</a> fire</p>
       <p style="margin-top: 4px">(<a id="firePerSecond">0</a>/s)</p>
+      <hr>
       <button class="fireUpgrade" style="height: 46px" onclick="buyFireUpgrade(1)">Increase fire production<br>Currently
         x<a id="fireUpgrade1Effect">1.00</a><br>Costs <a id="fireUpgrade1Cost">50</a> fire</button>
       <button class="fireBuyMaxButton" onclick="fireBuyMax(1)">Buy max</button><br>
@@ -234,7 +236,7 @@
     </div>
     <div class="window-body">
       <center>
-        <p class="titleText">You have <a id="magic">0</a> magic</p>
+        <p class="titleText">You have <a id="magic">0</a> magic<a id="magicCap"></a></p>
         <button
           style="height: 34px; margin-top: 5px; background-color: #95a; background-image: url('img/magicBack.png')"
           onclick="magicCheck()">Reset all previous resources and upgrades<br>You will gain <a id="magicToGet"
@@ -596,7 +598,7 @@
   </div>
 
 <!--Knowledge tab-->
-  <div class="window box" style="width: 500px; height: 540px; background-color: #ba9; display: none;">
+  <div class="window box" style="width: 500px; height: 500px; background-color: #ba9; display: none;">
     <div class="title-bar">
       <div class="title-bar-text">Knowledge</div>
     </div>
@@ -613,19 +615,16 @@
           <p style="margin-top: 10px; margin-bottom: 0; font-weight: bold">Knowledge trade 1</p>
           <p class="knowledgeTradeInfo" style="margin-top: 8px">Lv1 - 1 knowledge<br>Costs:<br><img src="img/iconSigil1.png"> 100,000 cyan sigils<br><img src="img/iconSigil2.png"> 40,000 blue sigils<br><img src="img/iconSigil3.png"> 10,000 indigo sigils</p>
           <center><button onclick="purchaseKnowledgeTrade(1)">Purchase</button>
-          <button class="knowledgeTradeRerollButton" style="height: 34px" onclick="rerollKnowledgeTrade(1)">Reroll trade<br>Costs 2 knowledge</button></center>
         </div>
         <div class="knowledgeTradeDiv">
           <p style="margin-top: 10px; margin-bottom: 0; font-weight: bold">Knowledge trade 2</p>
           <p class="knowledgeTradeInfo" style="margin-top: 8px">Lv1 - 1 knowledge<br>Costs:<br><img src="img/iconSigil1.png"> 100,000 cyan sigils<br><img src="img/iconSigil2.png"> 40,000 blue sigils<br><img src="img/iconSigil3.png"> 10,000 indigo sigils</p>
           <center><button onclick="purchaseKnowledgeTrade(2)">Purchase</button>
-          <button class="knowledgeTradeRerollButton" style="height: 34px" onclick="rerollKnowledgeTrade(2)">Reroll trade<br>Costs 2 knowledge</button></center>
         </div>
         <div class="knowledgeTradeDiv">
           <p style="margin-top: 10px; margin-bottom: 0; font-weight: bold">Knowledge trade 3</p>
           <p class="knowledgeTradeInfo" style="margin-top: 8px">Lv1 - 1 knowledge<br>Costs:<br><img src="img/iconSigil1.png"> 100,000 cyan sigils<br><img src="img/iconSigil2.png"> 40,000 blue sigils<br><img src="img/iconSigil3.png"> 10,000 indigo sigils</p>
           <center><button onclick="purchaseKnowledgeTrade(3)">Purchase</button>
-          <button class="knowledgeTradeRerollButton" style="height: 34px" onclick="rerollKnowledgeTrade(3)">Reroll trade<br>Costs 2 knowledge</button></center>
         </div>
       </div>
       <center><button onclick="resetKnowledgeTrades()">Reset trades to level 1 (use if stuck!)</button></center><br>
@@ -634,8 +633,9 @@
           <p>Trade cost ranges for this trade level:<br><img src="img/iconSigil1.png"><a class="knowledgeTradeCostRange">0-1</a><br><img src="img/iconSigil2.png"><a class="knowledgeTradeCostRange">0-1</a><br><img src="img/iconSigil3.png"><a class="knowledgeTradeCostRange">0-1</a><br><img src="img/iconSigil4.png"><a class="knowledgeTradeCostRange">0-1</a><br><img src="img/iconSigil5.png"><a class="knowledgeTradeCostRange">0-1</a></p>
         </div>
         <div>
-          <button style="height: 46px; float: left; text-align: left; background-color: #c8c0a0" onclick="buyKnowledgeUpgrade(1)">Multiply knowledge gain from trades<br>Currently x<a id="knowledgeUpgrade1Effect">1.00</a><br>Costs <a id="knowledgeUpgrade1Cost">20</a> knowledge</button>
-          <button style="height: 46px; float: left; text-align: left; background-color: #c8c0a0" onclick="buyKnowledgeUpgrade(2)">Increase uranium gain<br>Currently ^<a id="knowledgeUpgrade2Effect">1.00</a><br>Costs <a id="knowledgeUpgrade2Cost">50</a> knowledge</button>
+          <button class="knowledgeUpgrade" onclick="buyKnowledgeUpgrade(1)">Multiply knowledge gain from trades<br>Currently x<a id="knowledgeUpgrade1Effect">1.00</a><br>Costs <a id="knowledgeUpgrade1Cost">20</a> knowledge</button>
+          <button class="knowledgeUpgrade" onclick="buyKnowledgeUpgrade(2)">Increase uranium gain<br>Currently ^<a id="knowledgeUpgrade2Effect">1.00</a><br>Costs <a id="knowledgeUpgrade2Cost">50</a> knowledge</button>
+          <button class="knowledgeUpgrade" style="height: 32px" onclick="buyKnowledgeUpgrade(3)">Unlock <b>tomes</b><br>Costs 100,000 knowledge</button>
         </div>
       </div>
     </div>
@@ -661,6 +661,26 @@
         </select><br>
       </div>
       <button style="margin-top: 4px" onclick="maxAllSigilUpgrades()">Max all sigil upgrades</button>
+    </div>
+  </div>
+
+  <!--Tomes tab-->
+  <div class="window box" style="width: 350px; height: 500px; background-color: #988078; display: none;">
+    <div class="title-bar">
+      <div class="title-bar-text">Tomes</div>
+    </div>
+    <div class="window-body">
+      <p class="titleText">You have <a id="tomes">0</a> tomes</p>
+      <p style="margin-top: 4px">Total: <a id="totalTomes">0</a></p>
+      <button style="height: 32px; background-color: #ca9; width: 344px" onclick="buyTome()">Convert your knowledge into a tome<br>Costs <a id="tomeCost">100,000</a> knowledge</button>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; justify-self: stretch;">
+        <button class="tomeUpgrade" onclick="buyTomeUpgrade(1)">Increase ISP gain by ^1.30<br>Costs 1 tome</button>
+        <button class="tomeUpgrade" onclick="buyTomeUpgrade(2)">Total tomes multiply PSP gain<br>Currently x<a id="tomeUpgrade2Effect">1.00</a><br>Costs 1 tome</button>
+        <button class="tomeUpgrade" onclick="buyTomeUpgrade(3)">Double knowledge gain from trades<br>Costs 2 tomes</button>
+        <button class="tomeUpgrade" onclick="buyTomeUpgrade(4)">Platinum increases gold/second again<br>Costs 2 tomes</button>
+        <button class="tomeUpgrade" onclick="buyTomeUpgrade(5)">Tome cost increases more slowly<br>Costs 4 tomes</button>
+        <!-- <button class="tomeUpgrade" style="background-color: #66c" onclick="buyTomeUpgrade(6)">Unlock <b>blue fire</b><br>Costs 25 tomes</button> -->
+      </div>
     </div>
   </div>
 
@@ -691,8 +711,10 @@
     <img src="img/arrowLeft.png" id="arrowLeft" class="clickButton">
     <img src="img/arrowRight.png" id="arrowRight" class="clickButton">
   </div>
+  <div id="loadingScreenCover">
+    <img id="loadingScreenLogo" src="img/logo.png">
+  </div>
   <p id="fps" style="color: white; position: absolute; bottom: 0; left: 0; margin: 4px"></p>
-
   <!--<div id="testdiv" class="window box"> Hello world </div>-->
 
   <!--List o' scripts-->
