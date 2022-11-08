@@ -8,7 +8,7 @@
   <meta content="I hope this helps! and I hope your tunderfal day :-)"
     property="og:description" />
   <meta content="https://demonins-item-shop.demonin.repl.co/games/dodecaDragons/" property="og:url" />
-  <meta content="logo.png" property="og:image" />
+  <meta content="img/logo.png" property="og:image" />
   <meta content="#408000" data-react-helmet="true" name="theme-color" />
   <title>DodecaDragons</title>
   <link rel="icon" type="image/x-icon" href="img/iconGoldCoins.png">
@@ -19,7 +19,7 @@
 
 <body onclick="updateSmall()">
   <script src="chs.js"></script>
-  <script src="core.js"></script>
+<script src="core.js"></script>
   <!--Main tab-->
   <div class="window box" style="width: 350px; height: 300px">
     <div class="title-bar">
@@ -53,9 +53,10 @@
     <div class="title-bar" style="background-image: linear-gradient(90deg,grey,#b5b5b5);">
       <div class="title-bar-text">Settings and info</div>
     </div>
-    <div class="window-body"  style="max-height: 400px; overflow: auto">
+    <div class="window-body">
       <p style="margin: 3px; color: #666">Move around by clicking and dragging.<br>If you find the text is too small,
         you might want to zoom in the window :)</p>
+      <p>Time played: <a id="timePlayed">0:00:00</a></p>
       <hr>
       <button style="width: 142px" onclick="save()">&#8202;&#8202;Manual save</button><br>
       <button style="min-width: 68px" onclick="exportGame()">&#8202;&#8202;Export</button>
@@ -66,7 +67,8 @@
       <button id="backgroundPatternButton" style="width: 142px"
         onclick="changeBackgroundPattern()">&#8202;&#8202;Background pattern: On</button><br>
       <hr>
-      <p>Time played: <a id="timePlayed">0:00:00</a></p>
+      <p style="text-align: center; color: #008; margin-bottom: 4px">&#8202;&#8202;Want to discuss or suggest for<br>&#8202;&#8202;the game? Feel free to join our<br>discord community!</p>
+      <center><a href="https://discord.gg/7PChmUV3wk"><img src="img/discordIcon.png" style="pointer-events: auto"></a></center>
       <div id="confirmationToggleBox" style="display: none;">
         <hr>
         <center>
@@ -77,10 +79,9 @@
             onclick="toggleConfirmations(2)"></div>
         </center>
       </div>
-      <br><br><br><br><br>
-      <p id ="devinfo" style="position: absolute; bottom: 4px; right: 4px; text-align: right; margin: 0; color: #666;"><a
-          href="https://discord.gg/7PChmUV3wk">Discord</a><br><a href="changelog.txt">Changelog</a><br>Created by
-        Demonin<br>v0.6.1 <span id="inDevSpan"></span></p>
+      <br><br><br><br>
+      <p id ="devinfo" style="position: absolute; bottom: 4px; right: 4px; text-align: right; margin: 0; color: #666;"><a href="changelog.txt">Changelog</a><br>Created by
+        Demonin<br>v0.6.2 <span id="inDevSpan"></span></p>
     </div>
   </div>
 
@@ -90,34 +91,21 @@
       <div class="title-bar-text">Resources</div>
     </div>
     <div class="window-body" style="max-height: 90vh; overflow: auto">
-      <p class="resourceRow"><img src="img/iconGoldCoins.png" class="resourceIcon"></img>Gold: <a
-          class="resourceText">0</a></p>
-      <p class="resourceRow" style="display: none"><img src="img/iconMiner.png" class="resourceIcon"></img>Miners: <a
-          class="resourceText">0</a></p>
-      <p class="resourceRow" style="display: none"><img src="img/iconFire.png" class="resourceIcon"></img>Fire: <a
-          class="resourceText">0</a></p>
-      <p class="resourceRow" style="display: none"><img src="img/iconPlatinumCoins.png"
-          class="resourceIcon"></img>Platinum: <a class="resourceText">0</a></p>
-      <p class="resourceRow" style="display: none"><img src="img/iconMagic.png" class="resourceIcon"></img>Magic: <a
-          class="resourceText">0</a></p>
-      <p class="resourceRow" style="display: none"><img src="img/iconMagifold.png" class="resourceIcon"></img>Magifolds:
-        <a class="resourceText">0</a>
-      </p>
-      <p class="resourceRow" style="display: none"><img src="img/iconUraniumCoins.png"
-          class="resourceIcon"></img>Uranium: <a class="resourceText">0</a></p>
-      <p class="resourceRow" style="display: none"><img src="img/iconSigil1.png" class="resourceIcon"></img>Cyan sigils:
-        <a class="resourceText">0</a>
-      </p>
-      <p class="resourceRow" style="display: none"><img src="img/iconSigil2.png" class="resourceIcon"></img>Blue sigils:
-        <a class="resourceText">0</a>
-      </p>
-      <p class="resourceRow" style="display: none"><img src="img/iconSigil3.png" class="resourceIcon"></img>Indigo
-        sigils: <a class="resourceText">0</a></p>
-      <p class="resourceRow" style="display: none"><img src="img/iconSigil4.png" class="resourceIcon"></img>Violet
-        sigils: <a class="resourceText">0</a></p>
+      <p class="resourceRow"><img src="img/iconGoldCoins.png" class="resourceIcon"></img>Gold: <a class="resourceText">0</a></p>
+      <p class="resourceRow" style="display: none"><img src="img/iconMiner.png" class="resourceIcon"></img>Miners: <a class="resourceText">0</a></p>
+      <p class="resourceRow" style="display: none"><img src="img/iconFire.png" class="resourceIcon"></img>Fire: <a class="resourceText">0</a></p>
+      <p class="resourceRow" style="display: none"><img src="img/iconPlatinumCoins.png" class="resourceIcon"></img>Platinum: <a class="resourceText">0</a></p>
+      <p class="resourceRow" style="display: none"><img src="img/iconMagic.png" class="resourceIcon"></img>Magic: <a class="resourceText">0</a></p>
+      <p class="resourceRow" style="display: none"><img src="img/iconMagifold.png" class="resourceIcon"></img>Magifolds: <a class="resourceText">0</a> </p>
+      <p class="resourceRow" style="display: none"><img src="img/iconUraniumCoins.png" class="resourceIcon"></img>Uranium: <a class="resourceText">0</a></p>
+      <p class="resourceRow" style="display: none"><img src="img/iconSigil1.png" class="resourceIcon"></img>Cyan sigils: <a class="resourceText">0</a> </p>
+      <p class="resourceRow" style="display: none"><img src="img/iconSigil2.png" class="resourceIcon"></img>Blue sigils: <a class="resourceText">0</a> </p>
+      <p class="resourceRow" style="display: none"><img src="img/iconSigil3.png" class="resourceIcon"></img>Indigo sigils: <a class="resourceText">0</a></p>
+      <p class="resourceRow" style="display: none"><img src="img/iconSigil4.png" class="resourceIcon"></img>Violet sigils: <a class="resourceText">0</a></p>
       <p class="resourceRow" style="display: none"><img src="img/iconSigil5.png" class="resourceIcon"></img>Pink sigils: <a class="resourceText">0</a></p>
       <p class="resourceRow" style="display: none"><img src="img/iconKnowledge.png" class="resourceIcon"></img>Knowledge: <a class="resourceText">0</a></p>
       <p class="resourceRow" style="display: none"><img src="img/iconTome.png" class="resourceIcon"></img>Tomes: <a class="resourceText">0</a></p>
+      <p class="resourceRow" style="display: none"><img src="img/iconBlueFire.png" class="resourceIcon"></img>Blue fire: <a class="resourceText">0</a></p>
     </div>
   </div>
 
@@ -665,22 +653,43 @@
   </div>
 
   <!--Tomes tab-->
-  <div class="window box" style="width: 350px; height: 500px; background-color: #988078; display: none;">
+  <div class="window box" style="width: 400px; height: 500px; background-color: #988078; display: none;">
     <div class="title-bar">
       <div class="title-bar-text">Tomes</div>
     </div>
     <div class="window-body">
       <p class="titleText">You have <a id="tomes">0</a> tomes</p>
       <p style="margin-top: 4px">Total: <a id="totalTomes">0</a></p>
-      <button style="height: 32px; background-color: #ca9; width: 344px" onclick="buyTome()">Convert your knowledge into a tome<br>Costs <a id="tomeCost">100,000</a> knowledge</button>
+      <button style="height: 32px; background-color: #ca9; width: 394px" onclick="buyTome()">Convert your knowledge into a tome<br>Costs <a id="tomeCost">100,000</a> knowledge</button>
+      <button style="background-color: #ca9" onclick="buyMaxTomes()">Convert max tomes</button>
       <div style="display: grid; grid-template-columns: 1fr 1fr; justify-self: stretch;">
         <button class="tomeUpgrade" onclick="buyTomeUpgrade(1)">Increase ISP gain by ^1.30<br>Costs 1 tome</button>
         <button class="tomeUpgrade" onclick="buyTomeUpgrade(2)">Total tomes multiply PSP gain<br>Currently x<a id="tomeUpgrade2Effect">1.00</a><br>Costs 1 tome</button>
         <button class="tomeUpgrade" onclick="buyTomeUpgrade(3)">Double knowledge gain from trades<br>Costs 2 tomes</button>
         <button class="tomeUpgrade" onclick="buyTomeUpgrade(4)">Platinum increases gold/second again<br>Costs 2 tomes</button>
         <button class="tomeUpgrade" onclick="buyTomeUpgrade(5)">Tome cost increases more slowly<br>Costs 4 tomes</button>
-        <!-- <button class="tomeUpgrade" style="background-color: #66c" onclick="buyTomeUpgrade(6)">Unlock <b>blue fire</b><br>Costs 25 tomes</button> -->
+        <button class="tomeUpgrade" style="background-color: #66c" onclick="buyTomeUpgrade(6)">Unlock <b>blue fire</b><br>Costs 25 tomes</button>
+        <button class="tomeUpgrade" onclick="buyTomeUpgrade(7)">Total tomes multiply knowledge gain<br>Currently x<a id="tomeUpgrade7Effect">1.00</a><br>Costs 75 tomes</button>
+        <button class="tomeUpgrade" onclick="buyTomeUpgrade(8)">Tome cost increases more slowly again<br>Costs 175 tomes</button>
       </div>
+    </div>
+  </div>
+
+  <!--Blue fire tab-->
+  <div class="window box" style="width: 350px; height: 400px; background-color: #88e; display: none">
+    <div class="title-bar">
+      <div class="title-bar-text">Blue fire upgrades</div>
+    </div>
+    <div class="window-body">
+      <p class="titleText">You have <a id="blueFire">0</a> blue fire</p>
+      <p style="margin-top: 4px">(<a id="blueFirePerSecond">0</a>/s)</p>
+      <hr>
+      <button class="blueFireUpgrade" style="height: 46px" onclick="buyBlueFireUpgrade(1)">Multiply blue fire production<br>Currently
+        x<a id="blueFireUpgrade1Effect">1.00</a><br>Costs <a id="blueFireUpgrade1Cost">500</a> blue fire</button><br>
+      <button class="blueFireUpgrade" style="height: 46px" onclick="buyBlueFireUpgrade(2)">Increase fire production<br>Currently
+        ^<a id="blueFireUpgrade2Effect">1.00</a><br>Costs <a id="blueFireUpgrade2Cost">1,000</a> blue fire</button><br>
+      <button class="blueFireUpgrade" style="height: 46px" onclick="buyBlueFireUpgrade(3)">Increase platinum gain<br>Currently
+        ^<a id="blueFireUpgrade3Effect">1.00</a><br>Costs <a id="blueFireUpgrade3Cost">50,000</a> blue fire</button><br>
     </div>
   </div>
 
@@ -712,7 +721,7 @@
     <img src="img/arrowRight.png" id="arrowRight" class="clickButton">
   </div>
   <div id="loadingScreenCover">
-    <img id="loadingScreenLogo" src="logo.png">
+    <img id="loadingScreenLogo" src="img/logo.png">
   </div>
   <p id="fps" style="color: white; position: absolute; bottom: 0; left: 0; margin: 4px"></p>
   <!--<div id="testdiv" class="window box"> Hello world </div>-->

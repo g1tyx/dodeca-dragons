@@ -136,8 +136,13 @@ function render(x, y) {
   }
   if (game.unlocks >= 15) {
     //Tomes tab
-    document.getElementsByClassName("box")[21].style.left = (window.innerWidth / 2 + x - 880) + "px"
+    document.getElementsByClassName("box")[21].style.left = (window.innerWidth / 2 + x - 905) + "px"
     document.getElementsByClassName("box")[21].style.top = (window.innerHeight / 2 + y + 830) + "px"
+  }
+  if (game.unlocks >= 16) {
+    //Blue fire tab
+    document.getElementsByClassName("box")[22].style.left = (window.innerWidth / 2 + x - 730) + "px"
+    document.getElementsByClassName("box")[22].style.top = (window.innerHeight / 2 + y + 365) + "px"
   }
   document.body.style.backgroundPosition = (x / 4) + "px " + (y / 4) + "px"
   //console.log(Date.now() - renderVars.lastRender)

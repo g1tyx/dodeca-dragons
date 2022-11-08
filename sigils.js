@@ -22,13 +22,20 @@ function sigilCheck(x) {
 }
 
 function sigilReset(x, triggerLayer = "sigil") {
-  switch(x) {
-    case 1: game.cyanSigils = game.cyanSigils.add(game.cyanSigilsToGet); break
-    case 2: game.blueSigils = game.blueSigils.add(game.blueSigilsToGet); break
-    case 3: game.indigoSigils = game.indigoSigils.add(game.indigoSigilsToGet); break
-    case 4: game.violetSigils = game.violetSigils.add(game.violetSigilsToGet); break
-    case 5: game.pinkSigils = game.pinkSigils.add(game.pinkSigilsToGet); break
+  let sigilName = sigilColours[x - 1] + "Sigils";
+  let sigilsGained = game[sigilName + "ToGet"];
+  if (sigilsGained.isNan()) {
+    console.error("Warning! Sigil reset is attempting to reset for NaN!")
+    return;
   }
+  game[sigilName] = game[sigilName].add(sigilsGained);
+  //switch(x) {
+    //case 1: game.cyanSigils = game.cyanSigils.add(game.cyanSigilsToGet); break
+    //case 2: game.blueSigils = game.blueSigils.add(game.blueSigilsToGet); break
+    //case 3: game.indigoSigils = game.indigoSigils.add(game.indigoSigilsToGet); break
+    //case 4: game.violetSigils = game.violetSigils.add(game.violetSigilsToGet); break
+    //case 5: game.pinkSigils = game.pinkSigils.add(game.pinkSigilsToGet); break
+  //}
   checkAchievements()
   magicReset(triggerLayer)
   if (game.unlockedAchievements[7] <= 2) {

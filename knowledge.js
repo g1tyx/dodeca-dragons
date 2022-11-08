@@ -13,6 +13,7 @@ function randomizeKnowledgeTrade(trade) {
     game["knowledgeTrade" + trade + "Reward"] = new Decimal(1.5).pow(game.knowledgeTradeLevel.sub(1)).mul(game["knowledgeTrade" + trade + "Multipliers"][3])
     game["knowledgeTrade" + trade + "Reward"] = game["knowledgeTrade" + trade + "Reward"].mul(new Decimal(2).pow(game.knowledgeUpgradesBought[0].pow(0.5)))
     if (game.tomeUpgradesBought[2]) game["knowledgeTrade" + trade + "Reward"] = game["knowledgeTrade" + trade + "Reward"].mul(2)
+    if (game.tomeUpgradesBought[6] == true) game["knowledgeTrade" + trade + "Reward"] = game["knowledgeTrade" + trade + "Reward"].mul(game.totalTomes.pow(1.2).add(1))
     game["knowledgeTrade" + trade + "Reward"] = game["knowledgeTrade" + trade + "Reward"].floor()
   }
 
@@ -29,6 +30,7 @@ function setKnowledgeTrade(trade) {
     game["knowledgeTrade" + trade + "Reward"] = new Decimal(1.5).pow(game.knowledgeTradeLevel.sub(1)).mul(game["knowledgeTrade" + trade + "Multipliers"][3])
     game["knowledgeTrade" + trade + "Reward"] = game["knowledgeTrade" + trade + "Reward"].mul(new Decimal(2).pow(game.knowledgeUpgradesBought[0].pow(0.5)))
     if (game.tomeUpgradesBought[2]) game["knowledgeTrade" + trade + "Reward"] = game["knowledgeTrade" + trade + "Reward"].mul(2)
+    if (game.tomeUpgradesBought[6] == true) game["knowledgeTrade" + trade + "Reward"] = game["knowledgeTrade" + trade + "Reward"].mul(game.totalTomes.pow(1.2).add(1))
     game["knowledgeTrade" + trade + "Reward"] = game["knowledgeTrade" + trade + "Reward"].floor()
   }
   
@@ -103,10 +105,33 @@ function buyTome() {
     game.knowledge = game.knowledge.sub(game.tomeCost)
     game.tomes = game.tomes.add(1)
     game.totalTomes = game.totalTomes.add(1)
-    if (game.tomeUpgradesBought[4]) {game.tomeCost = new Decimal(1.3).pow(game.totalTomes).mul(100000)}
+    if (game.tomeUpgradesBought[7]) {game.tomeCost = new Decimal(1.1).pow(game.totalTomes).mul(100000)}
+    else if (game.tomeUpgradesBought[4]) {game.tomeCost = new Decimal(1.3).pow(game.totalTomes).mul(100000)}
     else {game.tomeCost = new Decimal(1.5).pow(game.totalTomes).mul(100000)}
     document.getElementById("tomeCost").innerHTML = format(game.tomeCost, 0)
   }
+}
+
+function buyMaxTomes() {
+  if (game.tomeUpgradesBought[7]) {
+    amtToBuy = Decimal.affordGeometricSeries(game.knowledge, 100000, 1.1, game.totalTomes)
+    costToBuy = Decimal.sumGeometricSeries(amtToBuy, 100000, 1.1, game.totalTomes)
+  }
+  else if (game.tomeUpgradesBought[4]) {
+    amtToBuy = Decimal.affordGeometricSeries(game.knowledge, 100000, 1.3, game.totalTomes)
+    costToBuy = Decimal.sumGeometricSeries(amtToBuy, 100000, 1.3, game.totalTomes)
+  }
+  else {
+    amtToBuy = Decimal.affordGeometricSeries(game.knowledge, 100000, 1.5, game.totalTomes)
+    costToBuy = Decimal.sumGeometricSeries(amtToBuy, 100000, 1.5, game.totalTomes)
+  }
+  game.tomes = game.tomes.add(amtToBuy)
+  game.totalTomes = game.totalTomes.add(amtToBuy)
+  game.knowledge = game.knowledge.sub(costToBuy)
+  if (game.tomeUpgradesBought[7]) {game.tomeCost = new Decimal(1.1).pow(game.totalTomes).mul(100000)}
+  else if (game.tomeUpgradesBought[4]) {game.tomeCost = new Decimal(1.3).pow(game.totalTomes).mul(100000)}
+  else {game.tomeCost = new Decimal(1.5).pow(game.totalTomes).mul(100000)}
+  document.getElementById("tomeCost").innerHTML = format(game.tomeCost, 0)
 }
 
 //Tome upgrades
@@ -118,6 +143,15 @@ function buyTomeUpgrade(x) {
     document.getElementsByClassName("tomeUpgrade")[x-1].disabled = true
     if (x==5) {
       game.tomeCost = new Decimal(1.3).pow(game.totalTomes).mul(100000)
+      document.getElementById("tomeCost").innerHTML = format(game.tomeCost, 0)
+    }
+    if (x==6) {
+      document.getElementsByClassName("box")[22].style.display = "block"
+      document.getElementsByClassName("resourceRow")[14].style.display = "block"
+      addUnlock() //sets unlock to 17
+    }
+    if (x==8) {
+      game.tomeCost = new Decimal(1.1).pow(game.totalTomes).mul(100000)
       document.getElementById("tomeCost").innerHTML = format(game.tomeCost, 0)
     }
   }
