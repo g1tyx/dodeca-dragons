@@ -417,6 +417,9 @@ function loadGame(loadgame) {
 
   document.getElementById("sigilResetterAmount").value = game.sigilResetterAmount.toString(); //set input field for sigil resetter amount
   document.getElementById("sigilResetterActive").checked = game.sigilResetterActive;
+  if (game.sigilResetterType < 0) {
+    game.sigilResetterType = 0;
+  }
   let currentResetterType = sigilColours[game.sigilResetterType];
   document.getElementById("sigilResetterType").value = currentResetterType[0].toUpperCase() + currentResetterType.slice(1);
   if (document.getElementById("sigilResetterType").value === '') {document.getElementById("sigilResetterType").value = 'Cyan'; game.sigilResetterType = 0}
