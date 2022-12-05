@@ -18,6 +18,12 @@
     font-weight:700;
     src:url(fonts/alagard.woff) format("woff");
 }
+@font-face{
+    font-family:"VCR OSD MONO";
+    font-style:normal;
+    font-weight:700;
+    src:url(fonts/VCR_OSD_MONO.woff) format("woff");
+}
 
 *:disabled {
   pointer-events: none;
@@ -209,6 +215,7 @@ img {
   background-image: url('img/uraniumButtonBack.png');
   background-size: 150px;
   image-rendering: pixelated;
+  text-shadow: 1px 1px 0 #bbb;
 }
 
 #uraniumMagicUpgrade:disabled {
@@ -382,6 +389,14 @@ img {
   background-color: #c8c0a0;
 }
 
+#knowledgeMaxAllButton {
+  background-color: #c8c0a0;
+  position: absolute;
+  bottom: 2px;
+  right: 4px;
+  display: none;
+}
+
 .tomeUpgrade {
   height: 46px;
   margin: 5px 2px 0 2px;
@@ -393,6 +408,85 @@ img {
   color: #444;
   text-shadow: 1px 1px 0 #777;
 }
+
+#plutoniumTomeUpgrade {
+  display: none;
+  background-image: url('img/plutoniumButtonBack.png');
+  background-size: 170px;
+  image-rendering: pixelated;
+  text-shadow: 1px 1px 0 #bbb;
+}
+
+#plutoniumTomeUpgrade:disabled {
+  color: #666;
+  text-shadow: 1px 1px 0 #999;
+}
+
+#sigilTomeUpgrade {
+  display: none;
+  background-color: rgb(70, 70, 70);
+  background-image: url('img/sigilButtonBackRed.png');
+  background-size: 170px;
+  image-rendering: pixelated;
+  color: #fbb;
+}
+
+#sigilTomeUpgrade:disabled {
+  color: #c66;
+  text-shadow: 1px 1px 0 #999;
+}
+
+.blueFireBuyMaxButton {
+  min-width: 46px;
+  display: none;
+}
+
+#unlockBloodButton {
+  height: 34px;
+  background-color: #444;
+  color: #d66;
+  display: none;
+}
+
+#enterHellButton {
+  background-color: #d99;
+  position: absolute;
+  bottom: 4px;
+  left: 4px;
+}
+
+#plutoniumConvertButton {
+  width: 242px;
+  margin-top: 5px;
+  background-color: #9ae;
+  text-align: center;
+  height: 32px;
+}
+
+.plutoniumUpgrade {
+  height: 34px;
+  background-color: #9ae;
+  text-align: left;
+}
+
+.redSigilUpgrade {
+  height: 46px;
+  margin: 5px 2px 0 2px;
+  background-color: #444;
+  color: #d44;
+  text-align: left;
+}
+
+.redSigilUpgrade:disabled {
+  color: #944;
+  text-shadow: 1px 1px 0 #622;
+}
+
+
+
+
+
+
 
 #achievementInfo {
   position: absolute;

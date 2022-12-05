@@ -33,7 +33,7 @@ achievementRow.style.display = "block"
 function showAchievement(x,y) {
   let thisId = "ach" + y + "x" + x; //generate unique id for each achievement e.g. ach1x3 where 0 is resource (fire) and 3 is achievement number within group
   if (Object.keys(achievementRewards).indexOf(thisId) > -1) { //check if achievement has a reward, in which case we want to highlight it.
-    achievementBox.innerHTML = "<p style='margin-top: 11px; color: #8ff'><span style='font-size: 22px'>" + romanNumerals[x] + "</span><br>" + achievementResources[y].shortName + "</p>";
+    achievementBox.innerHTML = "<p style='margin-top: 11px; color: #6ff'><span style='font-size: 22px'>" + romanNumerals[x] + "</span><br>" + achievementResources[y].shortName + "</p>";
   } else {
     achievementBox.innerHTML = "<p style='margin-top: 11px'><span style='font-size: 22px'>" + romanNumerals[x] + "</span><br>" + achievementResources[y].shortName + "</p>";
   }
@@ -237,7 +237,7 @@ function processAchievementRewards() {
   if (game.unlockedAchievements[3] > 0) for (i=0;i<6;i++) document.getElementsByClassName("fireBuyMaxButton")[i].style.display = "inline-block"
   if (game.unlockedAchievements[3] > 1) document.getElementById("fireMaxAllButton").style.display = "block";
   //maybe showing divs for auto magic gain readout?
-  //Uranium rewards
+  //uranium rewards
   if (game.unlockedAchievements[5] > 2) document.getElementById("uraniumMaxAllButton").style.display = "block";
   //cyan sigil rewards
   if (game.unlockedAchievements[6] > 1) document.getElementById("dragonFeedButton").innerHTML = '<b>Feed your dragon</b><br>Turns some of your score and magifolds into dragon food<br>Next feed requires <a id="dragonFeedCost">' + format(game.dragonFeedCost, 0) + '</a> magifolds'
@@ -251,6 +251,10 @@ function processAchievementRewards() {
   if (game.unlockedAchievements[10] > 1) {document.getElementsByClassName("box")[20].style.display = "block"}
   //knowledge rewards
   if (game.unlockedAchievements[11] > 0) {document.getElementById("sigilResetAutomation").style.display = "block"}
+  //tome rewards
+  if (game.unlockedAchievements[12] > 2) {document.getElementById("knowledgeMaxAllButton").style.display = "block"}
+  //blue fire rewards
+  if (game.unlockedAchievements[13] > 2) for (i=0;i<6;i++) document.getElementsByClassName("blueFireBuyMaxButton")[i].style.display = "inline-block"
 }
 
 function achievementBoxOpen(x,y) {

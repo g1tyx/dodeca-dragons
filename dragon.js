@@ -12,7 +12,7 @@ function unlockDragon() {
 
 //Handles buying new dragon stages
 function upgradeDragon(x) {
-  if (x == 1 && game.gold.gte(2500000)) {
+  if (x==1 && game.gold.gte(2500000)) {
     game.gold = game.gold.sub(2500000)
     document.getElementsByClassName("upgradeDragonButton")[0].style.display = "none"
     document.getElementsByClassName("upgradeDragonButton")[1].style.display = "block"
@@ -21,7 +21,7 @@ function upgradeDragon(x) {
     document.getElementById("dragonInfo").innerHTML = "Your large dragon friend inspires awe and fear, and spews fire for you."
     game.dragonStage = 2
   }
-  else if (x == 2 && game.gold.gte(1e12)) {
+  else if (x==2 && game.gold.gte(1e12)) {
     game.gold = game.gold.sub(1e12)
     document.getElementsByClassName("upgradeDragonButton")[1].style.display = "none"
     document.getElementsByClassName("upgradeDragonButton")[2].style.display = "block"
@@ -30,7 +30,7 @@ function upgradeDragon(x) {
     document.getElementById("dragonInfo").innerHTML = "Your strong and wise dragon friend rests upon your mountain of gold, and defends it with inferno-like breath."
     game.dragonStage = 3
   }
-  else if (x == 3 && game.gold.gte(1e25)) {
+  else if (x==3 && game.gold.gte(1e25)) {
     game.gold = game.gold.sub(1e25)
     document.getElementsByClassName("upgradeDragonButton")[2].style.display = "none"
     document.getElementsByClassName("upgradeDragonButton")[3].style.display = "block"
@@ -39,7 +39,7 @@ function upgradeDragon(x) {
     document.getElementById("dragonInfo").innerHTML = "Your menacing dark dragon calls upon the power of the void itself to defend your empire."
     game.dragonStage = 4
   }
-  else if (x == 4 && game.gold.gte(1e150)) {
+  else if (x==4 && game.gold.gte(1e150)) {
     game.gold = game.gold.sub(1e150)
     document.getElementsByClassName("upgradeDragonButton")[3].style.display = "none"
     document.getElementById("dragonImg").src = "img/iconDragon5.png"
@@ -63,6 +63,16 @@ function upgradeDragon(x) {
     document.getElementById("dragonFood").innerHTML = format(game.dragonFood, 0)
     document.getElementById("dragonFoodEffect").innerHTML = format(new Decimal(1.3).pow(game.dragonFood), 3)
   }
+  else if (x==5 && game.gold.gte("e1.5e11")) {
+    game.gold = game.gold.sub("e1.5e11")
+    document.getElementsByClassName("upgradeDragonButton")[4].style.display = "none"
+    document.getElementById("dragonImg").src = "img/iconDragon6.png"
+    document.getElementById("dragonTitle").innerHTML = "<a style='font-size: 14px'>You have a</a><br>Machine dragon"
+    document.getElementById("dragonInfo").innerHTML = "Despite being filled with immense eldrich technology spiralling inwards forever, a million billion tiny cogs quietly ticking away, your dragon feels like merely a cog itself. Perhaps... it is still imperfect."
+    game.dragonStage = 6
+    document.getElementById("unlockBloodButton").style.display = "block"
+  }
+  document.getElementById("dragonStageCounter").innerHTML = romanNumerals[game.dragonStage - 1]
 }
 
 //Spending time with your dragon
@@ -78,8 +88,10 @@ function dragonSpendTime() {
     document.getElementById("dragonTimeSpent").innerHTML = format(game.dragonTimeSpent, 0)
     game.dragonTimeEffect = new Decimal(1.2).pow(game.dragonTimeSpent.pow(0.3))
     if (game.dragonTimeEffect.gt(2)) game.dragonTimeEffect = game.dragonTimeEffect.add(2).pow(0.5)
-    if (game.dragonTimeEffect.gt(2.5)) {
-      game.dragonTimeEffect = new Decimal(2.5)
+    dragonTimeEffectCap = new Decimal(2.5)
+    if (game.tomeUpgradesBought[8] == true) dragonTimeEffectCap = dragonTimeEffectCap.mul(game.blueFireUpgradesBought[4].pow(0.7).div(5).add(1))
+    if (game.dragonTimeEffect.gt(dragonTimeEffectCap)) {
+      game.dragonTimeEffect = dragonTimeEffectCap
       document.getElementById("dragonTimeEffectCap").innerHTML = " (capped)"
     }
     else {document.getElementById("dragonTimeEffectCap").innerHTML = ""}
@@ -118,7 +130,8 @@ function dragonFeed() {
     document.getElementById("magicMult3").innerHTML = format(game.magicScore3.add(1), 0)
     document.getElementById("magicMult4").innerHTML = format(game.magicScore4.add(1), 0)
     
-    game.magifolds = game.magicScore1.add(1).mul(game.magicScore2.add(1)).mul(game.magicScore3.add(1)).mul(game.magicScore4.add(1))
+    if (game.inHell) {game.magifolds = new Decimal(1)}
+    else {game.magifolds = game.magicScore1.add(1).mul(game.magicScore2.add(1)).mul(game.magicScore3.add(1)).mul(game.magicScore4.add(1))}
     document.getElementById("magifolds").innerHTML = format(game.magifolds, 0)
     if (game.darkMagicUpgradesBought[3]) {document.getElementById("magifoldEffect").innerHTML = format(game.magifolds.pow(8), 2)}
     else if (game.magicUpgradesBought[18]) {document.getElementById("magifoldEffect").innerHTML = format(game.magifolds.pow(6), 2)}

@@ -65,10 +65,13 @@ function magicReset(triggerLayer = "magic") {
   }
 
   game.magic = game.magic.add(game.magicToGet)
-  if (game.magic.gt("e5000000")) {
-    game.magic = new Decimal("e5000000")
+  magicHardcap = new Decimal("e5000000")
+  if (game.tomeUpgradesBought[8] == true) magicHardcap = magicHardcap.pow(game.blueFireUpgradesBought[3].pow(0.7).mul(5).add(1))
+  if (game.magic.gt(magicHardcap)) {
+    game.magic = magicHardcap
     document.getElementById("magicCap").innerHTML = " (hardcapped)"
   }
+  else {document.getElementById("magicCap").innerHTML = ""}
 }
 
 //Magic upgrades
@@ -152,6 +155,15 @@ function darkMagicUpgradeBuyMax() {
   if (game.pinkSigilUpgradesBought[1].eq(1)) {for (i=9;i<11;i++) buyDarkMagicUpgrade(i)}
 }
 
+function moreDarkMagicUpgrades() {
+  if (game.gold.gte("e6.66e16")) {
+    game.gold = game.gold.sub("e6.66e16")
+    document.getElementById("moreDarkMagicUpgradesButton").style.display = "none"
+    for (i=10;i<16;i++) document.getElementsByClassName("darkMagicUpgrade")[i].style.display = "inline-block"
+    addUnlock() //sets unlock to 19
+  }
+}
+
 function getMagicGain() {
   let toGet = game.gold.div(1e15).pow(0.1);
   if (game.magicUpgradesBought[3]) {
@@ -168,7 +180,9 @@ function getMagicGain() {
   if (game.unlocks >= 14) toGet = toGet.mul(game.pinkSigils.add(1).pow(6));
   if (game.darkMagicUpgradesBought[9] == true) toGet = toGet.pow(1.1);
   if (game.darkMagicUpgradesBought[1]) toGet = toGet.pow(game.uranium.add(1).log10().div(30).add(1));
-  if (toGet.gt("e5000000")) toGet = new Decimal("e5000000")
+  magicHardcap = new Decimal("e5000000")
+  if (game.tomeUpgradesBought[8] == true) magicHardcap = magicHardcap.pow(game.blueFireUpgradesBought[3].pow(0.7).mul(5).add(1))
+  if (toGet.gt(magicHardcap)) toGet = magicHardcap
   toGet = toGet.floor();
   return toGet;
 }

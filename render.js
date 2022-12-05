@@ -132,17 +132,32 @@ function render(x, y) {
   if (game.unlocks >= 14) {
     //Knowledge tab
     document.getElementsByClassName("box")[19].style.left = (window.innerWidth / 2 + x - 440) + "px"
-    document.getElementsByClassName("box")[19].style.top = (window.innerHeight / 2 + y + 830) + "px"
+    document.getElementsByClassName("box")[19].style.top = (window.innerHeight / 2 + y + 850) + "px"
   }
   if (game.unlocks >= 15) {
     //Tomes tab
     document.getElementsByClassName("box")[21].style.left = (window.innerWidth / 2 + x - 905) + "px"
-    document.getElementsByClassName("box")[21].style.top = (window.innerHeight / 2 + y + 830) + "px"
+    document.getElementsByClassName("box")[21].style.top = (window.innerHeight / 2 + y + 850) + "px"
   }
   if (game.unlocks >= 16) {
     //Blue fire tab
-    document.getElementsByClassName("box")[22].style.left = (window.innerWidth / 2 + x - 730) + "px"
+    document.getElementsByClassName("box")[22].style.left = (window.innerWidth / 2 + x - 780) + "px"
     document.getElementsByClassName("box")[22].style.top = (window.innerHeight / 2 + y + 365) + "px"
+  }
+  if (game.unlocks >= 17) {
+    //Blood tab
+    document.getElementsByClassName("box")[23].style.left = (window.innerWidth / 2 + x - 50) + "px"
+    document.getElementsByClassName("box")[23].style.top = (window.innerHeight / 2 + y - 650) + "px"
+  }
+  if (game.unlocks >= 19) {
+    //Alchemy tab III
+    document.getElementsByClassName("box")[24].style.left = (window.innerWidth / 2 + x + 845) + "px"
+    document.getElementsByClassName("box")[24].style.top = (window.innerHeight / 2 + y + 100) + "px"
+  }
+  if (game.unlocks >= 20) {
+    //Red sigils tab
+    document.getElementsByClassName("box")[25].style.left = (window.innerWidth / 2 + x + 365) + "px"
+    document.getElementsByClassName("box")[25].style.top = (window.innerHeight / 2 + y + 1145) + "px"
   }
   document.body.style.backgroundPosition = (x / 4) + "px " + (y / 4) + "px"
   //console.log(Date.now() - renderVars.lastRender)

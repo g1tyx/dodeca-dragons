@@ -255,3 +255,48 @@ function morePUupgrades() {
     addUnlock() //sets unlock to 8
   }
 }
+
+//Converts uranium to plutonium
+function plutoniumConvert() {
+  if (game.plutoniumConvertCooldown == 0 && game.plutoniumToGet > 0) {
+    game.plutonium = game.plutonium.add(game.plutoniumToGet)
+    game.uranium = new Decimal(0)
+    game.plutoniumConvertCooldown = 3
+    document.getElementById("plutoniumConvertButton").disabled = true
+    document.getElementById("plutoniumConvertCooldown").innerHTML = game.plutoniumConvertCooldown
+  }
+}
+
+function buyPlutoniumUpgrade(x) {
+  //For each upgrade (if affordable): subtracts plutonium based on cost, adds 1 to the upgrade amount bought, disables button if maximum amount is reached
+  if (x==1 && game.plutoniumUpgradesBought[0] < 40 && game.plutonium.gte(200)) {
+    game.plutonium = game.plutonium.sub(200)
+    game.plutoniumUpgradesBought[0]++
+    document.getElementsByClassName("plutoniumUpgradesBought")[0].innerHTML = game.plutoniumUpgradesBought[0]
+    if (game.plutoniumUpgradesBought[0] == 40) document.getElementsByClassName("plutoniumUpgrade")[0].disabled = true
+  }
+  else if (x==2 && game.plutoniumUpgradesBought[1] < 8 && game.plutonium.gte(400)) {
+    game.plutonium = game.plutonium.sub(400)
+    game.plutoniumUpgradesBought[1]++
+    document.getElementsByClassName("plutoniumUpgradesBought")[1].innerHTML = game.plutoniumUpgradesBought[1]
+    if (game.plutoniumUpgradesBought[1] == 8) document.getElementsByClassName("plutoniumUpgrade")[1].disabled = true
+  }
+  else if (x==3 && game.plutoniumUpgradesBought[2] < 4 && game.plutonium.gte(800)) {
+    game.plutonium = game.plutonium.sub(800)
+    game.plutoniumUpgradesBought[2]++
+    document.getElementsByClassName("plutoniumUpgradesBought")[2].innerHTML = game.plutoniumUpgradesBought[2]
+    if (game.plutoniumUpgradesBought[2] == 4) document.getElementsByClassName("plutoniumUpgrade")[2].disabled = true
+  }
+  else if (x==4 && game.plutoniumUpgradesBought[3] < 10 && game.plutonium.gte(5000)) {
+    game.plutonium = game.plutonium.sub(5000)
+    game.plutoniumUpgradesBought[3]++
+    document.getElementsByClassName("plutoniumUpgradesBought")[3].innerHTML = game.plutoniumUpgradesBought[3]
+    if (game.plutoniumUpgradesBought[3] == 10) document.getElementsByClassName("plutoniumUpgrade")[3].disabled = true
+  }
+  else if (x==5 && game.plutoniumUpgradesBought[4] < 20 && game.plutonium.gte(50000)) {
+    game.plutonium = game.plutonium.sub(50000)
+    game.plutoniumUpgradesBought[4]++
+    document.getElementsByClassName("plutoniumUpgradesBought")[4].innerHTML = game.plutoniumUpgradesBought[4]
+    if (game.plutoniumUpgradesBought[4] == 20) document.getElementsByClassName("plutoniumUpgrade")[4].disabled = true
+  }
+}
