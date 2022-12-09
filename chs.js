@@ -635,7 +635,7 @@ var cnItems = {
     "Isotonic II": "等渗 II",
     "Isotropic II": "各向同性Ⅱ",
     "M - magic": "M-魔法",
-    "Machine dragon": "机龙",
+    "Machine dragon": "机械之龙",
     "Magifold": "魔法折叠",
     "Max cyan to pink sigil upgrades": "最大青色到粉红色印记升级",
     "Max orange sigil upgrades": "最大橙色印记升级",
