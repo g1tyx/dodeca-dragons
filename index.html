@@ -21,7 +21,7 @@
   <script src="chs.js"></script>
 <script src="core.js"></script>
   <!--Main tab-->
-  <div class="window box" style="width: 350px; height: 300px">
+  <div class="window box" id="tab_main" style="width: 350px; height: 300px">
     <div class="title-bar">
       <div class="title-bar-text">DodecaDragons</div>
     </div>
@@ -45,26 +45,20 @@
 
   <!--Settings and info-->
   <div class="window box"
-    style="width: 150px; top: 30px; left: 5px; transform: none; padding-bottom: 8px; z-index: 1; display: none;">
+    style="width: 150px; top: 55px; left: 5px; transform: none; padding-bottom: 8px; z-index: 1; display: none;">
     <div class="title-bar" style="background-image: linear-gradient(90deg,grey,#b5b5b5);">
       <div class="title-bar-text">Settings and info</div>
     </div>
     <div class="window-body">
-      <p style="margin: 3px; color: #666">Move around by clicking and dragging.<br>If you find the text is too small,
-        you might want to zoom in the window :)</p>
-      <p>Time played: <a id="timePlayed">0:00:00</a></p>
+      <button style="width: 142px; margin-top: 4px" onclick="save()">&#8202;&#8202;Manual save</button><br>
+      <button style="width: 142px; background-color: #daa" onclick="hardReset()">&#8202;&#8202;Hard reset</button>
       <hr>
-      <button style="width: 142px" onclick="save()">&#8202;&#8202;Manual save</button><br>
       <button style="min-width: 68px" onclick="exportGame()">&#8202;&#8202;Export</button>
       <button style="min-width: 68px" onclick="importGame()">Import</button><br>
-      <input id="exportField" type="hidden"></input>
-      <button style="width: 142px; background-color: #daa" onclick="hardReset()">&#8202;&#8202;Hard reset</button>
+      <input id="exportField" style="width: 142px; margin-left: 4px; margin-bottom: 4px" type="text" placeholder="paste import string here"></input>
       <hr>
       <button id="backgroundPatternButton" style="width: 142px"
         onclick="changeBackgroundPattern()">&#8202;&#8202;Background pattern: On</button><br>
-      <hr>
-      <p style="text-align: center; color: #008; margin-bottom: 4px">&#8202;&#8202;Want to discuss or suggest for<br>&#8202;&#8202;the game? Feel free to join our<br>discord community!</p>
-      <center><a href="https://discord.gg/7PChmUV3wk"><img src="img/discordIcon.png" style="pointer-events: auto"></a></center>
       <div id="confirmationToggleBox" style="display: none;">
         <hr>
         <center>
@@ -75,14 +69,11 @@
             onclick="toggleConfirmations(2)"></div>
         </center>
       </div>
-      <br><br><br><br>
-      <p id ="devinfo" style="position: absolute; bottom: 4px; right: 4px; text-align: right; margin: 0; color: #666;"><a href="changelog.txt">Changelog</a><br>Created by
-        Demonin<br>v0.7.2 <span id="inDevSpan"></span></p>
     </div>
   </div>
 
   <!--Resources tab-->
-  <div class="window box" style="width: 200px; top: 30px; left: 5px; transform: none; padding-bottom: 8px; z-index: 1">
+  <div class="window box" style="width: 200px; top: 55px; left: 5px; transform: none; padding-bottom: 8px; z-index: 1">
     <div class="title-bar">
       <div class="title-bar-text">Resources</div>
     </div>
@@ -105,11 +96,12 @@
       <p class="resourceRow" style="display: none"><img src="img/iconBlood.png" class="resourceIcon"></img>Blood: <a class="resourceText">0</a></p>
       <p class="resourceRow" style="display: none"><img src="img/iconPlutoniumCoins.png" class="resourceIcon"></img>Plutonium: <a class="resourceText">0</a></p>
       <p class="resourceRow" style="display: none"><img src="img/iconSigil6.png" class="resourceIcon"></img>Red sigils: <a class="resourceText">0</a></p>
+      <p class="resourceRow" style="display: none"><img src="img/iconSigil7.png" class="resourceIcon"></img>Orange sigils: <a class="resourceText">0</a></p>
     </div>
   </div>
 
   <!--Dragon tab-->
-  <div class="window box" style="width: 350px; display: none">
+  <div class="window box" id="tab_dragon" style="width: 350px; display: none">
     <div class="title-bar">
       <div class="title-bar-text">Dragon</div>
     </div>
@@ -151,7 +143,7 @@
   </div>
 
   <!--Fire upgrades tab-->
-  <div class="window box" style="width: 350px; height: 400px; background-color: #eca; display: none">
+  <div class="window box" id="tab_fire" style="width: 350px; height: 400px; background-color: #eca; display: none">
     <div class="title-bar">
       <div class="title-bar-text">Fire upgrades</div>
     </div>
@@ -186,7 +178,7 @@
   </div>
 
   <!--Alchemy tab-->
-  <div class="window box" style="width: 250px; height: 500px; display: none;">
+  <div class="window box" id="tab_platinum" style="width: 250px; height: 500px; display: none;">
     <div class="title-bar">
       <div class="title-bar-text">Alchemy</div>
     </div>
@@ -219,7 +211,7 @@
   </div>
 
   <!--Magic tab-->
-  <div class="window box" style="width: 350px; height: 245px; background-color: #b8b; display: none;">
+  <div class="window box" id="tab_magic" style="width: 350px; height: 245px; background-color: #b8b; display: none;">
     <div class="title-bar" style="background:linear-gradient(90deg,#408,#94d)">
       <div class="title-bar-text">Magic</div>
     </div>
@@ -237,7 +229,7 @@
   </div>
 
   <!--Magic upgrades tab-->
-  <div class="window box" style="width: 350px; height: 350px; background-color: #b8b; display: none;">
+  <div class="window box" id="tab_magicUpgrades" style="width: 350px; height: 350px; background-color: #b8b; display: none;">
     <div class="title-bar" style="background:linear-gradient(90deg,#408,#94d)">
       <div class="title-bar-text">Magic upgrades</div>
     </div>
@@ -289,7 +281,7 @@
   </div>
 
   <!--Magic challenges tab-->
-  <div class="window box" style="width: 400px; height: 400px; background-color: #97b; display: none;">
+  <div class="window box" id="tab_magicChallenges" style="width: 400px; height: 400px; background-color: #97b; display: none;">
     <div class="title-bar" style="background:linear-gradient(90deg,#408,#94d)">
       <div class="title-bar-text">Magic challenges</div>
     </div>
@@ -338,7 +330,7 @@
   </div>
 
   <!--Alchemy tab II-->
-  <div class="window box" style="width: 250px; height: 500px; display: none;">
+  <div class="window box" id="tab_uranium" style="width: 250px; height: 500px; display: none;">
     <div class="title-bar">
       <div class="title-bar-text">Alchemy II</div>
     </div>
@@ -362,7 +354,7 @@
   </div>
 
   <!--Dark magic upgrades tab-->
-  <div class="window box" style="width: 350px; height: 560px; background-color: #528; display: none;">
+  <div class="window box" id="tab_darkMagic" style="width: 350px; height: 560px; background-color: #528; display: none;">
     <div class="title-bar" style="background:linear-gradient(90deg,#408,#94d)">
       <div class="title-bar-text">Dark magic upgrades</div>
     </div>
@@ -387,19 +379,20 @@
         sigil gain<br>Costs e125,000 magic</button>
       <button class="darkMagicUpgrade" style="display: none" onclick="buyDarkMagicUpgrade(10)">Increase magic gain by
         ^1.10<br>Costs e150,000 magic</button>
-      <button class="darkMagicUpgrade" style="display: none" onclick="buyDarkMagicUpgrade(11)">Blood multiplies blue fire gain<br>Costs e300,000,000 magic</button>
+      <button class="darkMagicUpgrade" style="display: none" onclick="buyDarkMagicUpgrade(11)">Blood multiplies blue fire gain<br>Currently x<a id="darkMagicUpgrade11Effect">1.00</a><br>Costs e300,000,000 magic</button>
       <button class="darkMagicUpgrade" style="display: none" onclick="buyDarkMagicUpgrade(12)">Blood multiplies its own gain<br>Currently x<a id="darkMagicUpgrade12Effect">1.00</a><br>Costs e450,000,000 magic</button>
       <button class="darkMagicUpgrade" style="display: none" onclick="buyDarkMagicUpgrade(13)">Platinum gain is increased by ^666<br>Costs e500,000,000 magic</button>
       <button class="darkMagicUpgrade" style="display: none" onclick="buyDarkMagicUpgrade(14)">Plutonium multiplies blood gain<br>Currently x<a id="darkMagicUpgrade14Effect">1.00</a><br>Costs e600,000,000 magic</button>
       <button class="darkMagicUpgrade" style="display: none" onclick="buyDarkMagicUpgrade(15)">Multiply plutonium gain by 10<br>Costs e675,000,000 magic</button>
       <button class="darkMagicUpgrade" style="display: none" onclick="buyDarkMagicUpgrade(16)">Blue fire multiplies red sigil gain<br>Currently x<a id="darkMagicUpgrade16Effect">1.00</a><br>Costs e800,000,000 magic</button>
+      <button class="darkMagicUpgrade" style="display: none" onclick="buyDarkMagicUpgrade(17)">Blood multiplies orange sigil gain<br>Currently x<a id="darkMagicUpgrade17Effect">1.00</a><br>Costs e1.10e9 magic</button>
       <button id="darkMagicUpgradeBuyMaxButton" style="margin: 5px 2px 0 2px; width: 50px; display: none"
       onclick="darkMagicUpgradeBuyMax()">Buy max</button>
     </div>
   </div>
 
   <!--Cyan sigils tab-->
-  <div class="window box" style="width: 350px; height: 300px; background-color: #666; display: none;">
+  <div class="window box" id="tab_cyanSigils" style="width: 350px; height: 300px; background-color: #666; display: none;">
     <div class="title-bar" style="background:linear-gradient(90deg,#444,#06b)">
       <div class="title-bar-text">Cyan sigils</div>
     </div>
@@ -433,7 +426,7 @@
   </div>
 
   <!--Blue sigils tab-->
-  <div class="window box" style="width: 350px; height: 300px; background-color: #666; display: none;">
+  <div class="window box" id="tab_blueSigils" style="width: 350px; height: 300px; background-color: #666; display: none;">
     <div class="title-bar" style="background:linear-gradient(90deg,#444,#00b)">
       <div class="title-bar-text">Blue sigils</div>
     </div>
@@ -467,7 +460,7 @@
   </div>
 
   <!--Indigo sigils tab-->
-  <div class="window box" style="width: 350px; height: 300px; background-color: #666; display: none;">
+  <div class="window box" id="tab_indigoSigils" style="width: 350px; height: 300px; background-color: #666; display: none;">
     <div class="title-bar" style="background:linear-gradient(90deg,#444,#40b)">
       <div class="title-bar-text">Indigo sigils</div>
     </div>
@@ -500,7 +493,7 @@
   </div>
 
   <!--Violet sigils tab-->
-  <div class="window box" style="width: 350px; height: 300px; background-color: #666; display: none;">
+  <div class="window box" id="tab_violetSigils" style="width: 350px; height: 300px; background-color: #666; display: none;">
     <div class="title-bar" style="background:linear-gradient(90deg,#444,#60b)">
       <div class="title-bar-text">Violet sigils</div>
     </div>
@@ -525,7 +518,7 @@
 
   <!--The horror-->
   <!--Someday I will move this! Unfotunately the tabs have to stay in the order I added them-->
-  <div class="window box" style="width: 200px; top: 30px; left: 5px; transform: none; z-index: 1; display: none">
+  <div class="window box" style="width: 200px; top: 55px; left: 5px; transform: none; z-index: 1; display: none">
     <div class="title-bar" style="background: linear-gradient(90deg,#800000,#ad5a5a)">
       <div class="title-bar-text">LIVE HORROR CAM</div>
     </div>
@@ -536,7 +529,7 @@
   </div>
 
   <!--Pink sigils tab-->
-  <div class="window box" style="width: 350px; height: 300px; background-color: #666; display: none;">
+  <div class="window box" id="tab_pinkSigils" style="width: 350px; height: 300px; background-color: #666; display: none;">
     <div class="title-bar" style="background:linear-gradient(90deg,#444,#b0b)">
       <div class="title-bar-text">Pink sigils</div>
     </div>
@@ -561,7 +554,7 @@
 
   <!--Achievements tab-->
   <!--Someday I will move this! Unfotunately the tabs have to stay in the order I added them-->
-  <div class="window box" style="min-width: 250px; top: 30px; left: 5px; transform: none; z-index: 1; display: none">
+  <div class="window box" style="min-width: 250px; top: 55px; left: 5px; transform: none; z-index: 1; display: none">
     <div class="title-bar">
       <div class="title-bar-text">Achievements</div>
     </div>
@@ -590,7 +583,7 @@
   </div>
 
 <!--Knowledge tab-->
-  <div class="window box" style="width: 500px; height: 540px; background-color: #ba9; display: none;">
+  <div class="window box" id="tab_knowledge" style="width: 500px; height: 540px; background-color: #ba9; display: none;">
     <div class="title-bar">
       <div class="title-bar-text">Knowledge</div>
     </div>
@@ -637,7 +630,7 @@
   </div>
   
   <!--Sigil automation tab-->
-  <div class="window box" style="width: 350px; height: 300px; background-color: #666; display: none;">
+  <div class="window box" id="tab_sigilAutomation" style="width: 350px; height: 300px; background-color: #666; display: none;">
     <div class="title-bar" style="background:linear-gradient(90deg,#444,#b06)">
       <div class="title-bar-text">Sigil Automation</div>
     </div>
@@ -645,22 +638,32 @@
       <div id="sigilResetAutomation" style="display: none;">
         <p style="margin: 4px; font-weight: bold">Automatic sigil resetter</p>
         <input type="checkbox" id="sigilResetterActive" onchange="updateSigilResetter()">
-        <label for="sigilResetterActive">Enabled</label>
-        <input id="sigilResetterAmount" style="width: 200px; background-color: #cbc0b8; text-align: center; font-weight: bold" placeholder="amount" onchange="updateSigilResetter()"></input>
-        <select id="sigilResetterType" onchange="updateSigilResetter()">
+        <label for="sigilResetterActive">Enabled</label> <br>
+        Colour: <select id="sigilResetterType" onchange="updateSigilResetter()">
           <option>Cyan</option>
           <option>Blue</option>
           <option>Indigo</option>
           <option>Violet</option>
           <option>Pink</option>
+        </select>
+        <input type="checkbox" id="sigilResetterCycle" onchange="updateSigilResetter()">
+        <label for="sigilResetterCycle">Cycle Colour on Reset</label> <br>
+        Mode: <select id="sigilResetterMode" onchange="updateSigilResetter(true)">
+          <option>Potential Sigil Amount</option>
+          <option>Gold Amount</option>
+          <option>Seconds Since Reset</option>
         </select><br>
-      </div>
-      <button style="margin-top: 4px" onclick="maxAllSigilUpgrades()">Max all sigil upgrades</button>
+        <input id="sigilResetterAmount" style="width: 200px; background-color: #cbc0b8; text-align: center; font-weight: bold" placeholder="amount" onchange="updateSigilResetter()"></input>
+       
+      </div><br><br>
+      <button style="margin-top: 4px; display: block" onclick="maxAllSigilUpgrades()">Max cyan to pink sigil upgrades</button>
+      <button id="maxRedSigilUpgradesButton" style="margin-top: 4px; background-color: #d77; display: none" onclick="maxRedSigilUpgrades()">Max red sigil upgrades</button>
+      <button id="maxOrangeSigilUpgradesButton" style="margin-top: 4px; background-color: #da7; display: none" onclick="maxOrangeSigilUpgrades()">Max orange sigil upgrades</button>
     </div>
   </div>
 
   <!--Tomes tab-->
-  <div class="window box" style="width: 400px; height: 540px; background-color: #988078; display: none;">
+  <div class="window box" id="tab_tomes" style="width: 400px; height: 540px; background-color: #988078; display: none;">
     <div class="title-bar">
       <div class="title-bar-text">Tomes</div>
     </div>
@@ -688,13 +691,13 @@
   </div>
 
   <!--Blue fire tab-->
-  <div class="window box" style="width: 450px; height: 400px; background-color: #88e; display: none">
+  <div class="window box" id="tab_blueFire" style="width: 450px; height: 400px; background-color: #88e; display: none">
     <div class="title-bar">
       <div class="title-bar-text">Blue fire upgrades</div>
     </div>
     <div class="window-body">
       <p class="titleText">You have <a id="blueFire">0</a> blue fire</p>
-      <p style="margin-top: 4px">(<a id="blueFirePerSecond">0</a>/s)</p>
+      <p style="margin-top: 4px">(<a id="blueFirePerSecond">0</a>/s) (Blue fire gain is based on fire amount)</p>
       <hr>
       <button class="blueFireUpgrade" style="height: 46px" onclick="buyBlueFireUpgrade(1)">Multiply blue fire production<br>Currently
         x<a id="blueFireUpgrade1Effect">1.00</a><br>Costs <a id="blueFireUpgrade1Cost">500</a> blue fire</button>
@@ -718,13 +721,13 @@
   </div>
 
   <!--Blood tab-->
-  <div class="window box" style="width: 450px; height: 450px; background-color: #333; display: none">
+  <div class="window box" id="tab_blood" style="width: 450px; height: 450px; background-color: #333; display: none">
     <div class="title-bar" style="background: linear-gradient(90deg,#800000,#ad5a5a)">
       <div class="title-bar-text">Blood</div>
     </div>
     <div class="window-body">
       <p class="titleText" style="color: #d66">You have <a id="blood">0</a> blood</p>
-      <p style="margin-top: 4px; color: #d66">(<a id="bloodPerSecond">0</a>/s)<br>Your blood is miltiplying sigil gain by <a id="bloodEffect">1</a></p><hr>
+      <p style="margin-top: 4px; color: #d66">(<a id="bloodPerSecond">0</a>/s)<br>Your blood is multiplying sigil gain by <a id="bloodEffect">1</a></p><hr>
       <p style="font-family: 'VCR OSD MONO'; font-size: 24px; color: red; margin: 2px; text-align: center">DRAGONKIND IS DEAD<br>BLOOD IS FUEL<br>&#8202;&#8202;HELL IS FULL</p>
       <p style="color: #d66; font-size: 16px; margin-top: 2px">Entering hell will sigil reset and place various nerfs upon you, but while in hell you will gain blood based on your gold. Deeper layers reward more blood, but have stronger nerfs.</p>
       <div class="field-row" style="width: 300px">
@@ -741,7 +744,7 @@
   </div>
 
   <!--Alchemy tab III-->
-  <div class="window box" style="width: 250px; height: 500px; display: none;">
+  <div class="window box" id="tab_plutonium" style="width: 250px; height: 500px; display: none;">
     <div class="title-bar">
       <div class="title-bar-text">Alchemy III</div>
     </div>
@@ -759,7 +762,7 @@
   </div>
 
   <!--Red sigils tab-->
-  <div class="window box" style="width: 350px; height: 300px; background-color: #666; display: none;">
+  <div class="window box" id="tab_redSigils" style="width: 350px; height: 300px; background-color: #666; display: none;">
     <div class="title-bar" style="background:linear-gradient(90deg,#444,#b00)">
       <div class="title-bar-text">Red sigils</div>
     </div>
@@ -769,7 +772,8 @@
         <p style="font-size: 16px; color: #d88; text-shadow: 1px 1px #400; margin: 0; font-weight: bold">You have <a id="redSigils">0</a> red sigils</p>
         <p style="color: #d88; text-shadow: 1px 1px #400; margin-left: 0; margin-top: 6px">Multiplying magic and score gain by <a id="redSigilEffect">1</a></p>
       </div>
-      <button style="width: 342px; margin: 4px; background-color: #c88; height: 32px; text-align: left" onclick="sigilCheck(6)">Reset all previous progress for <a id="redSigilsToGet">0</a> red sigils<br>Next at <a id="nextRedSigil">e5.00e21</a> gold</button>
+      <button style="width: 342px; margin: 4px; background-color: #c88; height: 32px; text-align: left" onclick="sigilCheck(6)">Reset all pre-sigil progress for <a id="redSigilsToGet">0</a> red sigils<br>Next at <a id="nextRedSigil">e5.00e21</a> gold</button>
+      <p style="text-align: center; margin: 0; color: #ccc">Red sigils are unaffected by pre-red sigil multipliers and "Gain 10% of potential sigils per second"</p>
       <p style="text-align: center; margin: 0; margin-top: 6px; color: #c88">You have <a id="redSigilPower">0.00</a> red sigil power (RSP) (<a id="redSigilPowerPerSecond">0.00</a>/s)</p>
       <div style="width: 348px; position: absolute; bottom: 4px; left: 4px; display: grid; grid-template-columns: 1fr 1fr; justify-self: stretch">
         <button class="redSigilUpgrade" onclick="buyRedSigilUpgrade(1)">Increase RSP gain<br>Currently x<a id="redSigilUpgrade1Effect">1.00</a><br>Costs <a id="redSigilUpgrade1Cost">1</a> RSP</button>
@@ -777,8 +781,56 @@
             id="redSigilUpgrade2Effect">1.00</a><br>Costs <a id="redSigilUpgrade2Cost">1,500</a> RSP</button>
         <button class="redSigilUpgrade" onclick="buyRedSigilUpgrade(3)">Increase blood gain<br>Currently x<a
             id="redSigilUpgrade3Effect">1.00</a><br>Costs <a id="redSigilUpgrade3Cost">50,000</a> RSP</button>
-        <button class="redSigilUpgrade" style="display: none" onclick="buyRedSigilUpgrade(4)">Unlock <a style="color: #d94">orange sigils</a><br>Costs 100,000,000 RSP</button>
+        <button class="redSigilUpgrade" onclick="buyRedSigilUpgrade(4)">Unlock <a style="color: #d94">orange sigils</a><br>Costs 10,000,000 RSP</button>
       </div>
+    </div>
+  </div>
+
+  <!--Orange sigils tab-->
+  <div class="window box" id="tab_orangeSigils" style="width: 350px; height: 300px; background-color: #666; display: none;">
+    <div class="title-bar" style="background:linear-gradient(90deg,#444,#b60)">
+      <div class="title-bar-text">Orange sigils</div>
+    </div>
+    <div class="window-body">
+      <img src="img/iconSigil7.png" style="position: absolute; top: 26px; left: 8px; width: 64px"><br>
+      <div style="margin-left: 76px; width: 218px; height: 60px">
+        <p style="font-size: 16px; color: #ddb088; text-shadow: 1px 1px #400; margin: 0; font-weight: bold">You have <a id="orangeSigils">0</a> orange sigils</p>
+        <p style="color: #ddb088; text-shadow: 1px 1px #400; margin-left: 0; margin-top: 6px">Multiplying magic and score gain by <a id="orangeSigilEffect">1</a></p>
+      </div>
+      <button style="width: 342px; margin: 4px; background-color: #ca8; height: 32px; text-align: left" onclick="sigilCheck(7)">Reset all previous progress for <a id="orangeSigilsToGet">0</a> orange sigils<br>Next at <a id="nextOrangeSigil">e5.00e21</a> gold</button>
+      <p style="text-align: center; margin: 0; margin-top: 6px; color: #ca8">You have <a id="orangeSigilPower">0.00</a> orange sigil power (OSP) (<a id="orangeSigilPowerPerSecond">0.00</a>/s)</p>
+      <div style="width: 348px; position: absolute; bottom: 4px; left: 4px; display: grid; grid-template-columns: 1fr 1fr; justify-self: stretch">
+        <button class="orangeSigilUpgrade" onclick="buyOrangeSigilUpgrade(1)">Increase OSP gain<br>Currently x<a id="orangeSigilUpgrade1Effect">1.00</a><br>Costs <a id="orangeSigilUpgrade1Cost">1</a> OSP</button>
+        <button class="orangeSigilUpgrade" onclick="buyOrangeSigilUpgrade(2)">Increase red sigil gain<br>Currently x<a
+            id="orangeSigilUpgrade2Effect">1.00</a><br>Costs <a id="orangeSigilUpgrade2Cost">2,500</a> OSP</button>
+        <button class="orangeSigilUpgrade" onclick="buyOrangeSigilUpgrade(3)">Increase blood gain again<br>Currently x<a
+            id="orangeSigilUpgrade3Effect">1.00</a><br>Costs <a id="orangeSigilUpgrade3Cost">250,000</a> OSP</button>
+        <button class="orangeSigilUpgrade" style="display: none" onclick="buyOrangeSigilUpgrade(4)">Unlock <a style="color: #dd4">yellow sigils</a><br>Costs 10,000,000 OSP</button>
+      </div>
+    </div>
+  </div>
+
+    <!--Info tab-->
+  <div class="window box" style="width: 300px; top: 55px; left: 5px; transform: none; padding-bottom: 8px; z-index: 1; display: none">
+    <div class="title-bar">
+      <div class="title-bar-text">Info/credits</div>
+    </div>
+    <div class="window-body" style="max-height: 90vh; overflow: auto">
+      <div style="margin-top: 8px; background-color: #111; width: 100%; border-top: 4px solid #666; border-bottom: 4px solid #666">
+        <p style="text-align: center"><a class="titleText" style="font-size: 36px; color: #ca1; text-shadow: 3px 3px #555">DodecaDragons</a><br><a style="color: #666">v0.7.3 <span id="inDevSpan"></span></a></p>
+      </div>
+      <p style="margin-top: 6px">Created by <a style="color: #408">Demonin</a><br>Co-developed by <a style="color: #808">Cornucanis</a></p>
+      <p style="color: #666">Move around by clicking and dragging.<br>If you find the text is too small,
+        you might want to zoom in the window :)</p>
+      <p style="text-align: center">&#8202;&#8202;Time played: <a id="timePlayed">0:00:00</a></p>
+      <hr>
+      <p style="font-weight: bold; text-align: center; margin-top: 0; margin-bottom: 0; font-size: 16px; color: #666">Hotkeys</p>
+      <span id="hotkeySpan">
+      </span>
+      <hr>
+      <p style="text-align: center; color: #008; margin-bottom: 4px">&#8202;&#8202;Want to discuss or suggest for<br>&#8202;&#8202;the game? Feel free to join our<br>discord community!</p>
+      <center><a href="https://discord.gg/7PChmUV3wk"><img src="img/discordIcon.png" style="pointer-events: auto"></a></center>
+      <p id ="devinfo" style="position: absolute; bottom: 4px; right: 4px; text-align: right; margin: 0"><a href="changelog.txt">Changelog</a></p>
     </div>
   </div>
 
@@ -792,6 +844,8 @@
       <p style="font-size:10">Error code: <span id="saveErrorCode">0</span></p>
     </div>
   </div>
+
+  <p id="alerts" style="color: white; position: absolute; top: 0; right: 0; margin: 4px; text-align: right; font-size: 24px"></p>
   
   <button style="position: absolute; top: 5px; left: 5px; min-width: 76px; min-height: 20px; margin: 0; z-index: 1;"
   onclick="changeTab(1)">Resources</button>
@@ -799,8 +853,10 @@
   onclick="changeTab(2)">Settings</button>
   <button id ="achievementTabButton" style="position: absolute; top: 5px; left: 164px; min-height: 20px; margin: 0; z-index: 1"
   onclick="changeTab(3)">Achievements</button>
-  <button id="horrorTabButton" style="position: absolute; top: 5px; left: 260px; min-height: 20px; margin: 0; z-index: 1; display: none"
-  onclick="changeTab(4)">Peep the horror</button>
+  <button style="position: absolute; top: 30px; left: 5px; min-height: 20px; margin: 0; z-index: 1"
+  onclick="changeTab(4)">Info/credits</button>
+  <button id="horrorTabButton" style="position: absolute; top: 30px; left: 85px; min-height: 20px; margin: 0; z-index: 1; display: none"
+  onclick="changeTab(5)">Peep the horror</button>
 
   <img src="img/homeIcon.png" id="home" class="clickButton" onclick="posHome()">
   <div id="navArrows">
@@ -810,6 +866,7 @@
     <img src="img/arrowRight.png" id="arrowRight" class="clickButton">
   </div>
   <div id="loadingScreenCover">
+    <p style="margin: 4px; font-size: 16px; color: #555">If this loading screen persists, something may have gone wrong!</p>
     <img id="loadingScreenLogo" src="img/logo.png">
   </div>
   <p id="fps" style="color: white; position: absolute; bottom: 0; left: 0; margin: 4px"></p>
@@ -830,25 +887,26 @@
   <script src="knowledge.js"></script>
   <script src="blood.js"></script>
   <script src="achievements.js"></script>
+  <script src="hotkeys.js"></script>
   <script src="render.js"></script>
   <script>load(); if (!isDevVersion) setAutoSave()</script>
 <!--客服 开始-->
-<script src="//g8hh.com/static/js/jquery.min.js"></script>
-<link rel="stylesheet" href="//g8hh.com/static/css/kf.css" type="text/css" media="screen" charset="utf-8">
-<script src="//g8hh.com/static/js/kf.js"></script>
+<script src="//g8hh.github.io/static/js/jquery.min.js"></script>
+<link rel="stylesheet" href="//g8hh.github.io/static/css/kf.css" type="text/css" media="screen" charset="utf-8">
+<script src="//g8hh.github.io/static/js/kf.js"></script>
 <!-- 客服 结束 -->
-<!--站长统计-->
+<!--站长统计--> 
 <div style="display: none">
     <script>
-    var _hmt = _hmt || [];
-    (function() {
-      var hm = document.createElement("script");
-      hm.src = "https://hm.baidu.com/hm.js?dbb7ff142f4d4b68546c93b9cd6e9328";
-      var s = document.getElementsByTagName("script")[0]; 
-      s.parentNode.insertBefore(hm, s);
-    })();
-    </script>
-        </div>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?028b1b5f659ed138230f4cafd7ad0dfc";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+    </div>
 </body>
 
 </html>

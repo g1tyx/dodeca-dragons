@@ -8,7 +8,9 @@ renderVars = {
   diffY: 0,
   currentMousePos: [0, 0],
   zoomMultiplier: 2,
-  lastRender: Date.now()
+  lastRender: Date.now(),
+  autoPanTime: 1500,
+  isAutoPanning: false
 }
 
 inputVars = {
@@ -44,11 +46,42 @@ arrowElements = {
   right: document.getElementById('arrowRight')
 }
 
+tabPositions = [];
 
 //Zoom stuff!
 //renderVars.posX = 0 - window.innerWidth / (renderVars.zoomMultiplier * 2)
 //renderVars.posY = 0 - window.innerHeight / (renderVars.zoomMultiplier * 2)
 //document.body.style.zoom = (renderVars.zoomMultiplier * 100) + "%"
+
+//this is executed on pageload to populate an array of tab data for better rendering
+function populateTabPositions() {
+  let tabNames = Object.keys(tabData);
+  let highestUnlock = 0;
+  tabNames.forEach(tab => {highestUnlock = Math.max(highestUnlock, tabData[tab][2])});
+  tabPositions.length = highestUnlock + 1;
+  for (i=0;i<tabPositions.length;i++) {tabPositions[i] = {}};
+  tabNames.forEach(tab => {
+    tabPositions[tabData[tab][2]][tab] = [tabData[tab][0], tabData[tab][1]]
+  })
+}
+
+/*
+function render(x, y) {
+  for (i=0;i<game.unlocks;i++) {
+    for (tab in tabPositions[i]) {
+      let tabElement = document.getElementById("tab_" + tab);
+      tabElement.style.left = (window.innerWidth / 2 + x + tabPositions[i][tab][0]) + "px"
+      tabElement.style.top = (window.innerHeight / 2 + y + tabPositions[i][tab][1]) + "px"
+    }
+  }
+  let dragonTab = document.getElementById("tab_dragon");
+  dragonTabHeight = dragonTab.offsetHeight;
+  dragonTab.style.left = (window.innerWidth / 2 + x) + "px";
+  dragonTab.style.top = (window.innerHeight / 2 + y + 162 + dragonTabHeight/2) + "px";
+  if (game.unlocks >= 6) document.getElementById("tab_magicUpgrades").style.top = (window.innerHeight / 2 + y - 130) + "px"
+}
+*/
+
 
 //Sets the position of all the boxes based on the X and Y position variables
 //This is laggy!
@@ -159,10 +192,16 @@ function render(x, y) {
     document.getElementsByClassName("box")[25].style.left = (window.innerWidth / 2 + x + 365) + "px"
     document.getElementsByClassName("box")[25].style.top = (window.innerHeight / 2 + y + 1145) + "px"
   }
+  if (game.unlocks >= 21) {
+    //Orange sigils tab
+    document.getElementsByClassName("box")[26].style.left = (window.innerWidth / 2 + x + 730) + "px"
+    document.getElementsByClassName("box")[26].style.top = (window.innerHeight / 2 + y + 1145) + "px"
+  }
   document.body.style.backgroundPosition = (x / 4) + "px " + (y / 4) + "px"
   //console.log(Date.now() - renderVars.lastRender)
   renderVars.lastRender = Date.now();
 }
+
 render(renderVars.posX, renderVars.posY)
 
 //Automatically renders 10 times per second (there's probably a better way to do this)
@@ -185,7 +224,7 @@ setInterval(renderKeyboardPan, 1000 / inputVars.keyboardRenderPerSec)
 
 //Sets currentMousePos when mouse goes down to compare position when the user drags
 function mouseDown(e) {
-  if (e.button !== 0) { return } //ensure we only respond to left clicks
+  if (renderVars.isAutoPanning || e.button !== 0) { return } //ensure we only respond to left clicks
   renderVars.currentMousePos[0] = [e.pageX]
   renderVars.currentMousePos[1] = [e.pageY]
   renderVars.mouseIsDown = true
@@ -212,13 +251,83 @@ function posHome() {
   resetPressedKeys(); //pressing home will reset all held keyboard keys in case of stuck keys
 }
 
+/*
+async function panTo(endX,endY) {
+  renderVars.isAutoPanning = true;
+  resetPressedKeys();
+  let startTime = Date.now();
+  let endTime = startTime + renderVars.autoPanTime;
+  let startX = renderVars.posX;
+  let startY = renderVars.posY;
+  while(Date.now() < endTime) {
+    renderVars.posX = lerp(startX, endX, (Date.now() - startTime) / renderVars.autoPanTime);
+    renderVars.posY = lerp(startY, endY, (Date.now() - startTime) / renderVars.autoPanTime);
+    render(renderVars.posX, renderVars.posY);
+    await promiseDelay(20);
+  }
+  renderVars.isAutoPanning = false;
+  renderVars.posX = endX;
+  renderVars.posY = endY;
+}
+*/
+
+async function panTo(endX,endY) {
+  renderVars.isAutoPanning = true;
+  resetPressedKeys();
+  let startTime = Date.now();
+  let endTime = startTime + renderVars.autoPanTime;
+  let midTime = startTime + renderVars.autoPanTime * 0.75;
+  let startX = renderVars.posX;
+  let startY = renderVars.posY;
+  let midX = startX + (endX - startX) * 0.9;
+  let midY = startY + (endY - startY) * 0.9;
+  //console.log("starting pan. currentx: " + renderVars.posX + ", currentY: " + renderVars.posY + ", startX: " + startX + ", startY: " + startY)
+  while (Date.now() < midTime) {
+    renderVars.posX = lerp(startX, midX, (Date.now() - startTime) / renderVars.autoPanTime * 1.33);
+    renderVars.posY = lerp(startY, midY, (Date.now() - startTime) / renderVars.autoPanTime * 1.33);
+    //console.log((Date.now() - startTime) / renderVars.autoPanTime * 0.5)
+    render(renderVars.posX, renderVars.posY);
+    await promiseDelay(17);
+  }
+  //console.log("mid pan. currentx: " + renderVars.posX + ", currentY: " + renderVars.posY + ", midX: " + midX + ", midY: " + midY)
+  renderVars.posX = midX;
+  renderVars.posY = midY;
+  while(Date.now() < endTime) {
+    renderVars.posX = lerp(midX, endX, (Date.now() - midTime) / renderVars.autoPanTime * 4);
+    renderVars.posY = lerp(midY, endY, (Date.now() - midTime) / renderVars.autoPanTime * 4);
+    render(renderVars.posX, renderVars.posY);
+    await promiseDelay(17);
+  }
+  //console.log("end pan. currentx: " + renderVars.posX + ", currentY: " + renderVars.posY + ", endX: " + endX + ", endY: " + endY)
+  renderVars.posX = endX;
+  renderVars.posY = endY;
+  renderVars.isAutoPanning = false;
+}
+
+function panToTab(tab) {
+  if (tabData[tab] === undefined) {console.warn("auto tab pan attempted with invalid parameter: " + tab); return;}
+  panTo(-tabData[tab][0],-tabData[tab][1])
+}
+
+function panToNewUnlock() {
+  let tabNames = Object.keys(tabData);
+  for (i=0;i<tabNames.length;i++) {
+    let tab = tabNames[i];
+    if (tabData[tab][2] === game.unlocks) {
+      panToTab(tab);
+      return;
+    }
+  }
+}
+
 //Does position checks every time the mouse moves (if it's held down)
 document.onmousemove = handleMouseMove;
 function handleMouseMove(event) {
+  if (renderVars.isAutoPanning) return;
   event = event || window.event;
   renderVars.mousePosX = event.pageX
   renderVars.mousePosY = event.pageY
-  if (renderVars.mouseIsDown && document.querySelector('#dragonNameBox') != document.activeElement && document.querySelector('#knowledgeLevelRange') != document.activeElement) {
+  if (renderVars.mouseIsDown && panResistantFields.indexOf(document.activeElement.id) === -1) {
     //Zoom stuff!
     //renderVars.diffX = (event.pageX - renderVars.currentMousePos[0]) / renderVars.zoomMultiplier
     //renderVars.diffY = (event.pageY - renderVars.currentMousePos[1]) / renderVars.zoomMultiplier
@@ -234,7 +343,7 @@ function handleMouseMove(event) {
 }
 
 function processKeyDown(event) {
-  if (event.repeat) return; //holding a key down causes repeated keydown events. make sure we don't respond to duplicates.
+  if (event.repeat || renderVars.isAutoPanning) return; //holding a key down causes repeated keydown events. make sure we don't respond to duplicates.
   inputVars.keysHeld[event.key] = true;
   updatePanKeys();
 }
@@ -300,7 +409,7 @@ function resetPressedKeys() {
 }
 
 function touchDown(event) {
-  if (!event.changedTouches || !event.changedTouches[0]) return //make sure the event data is proper
+  if (renderVars.isAutoPanning || !event.changedTouches || !event.changedTouches[0]) return //make sure the event data is proper
   if (inputVars.touchIsDown) clearTouch(); //if there's already an active touch, clear it
   let thisTouch = event.changedTouches[0]; //if multiple new touches registered on same event, arbitrarily choose first one in the list
   let shouldBreak = false;
@@ -315,6 +424,7 @@ function touchDown(event) {
 }
 
 function touchMove(event) {
+  if (renderVars.isAutoPanning) return;
   //need to iterate through and make sure one of the moved touches is the active touch
   for (let i = 0; i < event.changedTouches.length; i++) {
     if (event.changedTouches[i].identifier === inputVars.lastTouch) {
@@ -324,8 +434,8 @@ function touchMove(event) {
       if (inputVars.touchIsDown) {
         renderVars.diffX = thisTouch.pageX - inputVars.currentTouchPos[0]
         renderVars.diffY = thisTouch.pageY - inputVars.currentTouchPos[1]
-        if (Math.abs(renderVars.diffX) + Math.abs(renderVars.diffY) > 8) {
-        //if (Date.now() - renderVars.lastRender >= 20 && Math.abs(renderVars.diffX) + Math.abs(renderVars.diffY) > 8) {
+        //if (Math.abs(renderVars.diffX) + Math.abs(renderVars.diffY) > 8) {
+        if (Date.now() - renderVars.lastRender >= 8 && Math.abs(renderVars.diffX) + Math.abs(renderVars.diffY) > 8) {
           render(renderVars.posX + renderVars.diffX, renderVars.posY + renderVars.diffY)
         }
       }

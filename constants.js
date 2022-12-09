@@ -2,11 +2,16 @@
 //I am constantly suffering
 const romanNumerals = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII", "XIII", "XIV", "XV"]
 
+//any DOM element with an id in this array will prevent panning when it is the active element
+const panResistantFields = ["dragonNameBox", "knowledgeLevelRange", "knowledgeLevelInput", "sigilResetterType", "sigilResetterMode", "sigilResetterAmount"];
+
 const fireUpgradeInitialCosts = [0, 50, 100, 100, 500, 500, 2e7]
 const fireUpgradeBase = [0, 1.8, 2, 1.4, 1.5, 2.5, 5]
 const magicUpgradeCosts = [2, 3, 8, 12, 30, 100, 300, 1500, 4000, 20000, 100000, 400000, 1e8, 3e8, 1.5e9, 3e9, 1e11, 4e12, 1e13, 1e16]
-const darkMagicUpgradeCosts = ["e110", "e125", "e165", "e240", "e285", "e320", "e360", "e450", "e125000", "e150000", "e3e8", "e4.5e8", "e5e8", "e6e8", "e6.75e8", "e8e8"]
-const sigilColours = ["cyan", "blue", "indigo", "violet", "pink", "red"]
+const darkMagicUpgradeCosts = ["e110", "e125", "e165", "e240", "e285", "e320", "e360", "e450", "e125000", "e150000", "e3e8", "e4.5e8", "e5e8", "e6e8", "e6.75e8", "e8e8", "e1.1e9"]
+const sigilColours = ["cyan", "blue", "indigo", "violet", "pink", "red", "orange", "yellow"]
+const sigilResetterModes = ["Amount","Gold","Time"]
+const sigilResetterModesFull = ["Potential Sigil Amount", "Gold Amount", "Seconds Since Reset"]
 const knowledgeMultipliers = [450, 112.5, 18.75, 10, 1]
 const tomeUpgradeCosts = [1, 1, 2, 2, 4, 25, 75, 175, 500, 1000, 1500, 2250, 2800]
 const blueFireUpgradeInitialCosts = [0, 500, 1000, 50000, 5e7, 1.5e8, 1e11]
@@ -50,7 +55,9 @@ const achievementNames = [
   //Plutonium
   ["Ionizing II", "Radiating II", "Neutralizing II"],
   //Red sigils
-  ["Rhythmic", "Realistic"],
+  ["Rhythmic", "Realistic", "Robotic"],
+  //Orange sigils
+  ["Organic", "Orthographic"],
 ]
 const achievementRequirements = [
   //Gold
@@ -86,6 +93,8 @@ const achievementRequirements = [
   //Plutonium
   ["100", "10000", "1e6"],
   //Red sigils
+  ["1", "20", "1000"],
+  //Orange sigils
   ["1", "20"],
 ]
 const achievementRewards = {
@@ -148,31 +157,74 @@ const achievementResources = [
   {name:"blue fire", shortName:"B-fire", internalName:"blueFire"},
   {name:"blood", shortName:"Blood", internalName:"blood"},
   {name:"plutonium", shortName:"Plutonium", internalName:"plutonium"},
-  {name:"red sigils", shortName:"R-sigils", internalName:"redSigils"}
+  {name:"red sigils", shortName:"R-sigils", internalName:"redSigils"},
+  {name:"orange sigils", shortName:"O-sigils", internalName:"orangeSigils"}
 ]
-const achievementColours = ["#fd0", "#f80", "#bff", "#90d", "#60d", "#8f8", "#06b", "#00b", "#40b", "#60b", "#b0b", "#987", "#965", "#66f", "#f00", "#25e", "#b00"]
+const achievementColours = ["#fd0", "#f80", "#bff", "#90d", "#60d", "#8f8", "#06b", "#00b", "#40b", "#60b", "#b0b", "#987", "#965", "#66f", "#f00", "#25e", "#b00", "#b60"]
 //this array tells the display code when each achievement should be visible. each child array corresponds to a value of game.unlocks
 const achievementDisplayUnlocks = [
-  [3,2,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0], //unlock 0 - start
-  [3,2,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0], //unlock 1 - dragon
-  [3,2,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0], //unlock 2 - fire
-  [4,3,2,1,0,0,0,0,0,0,0,0,0,0,0,0,0], //unlock 3 - platinum
-  [6,4,3,5,1,0,0,0,0,0,0,0,0,0,0,0,0], //unlock 4 - magic
-  [6,4,3,5,1,0,0,0,0,0,0,0,0,0,0,0,0], //unlock 5 - magic challenges
-  [7,5,4,6,2,1,0,0,0,0,0,0,0,0,0,0,0], //unlock 6 - more magic upgrades
-  [8,6,6,7,3,1,0,0,0,0,0,0,0,0,0,0,0], //unlock 7 - uranium
-  [10,6,7,8,4,3,1,0,0,0,0,0,0,0,0,0,0], //unlock 8 - more platinum and uranium
-  [10,6,7,8,4,3,1,0,0,0,0,0,0,0,0,0,0], //unlock 9 - dark magic
-  [10,6,7,9,4,4,3,1,0,0,0,0,0,0,0,0,0], //unlock 10 - cyan
-  [11,7,8,9,5,4,4,4,1,0,0,0,0,0,0,0,0], //unlock 11 - blue
-  [12,8,8,10,6,5,5,5,5,1,0,0,0,0,0,0,0], //unlock 12 - indigo
-  [12,8,9,11,6,5,5,5,5,5,1,0,0,0,0,0,0], //unlock 13 - violet
-  [12,9,9,11,7,5,5,5,5,5,5,1,0,0,0,0,0], //unlock 14 - pink
-  [12,10,10,12,8,6,6,6,6,6,6,4,1,0,0,0,0], //unlock 15 - knowledge
-  [12,10,10,12,9,7,7,7,7,7,7,5,2,1,0,0,0], //unlock 16 - tomes
-  [12,12,12,12,12,10,8,8,8,8,8,7,4,2,1,0,0], //unlock 17 - blue fire
-  [12,12,12,12,12,11,9,9,9,9,9,7,5,3,2,1,0], //unlock 18 - blood
-  [12,12,12,12,12,11,9,9,9,9,9,7,5,3,2,1,0], //unlock 19 - more dark magic upgrades
-  [12,12,12,12,12,12,10,10,10,10,10,8,5,4,3,3,1], //unlock 20 - plutonium
-  [12,12,12,12,12,12,10,10,10,10,10,8,5,5,4,3,2], //unlock 21 - red
+  [3,2,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0], //unlock 0 - start
+  [3,2,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0], //unlock 1 - dragon
+  [3,2,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0], //unlock 2 - fire
+  [4,3,2,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0], //unlock 3 - platinum
+  [6,4,3,5,1,0,0,0,0,0,0,0,0,0,0,0,0,0], //unlock 4 - magic
+  [6,4,3,5,1,0,0,0,0,0,0,0,0,0,0,0,0,0], //unlock 5 - magic challenges
+  [7,5,4,6,2,1,0,0,0,0,0,0,0,0,0,0,0,0], //unlock 6 - more magic upgrades
+  [8,6,6,7,3,1,0,0,0,0,0,0,0,0,0,0,0,0], //unlock 7 - uranium
+  [10,6,7,8,4,3,1,0,0,0,0,0,0,0,0,0,0,0], //unlock 8 - more platinum and uranium
+  [10,6,7,8,4,3,1,0,0,0,0,0,0,0,0,0,0,0], //unlock 9 - dark magic
+  [10,6,7,9,4,4,3,1,0,0,0,0,0,0,0,0,0,0], //unlock 10 - cyan sigils
+  [11,7,8,9,5,4,4,4,1,0,0,0,0,0,0,0,0,0], //unlock 11 - blue sigils
+  [12,8,8,10,6,5,5,5,5,1,0,0,0,0,0,0,0,0], //unlock 12 - indigo sigils
+  [12,8,9,11,6,5,5,5,5,5,1,0,0,0,0,0,0,0], //unlock 13 - violet sigils
+  [12,9,9,11,7,5,5,5,5,5,5,1,0,0,0,0,0,0], //unlock 14 - pink sigils
+  [12,10,10,12,8,6,6,6,6,6,6,4,1,0,0,0,0,0], //unlock 15 - knowledge
+  [12,10,10,12,9,7,7,7,7,7,7,5,2,1,0,0,0,0], //unlock 16 - tomes
+  [12,12,12,12,12,10,8,8,8,8,8,7,4,2,1,0,0,0], //unlock 17 - blue fire
+  [12,12,12,12,12,11,9,9,9,9,9,7,5,3,2,1,0,0], //unlock 18 - blood
+  [12,12,12,12,12,11,9,9,9,9,9,7,5,3,2,1,0,0], //unlock 19 - more dark magic upgrades
+  [12,12,12,12,12,12,10,10,10,10,10,8,5,4,3,3,1,0], //unlock 20 - plutonium
+  [12,12,12,12,12,12,10,10,10,10,10,8,5,5,4,3,2,1], //unlock 21 - red sigils
+  [12,12,12,12,12,12,10,10,10,10,10,8,5,5,4,3,3,2], //unlock 22 - orange sigils
 ]
+
+//stores position and unlock data for each display tab. structure is [x, y, unlock]
+const tabData = {
+  main: [0, 0, 0],
+  dragon: [0,330,1],
+  fire: [-365, 365, 2],
+  platinum: [315, 100, 3],
+  magic: [0, -287, 4],
+  magicUpgrades: [-365, 235, 4],
+  magicChallenges: [390, -365, 5],
+  uranium: [580, 100, 7],
+  darkMagic: [-730, -130, 9],
+  cyanSigils: [365, 515, 10],
+  blueSigils: [730, 515, 11],
+  indigoSigils: [1095, 515, 12],
+  violetSigils: [365, 830, 13],
+  pinkSigils: [730, 830, 14],
+  sigilAutomation: [1095, 830, 14],
+  knowledge: [-440, 850, 15],
+  tomes: [-905, 850, 16],
+  blueFire: [-780, 365, 17],
+  blood: [-50, -650, 18],
+  plutonium: [845, 100, 20],
+  redSigils: [365, 1145, 21],
+  orangeSigils: [730, 1145, 22]
+}
+
+//this is what I want the render function to see
+/*
+const tabPositions = [
+  {
+    main: [0, 0] //unlock 0 - dragon is handled with special case in render
+  },
+  {
+    fire: [-365, 365] //unlock 1
+  },
+  {
+    //etc
+  }
+]
+*/

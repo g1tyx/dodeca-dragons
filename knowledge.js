@@ -188,6 +188,16 @@ function buyTomeUpgrade(x) {
     document.getElementsByClassName("tomeUpgrade")[12].disabled = true
     document.getElementsByClassName("box")[25].style.display = "block"
     document.getElementsByClassName("resourceRow")[17].style.display = "block"
+    document.getElementById("maxRedSigilUpgradesButton").style.display = "block"
+    redSigilAutoOption = document.createElement("option")
+    redSigilAutoOption.text = "Red"
+    document.getElementById("sigilResetterType").add(redSigilAutoOption)
+    document.getElementById("redSigilUpgrade1Cost").innerHTML = format(game.redSigilUpgrade1Cost, 0)
+    document.getElementById("redSigilUpgrade1Effect").innerHTML = format(game.redSigilUpgradesBought[0].add(1), 2)
+    document.getElementById("redSigilUpgrade2Cost").innerHTML = format(game.redSigilUpgrade2Cost, 0)
+    document.getElementById("redSigilUpgrade2Effect").innerHTML = format(new Decimal(50).pow(game.redSigilUpgradesBought[1].pow(0.8)), 2)
+    document.getElementById("redSigilUpgrade3Cost").innerHTML = format(game.redSigilUpgrade3Cost, 0)
+    document.getElementById("redSigilUpgrade3Effect").innerHTML = format(new Decimal(6).pow(game.redSigilUpgradesBought[2].pow(0.7)), 2)
     addUnlock() //sets unlock to 21
   }
   else if (game.tomeUpgradesBought[x-1] != true && game.tomes.gte(tomeUpgradeCosts[x-1]) && x!=12 && x!=13) {

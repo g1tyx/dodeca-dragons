@@ -40,6 +40,7 @@ html, body {
   cursor: all-scroll;
   font-smooth: never;
   -webkit-font-smoothing: none;
+  transition: filter 1.5s;
 }
 
 .box {
@@ -134,6 +135,7 @@ img {
 }
 #navArrows {
   display:none;
+  opacity: 0.7;
 }
 
 .confirmationToggle {
@@ -480,6 +482,19 @@ img {
 .redSigilUpgrade:disabled {
   color: #944;
   text-shadow: 1px 1px 0 #622;
+}
+
+.orangeSigilUpgrade {
+  height: 46px;
+  margin: 5px 2px 0 2px;
+  background-color: #444;
+  color: #d94;
+  text-align: left;
+}
+
+.orangeSigilUpgrade:disabled {
+  color: #997044;
+  text-shadow: 1px 1px 0 #642;
 }
 
 

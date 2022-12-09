@@ -159,7 +159,7 @@ function moreDarkMagicUpgrades() {
   if (game.gold.gte("e6.66e16")) {
     game.gold = game.gold.sub("e6.66e16")
     document.getElementById("moreDarkMagicUpgradesButton").style.display = "none"
-    for (i=10;i<16;i++) document.getElementsByClassName("darkMagicUpgrade")[i].style.display = "inline-block"
+    for (i=10;i<17;i++) document.getElementsByClassName("darkMagicUpgrade")[i].style.display = "inline-block"
     addUnlock() //sets unlock to 19
   }
 }
