@@ -430,7 +430,13 @@ function loadGame(loadgame) {
     shouldCheckVersion = true;
   }
   loadgame.lastMajorChangeVersion = game.lastMajorChangeVersion; //set loadgame version to current version so save has proper version going forward
-
+  
+  if (loadgame.sigilResetterMode < 0) {
+    loadgame.sigilResetterMode = 0;
+  }
+  if (loadgame.sigilResetterType < 0) {
+    loadgame.sigilResetterType = 0;
+  }
   
   //Sets each variable in 'game' to the equivalent variable in 'loadgame' (the saved file)
   let loadKeys = Object.keys(loadgame);
