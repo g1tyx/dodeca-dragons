@@ -1,9 +1,7 @@
 function generateHotkeyText() {
-  let hotkeyText = '<p style="font-weight: bold">';
+  let hotkeyText = '<p style="font-weight: bold">Shift+S - manual save';
   if (game.unlocks >= 3) {
-    hotkeyText += '<a style="color: #288">P - platinum</a>'
-  } else {
-    hotkeyText += 'No hotkeys unlocked yet :('
+    hotkeyText += '<br><a style="color: #288">P - platinum</a>'
   }
   if (game.unlocks >= 4) {
     hotkeyText += '<br><a style="color: #90d">M - magic</a>'
@@ -41,4 +39,4 @@ Mousetrap.bind('shift+4', () => {if (game.unlocks >= 13) sigilCheck(4)}); //viol
 Mousetrap.bind('shift+5', () => {if (game.unlocks >= 14) sigilCheck(5)}); //pink
 Mousetrap.bind('shift+6', () => {if (game.unlocks >= 21) sigilCheck(6)}); //red
 Mousetrap.bind('shift+7', () => {if (game.unlocks >= 22) sigilCheck(7)}); //orange
-//Mousetrap.bind('shift+8', () => {if (game.unlocks >= 23) sigilCheck(8)}); //yellow
+Mousetrap.bind('shift+8', () => {if (game.unlocks >= 23) sigilCheck(8)}); //yellow

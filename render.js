@@ -197,6 +197,11 @@ function render(x, y) {
     document.getElementsByClassName("box")[26].style.left = (window.innerWidth / 2 + x + 730) + "px"
     document.getElementsByClassName("box")[26].style.top = (window.innerHeight / 2 + y + 1145) + "px"
   }
+  if (game.unlocks >= 22) {
+    //Yellow sigils tab
+    document.getElementsByClassName("box")[28].style.left = (window.innerWidth / 2 + x + 1095) + "px"
+    document.getElementsByClassName("box")[28].style.top = (window.innerHeight / 2 + y + 1145) + "px"
+  }
   document.body.style.backgroundPosition = (x / 4) + "px " + (y / 4) + "px"
   //console.log(Date.now() - renderVars.lastRender)
   renderVars.lastRender = Date.now();

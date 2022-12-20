@@ -137,6 +137,17 @@ function knowledgeMaxAll() {
   document.getElementById("knowledgeUpgrade2Effect").innerHTML = format(knowledgeUpgrade2Effect, 2)
 }
 
+function knowledgeAutoMaxAll() {
+  if (!game.knowledgeAutoMaxAll) {
+    game.knowledgeAutoMaxAll = true
+    document.getElementById("knowledgeAutoMaxAllButton").innerHTML = "Auto max all: On"
+  }
+  else {
+    game.knowledgeAutoMaxAll = false
+    document.getElementById("knowledgeAutoMaxAllButton").innerHTML = "Auto max all: Off"
+  }
+}
+
 function buyTome() {
   if (game.knowledge.gte(game.tomeCost)) {
     if (game.unlockedAchievements[15] == 0) game.knowledge = game.knowledge.sub(game.tomeCost)
@@ -221,6 +232,17 @@ function buyTomeUpgrade(x) {
       document.getElementsByClassName("blueFireUpgrade")[3].style.display = "inline-block"
       document.getElementsByClassName("blueFireUpgrade")[4].style.display = "inline-block"
       document.getElementsByClassName("blueFireUpgrade")[5].style.display = "inline-block"
+    }
+    if (x==14) {
+      newHellLayer = document.createElement("option")
+      newHellLayer.text = "Greed (IV)"
+      document.getElementById("hellLayer").add(newHellLayer)
+      newHellLayer = document.createElement("option")
+      newHellLayer.text = "Wrath (V)"
+      document.getElementById("hellLayer").add(newHellLayer)
+      newHellLayer = document.createElement("option")
+      newHellLayer.text = "Heresy (VI)"
+      document.getElementById("hellLayer").add(newHellLayer)
     }
   }
 }

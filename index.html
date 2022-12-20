@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
   <meta content="DodecaDragons" property="og:title" />
-  <meta content="[ WARMLY ] It's Nice To Be Alive In The Worlde"
+  <meta content="THE END IS NEVER THE END IS NEVER THE END IS NEVER THE END IS NEVER THE END"
     property="og:description" />
   <meta content="https://demonins-item-shop.demonin.repl.co/games/dodecaDragons/" property="og:url" />
   <meta content="img/logo.png" property="og:image" />
@@ -13,7 +13,6 @@
   <title>DodecaDragons</title>
   <link rel="icon" type="image/x-icon" href="img/iconGoldCoins.png">
   <link rel="stylesheet" href="98.css" />
-  
   <link href="style.css" rel="stylesheet" type="text/css" /> 
 </head>
 
@@ -43,11 +42,11 @@
     </div>
   </div>
 
-  <!--Settings and info-->
+  <!--Settings-->
   <div class="window box"
     style="width: 150px; top: 55px; left: 5px; transform: none; padding-bottom: 8px; z-index: 1; display: none;">
     <div class="title-bar" style="background-image: linear-gradient(90deg,grey,#b5b5b5);">
-      <div class="title-bar-text">Settings and info</div>
+      <div class="title-bar-text">Settings</div>
     </div>
     <div class="window-body">
       <button style="width: 142px; margin-top: 4px" onclick="save()">&#8202;&#8202;Manual save</button><br>
@@ -97,6 +96,7 @@
       <p class="resourceRow" style="display: none"><img src="img/iconPlutoniumCoins.png" class="resourceIcon"></img>Plutonium: <a class="resourceText">0</a></p>
       <p class="resourceRow" style="display: none"><img src="img/iconSigil6.png" class="resourceIcon"></img>Red sigils: <a class="resourceText">0</a></p>
       <p class="resourceRow" style="display: none"><img src="img/iconSigil7.png" class="resourceIcon"></img>Orange sigils: <a class="resourceText">0</a></p>
+      <p class="resourceRow" style="display: none"><img src="img/iconSigil8.png" class="resourceIcon"></img>Yellow sigils: <a class="resourceText">0</a></p>
     </div>
   </div>
 
@@ -110,7 +110,7 @@
         <p id="dragonStageCounter" style="position: absolute; margin: 2px; font-size: 22px; color: #777"></p>
         <p id="dragonTitle" class="titleText" style="margin-top: 0;"><a style="font-size: 14px">You have a</a><br>Young
           dragon</p>
-        <img id="dragonImg" src="img/iconDragon1.png" style="width: 128px; margin: 4px"><br>
+        <img id="dragonImg" src="img/iconDragon1.png" style="width: 128px; margin: 4px; pointer-events: auto" onclick="returnUserCity()"><br>
         <input id="dragonNameBox" style="width: 200px; background-color: #cbc0b8; text-align: center; font-weight: bold" placeholder="Set your dragon's name here!" onchange="changeDragonName()"></input>
       </center>
       <p id="dragonInfo" style="margin-right: 4px">Your wild young dragon produces fire for you. It enjoys playing
@@ -385,7 +385,10 @@
       <button class="darkMagicUpgrade" style="display: none" onclick="buyDarkMagicUpgrade(14)">Plutonium multiplies blood gain<br>Currently x<a id="darkMagicUpgrade14Effect">1.00</a><br>Costs e600,000,000 magic</button>
       <button class="darkMagicUpgrade" style="display: none" onclick="buyDarkMagicUpgrade(15)">Multiply plutonium gain by 10<br>Costs e675,000,000 magic</button>
       <button class="darkMagicUpgrade" style="display: none" onclick="buyDarkMagicUpgrade(16)">Blue fire multiplies red sigil gain<br>Currently x<a id="darkMagicUpgrade16Effect">1.00</a><br>Costs e800,000,000 magic</button>
-      <button class="darkMagicUpgrade" style="display: none" onclick="buyDarkMagicUpgrade(17)">Blood multiplies orange sigil gain<br>Currently x<a id="darkMagicUpgrade17Effect">1.00</a><br>Costs e1.10e9 magic</button>
+      <button class="darkMagicUpgrade" style="display: none" onclick="buyDarkMagicUpgrade(17)">Blood multiplies orange sigil gain<br>Currently x<a id="darkMagicUpgrade17Effect">1.00</a><br>Costs e1.20e9 magic</button>
+      <button class="darkMagicUpgrade" style="display: none" onclick="buyDarkMagicUpgrade(18)">Plutonium multiplies yellow sigil gain (Currently x<a id="darkMagicUpgrade18Effect">1.00</a>)<br>Costs e1.45e9 magic</button>
+      <button class="darkMagicUpgrade" style="display: none" onclick="buyDarkMagicUpgrade(19)">Square plutonium gain<br>Costs e1.60e9 magic</button>
+      <button class="darkMagicUpgrade" style="display: none" onclick="buyDarkMagicUpgrade(20)">Multiply YSP gain by 1,000<br>Costs e1.65e9 magic</button>
       <button id="darkMagicUpgradeBuyMaxButton" style="margin: 5px 2px 0 2px; width: 50px; display: none"
       onclick="darkMagicUpgradeBuyMax()">Buy max</button>
     </div>
@@ -558,7 +561,7 @@
     <div class="title-bar">
       <div class="title-bar-text">Achievements</div>
     </div>
-    <div class="window-body" style="max-width: 90vw; max-height: 90vh; overflow: auto; scrollbar-gutter: stable">
+    <div class="window-body" style="max-width: 90vw; max-height: calc(95vh - 50px); overflow: auto; scrollbar-gutter: stable">
       <div id="achievementInfo">
         <p style="font-size: 22px; line-height: 22px; margin: 4px">Achievement name</p>
         <p>Acquire X of resource Y</p>
@@ -626,6 +629,7 @@
         </div>
       </div>
       <button id="knowledgeMaxAllButton" onclick="knowledgeMaxAll()">Max all</button>
+      <button id="knowledgeAutoMaxAllButton" onclick="knowledgeAutoMaxAll()">Auto max all: On</button>
     </div>
   </div>
   
@@ -637,28 +641,29 @@
     <div class="window-body">
       <div id="sigilResetAutomation" style="display: none;">
         <p style="margin: 4px; font-weight: bold">Automatic sigil resetter</p>
-        <input type="checkbox" id="sigilResetterActive" onchange="updateSigilResetter()">
+        <input type="checkbox" id="sigilResetterActive" onchange="updateSigilResetter()" tabindex="-1">
         <label for="sigilResetterActive">Enabled</label> <br>
-        Colour: <select id="sigilResetterType" onchange="updateSigilResetter()">
-          <option value="Cyan">Cyan</option>
-          <option value="Blue">Blue</option>
-          <option value="Indigo">Indigo</option>
-          <option value="Violet">Violet</option>
-          <option value="Pink">Pink</option>
+        Colour: <select id="sigilResetterType" onchange="updateSigilResetter()" tabindex="-1">
+          <option>Cyan</option>
+          <option>Blue</option>
+          <option>Indigo</option>
+          <option>Violet</option>
+          <option>Pink</option>
         </select>
-        <input type="checkbox" id="sigilResetterCycle" onchange="updateSigilResetter()">
+        <input type="checkbox" id="sigilResetterCycle" onchange="updateSigilResetter()" tabindex="-1">
         <label for="sigilResetterCycle">Cycle Colour on Reset</label> <br>
-        Mode: <select id="sigilResetterMode" onchange="updateSigilResetter(true)">
-          <option value="Potential Sigil Amount">Potential Sigil Amount</option>
-          <option value="Gold Amount">Gold Amount</option>
-          <option value="Seconds Since Reset">Seconds Since Reset</option>
+        Mode: <select id="sigilResetterMode" onchange="updateSigilResetter(true)" tabindex="-1">
+          <option>Potential Sigil Amount</option>
+          <option>Gold Amount</option>
+          <option>Seconds Since Reset</option>
         </select><br>
-        <input id="sigilResetterAmount" style="width: 200px; background-color: #cbc0b8; text-align: center; font-weight: bold" placeholder="amount" onchange="updateSigilResetter()"></input>
+        <input id="sigilResetterAmount" style="width: 200px; background-color: #cbc0b8; text-align: center; font-weight: bold" placeholder="amount" onchange="updateSigilResetter()" tabindex="-1"></input>
        
       </div><br><br>
       <button style="margin-top: 4px; display: block" onclick="maxAllSigilUpgrades()">Max cyan to pink sigil upgrades</button>
       <button id="maxRedSigilUpgradesButton" style="margin-top: 4px; background-color: #d77; display: none" onclick="maxRedSigilUpgrades()">Max red sigil upgrades</button>
       <button id="maxOrangeSigilUpgradesButton" style="margin-top: 4px; background-color: #da7; display: none" onclick="maxOrangeSigilUpgrades()">Max orange sigil upgrades</button>
+      <button id="maxYellowSigilUpgradesButton" style="margin-top: 4px; background-color: #dd7; display: none" onclick="maxYellowSigilUpgrades()">Max yellow sigil upgrades</button>
     </div>
   </div>
 
@@ -686,6 +691,7 @@
         <button class="tomeUpgrade" style="display: none" onclick="buyTomeUpgrade(11)">Blood increases gold gain in hell<br>Currently ^<a id="tomeUpgrade11Effect">1.00</a><br>Costs 1,500 tomes</button>
         <button class="tomeUpgrade" id="plutoniumTomeUpgrade" onclick="buyTomeUpgrade(12)">Unlock <b>Plutonium</b><br>Costs 2,250 tomes<br>Requires dark magic upgrade 11</button>
         <button class="tomeUpgrade" id="sigilTomeUpgrade" onclick="buyTomeUpgrade(13)">Unlock <b>Red sigils</b><br>Costs 2,800 tomes<br>Requires plutonium</button>
+        <button class="tomeUpgrade" style="background-color: #c66" onclick="buyTomeUpgrade(14)">Unlock <b>3 more hell layers</b><br>Costs 7,500 tomes</button>
       </div>
     </div>
   </div>
@@ -717,6 +723,8 @@
       <button class="blueFireUpgrade" style="height: 46px; display: none" onclick="buyBlueFireUpgrade(6)">Multiply knowledge gain from trades<br>Currently
         x<a id="blueFireUpgrade6Effect">1.00</a><br>Costs <a id="blueFireUpgrade6Cost">1.00e11</a> blue fire</button>
       <button class="blueFireBuyMaxButton" onclick="blueFireBuyMax(6)">Buy max</button><br>
+      <button id="blueFireAutoMaxAllButton" onclick="blueFireAutoMaxAll()">Auto max all: On</button>
+      <button id="blueFireMaxAllButton" onclick="blueFireMaxAll()">Max all</button>
     </div>
   </div>
 
@@ -733,9 +741,9 @@
       <div class="field-row" style="width: 300px">
         <label for="hellLayer" style="color: #d66; margin-left: 4px">Current hell layer:</label>
         <select id="hellLayer" onchange="updateHellLayer()">
-          <option>Limbo (I)</option>
-          <option>Lust (II)</option>
-          <option>Gluttony (III)</option>
+          <option value="limbo">Limbo (I)</option>
+          <option value="lust">Lust (II)</option>
+          <option value="gluttony">Gluttony (III)</option>
         </select><br>
       </div>
     <p style="color: #d66; margin-left: 0; padding-left: 4px; background-color: #111; box-shadow: 0 0 8px #111;">Nerfs for this layer (<a id="currentHellLayer">limbo</a>):<br><a id="currentHellEffects"></a></p>
@@ -794,8 +802,8 @@
     <div class="window-body">
       <img src="img/iconSigil7.png" style="position: absolute; top: 26px; left: 8px; width: 64px"><br>
       <div style="margin-left: 76px; width: 218px; height: 60px">
-        <p style="font-size: 16px; color: #ddb088; text-shadow: 1px 1px #400; margin: 0; font-weight: bold">You have <a id="orangeSigils">0</a> orange sigils</p>
-        <p style="color: #ddb088; text-shadow: 1px 1px #400; margin-left: 0; margin-top: 6px">Multiplying magic and score gain by <a id="orangeSigilEffect">1</a></p>
+        <p style="font-size: 16px; color: #ddb088; text-shadow: 1px 1px #420; margin: 0; font-weight: bold">You have <a id="orangeSigils">0</a> orange sigils</p>
+        <p style="color: #ddb088; text-shadow: 1px 1px #420; margin-left: 0; margin-top: 6px">Multiplying magic and score gain by <a id="orangeSigilEffect">1</a></p>
       </div>
       <button style="width: 342px; margin: 4px; background-color: #ca8; height: 32px; text-align: left" onclick="sigilCheck(7)">Reset all previous progress for <a id="orangeSigilsToGet">0</a> orange sigils<br>Next at <a id="nextOrangeSigil">e5.00e21</a> gold</button>
       <p style="text-align: center; margin: 0; margin-top: 6px; color: #ca8">You have <a id="orangeSigilPower">0.00</a> orange sigil power (OSP) (<a id="orangeSigilPowerPerSecond">0.00</a>/s)</p>
@@ -805,7 +813,7 @@
             id="orangeSigilUpgrade2Effect">1.00</a><br>Costs <a id="orangeSigilUpgrade2Cost">2,500</a> OSP</button>
         <button class="orangeSigilUpgrade" onclick="buyOrangeSigilUpgrade(3)">Increase blood gain again<br>Currently x<a
             id="orangeSigilUpgrade3Effect">1.00</a><br>Costs <a id="orangeSigilUpgrade3Cost">250,000</a> OSP</button>
-        <button class="orangeSigilUpgrade" style="display: none" onclick="buyOrangeSigilUpgrade(4)">Unlock <a style="color: #dd4">yellow sigils</a><br>Costs 10,000,000 OSP</button>
+        <button class="orangeSigilUpgrade" onclick="buyOrangeSigilUpgrade(4)">Unlock <a style="color: #dd4">yellow sigils</a><br>Costs 10,000,000 OSP</button>
       </div>
     </div>
   </div>
@@ -815,9 +823,9 @@
     <div class="title-bar">
       <div class="title-bar-text">Info/credits</div>
     </div>
-    <div class="window-body" style="max-height: 90vh; overflow: auto">
+    <div class="window-body" style="max-height: calc(95vh - 50px); overflow: auto">
       <div style="margin-top: 8px; background-color: #111; width: 100%; border-top: 4px solid #666; border-bottom: 4px solid #666">
-        <p style="text-align: center"><a class="titleText" style="font-size: 36px; color: #ca1; text-shadow: 3px 3px #555">DodecaDragons</a><br><a style="color: #666">v0.7.3 <span id="inDevSpan"></span></a></p>
+        <p style="text-align: center"><a class="titleText" style="font-size: 36px; color: #ca1; text-shadow: 3px 3px #555">DodecaDragons</a><br><a style="color: #666">v0.7.4 <span id="inDevSpan"></span></a></p>
       </div>
       <p style="margin-top: 6px">Created by <a style="color: #408">Demonin</a><br>Co-developed by <a style="color: #808">Cornucanis</a></p>
       <p style="color: #666">Move around by clicking and dragging.<br>If you find the text is too small,
@@ -829,8 +837,32 @@
       </span>
       <hr>
       <p style="text-align: center; color: #008; margin-bottom: 4px">&#8202;&#8202;Want to discuss or suggest for<br>&#8202;&#8202;the game? Feel free to join our<br>discord community!</p>
-      <center><a href="https://discord.gg/7PChmUV3wk"><img src="img/discordIcon.png" style="pointer-events: auto"></a></center>
-      <p id ="devinfo" style="position: absolute; bottom: 4px; right: 4px; text-align: right; margin: 0"><a href="changelog.txt">Changelog</a></p>
+      <center><a href="https://discord.gg/7PChmUV3wk" target="_blank"><img src="img/discordIcon.png" style="pointer-events: auto"></a></center>
+      <p id ="devinfo" style="position: absolute; bottom: 4px; right: 4px; text-align: right; margin: 0"><a href="changelog.txt" target="_blank">Changelog</a></p>
+    </div>
+  </div>
+
+  <!--Yellow sigils tab-->
+  <div class="window box" id="tab_yellowSigils" style="width: 350px; height: 300px; background-color: #666; display: none;">
+    <div class="title-bar" style="background:linear-gradient(90deg,#444,#bb0)">
+      <div class="title-bar-text">Yellow sigils</div>
+    </div>
+    <div class="window-body">
+      <img src="img/iconSigil8.png" style="position: absolute; top: 26px; left: 8px; width: 64px"><br>
+      <div style="margin-left: 76px; width: 218px; height: 60px">
+        <p style="font-size: 16px; color: #dd8; text-shadow: 1px 1px #440; margin: 0; font-weight: bold">You have <a id="yellowSigils">0</a> yellow sigils</p>
+        <p style="color: #dd8; text-shadow: 1px 1px #440; margin-left: 0; margin-top: 6px">Multiplying magic and score gain by <a id="yellowSigilEffect">1</a></p>
+      </div>
+      <button style="width: 342px; margin: 4px; background-color: #cc8; height: 32px; text-align: left" onclick="sigilCheck(8)">Reset all previous progress for <a id="yellowSigilsToGet">0</a> yellow sigils<br>Next at <a id="nextYellowSigil">e5.00e21</a> gold</button>
+      <p style="text-align: center; margin: 0; margin-top: 6px; color: #cc8">You have <a id="yellowSigilPower">0.00</a> yellow sigil power (YSP) (<a id="yellowSigilPowerPerSecond">0.00</a>/s)</p>
+      <div style="width: 348px; position: absolute; bottom: 4px; left: 4px; display: grid; grid-template-columns: 1fr 1fr; justify-self: stretch">
+        <button class="yellowSigilUpgrade" onclick="buyYellowSigilUpgrade(1)">Increase YSP gain<br>Currently x<a id="yellowSigilUpgrade1Effect">1.00</a><br>Costs <a id="yellowSigilUpgrade1Cost">1</a> YSP</button>
+        <button class="yellowSigilUpgrade" onclick="buyYellowSigilUpgrade(2)">Increase orange sigil gain<br>Currently x<a
+            id="yellowSigilUpgrade2Effect">1.00</a><br>Costs <a id="yellowSigilUpgrade2Cost">4,000</a> YSP</button>
+        <button class="yellowSigilUpgrade" onclick="buyYellowSigilUpgrade(3)">Increase blood gain again<br>Currently x<a
+            id="yellowSigilUpgrade3Effect">1.00</a><br>Costs <a id="yellowSigilUpgrade3Cost">2,000,000</a> YSP</button>
+        <button class="yellowSigilUpgrade" style="display: none" onclick="buyYellowSigilUpgrade(4)">Unlock <a style="color: #ddf">HOLY TETRAHEDRONS</a><br>Costs 1.00e12 YSP</button>
+      </div>
     </div>
   </div>
 

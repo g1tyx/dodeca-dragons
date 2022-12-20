@@ -8,18 +8,21 @@ const panResistantFields = ["dragonNameBox", "knowledgeLevelRange", "knowledgeLe
 const fireUpgradeInitialCosts = [0, 50, 100, 100, 500, 500, 2e7]
 const fireUpgradeBase = [0, 1.8, 2, 1.4, 1.5, 2.5, 5]
 const magicUpgradeCosts = [2, 3, 8, 12, 30, 100, 300, 1500, 4000, 20000, 100000, 400000, 1e8, 3e8, 1.5e9, 3e9, 1e11, 4e12, 1e13, 1e16]
-const darkMagicUpgradeCosts = ["e110", "e125", "e165", "e240", "e285", "e320", "e360", "e450", "e125000", "e150000", "e3e8", "e4.5e8", "e5e8", "e6e8", "e6.75e8", "e8e8", "e1.1e9"]
+const darkMagicUpgradeCosts = ["e110", "e125", "e165", "e240", "e285", "e320", "e360", "e450", "e125000", "e150000", "e3e8", "e4.5e8", "e5e8", "e6e8", "e6.75e8", "e8e8", "e1.2e9", "e1.45e9", "e1.6e9", "e1.65e9"]
 const sigilColours = ["cyan", "blue", "indigo", "violet", "pink", "red", "orange", "yellow"]
 const sigilResetterModes = ["Amount","Gold","Time"]
 const sigilResetterModesFull = ["Potential Sigil Amount", "Gold Amount", "Seconds Since Reset"]
 const knowledgeMultipliers = [450, 112.5, 18.75, 10, 1]
-const tomeUpgradeCosts = [1, 1, 2, 2, 4, 25, 75, 175, 500, 1000, 1500, 2250, 2800]
+const tomeUpgradeCosts = [1, 1, 2, 2, 4, 25, 75, 175, 500, 1000, 1500, 2250, 2800, 7500]
 const blueFireUpgradeInitialCosts = [0, 500, 1000, 50000, 5e7, 1.5e8, 1e11]
 const blueFireUpgradeBase = [0, 1.8, 2, 2.5, 1.8, 2.2, 2]
 const hellLayerNames = ["limbo", "lust", "gluttony", "greed", "wrath", "heresy", "violence", "fraud", "treachery"]
 const hellLayerEffects = ["-<a style='color: #fd0'>Gold</a> gain is severely reduced (log(x)^5)<br>-<a style='color: #bff'>Platinum</a> gain is ^0.1<br>-<a style='color: #60d'>Magifold</a> amount is always 1<br>-<a style='color: #8f8'>Uranium</a> gain is ^0.1",
 "-<a style='color: #fd0'>Gold</a> gain is severely reduced (log(x)^2)<br>-<a style='color: #f80'>Fire</a> gain is severely reduced (log(x))<br>-<a style='color: #bff'>Platinum</a> gain is ^0.01<br>-<a style='color: #60d'>Magifold</a> amount is always 1<br>-<a style='color: #8f8'>Uranium</a> gain is ^0.01<br>-<a style='color: #06b'>Cyan sigil</a> upgrade 3 is useless",
 "-<a style='color: #fd0'>Gold</a> gain is severely reduced (log(x))<br>-<a style='color: #f80'>Fire</a> gain is severely reduced (log(x))<br>-<a style='color: #bff'>Platinum</a> gain is severely reduced (log(x))<br>-<a style='color: #60d'>Magifold</a> amount is always 1<br>-<a style='color: #8f8'>Uranium</a> gain is severely reduced (log(x))<br>-<a style='color: #06b'>Cyan sigil</a> upgrade 3 is useless",
+"-<a style='color: #fd0'>Gold</a> gain is severely reduced (log(x)^0.5)<br>-<a style='color: #f80'>Fire</a> gain is always 0<br>-<a style='color: #bff'>Platinum</a> gain is severely reduced (log(x))<br>-<a style='color: #60d'>Magifold</a> amount is always 1<br>-<a style='color: #8f8'>Uranium</a> gain is severely reduced (log(x))<br>-<a style='color: #06b'>Cyan sigil</a> upgrade 3 is useless",
+"-<a style='color: #f00'>Wrath does nothing yet!</a>",
+"-<a style='color: #f00'>Heresy does nothing yet!</a>"
 ]
 const achievementNames = [
   //Gold
@@ -35,29 +38,31 @@ const achievementNames = [
   //Uranium
   ["Ionizing", "Radiating", "Neutralizing", "Terrifying", "Devastating", "Decaying", "Annihilating", "Obliterating", "Glowing", "Reducing", "Ending", "Inspiring"],
   //Cyan sigils
-  ["Chromatic", "Chaotic", "Colorific", "Catastrophic", "Catatonic", "Chromatic II", "Chaotic II", "Colorific II", "Catastrophic II", "Catatonic II"],
+  ["Chromatic", "Chaotic", "Colorific", "Catastrophic", "Catatonic", "Chromatic II", "Chaotic II", "Colorific II", "Catastrophic II", "Catatonic II", "Chromatic III"],
   //Blue sigils
-  ["Bichromatic", "Basic", "Biologic", "Barbaric", "Balsamic", "Bichromatic II", "Basic II", "Biologic II", "Barbaric II", "Balsamic II"],
+  ["Bichromatic", "Basic", "Biologic", "Barbaric", "Balsamic", "Bichromatic II", "Basic II", "Biologic II", "Barbaric II", "Balsamic II", "Bichromatic III"],
   //Indigo sigils
-  ["Interdynamic", "Idealistic", "Isotropic", "Isotonic", "Idyllic", "Interdynamic II", "Idealistic II", "Isotropic II", "Isotonic II", "Idyllic II"],
+  ["Interdynamic", "Idealistic", "Isotropic", "Isotonic", "Idyllic", "Interdynamic II", "Idealistic II", "Isotropic II", "Isotonic II", "Idyllic II", "Interdynamic III"],
   //Violet sigils
-  ["Volcanic", "Volumetric", "Vitriolic", "Voltaic", "Vinic", "Volcanic II", "Volumetric II", "Vitrolic II", "Voltaic II", "Vinic II"],
+  ["Volcanic", "Volumetric", "Vitriolic", "Voltaic", "Vinic", "Volcanic II", "Volumetric II", "Vitrolic II", "Voltaic II", "Vinic II", "Volcanic III"],
   //Pink sigils
-  ["Panchromatic", "Psychotic", "Pathogenic", "Particularistic", "Platonic", "Panchromatic II", "Psychotic II", "Pathogenic II", "Particularistic II", "Platonic II"],
+  ["Panchromatic", "Psychotic", "Pathogenic", "Particularistic", "Platonic", "Panchromatic II", "Psychotic II", "Pathogenic II", "Particularistic II", "Platonic II", "Panchromatic III"],
   //Knowledge
-  ["Big brain moment", "Deep thought", "Immaterialistic", "Planning ahead", "I conject", "Megamind", "Incremental IQ", "Shared Brainpower"],
+  ["Big brain moment", "Deep thought", "Immaterialistic", "Planning ahead", "I conject", "Megamind", "Incremental IQ", "Shared Brainpower", "Think tank"],
   //Tomes
-  ["History locked away", "The mystical bookshelf", "Necronomicon", "Fully legible", "Biblical"],
+  ["History locked away", "The mystical bookshelf", "Necronomicon", "Fully legible", "Biblical", "Rune rooms"],
   //Blue fire
-  ["Burning cold", "Frostbite", "Tundra", "The burn that cures", "Hell frozen over"],
+  ["Burning cold", "Frostbite", "Tundra", "The burn that cures", "Hell frozen over", "Absolute Zero"],
   //Blood
-  ["Coagulation", "Brutal", "Rivers of red", "Ultraviolent"],
+  ["Coagulation", "Brutal", "Rivers of red", "Ultraviolent", "Turbo killer", "When the imposter is sus!"],
   //Plutonium
-  ["Ionizing II", "Radiating II", "Neutralizing II"],
+  ["Ionizing II", "Radiating II", "Neutralizing II", "Terrifying II"],
   //Red sigils
-  ["Rhythmic", "Realistic", "Robotic"],
+  ["Rhythmic", "Realistic", "Robotic", "Romantic"],
   //Orange sigils
-  ["Organic", "Orthographic"],
+  ["Organic", "Orthographic", "Overenergetic", "Orthochromatic"],
+  //Yellow sigils
+  ["Yellow", "Very yellow", "Extremely yellow", "Super yellow", "Hyper yellow"],
 ]
 const achievementRequirements = [
   //Gold
@@ -73,29 +78,31 @@ const achievementRequirements = [
   //Uranium
   ["100", "100000", "1e7", "5e8", "1e10", "1e100", "1e1000", "1e25000", "1e1000000", "e1e8", "e1e12", "e1e15"],
   //Cyan sigils
-  ["1", "5", "20", "100", "500", "1000000", "1e12", "1e25", "1e100", "1e250"],
+  ["1", "5", "20", "100", "500", "1000000", "1e12", "1e25", "1e100", "1e250", "1e500"],
   //Blue sigils
-  ["1", "5", "20", "100", "500", "1000000", "1e12", "1e25", "1e100", "1e250"],
+  ["1", "5", "20", "100", "500", "1000000", "1e12", "1e25", "1e100", "1e250", "1e500"],
   //Indigo sigils
-  ["1", "5", "20", "100", "500", "1000000", "1e12", "1e25", "1e100", "1e250"],
+  ["1", "5", "20", "100", "500", "1000000", "1e12", "1e25", "1e100", "1e250", "1e500"],
   //Violet sigils
-  ["1", "5", "20", "100", "500", "1000000", "1e12", "1e25", "1e100", "1e250"],
+  ["1", "5", "20", "100", "500", "1000000", "1e12", "1e25", "1e100", "1e250", "1e500"],
   //Pink sigils
-  ["1", "5", "20", "100", "500", "1000000", "1e12", "1e25", "1e100", "1e250"],
+  ["1", "5", "20", "100", "500", "1000000", "1e12", "1e25", "1e100", "1e250", "1e500"],
   //Knowledge
-  ["1", "10", "250", "10000", "1e9", "1e30", "1e100", "1e300"],
+  ["1", "10", "250", "10000", "1e9", "1e30", "1e100", "1e300", "1e750"],
   //Tomes
-  ["1", "10", "100", "1000", "5000"],
+  ["1", "10", "100", "1000", "5000", "15000"],
   //Blue fire
-  ["1000", "1e6", "1e20", "1e35", "1e60"],
+  ["1000", "1e6", "1e20", "1e35", "1e60", "1e100"],
   //Blood
-  ["1", "10000", "5e7", "1e10"],
+  ["1", "10000", "5e7", "1e10", "1e20", "1e30"],
   //Plutonium
-  ["100", "10000", "1e6"],
+  ["100", "10000", "1e6", "1e20"],
   //Red sigils
-  ["1", "20", "1000"],
+  ["1", "20", "1000", "100000"],
   //Orange sigils
-  ["1", "20"],
+  ["1", "20", "1000", "100000"],
+  //Yellow sigils
+  ["1", "20", "1000"],
 ]
 const achievementRewards = {
   //gold
@@ -130,15 +137,18 @@ const achievementRewards = {
   ach10x2: "Keep all magic and dark magic upgrades on sigil reset!",
   //knowledge
   ach11x0: "Unlocks some automation for sigil resets!",
+  ach11x7: "Automatically max all knowledge upgrades!",
   //Tomes
   ach12x2: "Unlocks Max All button for knowledge upgrades!",
   //Blue fire
   ach13x0: "Gain 10% of potential sigils per second!",
   ach13x2: "Unlocks Buy Max buttons for blue fire upgrades!",
+  ach13x4: "Unlocks Max All and Auto Max All for blue fire upgrades!",
   //Blood
   ach14x1: "Automatically gain max tomes, at no cost!",
   //Plutonium
   ach15x0: "Automatically gain knowledge, at no cost!",
+  ach15x3: "Automatically gain plutonium without resetting!",
 }
 const achievementResources = [
   {name:"gold", shortName:"&#8202;&#8202;Gold", internalName:"gold"},
@@ -158,34 +168,36 @@ const achievementResources = [
   {name:"blood", shortName:"Blood", internalName:"blood"},
   {name:"plutonium", shortName:"Plutonium", internalName:"plutonium"},
   {name:"red sigils", shortName:"R-sigils", internalName:"redSigils"},
-  {name:"orange sigils", shortName:"O-sigils", internalName:"orangeSigils"}
+  {name:"orange sigils", shortName:"O-sigils", internalName:"orangeSigils"},
+  {name:"yellow sigils", shortName:"Y-sigils", internalName:"yellowSigils"}
 ]
-const achievementColours = ["#fd0", "#f80", "#bff", "#90d", "#60d", "#8f8", "#06b", "#00b", "#40b", "#60b", "#b0b", "#987", "#965", "#66f", "#f00", "#25e", "#b00", "#b60"]
+const achievementColours = ["#fd0", "#f80", "#bff", "#90d", "#60d", "#8f8", "#06b", "#00b", "#40b", "#60b", "#b0b", "#987", "#965", "#66f", "#f00", "#25e", "#b00", "#b60", "#bb0"]
 //this array tells the display code when each achievement should be visible. each child array corresponds to a value of game.unlocks
 const achievementDisplayUnlocks = [
-  [3,2,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0], //unlock 0 - start
-  [3,2,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0], //unlock 1 - dragon
-  [3,2,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0], //unlock 2 - fire
-  [4,3,2,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0], //unlock 3 - platinum
-  [6,4,3,5,1,0,0,0,0,0,0,0,0,0,0,0,0,0], //unlock 4 - magic
-  [6,4,3,5,1,0,0,0,0,0,0,0,0,0,0,0,0,0], //unlock 5 - magic challenges
-  [7,5,4,6,2,1,0,0,0,0,0,0,0,0,0,0,0,0], //unlock 6 - more magic upgrades
-  [8,6,6,7,3,1,0,0,0,0,0,0,0,0,0,0,0,0], //unlock 7 - uranium
-  [10,6,7,8,4,3,1,0,0,0,0,0,0,0,0,0,0,0], //unlock 8 - more platinum and uranium
-  [10,6,7,8,4,3,1,0,0,0,0,0,0,0,0,0,0,0], //unlock 9 - dark magic
-  [10,6,7,9,4,4,3,1,0,0,0,0,0,0,0,0,0,0], //unlock 10 - cyan sigils
-  [11,7,8,9,5,4,4,4,1,0,0,0,0,0,0,0,0,0], //unlock 11 - blue sigils
-  [12,8,8,10,6,5,5,5,5,1,0,0,0,0,0,0,0,0], //unlock 12 - indigo sigils
-  [12,8,9,11,6,5,5,5,5,5,1,0,0,0,0,0,0,0], //unlock 13 - violet sigils
-  [12,9,9,11,7,5,5,5,5,5,5,1,0,0,0,0,0,0], //unlock 14 - pink sigils
-  [12,10,10,12,8,6,6,6,6,6,6,4,1,0,0,0,0,0], //unlock 15 - knowledge
-  [12,10,10,12,9,7,7,7,7,7,7,5,2,1,0,0,0,0], //unlock 16 - tomes
-  [12,12,12,12,12,10,8,8,8,8,8,7,4,2,1,0,0,0], //unlock 17 - blue fire
-  [12,12,12,12,12,11,9,9,9,9,9,7,5,3,2,1,0,0], //unlock 18 - blood
-  [12,12,12,12,12,11,9,9,9,9,9,7,5,3,2,1,0,0], //unlock 19 - more dark magic upgrades
-  [12,12,12,12,12,12,10,10,10,10,10,8,5,4,3,3,1,0], //unlock 20 - plutonium
+  [3,2,1], //unlock 0 - start
+  [3,2,1], //unlock 1 - dragon
+  [3,2,1], //unlock 2 - fire
+  [4,3,2,1], //unlock 3 - platinum
+  [6,4,3,5,1], //unlock 4 - magic
+  [6,4,3,5,1], //unlock 5 - magic challenges
+  [7,5,4,6,2,1], //unlock 6 - more magic upgrades
+  [8,6,6,7,3,1], //unlock 7 - uranium
+  [10,6,7,8,4,3,1], //unlock 8 - more platinum and uranium
+  [10,6,7,8,4,3,1], //unlock 9 - dark magic
+  [10,6,7,9,4,4,3,1], //unlock 10 - cyan sigils
+  [11,7,8,9,5,4,4,4,1], //unlock 11 - blue sigils
+  [12,8,8,10,6,5,5,5,5,1], //unlock 12 - indigo sigils
+  [12,8,9,11,6,5,5,5,5,5,1], //unlock 13 - violet sigils
+  [12,9,9,11,7,5,5,5,5,5,5,1], //unlock 14 - pink sigils
+  [12,10,10,12,8,6,6,6,6,6,6,4,1], //unlock 15 - knowledge
+  [12,10,10,12,9,7,7,7,7,7,7,5,2,1], //unlock 16 - tomes
+  [12,12,12,12,12,10,8,8,8,8,8,7,4,2,1], //unlock 17 - blue fire
+  [12,12,12,12,12,11,9,9,9,9,9,7,5,3,2,1], //unlock 18 - blood
+  [12,12,12,12,12,11,9,9,9,9,9,7,5,3,2,1], //unlock 19 - more dark magic upgrades
+  [12,12,12,12,12,12,10,10,10,10,10,8,5,4,3,3,1], //unlock 20 - plutonium
   [12,12,12,12,12,12,10,10,10,10,10,8,5,5,4,3,2,1], //unlock 21 - red sigils
-  [12,12,12,12,12,12,10,10,10,10,10,8,5,5,4,3,3,2], //unlock 22 - orange sigils
+  [12,12,12,12,12,12,10,10,10,10,10,8,5,5,4,3,3,2,1], //unlock 22 - orange sigils
+  [12,12,12,12,12,12,11,11,11,11,11,9,6,6,6,4,4,4,3], //unlock 22 - yellow sigils
 ]
 
 //stores position and unlock data for each display tab. structure is [x, y, unlock]

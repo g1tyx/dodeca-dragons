@@ -399,6 +399,14 @@ img {
   display: none;
 }
 
+#knowledgeAutoMaxAllButton {
+  background-color: #c8c0a0;
+  position: absolute;
+  bottom: 2px;
+  right: 85px;
+  display: none;
+}
+
 .tomeUpgrade {
   height: 46px;
   margin: 5px 2px 0 2px;
@@ -409,6 +417,20 @@ img {
 .tomeUpgrade:disabled {
   color: #444;
   text-shadow: 1px 1px 0 #777;
+}
+
+#blueFireMaxAllButton {
+  position: absolute;
+  top: 89px;
+  right: 8px;
+  display: none;
+}
+
+#blueFireAutoMaxAllButton {
+  position: absolute;
+  top: 119px;
+  right: 8px;
+  display: none;
 }
 
 #plutoniumTomeUpgrade {
@@ -495,6 +517,19 @@ img {
 .orangeSigilUpgrade:disabled {
   color: #997044;
   text-shadow: 1px 1px 0 #642;
+}
+
+.yellowSigilUpgrade {
+  height: 46px;
+  margin: 5px 2px 0 2px;
+  background-color: #444;
+  color: #dd4;
+  text-align: left;
+}
+
+.yellowSigilUpgrade:disabled {
+  color: #994;
+  text-shadow: 1px 1px 0 #662;
 }
 
 

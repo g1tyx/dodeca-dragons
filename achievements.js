@@ -251,10 +251,15 @@ function processAchievementRewards() {
   if (game.unlockedAchievements[10] > 1) {document.getElementsByClassName("box")[20].style.display = "block"}
   //knowledge rewards
   if (game.unlockedAchievements[11] > 0) {document.getElementById("sigilResetAutomation").style.display = "block"}
+  if (game.unlockedAchievements[11] > 7) {document.getElementById("knowledgeAutoMaxAllButton").style.display = "block"}
   //tome rewards
   if (game.unlockedAchievements[12] > 2) {document.getElementById("knowledgeMaxAllButton").style.display = "block"}
   //blue fire rewards
   if (game.unlockedAchievements[13] > 2) for (i=0;i<6;i++) document.getElementsByClassName("blueFireBuyMaxButton")[i].style.display = "inline-block"
+  if (game.unlockedAchievements[13] > 4) {
+    document.getElementById("blueFireMaxAllButton").style.display = "block"
+    document.getElementById("blueFireAutoMaxAllButton").style.display = "block";
+  }
 }
 
 function achievementBoxOpen(x,y) {

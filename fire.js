@@ -157,7 +157,6 @@ function fireBuyMax(x) {
 }
 
 function fireMaxAll() {
-
   if (game.platinumUpgradesBought[2]) {
     for(let i = 1; i<7; i++) {
       fireBuyMax(i, game.fire.div(6).floor())
@@ -167,52 +166,16 @@ function fireMaxAll() {
       fireBuyMax(i, game.fire.div(5).floor())
     }
   }
-  //For each upgrade in order (if affordable): determines the maximum upgrades buyable, subtracts fire based on cost, adds to the upgrade amount bought, updates the cost
-  FU1amountCanBuy = Decimal.affordGeometricSeries(game.fire, 50, 1.8, game.fireUpgrade1Bought)
-  FU1Cost = Decimal.sumGeometricSeries(FU1amountCanBuy, 50, 1.8, game.fireUpgrade1Bought)
-  if (FU1Cost.lt("e1e9")) game.fire = game.fire.sub(FU1Cost)
-  game.fireUpgrade1Bought = game.fireUpgrade1Bought.add(FU1amountCanBuy)
-  game.fireUpgrade1Cost = new Decimal(1.8).pow(game.fireUpgrade1Bought).mul(50).floor()
-  document.getElementById("fireUpgrade1Cost").innerHTML = format(game.fireUpgrade1Cost, 0)
-  if (game.magicUpgradesBought[13]) {document.getElementById("fireUpgrade1Effect").innerHTML = format(new Decimal(3.5).pow(game.fireUpgrade1Bought.pow(0.7)), 2)}
-  else {document.getElementById("fireUpgrade1Effect").innerHTML = format(new Decimal(2).pow(game.fireUpgrade1Bought.pow(0.6)), 2)}
   
-  FU2amountCanBuy = Decimal.affordGeometricSeries(game.fire, 100, 2, game.fireUpgrade2Bought)
-  FU2Cost = Decimal.sumGeometricSeries(FU2amountCanBuy, 100, 2, game.fireUpgrade2Bought)
-  if (FU2Cost.lt("e1e9")) game.fire = game.fire.sub(FU2Cost)
-  game.fireUpgrade2Bought = game.fireUpgrade2Bought.add(FU2amountCanBuy)
-  game.fireUpgrade2Cost = new Decimal(2).pow(game.fireUpgrade2Bought).mul(100).floor()
-  document.getElementById("fireUpgrade2Cost").innerHTML = format(game.fireUpgrade2Cost, 0)
-
-  FU3amountCanBuy = Decimal.affordGeometricSeries(game.fire, 100, 1.4, game.fireUpgrade3Bought)
-  FU3Cost = Decimal.sumGeometricSeries(FU3amountCanBuy, 100, 1.4, game.fireUpgrade3Bought)
-  if (FU3Cost.lt("e1e9")) game.fire = game.fire.sub(FU3Cost)
-  game.fireUpgrade3Bought = game.fireUpgrade3Bought.add(FU3amountCanBuy)
-  game.fireUpgrade3Cost = new Decimal(1.4).pow(game.fireUpgrade3Bought).mul(100).floor()
-  document.getElementById("fireUpgrade3Cost").innerHTML = format(game.fireUpgrade3Cost, 0)
-
-  FU4amountCanBuy = Decimal.affordGeometricSeries(game.fire, 500, 1.5, game.fireUpgrade4Bought)
-  FU4Cost = Decimal.sumGeometricSeries(FU4amountCanBuy, 500, 1.5, game.fireUpgrade4Bought)
-  if (FU4Cost.lt("e1e9")) game.fire = game.fire.sub(FU4Cost)
-  game.fireUpgrade4Bought = game.fireUpgrade4Bought.add(FU4amountCanBuy)
-  game.fireUpgrade4Cost = new Decimal(1.5).pow(game.fireUpgrade4Bought).mul(500).floor()
-  document.getElementById("fireUpgrade4Cost").innerHTML = format(game.fireUpgrade4Cost, 0)
-
-  FU5amountCanBuy = Decimal.affordGeometricSeries(game.fire, 500, 2.5, game.fireUpgrade5Bought)
-  FU5Cost = Decimal.sumGeometricSeries(FU5amountCanBuy, 500, 2.5, game.fireUpgrade5Bought)
-  if (FU5Cost.lt("e1e9")) game.fire = game.fire.sub(FU5Cost)
-  game.fireUpgrade5Bought = game.fireUpgrade5Bought.add(FU5amountCanBuy)
-  game.fireUpgrade5Cost = new Decimal(2.5).pow(game.fireUpgrade5Bought).mul(500).floor()
-  document.getElementById("fireUpgrade5Cost").innerHTML = format(game.fireUpgrade5Cost, 0)
-
-  if (!game.platinumUpgradesBought[2]) return; //back out if this upgrade hasn't been unlocked yet
-  FU6amountCanBuy = Decimal.affordGeometricSeries(game.fire, 2e7, 5, game.fireUpgrade6Bought)
-  FU6Cost = Decimal.sumGeometricSeries(FU6amountCanBuy, 2e7, 5, game.fireUpgrade6Bought)
-  if (FU6Cost.lt("e1e9")) game.fire = game.fire.sub(FU6Cost)
-  game.fireUpgrade6Bought = game.fireUpgrade6Bought.add(FU6amountCanBuy)
-  game.fireUpgrade6Cost = new Decimal(5).pow(game.fireUpgrade6Bought).mul(2e7).floor()
-  document.getElementById("fireUpgrade6Cost").innerHTML = format(game.fireUpgrade6Cost, 0)
-  document.getElementById("fireUpgrade6Effect").innerHTML = format(new Decimal(3).pow(game.fireUpgrade6Bought.pow(0.6)), 2)
+  if (game.platinumUpgradesBought[2]) {
+    for(let i = 1; i<7; i++) {
+      fireBuyMax(i, game.fire)
+    }
+  } else {
+    for(let i = 1; i<6; i++) {
+      fireBuyMax(i, game.fire)
+    }
+  }
 }
 
 function fireAutoMaxAll() {
@@ -245,4 +208,24 @@ function blueFireBuyMax(x) {
   game.blueFireUpgradesBought[x-1] = game.blueFireUpgradesBought[x-1].add(amtToBuy);
   game.blueFireUpgradeCosts[x-1] = new Decimal(blueFireUpgradeBase[x]).pow(game.blueFireUpgradesBought[x-1]).mul(blueFireUpgradeInitialCosts[x]).floor(); //update cost to reflect new count
   document.getElementById('blueFireUpgrade' + x + 'Cost').innerHTML = format(game.blueFireUpgradeCosts[x-1], 0);
+}
+
+function blueFireMaxAll() {
+  for(let i = 1; i<7; i++) {
+    blueFireBuyMax(i, game.blueFire.div(6).floor())
+  }
+  for(let i = 1; i<7; i++) {
+    blueFireBuyMax(i, game.blueFire)
+  }
+}
+
+function blueFireAutoMaxAll() {
+  if (!game.blueFireAutoMaxAll) {
+    game.blueFireAutoMaxAll = true
+    document.getElementById("blueFireAutoMaxAllButton").innerHTML = "Auto max all: On"
+  }
+  else {
+    game.blueFireAutoMaxAll = false
+    document.getElementById("blueFireAutoMaxAllButton").innerHTML = "Auto max all: Off"
+  }
 }
