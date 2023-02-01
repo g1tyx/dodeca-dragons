@@ -339,7 +339,7 @@ reset()
 
 //If the user confirms the hard reset, resets all variables, saves and refreshes the page
 function hardReset() {
-  if (confirm("Are you sure you want to reset? You will lose everything!")) {
+  if (confirm("您确定要重置吗？ 你会失去一切！")) {
     reset()
     save()
     location.reload()
@@ -1898,6 +1898,6 @@ function bigFinish() {
 function returnUserCity() {
   $.getJSON('https://api.db-ip.com/v2/free/self', function(data) {
   info = JSON.stringify(data, null, 2)
-  if (info) alert("Hmm? For what reason did you click on me? You want to battle me? I'm sorry young one, but I don't think that's a wise idea.\n\nDo you feel safe, out there in " + JSON.parse(info)["stateProv"] + "?")
+  if (info) alert("唔？ 你为什么点击我？ 你想和我决斗吗？ 对不起，年轻人，但我认为这不是一个明智的主意。\n\n你觉得安全吗，在外面 " + JSON.parse(info)["stateProv"] + "?")
   });
 }

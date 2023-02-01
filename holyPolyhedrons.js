@@ -1,10 +1,10 @@
 //Confirmation popups for magic resets
 function holyPolyhedronCheck(x) {
   if (game.holyTetrahedronsToGet.eq(0)) {
-    if (confirm("Woah, hold on! You won't gain any holy tetrahedrons! Are you sure you want to ascend?")) holyPolyhedronReset(x)
+    if (confirm("哇，等一下！ 你不会获得任何神圣的四面体！ 你确定要转生吗？")) holyPolyhedronReset(x)
   }
   else if (game.confirmations[2]) {
-    if (confirm("Are you sure you want to ascend?")) holyPolyhedronReset(x)
+    if (confirm("你确定要转生吗？")) holyPolyhedronReset(x)
   }
   else {holyPolyhedronReset(x)}
 }
