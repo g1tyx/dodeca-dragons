@@ -10,7 +10,7 @@ function sigilCheck(x) {
 }
 
 function sigilReset(x, triggerLayer = "sigil") {
-  if (x<=8) {
+  if (x<=8 && x>0) {
     let sigilName = sigilColours[x - 1] + "Sigils";
     let sigilsGained = game[sigilName + "ToGet"];
     if (sigilsGained.isNan()) {
@@ -28,7 +28,7 @@ function sigilReset(x, triggerLayer = "sigil") {
   //}
   checkAchievements()
   magicReset(triggerLayer)
-  if (game.unlockedAchievements[7] <= 2) {
+  if (triggerLayer == "holyPolyhedron" || game.unlockedAchievements[7] <= 2) {
     for (i=0;i<9;i++) {
       if (i!=2) {
         game.platinumUpgradesBought[i] = 0
@@ -38,7 +38,7 @@ function sigilReset(x, triggerLayer = "sigil") {
     }
     document.getElementsByClassName("platinumUpgradesBought")[2].innerHTML = "1"
   }
-  if (game.unlockedAchievements[8] <= 1) {
+  if (triggerLayer == "holyPolyhedron" || game.unlockedAchievements[8] == 0) {
     for (i=0;i<5;i++) {
       game.uraniumUpgradesBought[i] = 0
       document.getElementsByClassName("uraniumUpgradesBought")[i].innerHTML = "0"
@@ -47,14 +47,10 @@ function sigilReset(x, triggerLayer = "sigil") {
   }
   
   game.magic = new Decimal(0)
-  if (game.unlockedAchievements[8] > 0) {
+  if (triggerLayer != "holyPolyhedron" && game.unlockedAchievements[7] > 1) {
     //do nothing :D
-  } else if (game.unlockedAchievements[7] > 0) {
-    game.magicScore1 = game.magicScore1.sqrt();
-    game.magicScore2 = game.magicScore2.sqrt();
-    game.magicScore3 = game.magicScore3.sqrt();
-    game.magicScore4 = game.magicScore4.sqrt();
-  } else {
+  }
+  else {
     game.magicScore1 = new Decimal(0)
     game.magicScore2 = new Decimal(0)
     game.magicScore3 = new Decimal(0)
@@ -76,20 +72,27 @@ function sigilReset(x, triggerLayer = "sigil") {
   else {document.getElementById("magifoldEffect").innerHTML = format(game.magifolds.pow(4), 2)}
   document.getElementsByClassName("resourceText")[5].innerHTML = format(game.magifolds, 0)
 
-  if (game.unlockedAchievements[10] <= 2) {
+  if (triggerLayer == "holyPolyhedron" || game.unlockedAchievements[10] <= 2) {
     for (i=0;i<19;i++) {
-      if (i!=1 && i!=4 && i!=7 && i!=11) {
+      if (i!=1 && i!=4 && i!=7 && i!=10 && i!=11) {
         game.magicUpgradesBought[i] = false
         document.getElementsByClassName("magicUpgrade")[i].disabled = false
       }
+      if (game.unlockedAchievements[7] <= 2) {
+        game.magicUpgradesBought[10] = false
+        document.getElementsByClassName("magicUpgrade")[10].disabled = false
+      }
     }
-    for (i=0;i<7;i++) {
-      game.darkMagicUpgradesBought[i] = false  
-      document.getElementsByClassName("darkMagicUpgrade")[i].disabled = false
+    for (i=0;i<20;i++) {
+      if (i!=7) {
+        game.darkMagicUpgradesBought[i] = false  
+        document.getElementsByClassName("darkMagicUpgrade")[i].disabled = false
+      }
     }
   }
   
   game.uranium = new Decimal(0)
+  game.bestUraniumToGet = new Decimal(0)
   
   game.dragonTimeSpent = new Decimal(0)
   document.getElementById("dragonTimeSpent").innerHTML = format(game.dragonTimeSpent, 0)
@@ -430,6 +433,18 @@ function buyYellowSigilUpgrade(x) {
     game.yellowSigilUpgrade3Cost = new Decimal(3).pow(game.yellowSigilUpgradesBought[2]).mul(2000000).floor()
     document.getElementById("yellowSigilUpgrade3Cost").innerHTML = format(game.yellowSigilUpgrade3Cost, 0)
     document.getElementById("yellowSigilUpgrade3Effect").innerHTML = format(new Decimal(15).pow(game.yellowSigilUpgradesBought[2].pow(0.5)), 2)
+  }
+  else if (x==4 && game.yellowSigilPower.gte(1e12)) {
+    game.yellowSigilPower = game.yellowSigilPower.sub(1e12)
+    game.yellowSigilUpgradesBought[3] = new Decimal(1)
+    game.confirmations[2] = true
+    document.getElementsByClassName("confirmationToggle")[2].style.display = "inline-block"
+    document.getElementsByClassName("yellowSigilUpgrade")[3].disabled = true
+    document.getElementsByClassName("box")[29].style.display = "block"
+    document.getElementsByClassName("box")[30].style.display = "block"
+    document.getElementsByClassName("resourceRow")[20].style.display = "block"
+    holyTetrahedronUnlockCheck()
+    addUnlock() //sets unlock to 24
   }
 }
 

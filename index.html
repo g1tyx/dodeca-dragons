@@ -10,6 +10,7 @@
   <meta content="https://demonins-item-shop.demonin.repl.co/games/dodecaDragons/" property="og:url" />
   <meta content="img/logo.png" property="og:image" />
   <meta content="#408000" data-react-helmet="true" name="theme-color" />
+  <meta name="color-scheme" content="light only">
   <title>DodecaDragons</title>
   <link rel="icon" type="image/x-icon" href="img/iconGoldCoins.png">
   <link rel="stylesheet" href="98.css" />
@@ -47,6 +48,9 @@
     style="width: 150px; top: 55px; left: 5px; transform: none; padding-bottom: 8px; z-index: 1; display: none;">
     <div class="title-bar" style="background-image: linear-gradient(90deg,grey,#b5b5b5);">
       <div class="title-bar-text">Settings</div>
+      <div class="title-bar-controls">
+        <button aria-label="Close" style="background-image: url('img/close.svg'); background-repeat: no-repeat; background-position: 3px 3px" onclick="changeTab(0)"></button>
+      </div>
     </div>
     <div class="window-body">
       <button style="width: 142px; margin-top: 4px" onclick="save()">&#8202;&#8202;Manual save</button><br>
@@ -66,6 +70,8 @@
             onclick="toggleConfirmations(1)"></div>
           <div class="confirmationToggle" style="background-image: url('img/iconSigil1.png'); display: none;"
             onclick="toggleConfirmations(2)"></div>
+          <div class="confirmationToggle" style="background-image: url('img/iconPolyhedronSmall1.png'); display: none;"
+            onclick="toggleConfirmations(3)"></div>
         </center>
       </div>
     </div>
@@ -75,6 +81,9 @@
   <div class="window box" style="width: 200px; top: 55px; left: 5px; transform: none; padding-bottom: 8px; z-index: 1">
     <div class="title-bar">
       <div class="title-bar-text">Resources</div>
+      <div class="title-bar-controls">
+        <button aria-label="Close" style="background-image: url('img/close.svg'); background-repeat: no-repeat; background-position: 3px 3px" onclick="changeTab(0)"></button>
+      </div>
     </div>
     <div class="window-body" style="max-height: 90vh; overflow: auto">
       <p class="resourceRow"><img src="img/iconGoldCoins.png" class="resourceIcon"></img>Gold: <a class="resourceText">0</a></p>
@@ -97,6 +106,7 @@
       <p class="resourceRow" style="display: none"><img src="img/iconSigil6.png" class="resourceIcon"></img>Red sigils: <a class="resourceText">0</a></p>
       <p class="resourceRow" style="display: none"><img src="img/iconSigil7.png" class="resourceIcon"></img>Orange sigils: <a class="resourceText">0</a></p>
       <p class="resourceRow" style="display: none"><img src="img/iconSigil8.png" class="resourceIcon"></img>Yellow sigils: <a class="resourceText">0</a></p>
+      <p class="resourceRow" style="display: none"><img src="img/iconPolyhedronSmall1.png" class="resourceIcon"></img>Holy Tetrahedrons: <a class="resourceText">0</a></p>
     </div>
   </div>
 
@@ -126,7 +136,8 @@
         dragon with the power of darkness<br>Multiplies fire gain by 10,000<br>Costs 1.00e25 gold</button>
       <button class="upgradeDragonButton" style="height: 46px; display: none;" onclick="upgradeDragon(4)">Infuse your
         dragon with the power of light<br>Multiplies fire gain by 10,000,000<br>Costs 1.00e150 gold</button>
-      <button class="upgradeDragonButton" style="height: 46px; display: none; background-color: #444; color: #ccc" onclick="upgradeDragon(5)">Enhance your dragon with incomprehensible machinery<br>&#8202;&#8202;Multiplies blue fire gain by 100<br>Costs e1.50e11 gold</button>
+      <button class="upgradeDragonButton" style="height: 46px; display: none; background-color: #444; color: #bbe" onclick="upgradeDragon(5)">Enhance your dragon with incomprehensible machinery<br>&#8202;&#8202;Multiplies blue fire gain by 100<br>Costs e1.50e11 gold</button>
+      <button class="upgradeDragonButton" style="height: 46px; display: none; background-color: #ffd; color: #08f" onclick="upgradeDragon(6)">Ascend your dragon with the power of the heavens themselves!<br>Multiplies blue fire gain by 1.00e50<br>&#8202;&#8202;Costs e1.00e55 gold</button>
       <div id="dragonAffectionStuff" style="display: none">
         <hr>
         <p>Your dragon is seeking affection!<br>(You cannot do anything with your dragon while inside challenges)</p><br>
@@ -137,7 +148,7 @@
       </div>
       <div id="dragonPetStuff" style="display: none">
         <button id="dragonPetButton" onclick="dragonPet()"><b>Pet your dragon!</b><br>Why does this cost, you ask? Stop asking so many questions!<br>Next pet costs 250 <a id="dragonPetRequirement">cyan</a> sigils</button>
-        <p style="margin-top: 3px">You have pet your dragon <a id="dragonPets">0</a> times, multiplying sigil gain by <a id="dragonPetEffect" style="color: #603">1.000</a></p>
+        <p style="margin-top: 3px">You have petted your dragon <a id="dragonPets">0</a> times, multiplying sigil gain by <a id="dragonPetEffect" style="color: #603">1.000</a></p>
       </div>
     </div>
   </div>
@@ -178,14 +189,14 @@
   </div>
 
   <!--Alchemy tab-->
-  <div class="window box" id="tab_platinum" style="width: 250px; height: 500px; display: none;">
+  <div class="window box" id="tab_platinum" style="width: 260px; height: 500px; display: none;">
     <div class="title-bar">
       <div class="title-bar-text">Alchemy</div>
     </div>
     <div class="window-body">
       <button id="platinumConvertButton" onclick="platinumConvert()">Convert all gold into <a id="platinumToGet">0</a>
         platinum (<a id="platinumConvertCooldown">0</a>)</button>
-      <p style="margin-top: 4px">You have <a id="platinum">0</a> platinum</p><br>
+      <p style="margin-top: 4px">You have <a id="platinum">0</a> platinum<br>+ Gain <a id="extraPlatinumPerSecond">2</a> extra platinum per second :)</p><br>
       <button class="platinumUpgrade" onclick="buyPlatinumUpgrade(1)">Gain 20% more gold/second (<a
           class="platinumUpgradesBought">0</a>/20)<br>Costs 200 platinum</button><br>
       <button class="platinumUpgrade" onclick="buyPlatinumUpgrade(2)">Gain 20% more fire/second (<a
@@ -194,7 +205,7 @@
           class="platinumUpgradesBought">0</a>/1)<br>Costs 750 platinum</button><br>
       <button class="platinumUpgrade" onclick="buyPlatinumUpgrade(4)">Miner cost scales 5% slower (<a
           class="platinumUpgradesBought">0</a>/5)<br>Costs 1,500 platinum</button><br>
-      <button class="platinumUpgrade" onclick="buyPlatinumUpgrade(5)"> Automatically gain platinum every second (<a
+      <button class="platinumUpgrade" onclick="buyPlatinumUpgrade(5)" style="height: 46px"> Automatically gain platinum every second without<br>resetting (<a
           class="platinumUpgradesBought">0</a>/1)<br>Costs 2,000 platinum</button><br>
       <button class="platinumUpgrade" onclick="buyPlatinumUpgrade(6)" style="height: 46px">Platinum increases
         gold/second (<a class="platinumUpgradesBought">0</a>/4)<br>Currently x<a
@@ -330,15 +341,14 @@
   </div>
 
   <!--Alchemy tab II-->
-  <div class="window box" id="tab_uranium" style="width: 250px; height: 500px; display: none;">
+  <div class="window box" id="tab_uranium" style="width: 260px; height: 500px; display: none;">
     <div class="title-bar">
       <div class="title-bar-text">Alchemy II</div>
     </div>
     <div class="window-body">
       <button id="uraniumConvertButton" onclick="uraniumConvert()">Convert all platinum into <a
           id="uraniumToGet">0</a> uranium (<a id="uraniumConvertCooldown">0</a>)</button>
-      <p style="margin-top: 4px">You have <a id="uranium">0</a> uranium<br>You gain 1 free uranium per second (but
-        only 1)<br>Uranium upgrades are kept on magic resets.</p><br>
+      <p style="margin-top: 4px">You have <a id="uranium">0</a> uranium<br>+ Gain <a id="extraUraniumPerSecond">1</a> extra uranium per second :D<br>Uranium upgrades are kept on magic resets.</p><br>
       <button class="uraniumUpgrade" style="height: 46px" onclick="buyUraniumUpgrade(1)">Increase platinum gain by 20%
         (multiplicative)<br>(<a class="uraniumUpgradesBought">0</a>/100)<br>Costs 100 uranium</button><br>
       <button class="uraniumUpgrade" onclick="buyUraniumUpgrade(2)">Increase uranium gain by 10% (additive) (<a
@@ -376,9 +386,9 @@
       <button class="darkMagicUpgrade" id="sigilMagicUpgrade" onclick="buyDarkMagicUpgrade(8)">Unlock
         <b>Sigils</b><br>Costs 1.00e450 magic</button>
       <button class="darkMagicUpgrade" style="display: none" onclick="buyDarkMagicUpgrade(9)">Triple cyan and blue
-        sigil gain<br>Costs e125,000 magic</button>
+        sigil gain<br>Costs e120,000 magic</button>
       <button class="darkMagicUpgrade" style="display: none" onclick="buyDarkMagicUpgrade(10)">Increase magic gain by
-        ^1.10<br>Costs e150,000 magic</button>
+        ^1.10<br>Costs e140,000 magic</button>
       <button class="darkMagicUpgrade" style="display: none" onclick="buyDarkMagicUpgrade(11)">Blood multiplies blue fire gain<br>Currently x<a id="darkMagicUpgrade11Effect">1.00</a><br>Costs e300,000,000 magic</button>
       <button class="darkMagicUpgrade" style="display: none" onclick="buyDarkMagicUpgrade(12)">Blood multiplies its own gain<br>Currently x<a id="darkMagicUpgrade12Effect">1.00</a><br>Costs e450,000,000 magic</button>
       <button class="darkMagicUpgrade" style="display: none" onclick="buyDarkMagicUpgrade(13)">Platinum gain is increased by ^666<br>Costs e500,000,000 magic</button>
@@ -524,6 +534,9 @@
   <div class="window box" style="width: 200px; top: 55px; left: 5px; transform: none; z-index: 1; display: none">
     <div class="title-bar" style="background: linear-gradient(90deg,#800000,#ad5a5a)">
       <div class="title-bar-text">LIVE HORROR CAM</div>
+      <div class="title-bar-controls">
+        <button aria-label="Close" style="background-image: url('img/close.svg'); background-repeat: no-repeat; background-position: 3px 3px" onclick="changeTab(0)"></button>
+      </div>
     </div>
       <div class="window-body">
         <img src="img/theHorror.gif" style="width: 100%; margin: 0">
@@ -550,7 +563,7 @@
           on sigil reset)<br>Costs 100,000 PSP</button>
         <button class="pinkSigilUpgrade" onclick="buyPinkSigilUpgrade(3)">Increase score gain<br>Currently ^<a
             id="pinkSigilUpgrade3Effect">1.00</a><br>Costs <a id="pinkSigilUpgrade3Cost">500,000</a> PSP</button>
-        <button class="pinkSigilUpgrade" onclick="buyPinkSigilUpgrade(4)">Unlock <b>knowledge</b><br>Costs 100,000,000 PSP</button>
+        <button class="pinkSigilUpgrade" onclick="buyPinkSigilUpgrade(4)">Unlock <b><a style="color: #987">knowledge</a></b><br>Costs 100,000,000 PSP</button>
       </div>
     </div>
   </div>
@@ -560,13 +573,16 @@
   <div class="window box" style="min-width: 250px; top: 55px; left: 5px; transform: none; z-index: 1; display: none">
     <div class="title-bar">
       <div class="title-bar-text">Achievements</div>
+      <div class="title-bar-controls">
+        <button aria-label="Close" style="background-image: url('img/close.svg'); background-repeat: no-repeat; background-position: 3px 3px" onclick="changeTab(0)"></button>
+      </div>
     </div>
     <div class="window-body" style="max-width: 90vw; max-height: calc(95vh - 50px); overflow: auto; scrollbar-gutter: stable">
       <div id="achievementInfo">
         <p style="font-size: 22px; line-height: 22px; margin: 4px">Achievement name</p>
         <p>Acquire X of resource Y</p>
       </div>
-      <div id="achievementsDiv" style="margin-top: 86px; margin-left: 4px; margin-bottom: 4px"></div>
+      <div id="achievementsDiv" style="margin-top: 101px; margin-left: 4px; margin-bottom: 4px"></div>
     </div>
   </div>
 
@@ -644,22 +660,22 @@
         <input type="checkbox" id="sigilResetterActive" onchange="updateSigilResetter()" tabindex="-1">
         <label for="sigilResetterActive">Enabled</label> <br>
         Colour: <select id="sigilResetterType" onchange="updateSigilResetter()" tabindex="-1">
-          <option value="Cyan">Cyan</option>
-          <option value="Blue">Blue</option>
-          <option value="Indigo">Indigo</option>
-          <option value="Violet">Violet</option>
-          <option value="Pink">Pink</option>
+          <option>Cyan</option>
+          <option>Blue</option>
+          <option>Indigo</option>
+          <option>Violet</option>
+          <option>Pink</option>
         </select>
         <input type="checkbox" id="sigilResetterCycle" onchange="updateSigilResetter()" tabindex="-1">
         <label for="sigilResetterCycle">Cycle Colour on Reset</label> <br>
         Mode: <select id="sigilResetterMode" onchange="updateSigilResetter(true)" tabindex="-1">
-          <option value="Potential Sigil Amount">Potential Sigil Amount</option>
-          <option value="Gold Amount">Gold Amount</option>
-          <option value="Seconds Since Reset">Seconds Since Reset</option>
+          <option>Potential Sigil Amount</option>
+          <option>Gold Amount</option>
+          <option>Seconds Since Reset</option>
         </select><br>
         <input id="sigilResetterAmount" style="width: 200px; background-color: #cbc0b8; text-align: center; font-weight: bold" placeholder="amount" onchange="updateSigilResetter()" tabindex="-1"></input>
-       
-      </div><br><br>
+      <br><br>
+      </div>
       <button style="margin-top: 4px; display: block" onclick="maxAllSigilUpgrades()">Max cyan to pink sigil upgrades</button>
       <button id="maxRedSigilUpgradesButton" style="margin-top: 4px; background-color: #d77; display: none" onclick="maxRedSigilUpgrades()">Max red sigil upgrades</button>
       <button id="maxOrangeSigilUpgradesButton" style="margin-top: 4px; background-color: #da7; display: none" onclick="maxOrangeSigilUpgrades()">Max orange sigil upgrades</button>
@@ -752,20 +768,20 @@
   </div>
 
   <!--Alchemy tab III-->
-  <div class="window box" id="tab_plutonium" style="width: 250px; height: 500px; display: none;">
+  <div class="window box" id="tab_plutonium" style="width: 260px; height: 500px; display: none;">
     <div class="title-bar">
       <div class="title-bar-text">Alchemy III</div>
     </div>
     <div class="window-body">
       <button id="plutoniumConvertButton" onclick="plutoniumConvert()">Convert all uranium into <a
           id="plutoniumToGet">0</a> plutonium (<a id="plutoniumConvertCooldown">0</a>)</button>
-      <p style="margin-top: 4px">You have <a id="plutonium">0</a> plutonium<br>You gain 1 free plutonium per second (but
-        only 1)<br>Plutonium upgrades are kept on magic resets.</p><br>
+      <p style="margin-top: 4px">You have <a id="plutonium">0</a> plutonium<br>+ Gain <a id="extraPlutoniumPerSecond">0</a> extra plutonium per second :O<br>Plutonium upgrades are kept on magic resets.</p><br>
       <button class="plutoniumUpgrade" onclick="buyPlutoniumUpgrade(1)">Increase plutonium gain by 5% (additive) (<a class="plutoniumUpgradesBought">0</a>/40)<br>Costs 200 plutonium</button><br>
       <button class="plutoniumUpgrade" style="height: 46px" onclick="buyPlutoniumUpgrade(2)">Increase magic effect (<a class="plutoniumUpgradesBought">0</a>/8)<br>Currently ^<a id="plutoniumUpgrade2Effect">1.00</a><br>Costs 400 plutonium</button><br>
       <button class="plutoniumUpgrade" style="height: 46px" onclick="buyPlutoniumUpgrade(3)">Plutonium increases sigil gain (<a class="plutoniumUpgradesBought">0</a>/4)<br>Currently x<a id="plutoniumUpgrade3Effect">1.00</a><br>Costs 800 plutonium</button><br>
       <button class="plutoniumUpgrade" style="height: 46px" onclick="buyPlutoniumUpgrade(4)">Increase blue fire gain by 50% (multiplicative)<br>(<a class="plutoniumUpgradesBought">0</a>/10)<br>Costs 5,000 plutonium</button><br>
       <button class="plutoniumUpgrade" style="height: 46px" onclick="buyPlutoniumUpgrade(5)">Increase blue fire gain by another 25%<br>(multiplicative) (<a class="plutoniumUpgradesBought">0</a>/20)<br>Costs 50,000 plutonium</button><br>
+      <button id="plutoniumMaxAllButton" onclick="plutoniumMaxAll()">Max all</button>
     </div>
   </div>
 
@@ -822,12 +838,15 @@
   <div class="window box" style="width: 300px; top: 55px; left: 5px; transform: none; padding-bottom: 8px; z-index: 1; display: none">
     <div class="title-bar">
       <div class="title-bar-text">Info/credits</div>
+      <div class="title-bar-controls">
+        <button aria-label="Close" style="background-image: url('img/close.svg'); background-repeat: no-repeat; background-position: 3px 3px" onclick="changeTab(0)"></button>
+      </div>
     </div>
     <div class="window-body" style="max-height: calc(95vh - 50px); overflow: auto">
       <div style="margin-top: 8px; background-color: #111; width: 100%; border-top: 4px solid #666; border-bottom: 4px solid #666">
-        <p style="text-align: center"><a class="titleText" style="font-size: 36px; color: #ca1; text-shadow: 3px 3px #555">DodecaDragons</a><br><a style="color: #666">v0.7.4 <span id="inDevSpan"></span></a></p>
+        <p style="text-align: center"><a class="titleText" style="font-size: 36px; color: #ca1; text-shadow: 3px 3px #555">DodecaDragons</a><br><a style="color: #666">v0.8.0 <span id="inDevSpan"></span></a></p>
       </div>
-      <p style="margin-top: 6px">Created by <a style="color: #408">Demonin</a><br>Co-developed by <a style="color: #808">Cornucanis</a></p>
+      <p style="margin-top: 6px">Created by <a style="color: #50a">Demonin</a><br>Co-developed by <a style="color: #a0a">Cornucanis</a><br>Additional spriting by <a style="color: #a00">Zaxolotl</a></p>
       <p style="color: #666">Move around by clicking and dragging.<br>If you find the text is too small,
         you might want to zoom in the window :)</p>
       <p style="text-align: center">&#8202;&#8202;Time played: <a id="timePlayed">0:00:00</a></p>
@@ -835,6 +854,7 @@
       <p style="font-weight: bold; text-align: center; margin-top: 0; margin-bottom: 0; font-size: 16px; color: #666">Hotkeys</p>
       <span id="hotkeySpan">
       </span>
+      <p style="color: #666">You can also press/hold enter to repeat the last button you pressed!</p>
       <hr>
       <p style="text-align: center; color: #008; margin-bottom: 4px">&#8202;&#8202;Want to discuss or suggest for<br>&#8202;&#8202;the game? Feel free to join our<br>discord community!</p>
       <center><a href="https://discord.gg/7PChmUV3wk" target="_blank"><img src="img/discordIcon.png" style="pointer-events: auto"></a></center>
@@ -861,8 +881,42 @@
             id="yellowSigilUpgrade2Effect">1.00</a><br>Costs <a id="yellowSigilUpgrade2Cost">4,000</a> YSP</button>
         <button class="yellowSigilUpgrade" onclick="buyYellowSigilUpgrade(3)">Increase blood gain again<br>Currently x<a
             id="yellowSigilUpgrade3Effect">1.00</a><br>Costs <a id="yellowSigilUpgrade3Cost">2,000,000</a> YSP</button>
-        <button class="yellowSigilUpgrade" style="display: none" onclick="buyYellowSigilUpgrade(4)">Unlock <a style="color: #ddf">HOLY TETRAHEDRONS</a><br>Costs 1.00e12 YSP</button>
+        <button class="yellowSigilUpgrade" onclick="buyYellowSigilUpgrade(4)">Unlock <a style="color: #ddf">HOLY TETRAHEDRONS</a><br>Costs 1.00e12 YSP</button>
       </div>
+    </div>
+  </div>
+
+  <!--Holy Tetrahedron tab-->
+  <div class="window box" id="tab_holyTetrahedrons" style="width: 450px; height: 170px; display: none; background-color: #e9e9d2;">
+    <div class="title-bar" style="position: relative; background:linear-gradient(90deg,#288,#6dd); z-index: 1">
+      <div class="title-bar-text">Holy tetrahedrons</div>
+    </div>
+    <div class="window-body">
+      <div style="position: absolute; top: 2px; left: 2px; width: 400px; height: 128px; background-image: url('img/ariZonaBack2.png'); z-index: 0"></div>
+      <img src="img/iconPolyhedron1.gif" style="position: absolute; top: 26px; left: 8px; width: 128px;">
+      <div style="position: relative; margin-left: 144px; margin-top: 8px; width: 292px; height: 64px; background-color: #eec; border: 4px outset #6dd; z-index: 1">
+        <p class="titleText" style="color: #466">You have <a id="holyTetrahedrons">0</a><br>holy tetrahedrons</p>
+      </div><br>
+      <button onclick="holyPolyhedronCheck(1)" style="margin-left: 169px; width: 249px; height: 50px; text-align: left; background-color: #bdd; border: 2px outset #6dd;">Reset all previous progress and <a style="color: #660; font-weight: bold">ASCEND</a><br>You will gain <a id="holyTetrahedronsToGet" style="color: #066">0</a> holy tetrahedrons<br>Next at <a id="nextHolyTetrahedron">e1.00e30</a> gold</button>
+    </div>
+  </div>
+
+  <!--Holy Tetrahedron tree tab-->
+  <div class="window box" id="tab_holyTetrahedronTree" style="width: 450px; height: 420px; display: none; background-color: #e9e9d2; background-image: url('img/ariZonaBack.png');">
+    <div class="title-bar" style="position: relative; background:linear-gradient(90deg,#288,#6dd); z-index: 1">
+      <div class="title-bar-text">Holy tetrahedron tree</div>
+    </div>
+    <div class="window-body">
+      <button class="holyTreeUpgrade" onclick="buyHolyTetrahedronUpgrade(1)" style="border: 3px solid #66f; bottom: 10px; left: 153px"><b>Blue fire gain is<br>&#8202;&#8202;squared</b><br>Costs 1 tetrahedron</button>
+      <button class="holyTreeUpgrade" onclick="buyHolyTetrahedronUpgrade(2)" style="border: 3px solid #94e; bottom: 90px; left: 3px"><b>&#8202;&#8202;Score gain is<br>&#8202;&#8202;squared</b><br>Costs 1 tetrahedron</button>
+      <button class="holyTreeUpgrade" onclick="buyHolyTetrahedronUpgrade(3)" style="border: 3px solid #4af; bottom: 90px; left: 153px"><b>Cyan sigil gain is<br>&#8202;&#8202;multiplied by<br>&#8202;&#8202;1.00e50</b><br>Costs 1 tetrahedron</button>
+      <button class="holyTreeUpgrade" onclick="buyHolyTetrahedronUpgrade(4)" style="border: 3px solid; border-color: #d22 #d72 #dd2 #d72; bottom: 90px; left: 303px"><b>&#8202;&#8202;R-O-Y sigil gain is multiplied by 10</b><br>Costs 1 tetrahedron</button>
+      <button class="holyTreeUpgrade" onclick="buyHolyTetrahedronUpgrade(5)" style="border: 3px solid #8ff; bottom: 170px; left: 3px"><b>&#8202;&#8202;Platinum gain is multiplied by 1e20</b><br>&#8202;&#8202;Costs 2 tetrahedrons</button>
+      <button class="holyTreeUpgrade" onclick="buyHolyTetrahedronUpgrade(6)" style="border: 3px solid #8f8; bottom: 170px; left: 153px"><b>Uranium gain is<br>&#8202;&#8202;multiplied by 100</b><br>&#8202;&#8202;Costs 2 tetrahedrons</button>
+      <button class="holyTreeUpgrade" onclick="buyHolyTetrahedronUpgrade(7)" style="border: 3px solid #f00; bottom: 170px; left: 303px"><b>Blood gain is always at least 1.00e9/s</b><br>&#8202;&#8202;Costs 2 tetrahedrons</button>
+      <button class="holyTreeUpgrade" onclick="buyHolyTetrahedronUpgrade(8)" style="border: 3px solid #a86; bottom: 250px; left: 78px"><b>&#8202;&#8202;Knowledge gain is<br>&#8202;&#8202;multiplied by 1.00e150</b><br>&#8202;&#8202;Costs 5 tetrahedrons</button>
+      <button class="holyTreeUpgrade" onclick="buyHolyTetrahedronUpgrade(9)" style="border: 3px solid #d0d; bottom: 250px; left: 228px"><b>&#8202;&#8202;Pink sigil gain is<br>&#8202;&#8202;squared</b><br>&#8202;&#8202;Costs 5 tetrahedrons</button>
+      <button class="holyTreeUpgrade" onclick="buyHolyTetrahedronUpgrade(10)" style="border: 3px solid #f80; bottom: 330px; left: 153px"><b>Fire gain is increased by ^10,000</b><br>&#8202;&#8202;Costs 15 tetrahedrons</button>
     </div>
   </div>
 
@@ -905,6 +959,7 @@
   <!--<div id="testdiv" class="window box"> Hello world </div>-->
 
   <!--List o' scripts-->
+  <script src="jquery-3.6.0.min.js"></script>
   <script src="break_eternity.js"></script>
   <script src="Mousetrap.js"></script>
   <script src="constants.js"></script>
@@ -918,12 +973,12 @@
   <script src="sigils.js"></script>
   <script src="knowledge.js"></script>
   <script src="blood.js"></script>
+  <script src="holyPolyhedrons.js"></script>
   <script src="achievements.js"></script>
   <script src="hotkeys.js"></script>
   <script src="render.js"></script>
   <script>load(); if (!isDevVersion) setAutoSave()</script>
 <!--客服 开始-->
-<script src="//g8hh.github.io/static/js/jquery.min.js"></script>
 <link rel="stylesheet" href="//g8hh.github.io/static/css/kf.css" type="text/css" media="screen" charset="utf-8">
 <script src="//g8hh.github.io/static/js/kf.js"></script>
 <!-- 客服 结束 -->

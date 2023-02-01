@@ -300,3 +300,41 @@ function buyPlutoniumUpgrade(x) {
     if (game.plutoniumUpgradesBought[4] == 20) document.getElementsByClassName("plutoniumUpgrade")[4].disabled = true
   }
 }
+
+function plutoniumMaxAll() {
+  //For each upgrade in order (if affordable): determines the maximum upgrades buyable, subtracts plutonium based on cost, adds to the upgrade amount bought (up to the maximum), disables button if maximum amount is reached
+  PU1AmountCanBuy = game.plutonium.div(200).floor()
+  PU1AmountToBuy = Decimal.min(PU1AmountCanBuy, 40 - game.plutoniumUpgradesBought[0]).toNumber()
+  game.plutonium = game.plutonium.sub(PU1AmountToBuy * 200)
+  game.plutoniumUpgradesBought[0] += PU1AmountToBuy
+  document.getElementsByClassName("plutoniumUpgradesBought")[0].innerHTML = game.plutoniumUpgradesBought[0]
+  if (game.plutoniumUpgradesBought[0] == 40) document.getElementsByClassName("plutoniumUpgrade")[0].disabled = true
+
+  PU2AmountCanBuy = game.plutonium.div(400).floor()
+  PU2AmountToBuy = Decimal.min(PU2AmountCanBuy, 8 - game.plutoniumUpgradesBought[1]).toNumber()
+  game.plutonium = game.plutonium.sub(PU2AmountToBuy * 400)
+  game.plutoniumUpgradesBought[1] += PU2AmountToBuy
+  document.getElementsByClassName("plutoniumUpgradesBought")[1].innerHTML = game.plutoniumUpgradesBought[1]
+  if (game.plutoniumUpgradesBought[1] == 8) document.getElementsByClassName("plutoniumUpgrade")[1].disabled = true
+
+  PU3AmountCanBuy = game.plutonium.div(800).floor()
+  PU3AmountToBuy = Decimal.min(PU3AmountCanBuy, 4 - game.plutoniumUpgradesBought[2]).toNumber()
+  game.plutonium = game.plutonium.sub(PU3AmountToBuy * 800)
+  game.plutoniumUpgradesBought[2] += PU3AmountToBuy
+  document.getElementsByClassName("plutoniumUpgradesBought")[2].innerHTML = game.plutoniumUpgradesBought[2]
+  if (game.plutoniumUpgradesBought[2] == 4) document.getElementsByClassName("plutoniumUpgrade")[2].disabled = true
+
+  PU4AmountCanBuy = game.plutonium.div(5000).floor()
+  PU4AmountToBuy = Decimal.min(PU4AmountCanBuy, 10 - game.plutoniumUpgradesBought[3]).toNumber()
+  game.plutonium = game.plutonium.sub(PU4AmountToBuy * 5000)
+  game.plutoniumUpgradesBought[3] += PU4AmountToBuy
+  document.getElementsByClassName("plutoniumUpgradesBought")[3].innerHTML = game.plutoniumUpgradesBought[3]
+  if (game.plutoniumUpgradesBought[3] == 10) document.getElementsByClassName("plutoniumUpgrade")[3].disabled = true
+
+  PU5AmountCanBuy = game.plutonium.div(50000).floor()
+  PU5AmountToBuy = Decimal.min(PU5AmountCanBuy, 20 - game.plutoniumUpgradesBought[4]).toNumber()
+  game.plutonium = game.plutonium.sub(PU5AmountToBuy * 50000)
+  game.plutoniumUpgradesBought[4] += PU5AmountToBuy
+  document.getElementsByClassName("plutoniumUpgradesBought")[4].innerHTML = game.plutoniumUpgradesBought[4]
+  if (game.plutoniumUpgradesBought[4] == 20) document.getElementsByClassName("plutoniumUpgrade")[4].disabled = true
+}

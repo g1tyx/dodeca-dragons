@@ -53,6 +53,7 @@ function magicReset(triggerLayer = "magic") {
   document.getElementById("fireUpgrade6Effect").innerHTML = format(new Decimal(3).pow(game.fireUpgrade6Bought.pow(0.6)), 2)
 
   game.platinum = new Decimal(0)
+  game.bestPlatinumToGet = new Decimal(0)
   if ( (triggerLayer === "magic" && game.unlockedAchievements[3] < 5) || (triggerLayer === "sigil" && game.unlockedAchievements[7] < 3) ) {
     for (i=0;i<9;i++) {
       if (i!=2 && i!=6) {
@@ -152,7 +153,7 @@ function buyDarkMagicUpgrade(x) {
 
 function darkMagicUpgradeBuyMax() {
   for (i=1;i<9;i++) buyDarkMagicUpgrade(i)
-  if (game.pinkSigilUpgradesBought[1].eq(1)) {for (i=9;i<19;i++) buyDarkMagicUpgrade(i)}
+  if (game.pinkSigilUpgradesBought[1].eq(1)) {for (i=9;i<21;i++) buyDarkMagicUpgrade(i)}
 }
 
 function moreDarkMagicUpgrades() {

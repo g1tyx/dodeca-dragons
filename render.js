@@ -106,7 +106,7 @@ function render(x, y) {
   }
   if (game.unlocks >= 2) {
     //Alchemy tab
-    document.getElementsByClassName("box")[5].style.left = (window.innerWidth / 2 + x + 315) + "px"
+    document.getElementsByClassName("box")[5].style.left = (window.innerWidth / 2 + x + 320) + "px"
     document.getElementsByClassName("box")[5].style.top = (window.innerHeight / 2 + y + 100) + "px"
   }
   if (game.unlocks >= 3) {
@@ -125,7 +125,7 @@ function render(x, y) {
   }
   if (game.unlocks >= 6) {
     //Alchemy tab II
-    document.getElementsByClassName("box")[9].style.left = (window.innerWidth / 2 + x + 580) + "px"
+    document.getElementsByClassName("box")[9].style.left = (window.innerWidth / 2 + x + 595) + "px"
     document.getElementsByClassName("box")[9].style.top = (window.innerHeight / 2 + y + 100) + "px"
   }
   if (game.unlocks >= 8) {
@@ -184,7 +184,7 @@ function render(x, y) {
   }
   if (game.unlocks >= 19) {
     //Alchemy tab III
-    document.getElementsByClassName("box")[24].style.left = (window.innerWidth / 2 + x + 845) + "px"
+    document.getElementsByClassName("box")[24].style.left = (window.innerWidth / 2 + x + 870) + "px"
     document.getElementsByClassName("box")[24].style.top = (window.innerHeight / 2 + y + 100) + "px"
   }
   if (game.unlocks >= 20) {
@@ -201,6 +201,14 @@ function render(x, y) {
     //Yellow sigils tab
     document.getElementsByClassName("box")[28].style.left = (window.innerWidth / 2 + x + 1095) + "px"
     document.getElementsByClassName("box")[28].style.top = (window.innerHeight / 2 + y + 1145) + "px"
+  }
+  if (game.unlocks >= 23) {
+    //Holy tetrahedrons tab
+    document.getElementsByClassName("box")[29].style.left = (window.innerWidth / 2 + x + 830) + "px"
+    document.getElementsByClassName("box")[29].style.top = (window.innerHeight / 2 + y - 250) + "px"
+    //Holy tetrahedron tree tab
+    document.getElementsByClassName("box")[30].style.left = (window.innerWidth / 2 + x + 830) + "px"
+    document.getElementsByClassName("box")[30].style.top = (window.innerHeight / 2 + y - 560) + "px"
   }
   document.body.style.backgroundPosition = (x / 4) + "px " + (y / 4) + "px"
   //console.log(Date.now() - renderVars.lastRender)

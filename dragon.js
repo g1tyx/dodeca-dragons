@@ -64,13 +64,20 @@ function upgradeDragon(x) {
     document.getElementById("dragonFoodEffect").innerHTML = format(new Decimal(1.3).pow(game.dragonFood), 3)
   }
   else if (x==5 && game.gold.gte("e1.5e11")) {
-    game.gold = game.gold.sub("e1.5e11")
     document.getElementsByClassName("upgradeDragonButton")[4].style.display = "none"
+    document.getElementsByClassName("upgradeDragonButton")[5].style.display = "block"
     document.getElementById("dragonImg").src = "img/iconDragon6.png"
     document.getElementById("dragonTitle").innerHTML = "<a style='font-size: 14px'>You have a</a><br>Machine dragon"
     document.getElementById("dragonInfo").innerHTML = "Despite being filled with immense eldrich technology spiralling inwards forever, a million billion tiny cogs quietly ticking away, your dragon feels like merely a cog itself. Perhaps... it is still imperfect."
     game.dragonStage = 6
     document.getElementById("unlockBloodButton").style.display = "block"
+  }
+  else if (x==6 && game.gold.gte("ee55")) {
+    document.getElementsByClassName("upgradeDragonButton")[5].style.display = "none"
+    document.getElementById("dragonImg").src = "img/iconDragon7.png"
+    document.getElementById("dragonTitle").innerHTML = "<a style='font-size: 14px'>You have a</a><br>Holy dragon"
+    document.getElementById("dragonInfo").innerHTML = "Your dragon channels boundless energy through itself, a being of near-infinite strength. One even the gods fear. How did we get here?"
+    game.dragonStage = 7
   }
   document.getElementById("dragonStageCounter").innerHTML = romanNumerals[game.dragonStage - 1]
 }
@@ -116,7 +123,7 @@ function dragonFeed() {
     document.getElementById("dragonFood").innerHTML = format(game.dragonFood, 0);
     document.getElementById("dragonFoodEffect").innerHTML = format(new Decimal(1.3).pow(game.dragonFood), 3);
     //Resetting all the score and magifold stuff
-    if (game.unlockedAchievements[7] > 1) {
+    if (game.unlockedAchievements[7] > 0) {
       //do nothing :D
     } else if (game.unlockedAchievements[6] > 1) {
       game.magicScore1 = game.magicScore1.sqrt();
@@ -182,13 +189,7 @@ function dragonPet() {
   else if (game.dragonPets == 4 && game.pinkSigils.gte(250)) {
     game.pinkSigils = game.pinkSigils.sub(250)
     game.dragonPets++
-    document.getElementById("dragonPetButton").disabled = true
-    document.getElementById("dragonPets").innerHTML = game.dragonPets
-    document.getElementById("dragonPetEffect").innerHTML = format(new Decimal(5).pow(game.dragonPets ** 0.5), 2)
-  }
-  else if (game.dragonPets == 4 && game.pinkSigils.gte(250)) {
-    game.pinkSigils = game.pinkSigils.sub(250)
-    game.dragonPets++
+    document.getElementById("dragonPetButton").innerHTML = "You have petted your dragon sufficiently."
     document.getElementById("dragonPetButton").disabled = true
     document.getElementById("dragonPets").innerHTML = game.dragonPets
     document.getElementById("dragonPetEffect").innerHTML = format(new Decimal(5).pow(game.dragonPets ** 0.5), 2)

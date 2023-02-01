@@ -446,6 +446,13 @@ img {
   text-shadow: 1px 1px 0 #999;
 }
 
+#plutoniumMaxAllButton {
+  position: absolute;
+  bottom: 4px;
+  right: 8px;
+  display: none;
+}
+
 #sigilTomeUpgrade {
   display: none;
   background-color: rgb(70, 70, 70);
@@ -532,6 +539,19 @@ img {
   text-shadow: 1px 1px 0 #662;
 }
 
+.holyTreeUpgrade {
+  width: 140px;
+  height: 60px;
+  position: absolute;
+  background-color: #999;
+}
+
+.holyTreeUpgrade:disabled {
+  color: #666;
+  text-shadow: 1px 1px 0 #999;
+}
+
+
 
 
 
@@ -540,8 +560,9 @@ img {
 
 #achievementInfo {
   position: absolute;
+  z-index: 11;
   width: calc(100% - 20px);
-  height: 80px;
+  height: 95px;
   margin: 0;
   padding-top: 2px;
   background-color: #666;
@@ -570,4 +591,12 @@ img {
   top:20px;
   right:20px;
   width:200px;
+}
+
+.achievementStar {
+  position:absolute;
+  width:50px;
+  height:50px;
+  z-index:10;
+  left:0px;
 }
