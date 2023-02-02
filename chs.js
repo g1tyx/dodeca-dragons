@@ -1150,6 +1150,7 @@ var cnRegReplace = new Map([
     [/^Obtain (.+) holy tetrahedrons.$/, '获得 $1 圣四面体.'],
     [/^Obtain (.+) blood.$/, '获得 $1 血液.'],
     [/^Obtain (.+) gold.$/, '获得 $1 黄金.'],
+    [/^Obtain (.+) blue fire.$/, '获得 $1 蓝火.'],
     [/^Obtain (.+) fire.$/, '获得 $1 火.'],
     [/^Obtain (.+) platinum.$/, '获得 $1 铂.'],
     [/^Obtain (.+) magifolds.$/, '获得 $1 魔法流形.'],
