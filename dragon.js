@@ -74,6 +74,7 @@ function upgradeDragon(x) {
   }
   else if (x==6 && game.gold.gte("ee55")) {
     document.getElementsByClassName("upgradeDragonButton")[5].style.display = "none"
+    document.getElementById("unlockVoidMagicUpgradesButton").style.display = "block"
     document.getElementById("dragonImg").src = "img/iconDragon7.png"
     document.getElementById("dragonTitle").innerHTML = "<a style='font-size: 14px'>You have a</a><br>Holy dragon"
     document.getElementById("dragonInfo").innerHTML = "Your dragon channels boundless energy through itself, a being of near-infinite strength. One even the gods fear. How did we get here?"
@@ -97,6 +98,7 @@ function dragonSpendTime() {
     if (game.dragonTimeEffect.gt(2)) game.dragonTimeEffect = game.dragonTimeEffect.add(2).pow(0.5)
     dragonTimeEffectCap = new Decimal(2.5)
     if (game.tomeUpgradesBought[8] == true) dragonTimeEffectCap = dragonTimeEffectCap.mul(game.blueFireUpgradesBought[4].pow(0.7).div(5).add(1))
+    if (game.unlocks >= 26) dragonTimeEffectCap = dragonTimeEffectCap.mul(game.holyFireUpgradesBought[2].pow(0.7).mul(5).add(1))
     if (game.dragonTimeEffect.gt(dragonTimeEffectCap)) {
       game.dragonTimeEffect = dragonTimeEffectCap
       document.getElementById("dragonTimeEffectCap").innerHTML = " (capped)"

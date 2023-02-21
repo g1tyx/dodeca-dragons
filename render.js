@@ -208,7 +208,20 @@ function render(x, y) {
     document.getElementsByClassName("box")[29].style.top = (window.innerHeight / 2 + y - 250) + "px"
     //Holy tetrahedron tree tab
     document.getElementsByClassName("box")[30].style.left = (window.innerWidth / 2 + x + 830) + "px"
-    document.getElementsByClassName("box")[30].style.top = (window.innerHeight / 2 + y - 560) + "px"
+    document.getElementsByClassName("box")[30].style.top = (window.innerHeight / 2 + y - 680) + "px"
+  }
+  if (game.unlocks >= 24) {
+    //Holy octahedrons tab
+    document.getElementsByClassName("box")[31].style.left = (window.innerWidth / 2 + x + 1295) + "px"
+    document.getElementsByClassName("box")[31].style.top = (window.innerHeight / 2 + y - 250) + "px"
+    //Holy octahedron tree tab
+    document.getElementsByClassName("box")[32].style.left = (window.innerWidth / 2 + x + 1295) + "px"
+    document.getElementsByClassName("box")[32].style.top = (window.innerHeight / 2 + y - 520) + "px"
+  }
+  if (game.unlocks >= 25) {
+    //Holy fire tab
+    document.getElementsByClassName("box")[33].style.left = (window.innerWidth / 2 + x - 1245) + "px"
+    document.getElementsByClassName("box")[33].style.top = (window.innerHeight / 2 + y + 365) + "px"
   }
   document.body.style.backgroundPosition = (x / 4) + "px " + (y / 4) + "px"
   //console.log(Date.now() - renderVars.lastRender)
@@ -253,13 +266,13 @@ function mouseUp(e) {
   renderVars.diffY = 0
 }
 
-//Sets the position to 0,0
-function posHome() {
+//Sets the position to x,y
+function posSet(x,y) {
   //Zoom stuff!
   //renderVars.posX = 0 - window.innerWidth / (renderVars.zoomMultiplier * 2)
   //renderVars.posY = 0 - window.innerHeight / (renderVars.zoomMultiplier * 2)
-  renderVars.posX = 0
-  renderVars.posY = 0
+  renderVars.posX = x
+  renderVars.posY = y
   render(renderVars.posX, renderVars.posY)
   resetPressedKeys(); //pressing home will reset all held keyboard keys in case of stuck keys
 }

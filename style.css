@@ -150,13 +150,14 @@ img {
 .resourceRow {
   margin-top: 4px;
   margin-bottom: 0;
+  cursor: pointer;
 }
 
 .resourceIcon {
   padding-right: 5px;
 }
 
-.fireUpgrade, .blueFireUpgrade {
+.fireUpgrade, .blueFireUpgrade, .holyFireUpgrade {
   text-align: left;
 }
 
@@ -419,6 +420,13 @@ img {
   text-shadow: 1px 1px 0 #777;
 }
 
+#tomeUpgradeBuyMaxButton {
+  position: absolute;
+  bottom: 4px;
+  left: 4px;
+  display: none;
+}
+
 #blueFireMaxAllButton {
   position: absolute;
   top: 89px;
@@ -539,14 +547,14 @@ img {
   text-shadow: 1px 1px 0 #662;
 }
 
-.holyTreeUpgrade {
+.holyTetrahedronUpgrade, .holyOctahedronUpgrade {
   width: 140px;
   height: 60px;
   position: absolute;
   background-color: #999;
 }
 
-.holyTreeUpgrade:disabled {
+.holyTetrahedronUpgrade:disabled, .holyOctahedronUpgrade:disabled {
   color: #666;
   text-shadow: 1px 1px 0 #999;
 }

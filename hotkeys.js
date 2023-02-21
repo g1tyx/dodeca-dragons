@@ -29,6 +29,7 @@ function generateHotkeyText() {
 }
 
 Mousetrap.bind('shift+t', timeStopStart);
+Mousetrap.bind('shift+s', save);
 Mousetrap.bind('p', () => {if (game.unlocks >= 3) platinumConvert()});
 Mousetrap.bind('m', () => {if (game.unlocks >= 4) magicCheck()});
 Mousetrap.bind('1', () => {if (game.unlocks >= 5) {showMagicChallenge(1); activateMagicChallenge(1)}});

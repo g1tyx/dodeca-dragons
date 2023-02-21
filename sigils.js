@@ -1,10 +1,10 @@
 //Confirmation popups for magic resets\
 function sigilCheck(x) {
   if (game[sigilColours[x - 1] + "SigilsToGet"].eq(0)) {
-    if (confirm("哇，等一下！ 你不会获得任何印记！ 您确定要执行印记重置吗？")) sigilReset(x)
+    if (confirm("Woah, hold on! You won't gain any sigils! Are you sure you want to perform a sigil reset?")) sigilReset(x)
   }
   else if (game.confirmations[1]) {
-    if (confirm("您确定要执行印记重置吗？")) sigilReset(x)
+    if (confirm("Are you sure you want to perform a sigil reset?")) sigilReset(x)
   }
   else {sigilReset(x)}
 }
@@ -28,7 +28,7 @@ function sigilReset(x, triggerLayer = "sigil") {
   //}
   checkAchievements()
   magicReset(triggerLayer)
-  if (triggerLayer == "holyPolyhedron" || game.unlockedAchievements[7] <= 2) {
+  if ((triggerLayer == "holyPolyhedron" && game.unlockedAchievements[20] < 2) || game.unlockedAchievements[7] <= 2) {
     for (i=0;i<9;i++) {
       if (i!=2) {
         game.platinumUpgradesBought[i] = 0
@@ -38,7 +38,7 @@ function sigilReset(x, triggerLayer = "sigil") {
     }
     document.getElementsByClassName("platinumUpgradesBought")[2].innerHTML = "1"
   }
-  if (triggerLayer == "holyPolyhedron" || game.unlockedAchievements[8] == 0) {
+  if ((triggerLayer == "holyPolyhedron" && game.unlockedAchievements[20] < 2) || game.unlockedAchievements[8] == 0) {
     for (i=0;i<5;i++) {
       game.uraniumUpgradesBought[i] = 0
       document.getElementsByClassName("uraniumUpgradesBought")[i].innerHTML = "0"
@@ -114,21 +114,21 @@ function sigilReset(x, triggerLayer = "sigil") {
 function buyCyanSigilUpgrade(x) {
   //For each upgrade (if affordable): subtracts cyan sigil power based on cost, adds 1 to the upgrade amount bought, updates the cost
   if (x==1 && game.cyanSigilPower.gte(game.cyanSigilUpgrade1Cost)) {
-    game.cyanSigilPower = game.cyanSigilPower.sub(game.cyanSigilUpgrade1Cost)
+    game.cyanSigilPower = Decimal.max(game.cyanSigilPower.sub(game.cyanSigilUpgrade1Cost), 0)
     game.cyanSigilUpgradesBought[0] = game.cyanSigilUpgradesBought[0].add(1)
     game.cyanSigilUpgrade1Cost = new Decimal(1.5).pow(game.cyanSigilUpgradesBought[0]).floor()
     document.getElementById("cyanSigilUpgrade1Cost").innerHTML = format(game.cyanSigilUpgrade1Cost, 0)
     document.getElementById("cyanSigilUpgrade1Effect").innerHTML = format(game.cyanSigilUpgradesBought[0].add(1), 2)
   }
   else if (x==2 && game.cyanSigilPower.gte(game.cyanSigilUpgrade2Cost)) {
-    game.cyanSigilPower = game.cyanSigilPower.sub(game.cyanSigilUpgrade2Cost)
+    game.cyanSigilPower = Decimal.max(game.cyanSigilPower.sub(game.cyanSigilUpgrade2Cost), 0)
     game.cyanSigilUpgradesBought[1] = game.cyanSigilUpgradesBought[1].add(1)
     game.cyanSigilUpgrade2Cost = new Decimal(1.5).pow(game.cyanSigilUpgradesBought[1]).mul(20).floor()
     document.getElementById("cyanSigilUpgrade2Cost").innerHTML = format(game.cyanSigilUpgrade2Cost, 0)
     document.getElementById("cyanSigilUpgrade2Effect").innerHTML = format(game.cyanSigilUpgradesBought[1].add(1).pow(1.5), 2)
   }
   else if (x==3 && game.cyanSigilPower.gte(game.cyanSigilUpgrade3Cost)) {
-    game.cyanSigilPower = game.cyanSigilPower.sub(game.cyanSigilUpgrade3Cost)
+    game.cyanSigilPower = Decimal.max(game.cyanSigilPower.sub(game.cyanSigilUpgrade3Cost), 0)
     game.cyanSigilUpgradesBought[2] = game.cyanSigilUpgradesBought[2].add(1)
     game.cyanSigilUpgrade3Cost = new Decimal(2).pow(game.cyanSigilUpgradesBought[2]).mul(500).round()
     document.getElementById("cyanSigilUpgrade3Cost").innerHTML = format(game.cyanSigilUpgrade3Cost, 0)
@@ -157,21 +157,21 @@ function buyCyanSigilUpgrade(x) {
 function buyBlueSigilUpgrade(x) {
   //For each upgrade (if affordable): subtracts blue sigil power based on cost, adds 1 to the upgrade amount bought, updates the cost
   if (x==1 && game.blueSigilPower.gte(game.blueSigilUpgrade1Cost)) {
-    game.blueSigilPower = game.blueSigilPower.sub(game.blueSigilUpgrade1Cost)
+    game.blueSigilPower = Decimal.max(game.blueSigilPower.sub(game.blueSigilUpgrade1Cost), 0)
     game.blueSigilUpgradesBought[0] = game.blueSigilUpgradesBought[0].add(1)
     game.blueSigilUpgrade1Cost = new Decimal(1.5).pow(game.blueSigilUpgradesBought[0]).floor()
     document.getElementById("blueSigilUpgrade1Cost").innerHTML = format(game.blueSigilUpgrade1Cost, 0)
     document.getElementById("blueSigilUpgrade1Effect").innerHTML = format(game.blueSigilUpgradesBought[0].add(1), 2)
   }
   else if (x==2 && game.blueSigilPower.gte(game.blueSigilUpgrade2Cost)) {
-    game.blueSigilPower = game.blueSigilPower.sub(game.blueSigilUpgrade2Cost)
+    game.blueSigilPower = Decimal.max(game.blueSigilPower.sub(game.blueSigilUpgrade2Cost), 0)
     game.blueSigilUpgradesBought[1] = game.blueSigilUpgradesBought[1].add(1)
     game.blueSigilUpgrade2Cost = new Decimal(1.5).pow(game.blueSigilUpgradesBought[1]).mul(20).floor()
     document.getElementById("blueSigilUpgrade2Cost").innerHTML = format(game.blueSigilUpgrade2Cost, 0)
     document.getElementById("blueSigilUpgrade2Effect").innerHTML = format(new Decimal(1e15).pow(game.blueSigilUpgradesBought[1].pow(0.6)), 2)
   }
   else if (x==3 && game.blueSigilPower.gte(game.blueSigilUpgrade3Cost) && game.blueSigilUpgradesBought[2].lt(10)) {
-    game.blueSigilPower = game.blueSigilPower.sub(game.blueSigilUpgrade3Cost)
+    game.blueSigilPower = Decimal.max(game.blueSigilPower.sub(game.blueSigilUpgrade3Cost), 0)
     game.blueSigilUpgradesBought[2] = game.blueSigilUpgradesBought[2].add(1)
     game.blueSigilUpgrade3Cost = new Decimal(2).pow(game.blueSigilUpgradesBought[2]).mul(100).round()
     document.getElementById("blueSigilUpgrade3Cost").innerHTML = format(game.blueSigilUpgrade3Cost, 0)
@@ -199,21 +199,21 @@ function buyBlueSigilUpgrade(x) {
 function buyIndigoSigilUpgrade(x) {
   //For each upgrade (if affordable): subtracts indigo sigil power based on cost, adds 1 to the upgrade amount bought, updates the cost
   if (x==1 && game.indigoSigilPower.gte(game.indigoSigilUpgrade1Cost)) {
-    game.indigoSigilPower = game.indigoSigilPower.sub(game.indigoSigilUpgrade1Cost)
+    game.indigoSigilPower = Decimal.max(game.indigoSigilPower.sub(game.indigoSigilUpgrade1Cost), 0)
     game.indigoSigilUpgradesBought[0] = game.indigoSigilUpgradesBought[0].add(1)
     game.indigoSigilUpgrade1Cost = new Decimal(1.5).pow(game.indigoSigilUpgradesBought[0]).floor()
     document.getElementById("indigoSigilUpgrade1Cost").innerHTML = format(game.indigoSigilUpgrade1Cost, 0)
     document.getElementById("indigoSigilUpgrade1Effect").innerHTML = format(game.indigoSigilUpgradesBought[0].add(1), 2)
   }
   else if (x==2 && game.indigoSigilPower.gte(game.indigoSigilUpgrade2Cost)) {
-    game.indigoSigilPower = game.indigoSigilPower.sub(game.indigoSigilUpgrade2Cost)
+    game.indigoSigilPower = Decimal.max(game.indigoSigilPower.sub(game.indigoSigilUpgrade2Cost), 0)
     game.indigoSigilUpgradesBought[1] = game.indigoSigilUpgradesBought[1].add(1)
     game.indigoSigilUpgrade2Cost = new Decimal(1.5).pow(game.indigoSigilUpgradesBought[1]).mul(20).floor()
     document.getElementById("indigoSigilUpgrade2Cost").innerHTML = format(game.indigoSigilUpgrade2Cost, 0)
     document.getElementById("indigoSigilUpgrade2Effect").innerHTML = format(Decimal.min(new Decimal(1.15).pow(game.indigoSigilUpgradesBought[1].pow(0.5)),30), 2)
   }
   else if (x==3 && game.indigoSigilPower.gte(game.indigoSigilUpgrade3Cost)) {
-    game.indigoSigilPower = game.indigoSigilPower.sub(game.indigoSigilUpgrade3Cost)
+    game.indigoSigilPower = Decimal.max(game.indigoSigilPower.sub(game.indigoSigilUpgrade3Cost), 0)
     game.indigoSigilUpgradesBought[2] = game.indigoSigilUpgradesBought[2].add(1)
     game.indigoSigilUpgrade3Cost = new Decimal(2.5).pow(game.indigoSigilUpgradesBought[2]).mul(400).floor()
     document.getElementById("indigoSigilUpgrade3Cost").innerHTML = format(game.indigoSigilUpgrade3Cost, 0)
@@ -244,14 +244,14 @@ function buyIndigoSigilUpgrade(x) {
 function buyVioletSigilUpgrade(x) {
   //For each upgrade (if affordable): subtracts violet sigil power based on cost, adds 1 to the upgrade amount bought, updates the cost
   if (x==1 && game.violetSigilPower.gte(game.violetSigilUpgrade1Cost)) {
-    game.violetSigilPower = game.violetSigilPower.sub(game.violetSigilUpgrade1Cost)
+    game.violetSigilPower = Decimal.max(game.violetSigilPower.sub(game.violetSigilUpgrade1Cost), 0)
     game.violetSigilUpgradesBought[0] = game.violetSigilUpgradesBought[0].add(1)
     game.violetSigilUpgrade1Cost = new Decimal(1.5).pow(game.violetSigilUpgradesBought[0]).floor()
     document.getElementById("violetSigilUpgrade1Cost").innerHTML = format(game.violetSigilUpgrade1Cost, 0)
     document.getElementById("violetSigilUpgrade1Effect").innerHTML = format(game.violetSigilUpgradesBought[0].add(1), 2)
   }
   else if (x==2 && game.violetSigilPower.gte(game.violetSigilUpgrade2Cost)) {
-    game.violetSigilPower = game.violetSigilPower.sub(game.violetSigilUpgrade2Cost)
+    game.violetSigilPower = Decimal.max(game.violetSigilPower.sub(game.violetSigilUpgrade2Cost), 0)
     game.violetSigilUpgradesBought[1] = game.violetSigilUpgradesBought[1].add(1)
     game.violetSigilUpgrade2Cost = new Decimal(1.5).pow(game.violetSigilUpgradesBought[1]).mul(5).floor()
     document.getElementById("violetSigilUpgrade2Cost").innerHTML = format(game.violetSigilUpgrade2Cost, 0)
@@ -287,7 +287,7 @@ function buyVioletSigilUpgrade(x) {
 function buyPinkSigilUpgrade(x) {
   //For each upgrade (if affordable): subtracts pink sigil power based on cost, adds 1 to the upgrade amount bought, updates the cost
   if (x==1 && game.pinkSigilPower.gte(game.pinkSigilUpgrade1Cost)) {
-    game.pinkSigilPower = game.pinkSigilPower.sub(game.pinkSigilUpgrade1Cost)
+    game.pinkSigilPower = Decimal.max(game.pinkSigilPower.sub(game.pinkSigilUpgrade1Cost), 0)
     game.pinkSigilUpgradesBought[0] = game.pinkSigilUpgradesBought[0].add(1)
     game.pinkSigilUpgrade1Cost = new Decimal(1.5).pow(game.pinkSigilUpgradesBought[0]).floor()
     document.getElementById("pinkSigilUpgrade1Cost").innerHTML = format(game.pinkSigilUpgrade1Cost, 0)
@@ -300,7 +300,7 @@ function buyPinkSigilUpgrade(x) {
     for (i=8;i<10;i++) {document.getElementsByClassName("darkMagicUpgrade")[i].style.display = "inline-block"}
   }
   else if (x==3 && game.pinkSigilPower.gte(game.pinkSigilUpgrade3Cost)) {
-    game.pinkSigilPower = game.pinkSigilPower.sub(game.pinkSigilUpgrade3Cost)
+    game.pinkSigilPower = Decimal.max(game.pinkSigilPower.sub(game.pinkSigilUpgrade3Cost), 0)
     game.pinkSigilUpgradesBought[2] = game.pinkSigilUpgradesBought[2].add(1)
     game.pinkSigilUpgrade3Cost = new Decimal(2).pow(game.pinkSigilUpgradesBought[2]).mul(500000).round()
     document.getElementById("pinkSigilUpgrade3Cost").innerHTML = format(game.pinkSigilUpgrade3Cost, 0)
@@ -328,21 +328,21 @@ function buyPinkSigilUpgrade(x) {
 function buyRedSigilUpgrade(x) {
   //For each upgrade (if affordable): subtracts red sigil power based on cost, adds 1 to the upgrade amount bought, updates the cost
   if (x==1 && game.redSigilPower.gte(game.redSigilUpgrade1Cost)) {
-    game.redSigilPower = game.redSigilPower.sub(game.redSigilUpgrade1Cost)
+    game.redSigilPower = Decimal.max(game.redSigilPower.sub(game.redSigilUpgrade1Cost), 0)
     game.redSigilUpgradesBought[0] = game.redSigilUpgradesBought[0].add(1)
     game.redSigilUpgrade1Cost = new Decimal(1.5).pow(game.redSigilUpgradesBought[0]).floor()
     document.getElementById("redSigilUpgrade1Cost").innerHTML = format(game.redSigilUpgrade1Cost, 0)
     document.getElementById("redSigilUpgrade1Effect").innerHTML = format(game.redSigilUpgradesBought[0].add(1), 2)
   }
   else if (x==2 && game.redSigilPower.gte(game.redSigilUpgrade2Cost)) {
-    game.redSigilPower = game.redSigilPower.sub(game.redSigilUpgrade2Cost)
+    game.redSigilPower = Decimal.max(game.redSigilPower.sub(game.redSigilUpgrade2Cost), 0)
     game.redSigilUpgradesBought[1] = game.redSigilUpgradesBought[1].add(1)
     game.redSigilUpgrade2Cost = new Decimal(1.5).pow(game.redSigilUpgradesBought[1]).mul(1500).floor()
     document.getElementById("redSigilUpgrade2Cost").innerHTML = format(game.redSigilUpgrade2Cost, 0)
     document.getElementById("redSigilUpgrade2Effect").innerHTML = format(new Decimal(50).pow(game.redSigilUpgradesBought[1].pow(0.8)), 2)
   }
   else if (x==3 && game.redSigilPower.gte(game.redSigilUpgrade3Cost)) {
-    game.redSigilPower = game.redSigilPower.sub(game.redSigilUpgrade3Cost)
+    game.redSigilPower = Decimal.max(game.redSigilPower.sub(game.redSigilUpgrade3Cost), 0)
     game.redSigilUpgradesBought[2] = game.redSigilUpgradesBought[2].add(1)
     game.redSigilUpgrade3Cost = new Decimal(2.5).pow(game.redSigilUpgradesBought[2]).mul(50000).floor()
     document.getElementById("redSigilUpgrade3Cost").innerHTML = format(game.redSigilUpgrade3Cost, 0)
@@ -371,21 +371,21 @@ function buyRedSigilUpgrade(x) {
 function buyOrangeSigilUpgrade(x) {
   //For each upgrade (if affordable): subtracts orange sigil power based on cost, adds 1 to the upgrade amount bought, updates the cost
   if (x==1 && game.orangeSigilPower.gte(game.orangeSigilUpgrade1Cost)) {
-    game.orangeSigilPower = game.orangeSigilPower.sub(game.orangeSigilUpgrade1Cost)
+    game.orangeSigilPower = Decimal.max(game.orangeSigilPower.sub(game.orangeSigilUpgrade1Cost), 0)
     game.orangeSigilUpgradesBought[0] = game.orangeSigilUpgradesBought[0].add(1)
     game.orangeSigilUpgrade1Cost = new Decimal(1.5).pow(game.orangeSigilUpgradesBought[0]).floor()
     document.getElementById("orangeSigilUpgrade1Cost").innerHTML = format(game.orangeSigilUpgrade1Cost, 0)
     document.getElementById("orangeSigilUpgrade1Effect").innerHTML = format(game.orangeSigilUpgradesBought[0].add(1), 2)
   }
   else if (x==2 && game.orangeSigilPower.gte(game.orangeSigilUpgrade2Cost)) {
-    game.orangeSigilPower = game.orangeSigilPower.sub(game.orangeSigilUpgrade2Cost)
+    game.orangeSigilPower = Decimal.max(game.orangeSigilPower.sub(game.orangeSigilUpgrade2Cost), 0)
     game.orangeSigilUpgradesBought[1] = game.orangeSigilUpgradesBought[1].add(1)
     game.orangeSigilUpgrade2Cost = new Decimal(2).pow(game.orangeSigilUpgradesBought[1]).mul(2500).floor()
     document.getElementById("orangeSigilUpgrade2Cost").innerHTML = format(game.orangeSigilUpgrade2Cost, 0)
     document.getElementById("orangeSigilUpgrade2Effect").innerHTML = format(game.orangeSigilUpgradesBought[1].pow(0.5).mul(2).add(1), 2)
   }
   else if (x==3 && game.orangeSigilPower.gte(game.orangeSigilUpgrade3Cost)) {
-    game.orangeSigilPower = game.orangeSigilPower.sub(game.orangeSigilUpgrade3Cost)
+    game.orangeSigilPower = Decimal.max(game.orangeSigilPower.sub(game.orangeSigilUpgrade3Cost), 0)
     game.orangeSigilUpgradesBought[2] = game.orangeSigilUpgradesBought[2].add(1)
     game.orangeSigilUpgrade3Cost = new Decimal(3).pow(game.orangeSigilUpgradesBought[2]).mul(250000).floor()
     document.getElementById("orangeSigilUpgrade3Cost").innerHTML = format(game.orangeSigilUpgrade3Cost, 0)
@@ -414,21 +414,21 @@ function buyOrangeSigilUpgrade(x) {
 function buyYellowSigilUpgrade(x) {
   //For each upgrade (if affordable): subtracts yellow sigil power based on cost, adds 1 to the upgrade amount bought, updates the cost
   if (x==1 && game.yellowSigilPower.gte(game.yellowSigilUpgrade1Cost)) {
-    game.yellowSigilPower = game.yellowSigilPower.sub(game.yellowSigilUpgrade1Cost)
+    game.yellowSigilPower = Decimal.max(game.yellowSigilPower.sub(game.yellowSigilUpgrade1Cost), 0)
     game.yellowSigilUpgradesBought[0] = game.yellowSigilUpgradesBought[0].add(1)
     game.yellowSigilUpgrade1Cost = new Decimal(1.5).pow(game.yellowSigilUpgradesBought[0]).floor()
     document.getElementById("yellowSigilUpgrade1Cost").innerHTML = format(game.yellowSigilUpgrade1Cost, 0)
     document.getElementById("yellowSigilUpgrade1Effect").innerHTML = format(game.yellowSigilUpgradesBought[0].add(1), 2)
   }
   else if (x==2 && game.yellowSigilPower.gte(game.yellowSigilUpgrade2Cost)) {
-    game.yellowSigilPower = game.yellowSigilPower.sub(game.yellowSigilUpgrade2Cost)
+    game.yellowSigilPower = Decimal.max(game.yellowSigilPower.sub(game.yellowSigilUpgrade2Cost), 0)
     game.yellowSigilUpgradesBought[1] = game.yellowSigilUpgradesBought[1].add(1)
     game.yellowSigilUpgrade2Cost = new Decimal(2).pow(game.yellowSigilUpgradesBought[1]).mul(4000).floor()
     document.getElementById("yellowSigilUpgrade2Cost").innerHTML = format(game.yellowSigilUpgrade2Cost, 0)
     document.getElementById("yellowSigilUpgrade2Effect").innerHTML = format(game.yellowSigilUpgradesBought[1].pow(0.5).mul(2).add(1), 2)
   }
   else if (x==3 && game.yellowSigilPower.gte(game.yellowSigilUpgrade3Cost)) {
-    game.yellowSigilPower = game.yellowSigilPower.sub(game.yellowSigilUpgrade3Cost)
+    game.yellowSigilPower = Decimal.max(game.yellowSigilPower.sub(game.yellowSigilUpgrade3Cost), 0)
     game.yellowSigilUpgradesBought[2] = game.yellowSigilUpgradesBought[2].add(1)
     game.yellowSigilUpgrade3Cost = new Decimal(3).pow(game.yellowSigilUpgradesBought[2]).mul(2000000).floor()
     document.getElementById("yellowSigilUpgrade3Cost").innerHTML = format(game.yellowSigilUpgrade3Cost, 0)
@@ -452,7 +452,7 @@ function maxAllSigilUpgrades() {
   cyanSigilPowerTemp = game.cyanSigilPower.div(3)
   SU1amountCanBuy = Decimal.affordGeometricSeries(cyanSigilPowerTemp, 1, 1.5, game.cyanSigilUpgradesBought[0])
   SU1Cost = Decimal.sumGeometricSeries(SU1amountCanBuy, 1, 1.5, game.cyanSigilUpgradesBought[0])
-  game.cyanSigilPower = game.cyanSigilPower.sub(SU1Cost)
+  game.cyanSigilPower = game.cyanSigilPower.sub(SU1Cost), 0
   game.cyanSigilUpgradesBought[0] = game.cyanSigilUpgradesBought[0].add(SU1amountCanBuy)
   game.cyanSigilUpgrade1Cost = new Decimal(1.5).pow(game.cyanSigilUpgradesBought[0]).floor()
   document.getElementById("cyanSigilUpgrade1Cost").innerHTML = format(game.cyanSigilUpgrade1Cost, 0)
@@ -474,6 +474,8 @@ function maxAllSigilUpgrades() {
   document.getElementById("cyanSigilUpgrade3Cost").innerHTML = format(game.cyanSigilUpgrade3Cost, 0)
   document.getElementById("cyanSigilUpgrade3Effect").innerHTML = format(new Decimal(1.2).pow(game.cyanSigilUpgradesBought[2].pow(0.4)), 2)
 
+  if (game.cyanSigilPower.lt(0)) game.cyanSigilPower = new Decimal(0)
+
   blueSigilPowerTemp = game.blueSigilPower.div(2)
   SU4amountCanBuy = Decimal.affordGeometricSeries(blueSigilPowerTemp, 1, 1.5, game.blueSigilUpgradesBought[0])
   SU4Cost = Decimal.sumGeometricSeries(SU4amountCanBuy, 1, 1.5, game.blueSigilUpgradesBought[0])
@@ -490,6 +492,8 @@ function maxAllSigilUpgrades() {
   game.blueSigilUpgrade2Cost = new Decimal(1.5).pow(game.blueSigilUpgradesBought[1]).mul(20).floor()
   document.getElementById("blueSigilUpgrade2Cost").innerHTML = format(game.blueSigilUpgrade2Cost, 0)
   document.getElementById("blueSigilUpgrade2Effect").innerHTML = format(new Decimal(1e15).pow(game.blueSigilUpgradesBought[1].pow(0.6)), 2)
+
+  if (game.blueSigilPower.lt(0)) game.blueSigilPower = new Decimal(0)
 
   indigoSigilPowerTemp = game.indigoSigilPower.div(3)
   SU6amountCanBuy = Decimal.affordGeometricSeries(indigoSigilPowerTemp, 1, 1.5, game.indigoSigilUpgradesBought[0])
@@ -516,6 +520,8 @@ function maxAllSigilUpgrades() {
   document.getElementById("indigoSigilUpgrade3Cost").innerHTML = format(game.indigoSigilUpgrade3Cost, 0)
   document.getElementById("indigoSigilUpgrade3Effect").innerHTML = format(new Decimal(2).pow(game.indigoSigilUpgradesBought[2].pow(0.6)), 2)
 
+  if (game.indigoSigilPower.lt(0)) game.indigoSigilPower = new Decimal(0)
+
   violetSigilPowerTemp = game.violetSigilPower.div(2)
   SU9amountCanBuy = Decimal.affordGeometricSeries(violetSigilPowerTemp, 1, 1.5, game.violetSigilUpgradesBought[0])
   SU9Cost = Decimal.sumGeometricSeries(SU9amountCanBuy, 1, 1.5, game.violetSigilUpgradesBought[0])
@@ -533,6 +539,8 @@ function maxAllSigilUpgrades() {
   document.getElementById("violetSigilUpgrade2Cost").innerHTML = format(game.violetSigilUpgrade2Cost, 0)
   document.getElementById("violetSigilUpgrade2Effect").innerHTML = format(new Decimal(1.3).pow(game.violetSigilUpgradesBought[1].pow(0.5)), 2)
 
+  if (game.violetSigilPower.lt(0)) game.violetSigilPower = new Decimal(0)
+
   pinkSigilPowerTemp = game.pinkSigilPower.div(2)
   SU11amountCanBuy = Decimal.affordGeometricSeries(pinkSigilPowerTemp, 1, 1.5, game.pinkSigilUpgradesBought[0])
   SU11Cost = Decimal.sumGeometricSeries(SU11amountCanBuy, 1, 1.5, game.pinkSigilUpgradesBought[0])
@@ -549,6 +557,8 @@ function maxAllSigilUpgrades() {
   game.pinkSigilUpgrade3Cost = new Decimal(2).pow(game.pinkSigilUpgradesBought[2]).mul(500000).round()
   document.getElementById("pinkSigilUpgrade3Cost").innerHTML = format(game.pinkSigilUpgrade3Cost, 0)
   document.getElementById("pinkSigilUpgrade3Effect").innerHTML = format(new Decimal(1.5).pow(game.pinkSigilUpgradesBought[2].pow(0.5)), 2)
+
+  if (game.pinkSigilPower.lt(0)) game.pinkSigilPower = new Decimal(0)
 }
 
 function maxRedSigilUpgrades() {
@@ -576,6 +586,8 @@ function maxRedSigilUpgrades() {
   game.redSigilUpgrade3Cost = new Decimal(2.5).pow(game.redSigilUpgradesBought[2]).mul(50000).floor()
   document.getElementById("redSigilUpgrade3Cost").innerHTML = format(game.redSigilUpgrade3Cost, 0)
   document.getElementById("redSigilUpgrade3Effect").innerHTML = format(new Decimal(6).pow(game.redSigilUpgradesBought[2].pow(0.7)), 2)
+
+  if (game.redSigilPower.lt(0)) game.redSigilPower = new Decimal(0)
 }
 
 function maxOrangeSigilUpgrades() {
@@ -603,6 +615,8 @@ function maxOrangeSigilUpgrades() {
   game.orangeSigilUpgrade3Cost = new Decimal(3).pow(game.orangeSigilUpgradesBought[2]).mul(250000).floor()
   document.getElementById("orangeSigilUpgrade3Cost").innerHTML = format(game.orangeSigilUpgrade3Cost, 0)
   document.getElementById("orangeSigilUpgrade3Effect").innerHTML = format(new Decimal(6).pow(game.orangeSigilUpgradesBought[2].pow(0.7)), 2)
+
+  if (game.orangeSigilPower.lt(0)) game.orangeSigilPower = new Decimal(0)
 }
 
 function maxYellowSigilUpgrades() {
@@ -630,6 +644,8 @@ function maxYellowSigilUpgrades() {
   game.yellowSigilUpgrade3Cost = new Decimal(3).pow(game.yellowSigilUpgradesBought[2]).mul(2000000).floor()
   document.getElementById("yellowSigilUpgrade3Cost").innerHTML = format(game.yellowSigilUpgrade3Cost, 0)
   document.getElementById("yellowSigilUpgrade3Effect").innerHTML = format(new Decimal(15).pow(game.yellowSigilUpgradesBought[2].pow(0.5)), 2)
+
+  if (game.yellowSigilPower.lt(0)) game.yellowSigilPower = new Decimal(0)
 }
 
 function updateSigilResetter(modeHasChanged = false) {

@@ -13,7 +13,7 @@ const sigilColours = ["cyan", "blue", "indigo", "violet", "pink", "red", "orange
 const sigilResetterModes = ["Amount","Gold","Time"]
 const sigilResetterModesFull = ["Potential Sigil Amount", "Gold Amount", "Seconds Since Reset"]
 const knowledgeMultipliers = [450, 112.5, 18.75, 10, 1]
-const tomeUpgradeCosts = [1, 1, 2, 2, 4, 25, 75, 175, 500, 1000, 1500, 2250, 2800, 7500]
+const tomeUpgradeCosts = [1, 1, 2, 2, 4, 20, 75, 175, 500, 1000, 1500, 2250, 2800, 7500]
 const blueFireUpgradeInitialCosts = [0, 500, 1000, 50000, 5e7, 1.5e8, 1e11]
 const blueFireUpgradeBase = [0, 1.8, 2, 2.5, 1.8, 2.2, 2]
 const hellLayerNames = ["limbo", "lust", "gluttony", "greed", "wrath", "heresy", "violence", "fraud", "treachery"]
@@ -21,10 +21,13 @@ const hellLayerEffects = ["-<a style='color: #fd0'>Gold</a> gain is severely red
 "-<a style='color: #fd0'>Gold</a> gain is severely reduced (log(x)^2)<br>-<a style='color: #f80'>Fire</a> gain is severely reduced (log(x))<br>-<a style='color: #bff'>Platinum</a> gain is ^0.01<br>-<a style='color: #60d'>Magifold</a> amount is always 1<br>-<a style='color: #8f8'>Uranium</a> gain is ^0.01<br>-<a style='color: #06b'>Cyan sigil</a> upgrade 3 is useless",
 "-<a style='color: #fd0'>Gold</a> gain is severely reduced (log(x))<br>-<a style='color: #f80'>Fire</a> gain is severely reduced (log(x))<br>-<a style='color: #bff'>Platinum</a> gain is severely reduced (log(x))<br>-<a style='color: #60d'>Magifold</a> amount is always 1<br>-<a style='color: #8f8'>Uranium</a> gain is severely reduced (log(x))<br>-<a style='color: #06b'>Cyan sigil</a> upgrade 3 is useless",
 "-<a style='color: #fd0'>Gold</a> gain is severely reduced (log(x)^0.5)<br>-<a style='color: #f80'>Fire</a> gain is always 0<br>-<a style='color: #bff'>Platinum</a> gain is severely reduced (log(x))<br>-<a style='color: #60d'>Magifold</a> amount is always 1<br>-<a style='color: #8f8'>Uranium</a> gain is severely reduced (log(x))<br>-<a style='color: #06b'>Cyan sigil</a> upgrade 3 is useless",
-"-<a style='color: #f00'>Wrath does nothing yet!</a>",
+"-<a style='color: #fd0'>Gold</a> gain is severely reduced (log(x)^0.2)<br>-<a style='color: #f80'>Fire</a> gain is always 0<br>-<a style='color: #bff'>Platinum</a> gain is severely reduced (log(x)^0.5)<br>-<a style='color: #90d'>Magic</a> amount is severely reduced (log(x))<br>-<a style='color: #60d'>Magifold</a> amount is always 1<br>-<a style='color: #8f8'>Uranium</a> gain is severely reduced (log(x)^0.5)<br>-<a style='color: #06b'>Cyan sigil</a> upgrade 3 is useless",
 "-<a style='color: #f00'>Heresy does nothing yet!</a>"
 ]
-const holyTetrahedronUpgradeCosts = [1, 1, 1, 1, 2, 2, 2, 5, 5, 15]
+const holyTetrahedronUpgradeCosts = [1, 1, 1, 1, 2, 2, 2, 5, 5, 15, 50, 2000, 50000]
+const holyOctahedronUpgradeCosts = [1, 1, 1, 2, 4, 2, 50]
+const holyFireUpgradeInitialCosts = [0, 500, 1000, 10000, 50000, 1e7, 1e11]
+const holyFireUpgradeBase = [0, 1.8, 2, 3, 2, 2.5, 2]
 const achievementNames = [
   //Gold
   ["Starting strong", "Growing stronger", "The heap", "Motherlode", "BEZOS BEZOS BEZOS", "Unending mound of cash", "Multiversal", "Endless realm of coins", "Loaded", "Mega-loaded (???)", "Sbiisics", "On my dime!"],
@@ -35,9 +38,9 @@ const achievementNames = [
   //Magic
   ["Funny wizard hat", "Sorcery", "Magiccery!", "THE BIGGER HAT", "Thaumaturgy", "Spells galore", "Reshape the Earth", "Unlimited potential", "Star shatterer", "Endless grimoires", "Void tapping", "Threshold memories"],
   //Magifolds
-  ["4-dimensional", "10-dimensional", "Superstring theory", "Infinitely folding", "Incomprehensible", "Megafolds", "GIGAFOLDS", "Spacetime origami", "Nonagon Infinity", "Holonomy breakdown", "Simplex Complex", "Basket case"],
+  ["4-dimensional", "10-dimensional", "Superstring theory", "Infinitely folding", "Incomprehensible", "Megafolds", "GIGAFOLDS", "Spacetime origami", "Nonagon Infinity", "Holonomy breakdown", "Simplex complex", "Basket case"],
   //Uranium
-  ["Ionizing", "Radiating", "Neutralizing", "Terrifying", "Devastating", "Decaying", "Annihilating", "Obliterating", "Glowing", "Reducing", "Ending", "Inspiring"],
+  ["Ionizing", "Radiating", "Neutralizing", "Terrifying", "Devastating", "Decaying", "Annihilating", "Obliterating", "Glowing", "Reducing", "Inspiring", "Ending"],
   //Cyan sigils
   ["Chromatic", "Chaotic", "Colorific", "Catastrophic", "Catatonic", "Chromatic II", "Chaotic II", "Colorific II", "Catastrophic II", "Catatonic II", "Chromatic III", "Chaotic III"],
   //Blue sigils
@@ -49,23 +52,27 @@ const achievementNames = [
   //Pink sigils
   ["Panchromatic", "Psychotic", "Pathogenic", "Particularistic", "Platonic", "Panchromatic II", "Psychotic II", "Pathogenic II", "Particularistic II", "Platonic II", "Panchromatic III", "Psychotic III"],
   //Knowledge
-  ["Big brain moment", "Deep thought", "Immaterialistic", "Planning ahead", "I conject", "Megamind", "Incremental IQ", "Shared Brainpower", "Think tank", "Intelligence singularity"],
+  ["Big brain moment", "Deep thought", "Immaterialistic", "Planning ahead", "I conject", "Megamind", "Incremental IQ", "Shared Brainpower", "Think tank", "Intelligence singularity", "The thinker", "Epistemological"],
   //Tomes
-  ["History locked away", "The mystical bookshelf", "Necronomicon", "Fully legible", "Biblical", "Rune rooms", "Library of babel"],
+  ["History locked away", "The mystical bookshelf", "Necronomicon", "Fully legible", "Biblical", "Rune rooms", "Library of babel", "Recursive knowledge", "No longer lost"],
   //Blue fire
-  ["Burning cold", "Frostbite", "Tundra", "The burn that cures", "Hell frozen over", "Absolute Zero", "What's cooler than being cool?"],
+  ["Burning cold", "Frostbite", "Tundra", "The burn that cures", "Hell frozen over", "Absolute Zero", "What's cooler than being cool?", "Kamchatka", "Superfluid"],
   //Blood
-  ["Coagulation", "Brutal", "Rivers of red", "Ultraviolent", "Turbo killer", "When the imposter is sus!"],
+  ["Coagulation", "Brutal", "Rivers of red", "Ultraviolent", "Turbo killer", "When the imposter is sus!", "Hellstar Remina"],
   //Plutonium
-  ["Ionizing II", "Radiating II", "Neutralizing II", "Terrifying II"],
+  ["Ionizing II", "Radiating II", "Neutralizing II", "Terrifying II", "Devastating II", "Decaying II", "Annihilating II"],
   //Red sigils
-  ["Rhythmic", "Realistic", "Robotic", "Romantic"],
+  ["Rhythmic", "Realistic", "Robotic", "Romantic", "Relativistic", "Rhythmic II"],
   //Orange sigils
-  ["Organic", "Orthographic", "Overenergetic", "Orthochromatic"],
+  ["Organic", "Orthographic", "Overenergetic", "Orthochromatic", "Overchromatic", "Organic II"],
   //Yellow sigils
-  ["Yellow", "Very yellow", "Extremely yellow", "Super yellow", "Hyper yellow"],
+  ["Yellow", "Very yellow", "Extremely yellow", "Super yellow", "Hyper yellow", "Yellow II"],
   //Holy tetrahedrons
-  ["｢Made in Heaven｣", "Resets all the way down", "Cloudy with a chance of numbers", "God rays"],
+  ["｢Made in Heaven｣", "Resets all the way down", "Cloudy with a chance of numbers", "God rays", "Heaven sent", "Convex complex"],
+  //Holy octahedrons
+  ["Dual", "Empyrean", "Ramiel", "Precisely the point"],
+  //Holy fire
+  ["White hot", "God's wrath"],
 ]
 const achievementRequirements = [
   //Gold
@@ -91,47 +98,51 @@ const achievementRequirements = [
   //Pink sigils
   ["1", "5", "20", "100", "500", "1000000", "1e12", "1e25", "1e100", "1e250", "1e500", "1e1000"],
   //Knowledge
-  ["1", "10", "250", "10000", "1e9", "1e30", "1e100", "1e300", "1e750", "1e1500"],
+  ["1", "10", "250", "10000", "1e9", "1e30", "1e100", "1e300", "1e750", "1e1500", "1e3000", "1e6000"],
   //Tomes
-  ["1", "10", "100", "1000", "5000", "15000", "30000"],
+  ["1", "10", "100", "1000", "5000", "15000", "30000", "75000", "150000"],
   //Blue fire
-  ["1000", "1e6", "1e20", "1e35", "1e60", "1e100", "1e250"],
+  ["1000", "1e6", "1e20", "1e35", "1e60", "1e100", "1e250", "1e600", "1e1500"],
   //Blood
-  ["1", "10000", "5e7", "1e10", "1e20", "1e30"],
+  ["1", "10000", "5e7", "1e10", "1e20", "1e30", "1e100"],
   //Plutonium
-  ["100", "10000", "1e6", "1e20"],
+  ["100", "10000", "1e6", "1e20", "1e30", "1e100", "1e500"],
   //Red sigils
-  ["1", "20", "1000", "100000"],
+  ["1", "20", "1000", "100000", "1e8", "1e12"],
   //Orange sigils
-  ["1", "20", "1000", "100000"],
+  ["1", "20", "1000", "100000", "1e8", "1e12"],
   //Yellow sigils
-  ["1", "20", "1000", "100000"],
+  ["1", "20", "1000", "100000", "1e8", "1e12"],
   //Holy tetrahedrons
+  ["1", "3", "10", "50", "2500", "1000000"],
+  //Holy octahedrons
   ["1", "3", "10", "50"],
+  //Holy fire
+  ["1000", "100000"],
 ]
 const achievementStarRequirements = [
   //Gold
-  ["e1000000", "e5000000", "e2.5e7", "ee8", "ee10", "ee12", "ee15", "ee20", "ee25", "ee30", "ee50"],
+  ["e1000000", "e5000000", "e2.5e7", "ee8", "ee10", "ee12", "ee15", "ee20", "ee25", "ee30", "ee50", "ee100"],
   //Fire
-  ["e5e8", "ee10", "ee12", "ee15", "ee20", "ee30", "ee40"],
+  ["e5e8", "ee10", "ee12", "ee15", "ee20", "ee30", "ee40", "ee60"],
   //Platinum
-  ["e1000000", "ee7", "ee10", "ee14", "ee20", "ee30"],
+  ["e1000000", "ee7", "ee10", "ee14", "ee20", "ee30", "ee50"],
   //Magic
-  ["ee8", "e2.5e8", "e5e8", "ee9"],
+  ["ee8", "e2.5e8", "e5e8", "ee9", "e5e9"],
   //Magifolds
-  ["e2.5e8", "ee9", "ee12", "ee18", "ee30"],
+  ["e2.5e8", "ee9", "ee12", "ee18", "ee30", "ee45"],
   //Uranium
-  ["ee20", "ee25"],
+  ["ee20", "ee25", "ee30"],
   //Cyan Sigils
-  [],
+  ["1e2500", "ee100"],
   //Blue Sigils
-  [],
+  ["1e2500"],
   //Indigo Sigils
-  [],
+  ["1e2500"],
   //Violet Sigils
-  [],
+  ["1e2500"],
   //Pink Sigils
-  [],
+  ["1e2500"],
   //Knowledge
   [],
   //Tomes
@@ -155,7 +166,7 @@ const achievementRewards = {
   //gold
   ach0x4: "Unlocks Max All button for platinum upgrades!",
   ach0x8: "Unlocks autobuyer for miners! Also allows you to keep 1 miner when resetting.",
-  ach0x10: "Unlock Buy All buttons for magic and dark magic upgrades!",
+  ach0x10: "Unlocks Buy Max buttons for magic and dark magic upgrades!",
   //magic
   ach3x0: "Unlocks Buy Max buttons for fire upgrades!",
   ach3x1: "Unlocks Max All button for fire upgrades!",
@@ -174,7 +185,7 @@ const achievementRewards = {
   ach7x1: "Gain challenge score without entering challenges! Also, sigil resets no longer reduce challenge scores.",
   ach7x2: "Keep platinum upgrades on sigil resets!",
   //indigo sigils
-  ach8x0: "Keep uranium upgrades on all resets!",
+  ach8x0: "Keep uranium upgrades on magic and sigil resets!",
   //violet sigils
   ach9x0: "Unlocks the ability to pet your dragon! :O",
   //pink sigils
@@ -197,6 +208,11 @@ const achievementRewards = {
   ach15x3: "Automatically gain plutonium without resetting!",
   //Holy tetrahedrons
   ach19x0: "Unlocks Max All button for plutonium upgrades!",
+  ach19x2: "Unlocks Buy Max button for tome upgrades!",
+  ach19x4: "Keep tome upgrades on holy resets!",
+  //Holy octahedrons
+  ach20x0: "Automatically max all sigil upgrades!",
+  ach20x1: "Keep alchemy upgrades on holy resets!",
 }
 const achievementResources = [
   {name:"gold", shortName:"&#8202;&#8202;Gold", internalName:"gold"},
@@ -210,17 +226,19 @@ const achievementResources = [
   {name:"indigo sigils", shortName:"&#8202;&#8202;I-sigils", internalName:"indigoSigils"},
   {name:"violet sigils", shortName:"&#8202;&#8202;V-sigils", internalName:"violetSigils"},
   {name:"pink sigils", shortName:"P-sigils", internalName:"pinkSigils"},
-  {name:"knowledge", shortName:"Knwlege", internalName:"knowledge"},
+  {name:"knowledge", shortName:"&#8202;&#8202;Knwlege", internalName:"knowledge"},
   {name:"total tomes", shortName:"Tomes", internalName:"totalTomes"},
   {name:"blue fire", shortName:"B-fire", internalName:"blueFire"},
   {name:"blood", shortName:"Blood", internalName:"blood"},
   {name:"plutonium", shortName:"Plutonium", internalName:"plutonium"},
   {name:"red sigils", shortName:"R-sigils", internalName:"redSigils"},
   {name:"orange sigils", shortName:"O-sigils", internalName:"orangeSigils"},
-  {name:"yellow sigils", shortName:"Y-sigils", internalName:"yellowSigils"},
-  {name:"holy tetrahedrons", shortName:"Tetra", internalName:"holyTetrahedrons"}
+  {name:"yellow sigils", shortName:"&#8202;&#8202;Y-sigils", internalName:"yellowSigils"},
+  {name:"holy tetrahedrons", shortName:"Tetra", internalName:"holyTetrahedrons"},
+  {name:"holy octahedrons", shortName:"Octa", internalName:"holyOctahedrons"},
+  {name:"holy fire", shortName:"H-fire", internalName:"holyFire"}
 ]
-const achievementColours = ["#fd0", "#f80", "#bff", "#90d", "#60d", "#8f8", "#06b", "#00b", "#40b", "#60b", "#b0b", "#987", "#965", "#66f", "#f00", "#25e", "#b00", "#b60", "#bb0", "#6dd"]
+const achievementColours = ["#fd0", "#f80", "#bff", "#90d", "#60d", "#8f8", "#06b", "#00b", "#40b", "#60b", "#b0b", "#987", "#965", "#66f", "#f00", "#25e", "#b00", "#b60", "#bb0", "#6dd", "#d6d", "#ff9"]
 //this array tells the display code when each achievement should be visible. each child array corresponds to a value of game.unlocks
 const achievementDisplayUnlocks = [
   [3,2,1], //unlock 0 - start
@@ -247,7 +265,9 @@ const achievementDisplayUnlocks = [
   [12,12,12,12,12,12,10,10,10,10,10,8,5,5,4,3,2,1], //unlock 21 - red sigils
   [12,12,12,12,12,12,10,10,10,10,10,8,5,5,4,3,3,2,1], //unlock 22 - orange sigils
   [12,12,12,12,12,12,11,11,11,11,11,9,6,6,6,4,4,4,3,1], //unlock 23 - yellow sigils
-  [12,12,12,12,12,12,12,12,12,12,12,10,7,7,6,4,4,4,4,4], //unlock 24 - holy tetrahedrons
+  [12,12,12,12,12,12,12,12,12,12,12,10,7,7,6,4,4,4,4,4,1], //unlock 24 - holy tetrahedrons
+  [12,12,12,12,12,12,12,12,12,12,12,11,8,8,7,5,5,5,5,4,2,1], //unlock 25 - holy octahedrons
+  [12,12,12,12,12,12,12,12,12,12,12,12,9,9,7,7,6,6,6,6,4,2], //unlock 25 - holy fire
 ]
 
 //stores position and unlock data for each display tab. structure is [x, y, unlock]
@@ -276,7 +296,10 @@ const tabData = {
   orangeSigils: [730, 1145, 22],
   yellowSigils: [1095, 1145, 23],
   holyTetrahedrons: [830, -250, 24],
-  holyTetrahedronTree: [830, -560, 24],
+  holyTetrahedronTree: [830, -680, 24],
+  holyOctahedrons: [1295, -250, 25],
+  holyOctahedronTree: [1295, -520, 25],
+  holyFire: [-1245, 365, 26]
 }
 
 //this is what I want the render function to see

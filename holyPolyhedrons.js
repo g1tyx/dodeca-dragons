@@ -1,16 +1,28 @@
-//Confirmation popups for magic resets
+//Confirmation popups for holy polyhedron resets (could probably be optimised)
 function holyPolyhedronCheck(x) {
-  if (game.holyTetrahedronsToGet.eq(0)) {
-    if (confirm("哇，等一下！ 你不会获得任何神圣的四面体！ 你确定要转生吗？")) holyPolyhedronReset(x)
+  if (x==1) {
+    if (game.holyTetrahedronsToGet.eq(0)) {
+      if (confirm("Woah, hold on! You won't gain any holy tetrahedrons! Are you sure you want to ascend?")) holyPolyhedronReset(x)
+    }
+    else if (game.confirmations[2]) {
+      if (confirm("Are you sure you want to ascend?")) holyPolyhedronReset(x)
+    }
+    else {holyPolyhedronReset(x)}
   }
-  else if (game.confirmations[2]) {
-    if (confirm("你确定要转生吗？")) holyPolyhedronReset(x)
+  else if (x==2) {
+    if (game.holyOctahedronsToGet.eq(0)) {
+      if (confirm("Woah, hold on! You won't gain any holy octahedrons! Are you sure you want to ascend?")) holyPolyhedronReset(x)
+    }
+    else if (game.confirmations[2]) {
+      if (confirm("Are you sure you want to ascend?")) holyPolyhedronReset(x)
+    }
+    else {holyPolyhedronReset(x)}
   }
-  else {holyPolyhedronReset(x)}
 }
 
 function holyPolyhedronReset(x) {
-  if (x==1) game.holyTetrahedrons = game.holyTetrahedrons.add(game.holyTetrahedronsToGet)
+  if (x==1) {game.holyTetrahedrons = game.holyTetrahedrons.add(game.holyTetrahedronsToGet)}
+  else if (x==2) {game.holyOctahedrons = game.holyOctahedrons.add(game.holyOctahedronsToGet)}
   
   sigilReset(0, triggerLayer="holyPolyhedron")
 
@@ -132,19 +144,24 @@ function holyPolyhedronReset(x) {
 
   game.tomes = new Decimal(0)
   game.totalTomes = new Decimal(0)
-  for (i=0;i<14;i++) {
-    if (i!=5 && i!=8 && i!=11 && i!=12 && i!=13) {
-      game.tomeUpgradesBought[i] = false
-      document.getElementsByClassName("tomeUpgrade")[i].disabled = false
+  if (game.unlockedAchievements[19] < 5) {
+    for (i=0;i<14;i++) {
+      if (i!=5 && i!=8 && i!=11 && i!=12 && i!=13) {
+        game.tomeUpgradesBought[i] = false
+        document.getElementsByClassName("tomeUpgrade")[i].disabled = false
+      }
     }
   }
 
+  
   game.plutonium = new Decimal(0)
   game.bestPlutoniumToGet = new Decimal(0)
-  for (i=0;i<5;i++) {
-    game.plutoniumUpgradesBought[i] = 0
-    document.getElementsByClassName("plutoniumUpgradesBought")[i].innerHTML = "0"
-    document.getElementsByClassName("plutoniumUpgrade")[i].disabled = false
+  if (game.unlockedAchievements[20] < 2) {
+    for (i=0;i<5;i++) {
+      game.plutoniumUpgradesBought[i] = 0
+      document.getElementsByClassName("plutoniumUpgradesBought")[i].innerHTML = "0"
+      document.getElementsByClassName("plutoniumUpgrade")[i].disabled = false
+    }
   }
 
   game.blueFire = new Decimal(0)
@@ -153,14 +170,28 @@ function holyPolyhedronReset(x) {
   game.blueFireUpgradesBought = [new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0)]
 
   game.blood = new Decimal(0)
+
+  resetKnowledgeTrades()
 }
 
 function buyHolyTetrahedronUpgrade(x) {
   if (!game.holyTetrahedronUpgradesBought[x-1] && game.holyTetrahedrons.gte(holyTetrahedronUpgradeCosts[x-1])) {
     game.holyTetrahedrons = game.holyTetrahedrons.sub(holyTetrahedronUpgradeCosts[x-1])
     game.holyTetrahedronUpgradesBought[x-1] = true
-    document.getElementsByClassName("holyTreeUpgrade")[x-1].disabled = true
-    document.getElementsByClassName("holyTreeUpgrade")[x-1].style.backgroundColor = "#9b9"
+    document.getElementsByClassName("holyTetrahedronUpgrade")[x-1].disabled = true
+    document.getElementsByClassName("holyTetrahedronUpgrade")[x-1].style.backgroundColor = "#9b9"
+    if (x==11) {
+      document.getElementsByClassName("box")[31].style.display = "block"
+      document.getElementsByClassName("box")[32].style.display = "block"
+      document.getElementsByClassName("resourceRow")[21].style.display = "block"
+      holyOctahedronUnlockCheck()
+      addUnlock() //sets unlock to 25
+    }
+    if (x==12) {
+      document.getElementsByClassName("box")[33].style.display = "block"
+      document.getElementsByClassName("resourceRow")[22].style.display = "block"
+      addUnlock() //sets unlock to 26
+    }
   }
   holyTetrahedronUnlockCheck()
 }
@@ -177,18 +208,56 @@ function holyTetrahedronUnlockCheck() {
   if (game.holyTetrahedronUpgradesBought[4] && game.holyTetrahedronUpgradesBought[5]) game.holyTetrahedronUpgradesUnlocked[7] = true
   if (game.holyTetrahedronUpgradesBought[5] && game.holyTetrahedronUpgradesBought[6]) game.holyTetrahedronUpgradesUnlocked[8] = true
   if (game.holyTetrahedronUpgradesBought[7] && game.holyTetrahedronUpgradesBought[8]) game.holyTetrahedronUpgradesUnlocked[9] = true
-  for (i=0;i<10;i++) {
+  if (game.holyTetrahedronUpgradesBought[9]) game.holyTetrahedronUpgradesUnlocked[10] = true
+  if (game.holyTetrahedronUpgradesBought[10]) game.holyTetrahedronUpgradesUnlocked[11] = true
+  if (game.holyTetrahedronUpgradesBought[11]) game.holyTetrahedronUpgradesUnlocked[12] = true
+  for (i=0;i<13;i++) {
       if (game.holyTetrahedronUpgradesBought[i]) {
-        document.getElementsByClassName("holyTreeUpgrade")[i].disabled = true
-        document.getElementsByClassName("holyTreeUpgrade")[i].style.backgroundColor = "#9b9"
+        document.getElementsByClassName("holyTetrahedronUpgrade")[i].disabled = true
+        document.getElementsByClassName("holyTetrahedronUpgrade")[i].style.backgroundColor = "#9b9"
       }
       else if (game.holyTetrahedronUpgradesUnlocked[i]) {
-        document.getElementsByClassName("holyTreeUpgrade")[i].disabled = false
-        document.getElementsByClassName("holyTreeUpgrade")[i].style.backgroundColor = ""
+        document.getElementsByClassName("holyTetrahedronUpgrade")[i].disabled = false
+        document.getElementsByClassName("holyTetrahedronUpgrade")[i].style.backgroundColor = ""
       }
       else {
-        document.getElementsByClassName("holyTreeUpgrade")[i].disabled = true
-        document.getElementsByClassName("holyTreeUpgrade")[i].style.backgroundColor = ""
+        document.getElementsByClassName("holyTetrahedronUpgrade")[i].disabled = true
+        document.getElementsByClassName("holyTetrahedronUpgrade")[i].style.backgroundColor = ""
+      }
+    }
+}
+
+function buyHolyOctahedronUpgrade(x) {
+  if (!game.holyOctahedronUpgradesBought[x-1] && game.holyOctahedrons.gte(holyOctahedronUpgradeCosts[x-1])) {
+    game.holyOctahedrons = game.holyOctahedrons.sub(holyOctahedronUpgradeCosts[x-1])
+    game.holyOctahedronUpgradesBought[x-1] = true
+    document.getElementsByClassName("holyOctahedronUpgrade")[x-1].disabled = true
+    document.getElementsByClassName("holyOctahedronUpgrade")[x-1].style.backgroundColor = "#9b9"
+  }
+  holyOctahedronUnlockCheck()
+}
+
+function holyOctahedronUnlockCheck() {
+  if (game.holyOctahedronUpgradesBought[0]) {
+    game.holyOctahedronUpgradesUnlocked[1] = true
+    game.holyOctahedronUpgradesUnlocked[2] = true
+  }
+  if (game.holyOctahedronUpgradesBought[1]) game.holyOctahedronUpgradesUnlocked[3] = true
+  if (game.holyOctahedronUpgradesBought[1] && game.holyOctahedronUpgradesBought[2]) game.holyOctahedronUpgradesUnlocked[4] = true
+  if (game.holyOctahedronUpgradesBought[2]) game.holyOctahedronUpgradesUnlocked[5] = true
+  if (game.holyOctahedronUpgradesBought[3] && game.holyOctahedronUpgradesBought[4] && game.holyOctahedronUpgradesBought[5]) game.holyOctahedronUpgradesUnlocked[6] = true
+  for (i=0;i<7;i++) {
+      if (game.holyOctahedronUpgradesBought[i]) {
+        document.getElementsByClassName("holyOctahedronUpgrade")[i].disabled = true
+        document.getElementsByClassName("holyOctahedronUpgrade")[i].style.backgroundColor = "#9b9"
+      }
+      else if (game.holyOctahedronUpgradesUnlocked[i]) {
+        document.getElementsByClassName("holyOctahedronUpgrade")[i].disabled = false
+        document.getElementsByClassName("holyOctahedronUpgrade")[i].style.backgroundColor = ""
+      }
+      else {
+        document.getElementsByClassName("holyOctahedronUpgrade")[i].disabled = true
+        document.getElementsByClassName("holyOctahedronUpgrade")[i].style.backgroundColor = ""
       }
     }
 }

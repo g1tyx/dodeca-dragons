@@ -229,3 +229,11 @@ function blueFireAutoMaxAll() {
     document.getElementById("blueFireAutoMaxAllButton").innerHTML = "Auto max all: Off"
   }
 }
+
+function buyHolyFireUpgrade(x) {
+  if (!game.holyFire.gte(game.holyFireUpgradeCosts[x-1])) return; //make sure that we can afford the upgrade
+  game.holyFire = game.holyFire.sub(game.holyFireUpgradeCosts[x-1]);
+  game.holyFireUpgradesBought[x-1] = game.holyFireUpgradesBought[x-1].add(1);
+  game.holyFireUpgradeCosts[x-1] = new Decimal(holyFireUpgradeBase[x]).pow(game.holyFireUpgradesBought[x-1]).mul(holyFireUpgradeInitialCosts[x]).floor(); //update cost to reflect new count
+  document.getElementById('holyFireUpgrade' + x + 'Cost').innerHTML = format(game.holyFireUpgradeCosts[x-1], 0);
+}

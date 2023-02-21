@@ -34,13 +34,13 @@ achievementRow.style.display = "block"
 function showAchievement(x,y) {
   let thisId = "ach" + y + "x" + x; //generate unique id for each achievement e.g. ach1x3 where 0 is resource (fire) and 3 is achievement number within group
   let newHTML = "";
-  if (game.unlockedAchievements[y] > 11 && achievementStarRequirements[y][x]) {
-    if (game.unlockedAchievements[y] - 12 > x) {
-      newHTML += "<img src='img/starFilled.png' class='achievementStar' />"
-    } else {
-      newHTML += "<img src='img/starEmpty.png' class='achievementStar' />"
-    }
-  }
+  //if (game.unlockedAchievements[y] > 11 && achievementStarRequirements[y][x]) {
+  //  if (game.unlockedAchievements[y] - 12 > x) {
+  //    newHTML += "<img src='img/starFilled.png' class='achievementStar' />"
+  //  } else {
+  //    newHTML += "<img src='img/starEmpty.png' class='achievementStar' />"
+  //  }
+  //}
   if (Object.keys(achievementRewards).indexOf(thisId) > -1) { //check if achievement has a reward, in which case we want to highlight it.
     //newHTML += "<img src='img/starFilled.png' class='achievementStar' />"
     newHTML += "<p style='margin-top: 11px; color: #6ff'><span style='font-size: 22px'>" + romanNumerals[x] + "</span><br>" + achievementResources[y].shortName + "</p>";
@@ -185,7 +185,7 @@ function showAchievementInfo(x,y) {
   }
   newHtml += "<p style='font-size: 22px; line-height: 22px; margin: 4px'>" + achievementNames[x][y] + "</p>" 
   newHtml += "<p>Obtain " + format(achievementRequirements[x][y], 0) + " " + achievementResources[x].name + "."; //example: Obtain 1e10 fire
-  if (game.unlockedAchievements[x] >= 12 && achievementStarRequirements[x][y]) newHtml += "<span style='color: #FFD700; text-shadow: 1px 1px #860'> Star requirement: Obtain " + format(achievementStarRequirements[x][y], 0) + " " + achievementResources[x].name + ".</span>"; //example: Star requirement: Obtain e1e10 fire
+  //if (game.unlockedAchievements[x] >= 12 && achievementStarRequirements[x][y]) newHtml += "<span style='color: #FFD700; text-shadow: 1px 1px #860'> Star requirement: Obtain " + format(achievementStarRequirements[x][y], 0) + " " + achievementResources[x].name + ".</span>"; //example: Star requirement: Obtain e1e10 fire
   newHtml += "</p>";
   let thisId = "ach" + x + "x" + y;
   if (Object.keys(achievementRewards).indexOf(thisId) > -1) { //check whether the acheivementRewards object has an entry for this id
@@ -219,15 +219,15 @@ function checkAchievements() {
      //all achievements for this resource have been starred, nothing else to be done
     } else if (game.unlockedAchievements[i] > 11) {
       //all 12 unlocked, now looking at stars
-      if (game.unlockedAchievements[i] == 12 && document.getElementById("ach" + i + "x0").childNodes[0].nodeName == "P") {for (j=0;j<12;j++) {if (achievementStarRequirements[i][j]) document.getElementById("ach" + i + "x" + j).innerHTML = "<img src='img/starEmpty.png' class='achievementStar' />" + document.getElementById("ach" + i + "x" + j).innerHTML}} //If at exactly 12 unlocks and if the first element in the row does not have a star icon, add empty stars to that row
-      let starToCheck = game.unlockedAchievements[i] - 12;
-      if (game[achievementResources[i].internalName].gte(achievementStarRequirements[i][starToCheck])) {
-        game.unlockedAchievements[i] += 1;
-        //make achievement box for stars here?
-        let thisElem = document.getElementById("ach" + i + "x" + starToCheck);
-        thisElem.classList.add("achievementStarred");
-        thisElem.childNodes[0].src = "img/starFilled.png";
-      }
+      //if (game.unlockedAchievements[i] == 12 && document.getElementById("ach" + i + "x0").childNodes[0].nodeName == "P") {for (j=0;j<12;j++) {if (achievementStarRequirements[i][j]) document.getElementById("ach" + i + "x" + j).innerHTML = "<img src='img/starEmpty.png' class='achievementStar' />" + document.getElementById("ach" + i + "x" + j).innerHTML}} //If at exactly 12 unlocks and if the first element in the row does not have a star icon, add empty stars to that row
+      //let starToCheck = game.unlockedAchievements[i] - 12;
+      //if (game[achievementResources[i].internalName].gte(achievementStarRequirements[i][starToCheck])) {
+      //  game.unlockedAchievements[i] += 1;
+      //  //make achievement box for stars here?
+      //  let thisElem = document.getElementById("ach" + i + "x" + starToCheck);
+      //  thisElem.classList.add("achievementStarred");
+      //  thisElem.childNodes[0].src = "img/starFilled.png";
+      //}
     } else {
       //fewer than 12 achievements, not checking for stars yet
       let loops = 0; //tested without this variable, but I added it in afterwards to be 100% sure we don't get stuck in an infinite loop.
@@ -280,6 +280,7 @@ function processAchievementRewards() {
   }
   //plutonium rewards
   if (game.unlockedAchievements[19] > 0) document.getElementById("plutoniumMaxAllButton").style.display = "block";
+  if (game.unlockedAchievements[19] > 2) document.getElementById("tomeUpgradeBuyMaxButton").style.display = "block";
 }
 
 function achievementBoxOpen(x,y) {

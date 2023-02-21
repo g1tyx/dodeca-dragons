@@ -14,10 +14,10 @@ function unlockMagic() {
 //Confirmation popups for magic resets
 function magicCheck() {
   if (game.magicToGet.eq(0)) {
-    if (confirm("哇，等一下！ 你不会获得任何魔法！ 您确定要执行魔法重置吗？")) magicReset()
+    if (confirm("Woah, hold on! You won't gain any magic! Are you sure you want to perform a magic reset?")) magicReset()
   }
   else if (game.confirmations[0]) {
-    if (confirm("您确定要执行魔法重置吗？")) magicReset()
+    if (confirm("Are you sure you want to perform a magic reset?")) magicReset()
   }
   else {magicReset()}
 }
@@ -54,7 +54,7 @@ function magicReset(triggerLayer = "magic") {
 
   game.platinum = new Decimal(0)
   game.bestPlatinumToGet = new Decimal(0)
-  if ( (triggerLayer === "magic" && game.unlockedAchievements[3] < 5) || (triggerLayer === "sigil" && game.unlockedAchievements[7] < 3) ) {
+  if ( (triggerLayer === "magic" && game.unlockedAchievements[3] < 5) || (triggerLayer === "sigil" && game.unlockedAchievements[7] < 3) || (triggerLayer == "holyPolyhedron" && game.unlockedAchievements[20] < 2)) {
     for (i=0;i<9;i++) {
       if (i!=2 && i!=6) {
         game.platinumUpgradesBought[i] = 0

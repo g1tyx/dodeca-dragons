@@ -250,3 +250,10 @@ function buyTomeUpgrade(x) {
     }
   }
 }
+
+//Buy max for tome upgrades
+function tomeUpgradeBuyMax() {
+  for (i=1;i<12;i++) {
+    if (i!=6 && i!=9) buyTomeUpgrade(i)
+  }
+}
