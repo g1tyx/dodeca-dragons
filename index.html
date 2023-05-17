@@ -983,6 +983,20 @@
 
 
 
+
+  <!--Notification box to direct players to the new site-->
+  <div id="siteMovedBox" class="window" style="background: #c0ddc0"> 
+    <div class="title-bar" style="background: linear-gradient(90deg,#383,#bfb)">
+      <div class="title-bar-text"">This game has moved!</div>
+      <div class="title-bar-controls">
+        <button aria-label="Close" style="background-image: url('img/close.svg'); background-repeat: no-repeat; background-position: 3px 3px" onclick="document.getElementById('siteMovedBox').style.display = 'none'"></button>
+      </div>
+    </div>
+    <div class="window-body" style="padding-right: 5px">
+      <center><img src="img/warning.png" style="margin: 8px"></center>
+      <p style="margin-top: 0">DodecaDragons is now playable on the new site, <a href="https://demonin.com/games/dodecaDragons/">demonin.com</a>. Please export your save across to the new site to keep up with future updates!</p>
+    </div>
+  </div>
   
   <!-- Warning box for when save is not detected-->
   <div id="autosaveWarning" class="window" style="background: #ddc0c0; display: none"> 
@@ -1058,6 +1072,7 @@ var _hmt = _hmt || [];
 })();
 </script>
     </div>
+
 </body>
 
 </html>

@@ -594,7 +594,7 @@ img {
   transition: left 800ms ease-in-out;
 }
 
-#autosaveWarning {
+#autosaveWarning, #siteMovedBox {
   position: fixed;
   top:20px;
   right:20px;
