@@ -165,6 +165,42 @@ function moreDarkMagicUpgrades() {
   }
 }
 
+function unlockVoidMagicUpgrades() {
+  if (game.gold.gte("e1e100")) {
+    document.getElementById("unlockVoidMagicUpgradesButton").style.display = "none"
+    document.getElementsByClassName("box")[34].style.display = "block"
+    document.getElementsByClassName("upgradeDragonButton")[6].style.display = "block"
+    addUnlock() //sets unlock to 27
+  }
+}
+
+//Void magic upgrades
+function buyVoidMagicUpgrade(x) {
+  //Checks that the magic upgrade is not bought and that the player's magic is greater/equal to the corresponding upgrade cost
+  if (game.voidMagicUpgradesBought[x-1] != true && game.magic.gte(voidMagicUpgradeCosts[x-1])) {
+    game.voidMagicUpgradesBought[x-1] = true
+    document.getElementsByClassName("voidMagicUpgrade")[x-1].disabled = true
+    if (x==4) {
+      document.getElementsByClassName("box")[35].style.display = "block"
+      document.getElementsByClassName("box")[36].style.display = "block"
+      document.getElementsByClassName("resourceRow")[23].style.display = "block"
+      holyDodecahedronUnlockCheck()
+      addUnlock() //sets unlock to 28
+    }
+		else if (x==8) {
+			document.getElementsByClassName("holyFireUpgrade")[5].style.display = "inline-block"
+			document.getElementsByClassName("holyFireBuyMaxButton")[5].style.display = "inline-block"
+			game.holyFireUpgradeCosts[5] = new Decimal(holyFireUpgradeBase[6]).pow(game.holyFireUpgradesBought[5]).mul(holyFireUpgradeInitialCosts[6]).floor()
+			document.getElementById('holyFireUpgrade6Cost').innerHTML = format(game.holyFireUpgradeCosts[5], 0);
+		}
+		else if (x==16) {
+      document.getElementsByClassName("box")[39].style.display = "block"
+			document.getElementsByClassName("resourceRow")[25].style.display = "block"
+      addUnlock() //sets unlock to 31
+    }
+  } 
+}
+
 function getMagicGain() {
   let toGet = game.gold.div(1e15).pow(0.1);
   if (game.magicUpgradesBought[3]) {

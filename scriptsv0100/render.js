@@ -216,14 +216,43 @@ function render(x, y) {
     document.getElementsByClassName("box")[31].style.top = (window.innerHeight / 2 + y - 250) + "px"
     //Holy octahedron tree tab
     document.getElementsByClassName("box")[32].style.left = (window.innerWidth / 2 + x + 1295) + "px"
-    document.getElementsByClassName("box")[32].style.top = (window.innerHeight / 2 + y - 520) + "px"
+    document.getElementsByClassName("box")[32].style.top = (window.innerHeight / 2 + y - 600) + "px"
   }
   if (game.unlocks >= 25) {
     //Holy fire tab
     document.getElementsByClassName("box")[33].style.left = (window.innerWidth / 2 + x - 1245) + "px"
     document.getElementsByClassName("box")[33].style.top = (window.innerHeight / 2 + y + 365) + "px"
   }
+  if (game.unlocks >= 26) {
+    //Void magic upgrades tab
+    document.getElementsByClassName("box")[34].style.left = (window.innerWidth / 2 + x - 1095) + "px"
+    document.getElementsByClassName("box")[34].style.top = (window.innerHeight / 2 + y - 130) + "px"
+  }
+  if (game.unlocks >= 27) {
+    //Holy dodecahedrons tab
+    document.getElementsByClassName("box")[35].style.left = (window.innerWidth / 2 + x + 1760) + "px"
+    document.getElementsByClassName("box")[35].style.top = (window.innerHeight / 2 + y - 250) + "px"
+    //Holy dodecahedron tree tab
+    document.getElementsByClassName("box")[36].style.left = (window.innerWidth / 2 + x + 1760) + "px"
+    document.getElementsByClassName("box")[36].style.top = (window.innerHeight / 2 + y - 600) + "px"
+  }
+	if (game.unlocks >= 28) {
+    //Planets tab
+    document.getElementsByClassName("box")[37].style.left = (window.innerWidth / 2 + x - 515) + "px"
+    document.getElementsByClassName("box")[37].style.top = (window.innerHeight / 2 + y - 650) + "px"
+	}
+	if (game.unlocks >= 29) {
+    //Omniversal hypergod tab
+    document.getElementsByClassName("box")[38].style.left = (window.innerWidth / 2 + x + 390) + "px"
+    document.getElementsByClassName("box")[38].style.top = (window.innerHeight / 2 + y - 780) + "px"
+	}
+	if (game.unlocks >= 30) {
+    //Cosmic plague tab
+    document.getElementsByClassName("box")[39].style.left = (window.innerWidth / 2 + x - 1345) + "px"
+    document.getElementsByClassName("box")[39].style.top = (window.innerHeight / 2 + y + 850) + "px"
+	}
   document.body.style.backgroundPosition = (x / 4) + "px " + (y / 4) + "px"
+	if (game.unlocks >= 29) document.getElementsByClassName("box")[38].style.backgroundPosition = (x / 6) + "px " + (y / 6) + "px"
   //console.log(Date.now() - renderVars.lastRender)
   renderVars.lastRender = Date.now();
 }

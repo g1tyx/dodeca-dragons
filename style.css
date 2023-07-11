@@ -427,14 +427,14 @@ img {
   display: none;
 }
 
-#blueFireMaxAllButton {
+#blueFireMaxAllButton, #holyFireMaxAllButton {
   position: absolute;
   top: 89px;
   right: 8px;
   display: none;
 }
 
-#blueFireAutoMaxAllButton {
+#blueFireAutoMaxAllButton, #holyFireAutoMaxAllButton {
   position: absolute;
   top: 119px;
   right: 8px;
@@ -475,7 +475,7 @@ img {
   text-shadow: 1px 1px 0 #999;
 }
 
-.blueFireBuyMaxButton {
+.blueFireBuyMaxButton, .holyFireBuyMaxButton {
   min-width: 46px;
   display: none;
 }
@@ -547,19 +547,46 @@ img {
   text-shadow: 1px 1px 0 #662;
 }
 
-.holyTetrahedronUpgrade, .holyOctahedronUpgrade {
+.holyTetrahedronUpgrade, .holyOctahedronUpgrade, .holyDodecahedronUpgrade {
   width: 140px;
   height: 60px;
   position: absolute;
   background-color: #999;
 }
 
-.holyTetrahedronUpgrade:disabled, .holyOctahedronUpgrade:disabled {
+.holyTetrahedronUpgrade:disabled, .holyOctahedronUpgrade:disabled, .holyDodecahedronUpgrade:disabled {
   color: #666;
   text-shadow: 1px 1px 0 #999;
 }
 
+.voidMagicUpgrade {
+  height: 46px;
+  margin: 5px 2px 0 2px;
+  background-color: #111;
+  color: #b8f;
+  text-align: left;
+}
 
+.voidMagicUpgrade:disabled {
+  color: #74d;
+  text-shadow: 1px 1px 0 #388;
+}
+
+#plagueMagicUpgrade {
+  background-color: rgb(18, 18, 18);
+  background-image: url('img/plagueButtonBack.png');
+  background-size: 150px;
+  image-rendering: pixelated;
+  color: #4b4;
+}
+
+#oganessonMagicUpgrade {
+  background-color: rgb(18, 18, 18);
+  background-image: url('img/oganessonButtonBack.png');
+  background-size: 150px;
+  image-rendering: pixelated;
+  color: #74f;
+}
 
 
 

@@ -5,9 +5,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
   <meta content="DodecaDragons" property="og:title" />
-  <meta content="THE END IS NEVER THE END IS NEVER THE END IS NEVER THE END IS NEVER THE END"
+  <meta content="Guess who's back!"
     property="og:description" />
-  <meta content="https://demonins-item-shop.demonin.repl.co/games/dodecaDragons/" property="og:url" />
+  <meta content="https://demonin.com/games/dodecaDragons/" property="og:url" />
   <meta content="img/logo.png" property="og:image" />
   <meta content="#408000" data-react-helmet="true" name="theme-color" />
   <meta name="color-scheme" content="light only">
@@ -40,7 +40,9 @@
       <button id="unlockDarkMagicUpgradesButton" style="height: 46px; display: none" onclick="unlockDarkMagicUpgrades()">Unlock <a style="color: #404; text-shadow: 1px 1px #88f">Dark Magic Upgrades</a><br>You are gaining stronger control over your magic powers.<br>Costs 1.00e1,000 gold</button>
       <button id="unlockBloodButton" onclick="unlockBlood()">&#8202;&#8202;UNLOCK BLOOD<br>Costs e5.00e14 gold</button>
       <button id="moreDarkMagicUpgradesButton" style="background-color: #74a; height: 34px; display: none" onclick="moreDarkMagicUpgrades()">Unlock more dark magic upgrades<br>Costs e6.66e16 gold</button>
-      <button id="unlockVoidMagicUpgradesButton" style="background-color: #222; color: white; height: 58px; display: none">&#8202;&#8202;Unlock <a style="color: #dbf; text-shadow: 1px 1px #648">Void Magic Upgrades</a><br>You are mastering control of your magic powers.<br>Costs e1.00e100 gold and 100,000,000 holy fire<br><a style="color: #fbb">Not yet purchasable! Stick around until v0.8.2!</a></button>
+      <button id="unlockVoidMagicUpgradesButton" style="background-color: #222; color: white; height: 58px; display: none" onclick="unlockVoidMagicUpgrades()">&#8202;&#8202;Unlock <a style="color: #dbf; text-shadow: 1px 1px #648">Void Magic Upgrades</a><br>You are mastering control of your magic powers.<br>Costs e1.00e100 gold and 100,000,000 holy fire</button>
+			<button id="unlockPlanetsButton" style="background-color: black; background-image: url('img/spaceBack.png'); color: #b8f; height: 34px; width: 200px; display: none" onclick="unlockPlanets()">&#8202;&#8202;Unlock <b>Planets</b><br>Costs e1.00e400 gold</button>
+			<button id="omniverseWarning" style="background-color: black; color: #b0f; text-shadow: 0 1px #00f; height: 46px; display: none">&#8202;&#8202;Something unseeable looms over you. A powerful presense has taken<br>&#8202;&#8202;an interest in your actions. Perhaps it may show itself if you acquire more gold.</button>
     </div>
   </div>
 
@@ -110,6 +112,9 @@
       <p class="resourceRow" onclick="posSet(-830,250)" style="display: none"><img src="img/iconPolyhedronSmall1.png" class="resourceIcon"></img>Holy tetrahedrons: <a class="resourceText">0</a></p>
       <p class="resourceRow" onclick="posSet(-1295,250)" style="display: none"><img src="img/iconPolyhedronSmall2.png" class="resourceIcon"></img>Holy octahedrons: <a class="resourceText">0</a></p>
       <p class="resourceRow" onclick="posSet(1245,-365)" style="display: none"><img src="img/iconHolyFire.png" class="resourceIcon"></img>Holy fire: <a class="resourceText">0</a></p>
+      <p class="resourceRow" onclick="posSet(-1760,250)" style="display: none"><img src="img/iconPolyhedronSmall3.png" class="resourceIcon"></img>Holy dodecahedrons: <a class="resourceText">0</a></p>
+			<p class="resourceRow" onclick="posSet(515,650)" style="display: none"><img src="img/iconPlanet.png" class="resourceIcon"></img>Planets: <a class="resourceText">0</a></p>
+			<p class="resourceRow" onclick="posSet(1345,-850)" style="display: none"><img src="img/iconPlague.png" class="resourceIcon"></img>Cosmic plague: <a class="resourceText">0</a></p>
     </div>
   </div>
 
@@ -123,7 +128,7 @@
         <p id="dragonStageCounter" style="position: absolute; margin: 2px; font-size: 22px; color: #777"></p>
         <p id="dragonTitle" class="titleText" style="margin-top: 0;"><a style="font-size: 14px">You have a</a><br>Young
           dragon</p>
-        <img id="dragonImg" src="img/iconDragon1.png" style="width: 128px; margin: 4px; pointer-events: auto" onclick="dragonClicky(event)"><br>
+        <img id="dragonImg" draggable="false" src="img/iconDragon1.png" style="width: 128px; margin: 4px; pointer-events: auto" onclick="dragonClicky(event)"><br>
         <input id="dragonNameBox" style="width: 200px; background-color: #cbc0b8; text-align: center; font-weight: bold" placeholder="Set your dragon's name here!" onchange="changeDragonName()"></input>
       </center>
       <p id="dragonInfo" style="margin-right: 4px">Your wild young dragon produces fire for you. It enjoys playing
@@ -141,6 +146,7 @@
         dragon with the power of light<br>Multiplies fire gain by 10,000,000<br>Costs 1.00e150 gold</button>
       <button class="upgradeDragonButton" style="height: 46px; display: none; background-color: #444; color: #bbe" onclick="upgradeDragon(5)">Enhance your dragon with incomprehensible machinery<br>&#8202;&#8202;Multiplies blue fire gain by 100<br>Costs e1.50e11 gold</button>
       <button class="upgradeDragonButton" style="height: 46px; display: none; background-color: #ffd; color: #08f" onclick="upgradeDragon(6)">Ascend your dragon with the power of the heavens themselves!<br>Multiplies blue fire gain by 1.00e50<br>&#8202;&#8202;Costs e1.00e55 gold</button>
+      <button class="upgradeDragonButton" style="height: 46px; display: none; background-color: #222; color: #b8f" onclick="upgradeDragon(7)">Fuse your dragon with versions of itself from other dimensions<br>Multiplies holy fire gain by 1.00e10<br>Costs e1.00e200 gold</button>
       <div id="dragonAffectionStuff" style="display: none">
         <hr>
         <p>Your dragon is seeking affection!<br>(You cannot do anything with your dragon while inside challenges)</p><br>
@@ -661,16 +667,20 @@
       <div id="sigilResetAutomation" style="display: none;">
         <p style="margin: 4px; font-weight: bold">Automatic sigil resetter</p>
         <input type="checkbox" id="sigilResetterActive" onchange="updateSigilResetter()" tabindex="-1">
-        <label for="sigilResetterActive">Enabled</label> <br>
+        <label for="sigilResetterActive">Enabled</label> <br><br>
         Colour: <select id="sigilResetterType" onchange="updateSigilResetter()" tabindex="-1">
-          <option value="Cyan">Cyan</option>
-          <option value="Blue">Blue</option>
-          <option value="Indigo">Indigo</option>
-          <option value="Violet">Violet</option>
-          <option value="Pink">Pink</option>
-        </select>
+          <option>Cyan</option>
+          <option>Blue</option>
+          <option>Indigo</option>
+          <option>Violet</option>
+          <option>Pink</option>
+        </select><br>
         <input type="checkbox" id="sigilResetterCycle" onchange="updateSigilResetter()" tabindex="-1">
         <label for="sigilResetterCycle">Cycle Colour on Reset</label> <br>
+        <span id="sigilResetterCycleModeSpan" style="display:none">
+          <input type="checkbox" id="sigilResetterCycleMode" onchange="updateSigilResetter()" tabindex="-1">
+          <label for="sigilResetterCycleMode" >Cycle between Red/Orange/Yellow only</label> <br>
+        </span><br><br>
         Mode: <select id="sigilResetterMode" onchange="updateSigilResetter(true)" tabindex="-1">
           <option>Potential Sigil Amount</option>
           <option>Gold Amount</option>
@@ -710,7 +720,7 @@
         <button class="tomeUpgrade" style="display: none" onclick="buyTomeUpgrade(11)">Blood increases gold gain in hell<br>Currently ^<a id="tomeUpgrade11Effect">1.00</a><br>Costs 1,500 tomes</button>
         <button class="tomeUpgrade" id="plutoniumTomeUpgrade" onclick="buyTomeUpgrade(12)">Unlock <b>Plutonium</b><br>Costs 2,250 tomes<br>Requires dark magic upgrade 11</button>
         <button class="tomeUpgrade" id="sigilTomeUpgrade" onclick="buyTomeUpgrade(13)">Unlock <b>Red sigils</b><br>Costs 2,800 tomes<br>Requires plutonium</button>
-        <button class="tomeUpgrade" style="background-color: #c66" onclick="buyTomeUpgrade(14)">Unlock <b>3 more hell layers</b><br>Costs 7,500 tomes</button>
+        <button class="tomeUpgrade" style="background-color: #c66" onclick="buyTomeUpgrade(14)">Unlock <b>2 more hell layers</b><br>Costs 7,500 tomes</button>
       </div>
       <button id="tomeUpgradeBuyMaxButton" onclick="tomeUpgradeBuyMax()">Buy max</button>
     </div>
@@ -848,7 +858,7 @@
     </div>
     <div class="window-body" style="max-height: calc(95vh - 50px); overflow: auto">
       <div style="margin-top: 8px; background-color: #111; width: 100%; border-top: 4px solid #666; border-bottom: 4px solid #666">
-        <p style="text-align: center"><a class="titleText" style="font-size: 36px; color: #ca1; text-shadow: 3px 3px #555">DodecaDragons</a><br><a style="color: #666">v0.8.1 <span id="inDevSpan"></span></a></p>
+        <p style="text-align: center"><a class="titleText" style="font-size: 36px; color: #ca1; text-shadow: 3px 3px #555">DodecaDragons</a><br><a style="color: #666">v0.10.0 <span id="inDevSpan"></span></a></p>
       </div>
       <p style="margin-top: 6px">Created by <a style="color: #50a">Demonin</a><br>Co-developed by <a style="color: #a0a">Cornucanis</a><br>Additional spriting by <a style="color: #a00">Zaxolotl</a></p>
       <p style="color: #666">Move around by clicking and dragging.<br>If you find the text is too small,
@@ -913,21 +923,21 @@
     <div class="window-body">
       <button class="holyTetrahedronUpgrade" onclick="buyHolyTetrahedronUpgrade(1)" style="border: 3px solid #66f; bottom: 10px; left: 153px"><b>Blue fire gain is<br>&#8202;&#8202;squared</b><br>Costs 1 tetrahedron</button>
       <button class="holyTetrahedronUpgrade" onclick="buyHolyTetrahedronUpgrade(2)" style="border: 3px solid #94e; bottom: 90px; left: 3px"><b>&#8202;&#8202;Score gain is<br>&#8202;&#8202;squared</b><br>Costs 1 tetrahedron</button>
-      <button class="holyTetrahedronUpgrade" onclick="buyHolyTetrahedronUpgrade(3)" style="border: 3px solid #4af; bottom: 90px; left: 153px"><b>Cyan sigil gain is<br>&#8202;&#8202;multiplied by<br>&#8202;&#8202;1.00e50</b><br>Costs 1 tetrahedron</button>
-      <button class="holyTetrahedronUpgrade" onclick="buyHolyTetrahedronUpgrade(4)" style="border: 3px solid; border-color: #d22 #d72 #dd2 #d72; bottom: 90px; left: 303px"><b>&#8202;&#8202;R-O-Y sigil gain is multiplied by 10</b><br>Costs 1 tetrahedron</button>
-      <button class="holyTetrahedronUpgrade" onclick="buyHolyTetrahedronUpgrade(5)" style="border: 3px solid #8ff; bottom: 170px; left: 3px"><b>&#8202;&#8202;Platinum gain is multiplied by 1e20</b><br>&#8202;&#8202;Costs 2 tetrahedrons</button>
-      <button class="holyTetrahedronUpgrade" onclick="buyHolyTetrahedronUpgrade(6)" style="border: 3px solid #8f8; bottom: 170px; left: 153px"><b>Uranium gain is<br>&#8202;&#8202;multiplied by 100</b><br>&#8202;&#8202;Costs 2 tetrahedrons</button>
-      <button class="holyTetrahedronUpgrade" onclick="buyHolyTetrahedronUpgrade(7)" style="border: 3px solid #f00; bottom: 170px; left: 303px"><b>Blood gain is always at least 1.00e9/s</b><br>&#8202;&#8202;Costs 2 tetrahedrons</button>
-      <button class="holyTetrahedronUpgrade" onclick="buyHolyTetrahedronUpgrade(8)" style="border: 3px solid #a86; bottom: 250px; left: 78px"><b>&#8202;&#8202;Knowledge gain is<br>&#8202;&#8202;multiplied by 1.00e150</b><br>&#8202;&#8202;Costs 5 tetrahedrons</button>
+      <button class="holyTetrahedronUpgrade" onclick="buyHolyTetrahedronUpgrade(3)" style="border: 3px solid #4af; bottom: 90px; left: 153px"><b>&#8202;&#8202;Multiply cyan sigil gain by 1.00e50</b><br>Costs 1 tetrahedron</button>
+      <button class="holyTetrahedronUpgrade" onclick="buyHolyTetrahedronUpgrade(4)" style="border: 3px solid; border-color: #d22 #d72 #dd2 #d72; bottom: 90px; left: 303px"><b>&#8202;&#8202;Multiply R-O-Y sigil<br>&#8202;&#8202;gain by 10</b><br>Costs 1 tetrahedron</button>
+      <button class="holyTetrahedronUpgrade" onclick="buyHolyTetrahedronUpgrade(5)" style="border: 3px solid #8ff; bottom: 170px; left: 3px"><b>Multiply platinum<br>&#8202;&#8202;gain by 1e20</b><br>&#8202;&#8202;Costs 2 tetrahedrons</button>
+      <button class="holyTetrahedronUpgrade" onclick="buyHolyTetrahedronUpgrade(6)" style="border: 3px solid #8f8; bottom: 170px; left: 153px"><b>&#8202;&#8202;Multuply uranium gain by 100</b><br>&#8202;&#8202;Costs 2 tetrahedrons</button>
+      <button class="holyTetrahedronUpgrade" onclick="buyHolyTetrahedronUpgrade(7)" style="border: 3px solid #f00; bottom: 170px; left: 303px"><b>Blood gain is always at least<br>&#8202;&#8202;1.00e9/s</b><br>&#8202;&#8202;Costs 2 tetrahedrons</button>
+      <button class="holyTetrahedronUpgrade" onclick="buyHolyTetrahedronUpgrade(8)" style="border: 3px solid #a86; bottom: 250px; left: 78px"><b>Multiply knowledge<br>&#8202;&#8202;gain by 1.00e150</b><br>&#8202;&#8202;Costs 5 tetrahedrons</button>
       <button class="holyTetrahedronUpgrade" onclick="buyHolyTetrahedronUpgrade(9)" style="border: 3px solid #d0d; bottom: 250px; left: 228px"><b>&#8202;&#8202;Pink sigil gain is<br>&#8202;&#8202;squared</b><br>&#8202;&#8202;Costs 5 tetrahedrons</button>
       <button class="holyTetrahedronUpgrade" onclick="buyHolyTetrahedronUpgrade(10)" style="border: 3px solid #f80; bottom: 330px; left: 153px"><b>Fire gain is<br>&#8202;&#8202;increased by<br>&#8202;&#8202;^10,000</b><br>&#8202;&#8202;Costs 15 tetrahedrons</button>
       <button class="holyTetrahedronUpgrade" onclick="buyHolyTetrahedronUpgrade(11)" style="border: 3px solid #d6d; bottom: 410px; left: 153px"><b>Unlock HOLY OCTAHEDRONS</b><br>&#8202;&#8202;Costs 50 tetrahedrons</button>
-      <button class="holyTetrahedronUpgrade" onclick="buyHolyTetrahedronUpgrade(12)" style="border: 3px solid #ff9; bottom: 490px; left: 153px"><b>&#8202;&#8202;Unlock Holy Fire</b><br>&#8202;&#8202;Costs 2,000<br>&#8202;&#8202;tetrahedrons</button>
-      <button class="holyTetrahedronUpgrade" onclick="buyHolyTetrahedronUpgrade(13)" style="border: 3px solid #ff9; bottom: 570px; left: 153px"><b>&#8202;&#8202;Multiply holy fire<br>&#8202;&#8202;gain by 100</b><br>&#8202;&#8202;Costs 50,000<br>&#8202;&#8202;tetrahedrons</button>
+      <button class="holyTetrahedronUpgrade" onclick="buyHolyTetrahedronUpgrade(12)" style="border: 3px solid #ff9; bottom: 490px; left: 153px"><b>Unlock Holy Fire</b><br>&#8202;&#8202;Costs 2,000<br>&#8202;&#8202;tetrahedrons</button>
+      <button class="holyTetrahedronUpgrade" onclick="buyHolyTetrahedronUpgrade(13)" style="border: 3px solid #ff9; bottom: 570px; left: 153px"><b>&#8202;&#8202;Multiply holy fire gain by 100</b><br>&#8202;&#8202;Costs 50,000 tetras</button>
     </div>
   </div>
 
-    <!--Holy Octahedron tab-->
+  <!--Holy Octahedron tab-->
   <div class="window box" id="tab_holyOctahedrons" style="width: 450px; height: 170px; display: none; background-color: #e9e9d2;">
     <div class="title-bar" style="position: relative; background:linear-gradient(90deg,#828,#d6d); z-index: 1">
       <div class="title-bar-text">Holy octahedrons</div>
@@ -943,18 +953,20 @@
   </div>
 
   <!--Holy Octahedron tree tab-->
-  <div class="window box" id="tab_holyOctahedronTree" style="width: 450px; height: 340px; display: none; background-color: #e9e9d2; background-image: url('img/ariZonaBack3.png');">
+  <div class="window box" id="tab_holyOctahedronTree" style="width: 450px; height: 500px; display: none; background-color: #e9e9d2; background-image: url('img/ariZonaBack3.png');">
     <div class="title-bar" style="position: relative; background:linear-gradient(90deg,#828,#d6d); z-index: 1">
       <div class="title-bar-text">Holy octahedron tree</div>
     </div>
     <div class="window-body">
-      <button class="holyOctahedronUpgrade" onclick="buyHolyOctahedronUpgrade(1)" style="border: 3px solid; border-color: #d22 #d72 #dd2 #d72; bottom: 10px; left: 153px;"><b>Tetrahedrons<br>&#8202;&#8202;Multiply R-O-Y sigil gain</b><br>Costs 1 octahedron</button>
+      <button class="holyOctahedronUpgrade" onclick="buyHolyOctahedronUpgrade(1)" style="border: 3px solid; border-color: #d22 #d72 #dd2 #d72; bottom: 10px; left: 153px;"><b>Tetrahedrons<br>&#8202;&#8202;multiply R-O-Y sigil gain</b><br>Costs 1 octahedron</button>
       <button class="holyOctahedronUpgrade" onclick="buyHolyOctahedronUpgrade(2)" style="border: 3px solid #f00; bottom: 90px; left: 78px;"><b>Multiply gold gain<br>in hell by 1.00e250</b><br>Costs 1 octahedron</button>
       <button class="holyOctahedronUpgrade" onclick="buyHolyOctahedronUpgrade(3)" style="border: 3px solid #f00; bottom: 90px; left: 228px;"><b>&#8202;&#8202;Multiply blood gain<br>&#8202;&#8202;by 1.00e9^(hell<br>&#8202;&#8202;layer)</b><br>Costs 1 octahedron</button>
       <button class="holyOctahedronUpgrade" onclick="buyHolyOctahedronUpgrade(4)" style="border: 3px solid #66f; bottom: 170px; left: 3px;"><b>Multiply blue fire gain by 1e250</b><br>&#8202;&#8202;Costs 2 octahedrons</button>
       <button class="holyOctahedronUpgrade" onclick="buyHolyOctahedronUpgrade(5)" style="border: 3px solid #6dd; bottom: 170px; left: 153px;"><b>Gain 1 free tetrahedron per<br>&#8202;&#8202;second</b><br>&#8202;&#8202;Costs 4 octahedrons</button>
       <button class="holyOctahedronUpgrade" onclick="buyHolyOctahedronUpgrade(6)" style="border: 3px solid #94e; bottom: 170px; left: 303px;"><b>&#8202;&#8202;Score gain is<br>&#8202;&#8202;increased by ^10</b><br>&#8202;&#8202;Costs 2 octahedrons</button>
       <button class="holyOctahedronUpgrade" onclick="buyHolyOctahedronUpgrade(7)" style="border: 3px solid #66f; bottom: 250px; left: 153px;"><b>&#8202;&#8202;Plutonium^0.5 multiplies blue fire gain</b><br>&#8202;&#8202;Costs 50 octahedrons</button>
+      <button class="holyOctahedronUpgrade" onclick="buyHolyOctahedronUpgrade(8)" style="border: 3px solid #ff9; bottom: 330px; left: 153px;"><b>&#8202;&#8202;Octahedrons<br>&#8202;&#8202;multiply holy fire gain</b><br>&#8202;&#8202;Costs 750 octahedrons</button>
+      <button class="holyOctahedronUpgrade" onclick="buyHolyOctahedronUpgrade(9)" style="border: 3px solid #a86; bottom: 410px; left: 153px;"><b>Multiply knowledge<br>&#8202;&#8202;gain by 1.00e3,000</b><br>&#8202;&#8202;Costs 25,000 octas</button>
     </div>
   </div>
 
@@ -968,15 +980,136 @@
       <p style="margin-top: 4px">(<a id="holyFirePerSecond">0</a>/s) (Holy fire gain is based on blue fire amount)</p>
       <hr>
       <button class="holyFireUpgrade" style="height: 46px" onclick="buyHolyFireUpgrade(1)">Multiply holy fire production<br>Currently
-        x<a id="holyFireUpgrade1Effect">1.00</a><br>Costs <a id="holyFireUpgrade1Cost">500</a> holy fire</button><br>
+        x<a id="holyFireUpgrade1Effect">1.00</a><br>Costs <a id="holyFireUpgrade1Cost">500</a> holy fire</button>
+      <button class="holyFireBuyMaxButton" onclick="holyFireBuyMax(1)">Buy max</button><br>
       <button class="holyFireUpgrade" style="height: 46px" onclick="buyHolyFireUpgrade(2)">Multiply holy tetrahedron gain<br>Currently
-        x<a id="holyFireUpgrade2Effect">1.00</a><br>Costs <a id="holyFireUpgrade2Cost">1,000</a> holy fire</button><br>
+        x<a id="holyFireUpgrade2Effect">1.00</a><span id="holyFireEffect2Softcap"></span><br>Costs <a id="holyFireUpgrade2Cost">1,000</a> holy fire</button>
+      <button class="holyFireBuyMaxButton" onclick="holyFireBuyMax(2)">Buy max</button><br>
       <button class="holyFireUpgrade" style="height: 46px" onclick="buyHolyFireUpgrade(3)">Multiply dragon time spent cap again<br>Currently
-        x<a id="holyFireUpgrade3Effect">1.00</a><br>Costs <a id="holyFireUpgrade3Cost">10,000</a> holy fire</button><br>
+        x<a id="holyFireUpgrade3Effect">1.00</a><br>Costs <a id="holyFireUpgrade3Cost">10,000</a> holy fire</button>
+      <button class="holyFireBuyMaxButton" onclick="holyFireBuyMax(3)">Buy max</button><br>
       <button class="holyFireUpgrade" style="height: 46px" onclick="buyHolyFireUpgrade(4)">Increase plutonium gain<br>Currently
-        ^<a id="holyFireUpgrade4Effect">1.00</a><br>Costs <a id="holyFireUpgrade4Cost">50,000</a> holy fire</button><br>
+        ^<a id="holyFireUpgrade4Effect">1.00</a><br>Costs <a id="holyFireUpgrade4Cost">50,000</a> holy fire</button>
+      <button class="holyFireBuyMaxButton" onclick="holyFireBuyMax(4)">Buy max</button><br>
       <button class="holyFireUpgrade" style="height: 46px" onclick="buyHolyFireUpgrade(5)">Multiply holy octahedron gain<br>Currently
-        x<a id="holyFireUpgrade5Effect">1.00</a><br>Costs <a id="holyFireUpgrade5Cost">10,000,000</a> holy fire</button><br>
+        x<a id="holyFireUpgrade5Effect">1.00</a><br>Costs <a id="holyFireUpgrade5Cost">10,000,000</a> holy fire</button>
+      <button class="holyFireBuyMaxButton" onclick="holyFireBuyMax(5)">Buy max</button><br>
+			<button class="holyFireUpgrade" style="height: 46px; display: none" onclick="buyHolyFireUpgrade(6)">Multiply holy dodecahedron gain<br>Currently
+        x<a id="holyFireUpgrade6Effect">1.00</a><span id="holyFireEffect6Softcap"></span><br>Costs <a id="holyFireUpgrade6Cost">1.00e45</a> holy fire</button>
+      <button class="holyFireBuyMaxButton" onclick="holyFireBuyMax(6)">Buy max</button>
+			<button id="holyFireAutoMaxAllButton" onclick="holyFireAutoMaxAll()">Auto max all: On</button>
+      <button id="holyFireMaxAllButton" onclick="holyFireMaxAll()">Max all</button>
+    </div>
+  </div>
+
+  <!--Void magic upgrades tab-->
+  <div class="window box" id="tab_voidMagic" style="width: 350px; height: 560px; background-color: #111; display: none;">
+    <div class="title-bar" style="background:linear-gradient(90deg,black,#408)">
+      <div class="title-bar-text">Void magic upgrades</div>
+    </div>
+    <div class="window-body" style="display: grid; grid-template-columns: 1fr 1fr; justify-self: stretch;">
+      <button class="voidMagicUpgrade" onclick="buyVoidMagicUpgrade(1)">Multiply holy octahedron gain by 10<br>Costs
+        e1.25e10 magic</button>
+      <button class="voidMagicUpgrade" onclick="buyVoidMagicUpgrade(2)">Multiply OSP gain by 1.00e20<br>Costs
+        e1.40e10 magic</button>
+      <button class="voidMagicUpgrade" onclick="buyVoidMagicUpgrade(3)">Increase CSP gain by ^2.00<br>Costs
+        e1.55e10 magic</button>
+      <button class="voidMagicUpgrade" style="color: #c26" onclick="buyVoidMagicUpgrade(4)">Unlock HOLY DODECAHEDRONS<br>Costs
+        e1.65e10 magic</button>
+      <button class="voidMagicUpgrade" style="color: #f80; grid-column-end: span 2; text-align: center" onclick="buyVoidMagicUpgrade(5)">&#8202;&#8202;FIRE EQUALIZER I - Fire gain is always equal to gold^(1.00e-10)<br>Costs e2.00e10 magic</button>
+      <button class="voidMagicUpgrade" style="color: #f80; grid-column-end: span 2; text-align: center" onclick="buyVoidMagicUpgrade(6)">FIRE EQUALIZER II - Fire gain is always equal to gold<br>Costs e3.00e10 magic</button>
+			<button class="voidMagicUpgrade" style="color: #f00; grid-column-end: span 2; text-align: center" onclick="buyVoidMagicUpgrade(7)">BLOOD EQUALIZER - Blood gain is always equal to log10(gold)<br>&#8202;&#8202;Costs e4.00e10 magic</button>
+			<button class="voidMagicUpgrade" onclick="buyVoidMagicUpgrade(8)">Unlock a new holy fire upgrade<br>Costs e6.50e10 magic</button>
+			<button class="voidMagicUpgrade" onclick="buyVoidMagicUpgrade(9)">Multiply dragon time spent cap by 10,000<br>Costs e9.60e10 magic</button>
+			<button class="voidMagicUpgrade" onclick="buyVoidMagicUpgrade(10)">Increase holy octahedron gain by ^1.25<br>Costs e1.20e11 magic</button>
+			<button class="voidMagicUpgrade" onclick="buyVoidMagicUpgrade(11)">Planets multiply holy polyhedron gain (x^1.5)<br>Costs e2.25e11 magic</button>
+			<button class="voidMagicUpgrade" onclick="buyVoidMagicUpgrade(12)">Multiply knowledge gain by e12,000<br>Costs e3.40e11 magic</button>
+			<button class="voidMagicUpgrade" onclick="buyVoidMagicUpgrade(13)">Increase uranium gain by ^1.00e30<br>Costs e4.60e11 magic</button>
+			<button class="voidMagicUpgrade" onclick="buyVoidMagicUpgrade(14)">Multiply planet effect by 1.2<br>Costs e5.25e12 magic</button>
+			<button class="voidMagicUpgrade" onclick="buyVoidMagicUpgrade(15)">Supercluster effect is improved<br>Costs e2.00e13 magic</button>
+			<button class="voidMagicUpgrade" id="plagueMagicUpgrade" onclick="buyVoidMagicUpgrade(16)">Unlock <b>Cosmic Plague</b><br>Costs e4.25e13 magic</button>
+			<button class="voidMagicUpgrade" id="oganessonMagicUpgrade">Unlock <b>Oganesson</b><br>Not available in this update!</button>
+    </div>
+  </div>
+
+  <!--Holy Dodecahedron tab-->
+  <div class="window box" id="tab_holyDodecahedrons" style="width: 450px; height: 170px; display: none; background-color: #e9e9d2;">
+    <div class="title-bar" style="position: relative; background:linear-gradient(90deg,#822,#d66); z-index: 1">
+      <div class="title-bar-text">Holy dodecahedrons</div>
+    </div>
+    <div class="window-body">
+      <div style="position: absolute; top: 2px; left: 2px; width: 450px; height: 128px; background-image: url('img/ariZonaBack6.png'); z-index: 0"></div>
+      <img src="img/iconPolyhedron3.gif" style="position: absolute; top: 26px; left: 8px; width: 128px;">
+      <div style="position: relative; margin-left: 144px; margin-top: 8px; width: 292px; height: 64px; background-color: #eec; border: 4px outset #d66; z-index: 1">
+        <p class="titleText" style="color: #644">You have <a id="holyDodecahedrons">0</a><br>holy dodecahedrons</p>
+      </div><br>
+      <button onclick="holyPolyhedronCheck(3)" style="position: relative; margin-left: 169px; width: 249px; height: 50px; text-align: left; background-color: #dbb; border: 2px outset #d66; z-index: 1;">Reset all previous progress and <a style="color: #660; font-weight: bold">ASCEND</a><br>You will gain <a id="holyDodecahedronsToGet" style="color: #600">0</a> holy dodecahedrons<a id="nextHolyDodecahedron"></a></button>
+    </div>
+  </div>
+
+  <!--Holy Dodecahedron tree tab-->
+  <div class="window box" id="tab_holyDodecahedronTree" style="width: 450px; height: 500px; display: none; background-color: #e9e9d2; background-image: url('img/ariZonaBack5.png');">
+    <div class="title-bar" style="position: relative; background:linear-gradient(90deg,#822,#d66); z-index: 1">
+      <div class="title-bar-text">Holy dodecahedron tree</div>
+    </div>
+    <div class="window-body">
+      <button class="holyDodecahedronUpgrade" onclick="buyHolyDodecahedronUpgrade(1)" style="border: 3px solid; border-color: #d22 #d72 #dd2 #d72; bottom: 10px; left: 153px;"><b>Octahedrons<br>&#8202;&#8202;multiply R-O-Y sigil gain</b><br>&#8202;&#8202;Costs 1 dodecahedron</button>
+      <button class="holyDodecahedronUpgrade" onclick="buyHolyDodecahedronUpgrade(2)" style="border: 3px solid; border-color: #f00; bottom: 90px; left: 153px;"><b>Dodecahedrons<br>&#8202;&#8202;multiply blood gain<br>&#8202;&#8202;(x^10)</b><br>Costs 2 dodecahedrons</button>
+      <button class="holyDodecahedronUpgrade" onclick="buyHolyDodecahedronUpgrade(3)" style="border: 3px solid; border-color: #25e; bottom: 170px; left: 153px;"><b>&#8202;&#8202;Multiply plutonium gain by 1.00e20</b><br>Costs 6 dodecahedrons</button>
+      <button class="holyDodecahedronUpgrade" onclick="buyHolyDodecahedronUpgrade(4)" style="border: 3px solid; border-color: #25e; bottom: 250px; left: 153px;"><b>Multiply red sigil gain by 1.00e20</b><br>Costs 12 dodecahedrons</button>
+      <button class="holyDodecahedronUpgrade" onclick="buyHolyDodecahedronUpgrade(5)" style="border: 3px solid; border-color: #fd0; bottom: 330px; left: 153px;"><b>Red sigils increase<br>&#8202;&#8202;gold gain</b><br>&#8202;&#8202;Costs 1,000 dodecahedrons</button>
+      <button class="holyDodecahedronUpgrade" onclick="buyHolyDodecahedronUpgrade(6)" style="border: 3px solid; border-color: #ff9; bottom: 410px; left: 153px;"><b>Dodecahedrons<br>&#8202;&#8202;multiply holy fire gain</b><br>Costs 150,000 dodecas</button>
+    </div>
+  </div>
+	
+	<!--Planet tab-->
+  <div class="window box" id="tab_planets" style="width: 450px; height: 450px; background-image: url('img/spaceBack.png'); display: none">
+    <div class="title-bar" style="background: linear-gradient(90deg,black,#64b">
+      <div class="title-bar-text">Planets</div>
+    </div>
+    <div class="window-body">
+			<p class="titleText" style="color: #96f">You have <a id="planets">0</a> planets</p>
+			<p style="color: #96f">Increasing blue fire and holy fire gain by ^<span id="planetEffect">1.00</span></p><br>
+			<img src="img/planet.png" style="position: absolute; top: 32px; right: 12px; width: 64px">
+			<button class="formPlanetButton" style="background-color: #aee" onclick="formPlanet(1)">Form <span class="planetCost">1e30</span> holy tetrahedrons into a planet</button>
+			<button id="planetBuyMaxButton" style="min-width: 46px; background-color: #aee; display: none;" onclick="planetBuyMax()">Buy max</button><br>
+			<button class="formPlanetButton" style="background-color: #eac" onclick="formPlanet(2)">Form <span class="planetCost">1e15</span> holy octahedrons into a planet</button><br>
+			<button class="formPlanetButton" style="background-color: #c56" onclick="formPlanet(3)">Form <span class="planetCost">100,000</span> holy dodecahedrons into a planet</button><br>
+			<p style="color: #96f">Dodecahedrons can be formed up to 1.00e200. Octahedrons can be formed up to 1.00e500. Tetrahedrons can be formed indefinitely.</p><br><br>
+			<p class="titleText" style="color: #44f">You have <a id="superclusters">0</a> superclusters</p>
+			<p style="color: #44f">Multiplying planet effect by <span id="superclusterEffect">1.00</span></p><br>
+			<button style="background-color: #aae; height: 34px; text-align: left" onclick="gainSupercluster()">Gain a supercluster<br>Requires <span id="superclusterCost">25</span> planets</button><br>
+    </div>
+  </div>
+	
+	<!--Omniversal hypergod tab-->
+  <div class="window box" id="tab_omniversalHypergods" style="width: 400px; height: 400px; background-image: url('img/omniverseBack.png'); display: none">
+    <div class="title-bar" style="background: linear-gradient(90deg,black,#44d">
+      <div class="title-bar-text">THE OMNIVERSAL HYPERGODS</div>
+    </div>
+    <div class="window-body">
+			<center><p id="hypergodName" class="titleText" style="color: white">OMNIVERSAL HYPERGOD I:<br>KARUTH</p>
+			<img id="hypergodImage" src="img/hypergod1.png" style="width: 384px">
+			<p id="hypergodText" style="color: #ffc">Your ravenous growth is causing destruction in the omniverse, creature. As the high<br>&#8202;&#8202;ruler of this section of the omniverse, I command you to cease immediately.</p>
+			<button style="background-image: linear-gradient(45deg, #aae, #bae); height: 34px; font-weight: bold" onclick="defeatHypergod()">Defeat this hypergod and claim a section of the omniverse<br>&#8202;&#8202;Requires <span id="hypergodDefeatCost">ee20,000</span> gold</button></center>
+    </div>
+  </div>
+	
+	<!--Cosmic plague tab tab-->
+  <div class="window box" id="tab_cosmicPlague" style="width: 450px; height: 540px; background-color: #040; display: none">
+    <div class="title-bar" style="background: linear-gradient(90deg, #208, #280)">
+      <div class="title-bar-text">Cosmic plague</div>
+    </div>
+    <div class="window-body">
+			<p class="titleText" style="color: #8f8">You have <span id="cosmicPlague">0</span> cosmic plague</p>
+			<p class="titleText" style="color: #a8f">You have <span id="spores">0</span> spores</p>
+			<p style="color: #a8f">Your spores are producing <span id="cosmicPlaguePerSecond">0</span> plague/s</p>
+			<button style="background-color: #baf; height: 34px; text-align: left" onclick="gainSpore()">Gain a spore<br>Costs <span id="sporeCost">e1.00e7,500</span> gold</button><br><br>
+			<button style="background-color: #8d8; height: 46px; text-align: left" onclick="buyPlagueUpgrade(1)">Multiply plague gain<br>Currently *<span class="plagueUpgradeEffect">1.00</span><br>Costs <span class="plagueUpgradeCost">25</span> plague</button><br>
+			<button style="background-color: #8d8; height: 46px; text-align: left" onclick="buyPlagueUpgrade(2)">Multiply planet effect<br>Currently *<span class="plagueUpgradeEffect">1.00</span><br>Costs <span class="plagueUpgradeCost">100</span> plague</button><br>
+			<button style="background-color: #8d8; height: 46px; text-align: left" onclick="buyPlagueUpgrade(3)">Increase blue fire gain<br>Currently ^<span class="plagueUpgradeEffect">1.00</span><br>Costs <span class="plagueUpgradeCost">1000</span> plague</button><br>
+			<button style="background-color: #8d8; height: 46px; text-align: left" onclick="buyPlagueUpgrade(4)">Increase holy fire gain<br>Currently ^<span class="plagueUpgradeEffect">1.000</span><br>Costs <span class="plagueUpgradeCost">10,000</span> plague</button><br>
+			<p style="color: #a8f">Current end of content is 12 spores (ee35,000 gold). Stick around for more soon!</p>
     </div>
   </div>
 
@@ -984,19 +1117,6 @@
 
 
 
-  <!--Notification box to direct players to the new site-->
-  <div id="siteMovedBox" class="window" style="background: #c0ddc0"> 
-    <div class="title-bar" style="background: linear-gradient(90deg,#383,#bfb)">
-      <div class="title-bar-text"">This game has moved!</div>
-      <div class="title-bar-controls">
-        <button aria-label="Close" style="background-image: url('img/close.svg'); background-repeat: no-repeat; background-position: 3px 3px" onclick="document.getElementById('siteMovedBox').style.display = 'none'"></button>
-      </div>
-    </div>
-    <div class="window-body" style="padding-right: 5px">
-      <center><img src="img/warning.png" style="margin: 8px"></center>
-      <p style="margin-top: 0">DodecaDragons is now playable on the new site, <a href="https://demonin.com/games/dodecaDragons/">demonin.com</a>. Please export your save across to the new site to keep up with future updates!</p>
-    </div>
-  </div>
   
   <!-- Warning box for when save is not detected-->
   <div id="autosaveWarning" class="window" style="background: #ddc0c0; display: none"> 
@@ -1038,23 +1158,25 @@
 
   <!--List o' scripts-->
   <script src="jquery-3.6.0.min.js"></script>
-  <script src="break_eternity.js"></script>
-  <script src="Mousetrap.js"></script>
-  <script src="constants.js"></script>
-  <script src="script.js"></script>
-  <script src="gold.js"></script>
-  <script src="dragon.js"></script>
-  <script src="fire.js"></script>
-  <script src="alchemy.js"></script>
-  <script src="magic.js"></script>
-  <script src="magicChallenges.js"></script>
-  <script src="sigils.js"></script>
-  <script src="knowledge.js"></script>
-  <script src="blood.js"></script>
-  <script src="holyPolyhedrons.js"></script>
-  <script src="achievements.js"></script>
-  <script src="hotkeys.js"></script>
-  <script src="render.js"></script>
+  <script src="scriptsv0100/break_eternity.js"></script>
+  <script src="scriptsv0100/Mousetrap.js"></script>
+  <script src="scriptsv0100/constants.js"></script>
+  <script src="scriptsv0100/script.js"></script>
+  <script src="scriptsv0100/gold.js"></script>
+  <script src="scriptsv0100/dragon.js"></script>
+  <script src="scriptsv0100/fire.js"></script>
+  <script src="scriptsv0100/alchemy.js"></script>
+  <script src="scriptsv0100/magic.js"></script>
+  <script src="scriptsv0100/magicChallenges.js"></script>
+  <script src="scriptsv0100/sigils.js"></script>
+  <script src="scriptsv0100/knowledge.js"></script>
+  <script src="scriptsv0100/blood.js"></script>
+  <script src="scriptsv0100/holyPolyhedrons.js"></script>
+	<script src="scriptsv0100/planets.js"></script>
+	<script src="scriptsv0100/plague.js"></script>
+  <script src="scriptsv0100/achievements.js"></script>
+  <script src="scriptsv0100/hotkeys.js"></script>
+  <script src="scriptsv0100/render.js"></script>
   <script>load(); if (!isDevVersion) setAutoSave()</script>
 <!--客服 开始-->
 <link rel="stylesheet" href="//g8hh.github.io/static/css/kf.css" type="text/css" media="screen" charset="utf-8">
@@ -1072,7 +1194,6 @@ var _hmt = _hmt || [];
 })();
 </script>
     </div>
-
 </body>
 
 </html>

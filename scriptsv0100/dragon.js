@@ -72,13 +72,21 @@ function upgradeDragon(x) {
     game.dragonStage = 6
     document.getElementById("unlockBloodButton").style.display = "block"
   }
-  else if (x==6 && game.gold.gte("ee55")) {
+  else if (x==6 && game.gold.gte("e1e55")) {
     document.getElementsByClassName("upgradeDragonButton")[5].style.display = "none"
     document.getElementById("unlockVoidMagicUpgradesButton").style.display = "block"
     document.getElementById("dragonImg").src = "img/iconDragon7.png"
     document.getElementById("dragonTitle").innerHTML = "<a style='font-size: 14px'>You have a</a><br>Holy dragon"
     document.getElementById("dragonInfo").innerHTML = "Your dragon channels boundless energy through itself, a being of near-infinite strength. One even the gods fear. How did we get here?"
     game.dragonStage = 7
+  }
+  else if (x==7 && game.gold.gte("e1e200")) {
+    document.getElementsByClassName("upgradeDragonButton")[6].style.display = "none"
+		document.getElementById("unlockPlanetsButton").style.display = "block"
+    document.getElementById("dragonImg").src = "img/iconDragon8.png"
+    document.getElementById("dragonTitle").innerHTML = "<a style='font-size: 14px'>You have a</a><br>Multidimensional dragon"
+    document.getElementById("dragonInfo").innerHTML = "Your dragon can view countless universes at once and channel all of their combined power."
+    game.dragonStage = 8
   }
   document.getElementById("dragonStageCounter").innerHTML = romanNumerals[game.dragonStage - 1]
 }
@@ -99,6 +107,7 @@ function dragonSpendTime() {
     dragonTimeEffectCap = new Decimal(2.5)
     if (game.tomeUpgradesBought[8] == true) dragonTimeEffectCap = dragonTimeEffectCap.mul(game.blueFireUpgradesBought[4].pow(0.7).div(5).add(1))
     if (game.unlocks >= 26) dragonTimeEffectCap = dragonTimeEffectCap.mul(game.holyFireUpgradesBought[2].pow(0.7).mul(5).add(1))
+		if (game.voidMagicUpgradesBought[8] == true) dragonTimeEffectCap = dragonTimeEffectCap.mul(10000)
     if (game.dragonTimeEffect.gt(dragonTimeEffectCap)) {
       game.dragonTimeEffect = dragonTimeEffectCap
       document.getElementById("dragonTimeEffectCap").innerHTML = " (capped)"
@@ -196,4 +205,15 @@ function dragonPet() {
     document.getElementById("dragonPets").innerHTML = game.dragonPets
     document.getElementById("dragonPetEffect").innerHTML = format(new Decimal(5).pow(game.dragonPets ** 0.5), 2)
   }
+}
+
+//Hypergod stuff is here because I don't want to make another script file only for this
+function defeatHypergod() {
+	if (game.gold.gte(hypergodDefeatCosts[game.hypergodsDefeated])) {
+		game.hypergodsDefeated++
+		document.getElementById("hypergodImage").src = "img/hypergod" + (game.hypergodsDefeated+1) + ".png"
+		document.getElementById("hypergodName").innerHTML = hypergodNames[game.hypergodsDefeated]
+		document.getElementById("hypergodText").innerHTML = hypergodText[game.hypergodsDefeated]
+		document.getElementById("hypergodDefeatCost").innerHTML = format(hypergodDefeatCosts[game.hypergodsDefeated])
+	}
 }

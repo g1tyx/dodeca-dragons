@@ -18,11 +18,21 @@ function holyPolyhedronCheck(x) {
     }
     else {holyPolyhedronReset(x)}
   }
+  else if (x==3) {
+    if (game.holyDodecahedronsToGet.eq(0)) {
+      if (confirm("Woah, hold on! You won't gain any holy dodecahedrons! Are you sure you want to ascend?")) holyPolyhedronReset(x)
+    }
+    else if (game.confirmations[2]) {
+      if (confirm("Are you sure you want to ascend?")) holyPolyhedronReset(x)
+    }
+    else {holyPolyhedronReset(x)}
+  }
 }
 
 function holyPolyhedronReset(x) {
   if (x==1) {game.holyTetrahedrons = game.holyTetrahedrons.add(game.holyTetrahedronsToGet)}
   else if (x==2) {game.holyOctahedrons = game.holyOctahedrons.add(game.holyOctahedronsToGet)}
+  else if (x==3) {game.holyDodecahedrons = game.holyDodecahedrons.add(game.holyDodecahedronsToGet)}
   
   sigilReset(0, triggerLayer="holyPolyhedron")
 
@@ -246,7 +256,9 @@ function holyOctahedronUnlockCheck() {
   if (game.holyOctahedronUpgradesBought[1] && game.holyOctahedronUpgradesBought[2]) game.holyOctahedronUpgradesUnlocked[4] = true
   if (game.holyOctahedronUpgradesBought[2]) game.holyOctahedronUpgradesUnlocked[5] = true
   if (game.holyOctahedronUpgradesBought[3] && game.holyOctahedronUpgradesBought[4] && game.holyOctahedronUpgradesBought[5]) game.holyOctahedronUpgradesUnlocked[6] = true
-  for (i=0;i<7;i++) {
+  if (game.holyOctahedronUpgradesBought[6]) game.holyOctahedronUpgradesUnlocked[7] = true
+  if (game.holyOctahedronUpgradesBought[7]) game.holyOctahedronUpgradesUnlocked[8] = true
+  for (i=0;i<9;i++) {
       if (game.holyOctahedronUpgradesBought[i]) {
         document.getElementsByClassName("holyOctahedronUpgrade")[i].disabled = true
         document.getElementsByClassName("holyOctahedronUpgrade")[i].style.backgroundColor = "#9b9"
@@ -258,6 +270,38 @@ function holyOctahedronUnlockCheck() {
       else {
         document.getElementsByClassName("holyOctahedronUpgrade")[i].disabled = true
         document.getElementsByClassName("holyOctahedronUpgrade")[i].style.backgroundColor = ""
+      }
+    }
+}
+
+function buyHolyDodecahedronUpgrade(x) {
+  if (!game.holyDodecahedronUpgradesBought[x-1] && game.holyDodecahedrons.gte(holyDodecahedronUpgradeCosts[x-1])) {
+    game.holyDodecahedrons = game.holyDodecahedrons.sub(holyDodecahedronUpgradeCosts[x-1])
+    game.holyDodecahedronUpgradesBought[x-1] = true
+    document.getElementsByClassName("holyDodecahedronUpgrade")[x-1].disabled = true
+    document.getElementsByClassName("holyDodecahedronUpgrade")[x-1].style.backgroundColor = "#9b9"
+  }
+  holyDodecahedronUnlockCheck()
+}
+
+function holyDodecahedronUnlockCheck() {
+  if (game.holyDodecahedronUpgradesBought[0]) game.holyDodecahedronUpgradesUnlocked[1] = true
+  if (game.holyDodecahedronUpgradesBought[1]) game.holyDodecahedronUpgradesUnlocked[2] = true
+  if (game.holyDodecahedronUpgradesBought[2]) game.holyDodecahedronUpgradesUnlocked[3] = true
+  if (game.holyDodecahedronUpgradesBought[3]) game.holyDodecahedronUpgradesUnlocked[4] = true
+  if (game.holyDodecahedronUpgradesBought[4]) game.holyDodecahedronUpgradesUnlocked[5] = true
+  for (i=0;i<6;i++) {
+      if (game.holyDodecahedronUpgradesBought[i]) {
+        document.getElementsByClassName("holyDodecahedronUpgrade")[i].disabled = true
+        document.getElementsByClassName("holyDodecahedronUpgrade")[i].style.backgroundColor = "#9b9"
+      }
+      else if (game.holyDodecahedronUpgradesUnlocked[i]) {
+        document.getElementsByClassName("holyDodecahedronUpgrade")[i].disabled = false
+        document.getElementsByClassName("holyDodecahedronUpgrade")[i].style.backgroundColor = ""
+      }
+      else {
+        document.getElementsByClassName("holyDodecahedronUpgrade")[i].disabled = true
+        document.getElementsByClassName("holyDodecahedronUpgrade")[i].style.backgroundColor = ""
       }
     }
 }

@@ -204,7 +204,7 @@ function blueFireBuyMax(x) {
   let amtToSpend = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : game.blueFire; //provide an optional second argument for amount to spend
   let amtToBuy = Decimal.affordGeometricSeries(amtToSpend, blueFireUpgradeInitialCosts[x], blueFireUpgradeBase[x], game.blueFireUpgradesBought[x-1]); //calculate how many we can afford
   let costToBuy = Decimal.sumGeometricSeries(amtToBuy, blueFireUpgradeInitialCosts[x], blueFireUpgradeBase[x], game.blueFireUpgradesBought[x-1]); //determine total cost
-  game.blueFire = game.blueFire.sub(costToBuy);
+  if (costToBuy.lt("e1e9")) game.blueFire = game.blueFire.sub(costToBuy);
   game.blueFireUpgradesBought[x-1] = game.blueFireUpgradesBought[x-1].add(amtToBuy);
   game.blueFireUpgradeCosts[x-1] = new Decimal(blueFireUpgradeBase[x]).pow(game.blueFireUpgradesBought[x-1]).mul(blueFireUpgradeInitialCosts[x]).floor(); //update cost to reflect new count
   document.getElementById('blueFireUpgrade' + x + 'Cost').innerHTML = format(game.blueFireUpgradeCosts[x-1], 0);
@@ -236,4 +236,34 @@ function buyHolyFireUpgrade(x) {
   game.holyFireUpgradesBought[x-1] = game.holyFireUpgradesBought[x-1].add(1);
   game.holyFireUpgradeCosts[x-1] = new Decimal(holyFireUpgradeBase[x]).pow(game.holyFireUpgradesBought[x-1]).mul(holyFireUpgradeInitialCosts[x]).floor(); //update cost to reflect new count
   document.getElementById('holyFireUpgrade' + x + 'Cost').innerHTML = format(game.holyFireUpgradeCosts[x-1], 0);
+}
+
+function holyFireBuyMax(x) {
+  let amtToSpend = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : game.holyFire; //provide an optional second argument for amount to spend
+  let amtToBuy = Decimal.affordGeometricSeries(amtToSpend, holyFireUpgradeInitialCosts[x], holyFireUpgradeBase[x], game.holyFireUpgradesBought[x-1]); //calculate how many we can afford
+  let costToBuy = Decimal.sumGeometricSeries(amtToBuy, holyFireUpgradeInitialCosts[x], holyFireUpgradeBase[x], game.holyFireUpgradesBought[x-1]); //determine total cost
+  if (costToBuy.lt("e1e9")) game.holyFire = game.holyFire.sub(costToBuy);
+  game.holyFireUpgradesBought[x-1] = game.holyFireUpgradesBought[x-1].add(amtToBuy);
+  game.holyFireUpgradeCosts[x-1] = new Decimal(holyFireUpgradeBase[x]).pow(game.holyFireUpgradesBought[x-1]).mul(holyFireUpgradeInitialCosts[x]).floor(); //update cost to reflect new count
+  document.getElementById('holyFireUpgrade' + x + 'Cost').innerHTML = format(game.holyFireUpgradeCosts[x-1], 0);
+}
+
+function holyFireMaxAll() {
+  for(let i = 1; i<7; i++) {
+    holyFireBuyMax(i, game.holyFire.div(6).floor())
+  }
+  for(let i = 1; i<7; i++) {
+    holyFireBuyMax(i, game.holyFire)
+  }
+}
+
+function holyFireAutoMaxAll() {
+  if (!game.holyFireAutoMaxAll) {
+    game.holyFireAutoMaxAll = true
+    document.getElementById("holyFireAutoMaxAllButton").innerHTML = "Auto max all: On"
+  }
+  else {
+    game.holyFireAutoMaxAll = false
+    document.getElementById("holyFireAutoMaxAllButton").innerHTML = "Auto max all: Off"
+  }
 }

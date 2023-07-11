@@ -16,6 +16,8 @@ function randomizeKnowledgeTrade(trade) {
     if (game.tomeUpgradesBought[6] == true) game["knowledgeTrade" + trade + "Reward"] = game["knowledgeTrade" + trade + "Reward"].mul(game.totalTomes.pow(1.2).add(1))
     if (game.tomeUpgradesBought[8] == true) game["knowledgeTrade" + trade + "Reward"] = game["knowledgeTrade" + trade + "Reward"].mul(new Decimal(1000).pow(game.blueFireUpgradesBought[5].pow(0.6)))
     if (game.holyTetrahedronUpgradesBought[7]) game["knowledgeTrade" + trade + "Reward"] = game["knowledgeTrade" + trade + "Reward"].mul(1e150)
+    if (game.holyOctahedronUpgradesBought[8]) game["knowledgeTrade" + trade + "Reward"] = game["knowledgeTrade" + trade + "Reward"].mul("e550")
+		if (game.voidMagicUpgradesBought[11] == true) game["knowledgeTrade" + trade + "Reward"] = game["knowledgeTrade" + trade + "Reward"].mul("e12000")
     game["knowledgeTrade" + trade + "Reward"] = game["knowledgeTrade" + trade + "Reward"].floor()
   }
 
@@ -35,6 +37,8 @@ function setKnowledgeTrade(trade) {
     if (game.tomeUpgradesBought[6] == true) game["knowledgeTrade" + trade + "Reward"] = game["knowledgeTrade" + trade + "Reward"].mul(game.totalTomes.pow(1.2).add(1))
     if (game.tomeUpgradesBought[8] == true) game["knowledgeTrade" + trade + "Reward"] = game["knowledgeTrade" + trade + "Reward"].mul(new Decimal(1000).pow(game.blueFireUpgradesBought[5].pow(0.6)))
     if (game.holyTetrahedronUpgradesBought[7]) game["knowledgeTrade" + trade + "Reward"] = game["knowledgeTrade" + trade + "Reward"].mul(1e150)
+    if (game.holyOctahedronUpgradesBought[8]) game["knowledgeTrade" + trade + "Reward"] = game["knowledgeTrade" + trade + "Reward"].mul("e550")
+		if (game.voidMagicUpgradesBought[11] == true) game["knowledgeTrade" + trade + "Reward"] = game["knowledgeTrade" + trade + "Reward"].mul("e12000")
     game["knowledgeTrade" + trade + "Reward"] = game["knowledgeTrade" + trade + "Reward"].floor()
   }
   
@@ -243,9 +247,6 @@ function buyTomeUpgrade(x) {
       document.getElementById("hellLayer").add(newHellLayer)
       newHellLayer = document.createElement("option")
       newHellLayer.text = "Wrath (V)"
-      document.getElementById("hellLayer").add(newHellLayer)
-      newHellLayer = document.createElement("option")
-      newHellLayer.text = "Heresy (VI)"
       document.getElementById("hellLayer").add(newHellLayer)
     }
   }

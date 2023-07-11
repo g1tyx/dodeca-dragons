@@ -1,5 +1,6 @@
 //TO DO LIST
-//Add new images
+//Check that the code at the end of the reset function is updated
+//Remove known bugs and to do list from changelog
 
 //Stolen code to check if the user is on a mobile device
 window.mobileCheck = function() {
@@ -24,7 +25,7 @@ if (mobileCheck()) {
   };
 }
 
-window.isDevVersion = window.location.href.indexOf('dodecadragons-indev') !== -1
+window.isDevVersion = window.location.href.indexOf('demonin.com') == -1
 if (isDevVersion) {
   document.getElementById("inDevSpan").innerHTML = "INDEV";
     //FPS stuff
@@ -104,6 +105,7 @@ function reset() {
     sigilResetterGold: new Decimal(1),
     sigilResetterTime: new Decimal(1),
     sigilResetterCycle: false, //specifies whether the resetter should cycle to next colour on each reset
+    sigilResetterCycleMode: 0, //0 is all unlocked colours, 1 is R-O-Y only
     
     gold: new Decimal(0),
     goldPerSecond: new Decimal(0),
@@ -141,6 +143,8 @@ function reset() {
     goldPerClick: new Decimal(1),
     minerAutoBuyMax: true,
     magicUpgradesBought: [],
+    darkMagicUpgradesBought: [],
+    voidMagicUpgradesBought: [],
 
     selectedChallenges: [false, false, false, false],
     challengesActive: false,
@@ -162,8 +166,7 @@ function reset() {
     dragonTimeCooldown: 0,
     dragonFood: new Decimal(0),
     dragonFeedCost: new Decimal(100000000),
-
-    darkMagicUpgradesBought: [],
+    
     dragonTimeEffect: new Decimal(1),
     dragonPets: 0,
 
@@ -311,17 +314,40 @@ function reset() {
     holyFirePerSecond: new Decimal(0),
     holyFireUpgradeCosts: [new Decimal(500), new Decimal(1000), new Decimal(10000), new Decimal(50000), new Decimal(1e7), new Decimal(1)],
     holyFireUpgradesBought: [new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0)],
+		holyFireAutoMaxAll: true,
+
+    holyDodecahedrons: new Decimal(0),
+    holyDodecahedronsToGet: new Decimal(0),
+    holyDodecahedronUpgradesUnlocked: [true],
+    holyDodecahedronUpgradesBought: [],
+		
+		planets: new Decimal(0),
+		planetEffect: new Decimal(1),
+		planetCosts: [new Decimal(1e30), new Decimal(1e15), new Decimal(1e5)],
+		planetsFormed: [new Decimal(0), new Decimal(0), new Decimal(0)],
+		superclusters: new Decimal(0),
+		superclusterCost: new Decimal(25),
+		
+		hypergodsDefeated: 0,
+		
+		cosmicPlague: new Decimal(0),
+		cosmicPlaguePerSecond: new Decimal(0),
+		spores: new Decimal(0),
+		sporeCost: new Decimal("ee7500"),
+		plagueUpgradeCosts: [new Decimal(25), new Decimal(100), new Decimal(100000), new Decimal(1e6)],
+		plagueUpgradesBought: [new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0)],
   }
 
-  for (i=3;i<34;i++) {
+  for (i=3;i<40;i++) { //The x in i<x should always be equal to the number of tabs (final tab number plus 1)
     if (i != 18) document.getElementsByClassName("box")[i].style.display = "none"
   }
-  for (i=1;i<23;i++) document.getElementsByClassName("resourceRow")[i].style.display = "none"
+  for (i=1;i<26;i++) document.getElementsByClassName("resourceRow")[i].style.display = "none"
   for (i=12;i<20;i++) document.getElementsByClassName("magicUpgrade")[i].style.display = "none"
   for (i=8;i<20;i++) document.getElementsByClassName("darkMagicUpgrade")[i].style.display = "none"
   for (i=10;i<14;i++) document.getElementsByClassName("tomeUpgrade")[i].style.display = "none"
   for (i=0;i<6;i++) document.getElementsByClassName("fireBuyMaxButton")[i].style.display = "none"
   for (i=0;i<6;i++) document.getElementsByClassName("blueFireBuyMaxButton")[i].style.display = "none"
+  for (i=0;i<6;i++) document.getElementsByClassName("holyFireBuyMaxButton")[i].style.display = "none"
   document.getElementById("sigilResetterType").length = 5
   document.getElementById("hellLayer").length = 3
   document.getElementsByClassName("fireUpgrade")[5].style.display = "none"
@@ -338,8 +364,14 @@ function reset() {
   document.getElementById("sigilResetAutomation").style.display = "none"
   document.getElementById("tomeUpgradeBuyMaxButton").style.display = "none"
   document.getElementById("plutoniumMaxAllButton").style.display = "none"
+	document.getElementById("blueFireMaxAllButton").style.display = "none"
+	document.getElementById("blueFireAutoMaxAllButton").style.display = "none"
   document.getElementById("maxRedSigilUpgradesButton").style.display = "none"
   document.getElementById("maxOrangeSigilUpgradesButton").style.display = "none"
+	document.getElementsByClassName("holyFireUpgrade")[5].style.display = "none"
+	document.getElementById("holyFireMaxAllButton").style.display = "none"
+	document.getElementById("holyFireAutoMaxAllButton").style.display = "none"
+	document.getElementById("planetBuyMaxButton").style.display = "none"
   
   document.getElementById("unlockAlchemyButton").style.display = "none"
   document.getElementById("unlockMagicButton").style.display = "none"
@@ -348,13 +380,15 @@ function reset() {
   document.getElementById("unlockDarkMagicUpgradesButton").style.display = "none"
   document.getElementById("unlockBloodButton").style.display = "none"
   document.getElementById("moreDarkMagicUpgradesButton").style.display = "none"
+  document.getElementById("unlockVoidMagicUpgradesButton").style.display = "none"
+	document.getElementById("unlockPlanetsButton").style.display = "none"
 }
 
 reset()
 
 //If the user confirms the hard reset, resets all variables, saves and refreshes the page
 function hardReset() {
-  if (confirm("您确定要重置吗？ 你会失去一切！")) {
+  if (confirm("Are you sure you want to reset? You will lose everything!")) {
     reset()
     save()
     location.reload()
@@ -463,12 +497,6 @@ function loadGame(loadgame) {
   }
   loadgame.lastMajorChangeVersion = game.lastMajorChangeVersion; //set loadgame version to current version so save has proper version going forward
 
-  if (loadgame.sigilResetterMode < 0) {
-    loadgame.sigilResetterMode = 0;
-  }
-  if (loadgame.sigilResetterType < 0) {
-    loadgame.sigilResetterType = 0;
-  }
   
   //Sets each variable in 'game' to the equivalent variable in 'loadgame' (the saved file)
   let loadKeys = Object.keys(loadgame);
@@ -513,8 +541,10 @@ function loadGame(loadgame) {
   if (game.dragonName !== undefined) document.getElementById("dragonNameBox").value = game.dragonName
   if (game.fireAutoMaxAll) {document.getElementById("fireAutoMaxAllButton").innerHTML = "Auto max all: On"} //Toggle the fire auto max all button
   else {document.getElementById("fireAutoMaxAllButton").innerHTML = "Auto max all: Off"}
-  if (game.blueFireAutoMaxAll) {document.getElementById("blueFireAutoMaxAllButton").innerHTML = "Auto max all: On"} //Toggle the fire auto max all button
+  if (game.blueFireAutoMaxAll) {document.getElementById("blueFireAutoMaxAllButton").innerHTML = "Auto max all: On"} //Toggle the blue fire auto max all button
   else {document.getElementById("blueFireAutoMaxAllButton").innerHTML = "Auto max all: Off"}
+	if (game.holyFireAutoMaxAll) {document.getElementById("holyFireAutoMaxAllButton").innerHTML = "Auto max all: On"} //Toggle the holy fire auto max all button
+  else {document.getElementById("holyFireAutoMaxAllButton").innerHTML = "Auto max all: Off"}
   if (game.minerAutoBuyMax) {document.getElementById("minerAutoBuyMaxButton").innerHTML = "Auto max all: On"}
   else {document.getElementById("minerAutoBuyMaxButton").innerHTML = "Auto max all: Off"}
   if (game.knowledgeAutoMaxAll) {document.getElementById("knowledgeAutoMaxAllButton").innerHTML = "Auto max all: On"}
@@ -861,9 +891,6 @@ function loadGame(loadgame) {
       newHellLayer = document.createElement("option")
       newHellLayer.text = "Wrath (V)"
       document.getElementById("hellLayer").add(newHellLayer)
-      newHellLayer = document.createElement("option")
-      newHellLayer.text = "Heresy (VI)"
-      document.getElementById("hellLayer").add(newHellLayer)
     }
     document.getElementById("hellLayer").selectedIndex = game.currentHellLayer - 1
   }
@@ -899,7 +926,6 @@ function loadGame(loadgame) {
     document.getElementById("maxRedSigilUpgradesButton").style.display = "block"
     redSigilAutoOption = document.createElement("option")
     redSigilAutoOption.text = "Red"
-    redSigilAutoOption.value = "Red"
     document.getElementById("sigilResetterType").add(redSigilAutoOption)
     document.getElementById("redSigilUpgrade1Cost").innerHTML = format(game.redSigilUpgrade1Cost, 0)
     document.getElementById("redSigilUpgrade1Effect").innerHTML = format(game.redSigilUpgradesBought[0].add(1), 2)
@@ -918,7 +944,6 @@ function loadGame(loadgame) {
     document.getElementById("maxOrangeSigilUpgradesButton").style.display = "block"
     orangeSigilAutoOption = document.createElement("option")
     orangeSigilAutoOption.text = "Orange"
-    orangeSigilAutoOption.value = "Orange"
     document.getElementById("sigilResetterType").add(orangeSigilAutoOption)
     document.getElementById("orangeSigilUpgrade1Cost").innerHTML = format(game.orangeSigilUpgrade1Cost, 0)
     document.getElementById("orangeSigilUpgrade1Effect").innerHTML = format(game.orangeSigilUpgradesBought[0].add(1), 2)
@@ -936,7 +961,6 @@ function loadGame(loadgame) {
     document.getElementById("maxYellowSigilUpgradesButton").style.display = "block"
     yellowSigilAutoOption = document.createElement("option")
     yellowSigilAutoOption.text = "Yellow"
-    yellowSigilAutoOption.value = "Yellow"
     document.getElementById("sigilResetterType").add(yellowSigilAutoOption)
     document.getElementById("yellowSigilUpgrade1Cost").innerHTML = format(game.yellowSigilUpgrade1Cost, 0)
     document.getElementById("yellowSigilUpgrade1Effect").innerHTML = format(game.yellowSigilUpgradesBought[0].add(1), 2)
@@ -968,11 +992,53 @@ function loadGame(loadgame) {
   if (game.unlocks >= 26) {
     document.getElementsByClassName("box")[33].style.display = "block"
     document.getElementsByClassName("resourceRow")[22].style.display = "block"
-    for (i=1;i<6;i++) {
+    for (i=1;i<7;i++) {
       if (game.holyFireUpgradeCosts[i-1].eq(0)) game.holyFireUpgradeCosts[i-1] = new Decimal(holyFireUpgradeBase[i]).pow(game.holyFireUpgradesBought[i-1]).mul(holyFireUpgradeInitialCosts[i]).floor()
       document.getElementById("holyFireUpgrade"+i+"Cost").innerHTML = format(game.holyFireUpgradeCosts[i-1], 0)
     }
   }
+  //Void magic upgrade stuff
+  if (game.unlocks >= 27) {
+    document.getElementsByClassName("box")[34].style.display = "block"
+    document.getElementsByClassName("upgradeDragonButton")[6].style.display = "block"
+    for (i=0;i<16;i++) {
+      if (game.voidMagicUpgradesBought[i] == true) {document.getElementsByClassName("voidMagicUpgrade")[i].disabled = true}
+      else {document.getElementsByClassName("voidMagicUpgrade")[i].disabled = false}
+    }
+		if (game.voidMagicUpgradesBought[7] == true) {
+			document.getElementsByClassName("holyFireUpgrade")[5].style.display = "inline-block"
+			document.getElementsByClassName("holyFireBuyMaxButton")[5].style.display = "inline-block"
+		}
+  }
+  //Holy dodecahedron stuff
+  if (game.unlocks >= 28) {
+    document.getElementsByClassName("box")[35].style.display = "block"
+    document.getElementsByClassName("box")[36].style.display = "block"
+    document.getElementsByClassName("resourceRow")[23].style.display = "block"
+    holyDodecahedronUnlockCheck()
+  }
+	//Planet stuff
+  if (game.unlocks >= 29) {
+		document.getElementById("omniverseWarning").style.display = "block"
+    document.getElementsByClassName("box")[37].style.display = "block"
+		document.getElementsByClassName("resourceRow")[24].style.display = "block"
+		if (game.planetCosts[2].gt(1e199)) document.getElementsByClassName("formPlanetButton")[2].style.backgroundColor = "#aaa"
+		if (game.planetCosts[1].gt("1e499")) document.getElementsByClassName("formPlanetButton")[1].style.backgroundColor = "#aaa"
+  }
+	//Omniversal hypergod stuff
+	if (game.unlocks >= 30) {
+		document.getElementById("omniverseWarning").style.display = "none"
+		document.getElementsByClassName("box")[38].style.display = "block"
+		document.getElementById("hypergodImage").src = "img/hypergod" + (game.hypergodsDefeated+1) + ".png"
+		document.getElementById("hypergodName").innerHTML = hypergodNames[game.hypergodsDefeated]
+		document.getElementById("hypergodText").innerHTML = hypergodText[game.hypergodsDefeated]
+		document.getElementById("hypergodDefeatCost").innerHTML = format(hypergodDefeatCosts[game.hypergodsDefeated])
+	}
+	//Cosmic plague stuff
+	if (game.unlocks >= 31) {
+		document.getElementsByClassName("box")[39].style.display = "block"
+		document.getElementsByClassName("resourceRow")[25].style.display = "block"
+	}
 
   //Dragon stage stuff
   document.getElementById("dragonStageCounter").innerHTML = romanNumerals[game.dragonStage - 1]
@@ -1039,10 +1105,17 @@ function loadGame(loadgame) {
   }
   if (game.dragonStage >= 7) {
     document.getElementsByClassName("upgradeDragonButton")[5].style.display = "none"
-    document.getElementById("unlockVoidMagicUpgradesButton").style.display = "block"
+    if (game.unlocks < 27) document.getElementById("unlockVoidMagicUpgradesButton").style.display = "block"
     document.getElementById("dragonImg").src = "img/iconDragon7.png"
     document.getElementById("dragonTitle").innerHTML = "<a style='font-size: 14px'>You have a</a><br>Holy dragon"
     document.getElementById("dragonInfo").innerHTML = "Your dragon channels boundless energy through itself, a being of near-infinite strength. One even the gods fear. How did we get here?"
+  }
+  if (game.dragonStage >= 8) {
+    document.getElementsByClassName("upgradeDragonButton")[6].style.display = "none"
+		if (game.unlocks < 29) document.getElementById("unlockPlanetsButton").style.display = "block"
+    document.getElementById("dragonImg").src = "img/iconDragon8.png"
+    document.getElementById("dragonTitle").innerHTML = "<a style='font-size: 14px'>You have a</a><br>Multidimensional dragon"
+    document.getElementById("dragonInfo").innerHTML = "Your dragon can view countless universes at once and channel all of their combined power."
   }
 
   //sigil resetter stuff, needs to be after unlocks so the sigil resetter types can all be properly prefilled
@@ -1137,6 +1210,7 @@ function updateSmall() {
     if (!game.inHell || game.currentHellLayer < 2) game.goldPerSecond = game.goldPerSecond.pow(new Decimal(1.2).pow(game.cyanSigilUpgradesBought[2].pow(0.4)))
   }
   if (game.tomeUpgradesBought[3]) game.goldPerSecond = game.goldPerSecond.pow(game.platinum.add(1e10).slog().div(2))
+  if (game.holyDodecahedronUpgradesBought[4]) game.goldPerSecond = game.goldPerSecond.pow(game.redSigils.pow(0.2).add(1))
   if (game.challengesActive && game.selectedChallenges[1]) game.goldPerSecond = game.goldPerSecond.pow(0.25)
   if (game.inHell) { //Can definitely be made better using a switch
     if (game.currentHellLayer == 1) game.goldPerSecond = game.goldPerSecond.add(1).log10().pow(5)
@@ -1181,26 +1255,30 @@ function updateSmall() {
   else {document.getElementById("buyMinerButton").disabled = true}
 
   //Fire/second formula and multipliers
-  if (game.magicUpgradesBought[13]) {game.firePerSecond = new Decimal(3.5).pow(game.fireUpgrade1Bought.pow(0.7))}
-  else {game.firePerSecond = new Decimal(2).pow(game.fireUpgrade1Bought.pow(0.6))}
-  if (game.unlocks >= 2) game.firePerSecond = game.firePerSecond.mul(game.fireUpgrade5Bought.pow(1.5).mul(game.gold.add(1).log10()).div(5).add(1))
-  if (game.unlocks >= 3) game.firePerSecond = game.firePerSecond.mul(1 + game.platinumUpgradesBought[1] * 0.2)
-  if (game.magicUpgradesBought[2]) game.firePerSecond = game.firePerSecond.mul(55.5)
-  if (game.magicUpgradesBought[4]) game.firePerSecond = game.firePerSecond.mul(game.gold.add(1).log2().add(1))
-  if (game.dragonStage == 5) game.firePerSecond = game.firePerSecond.mul(1e15)
-  else if (game.dragonStage == 4) game.firePerSecond = game.firePerSecond.mul(1e8)
-  else if (game.dragonStage == 3) game.firePerSecond = game.firePerSecond.mul(10000)
-  else if (game.dragonStage == 2) game.firePerSecond = game.firePerSecond.mul(100)
-  if (game.dragonStage >= 5) game.firePerSecond = game.firePerSecond.pow(new Decimal(1.3).pow(game.dragonFood))
-  if (game.unlocks >= 17) game.firePerSecond = game.firePerSecond.pow(game.blueFireUpgradesBought[1].add(1).log10().div(4).add(1))
-  if (game.holyTetrahedronUpgradesBought[9]) game.firePerSecond = game.firePerSecond.pow(10000)
-  if (game.challengesActive && game.selectedChallenges[2]) {
-    if (game.magicUpgradesBought[14]) {game.firePerSecond = game.firePerSecond.pow(0.3)}
-    else {game.firePerSecond = game.firePerSecond.pow(0.1)}
-  }
-  if (game.inHell) { //Can definitely be made better using a switch
-    if (game.currentHellLayer == 2 || game.currentHellLayer == 3) game.firePerSecond = game.firePerSecond.add(1).log10()
-    else if (game.currentHellLayer >= 4) game.firePerSecond = new Decimal(0)
+  if (game.voidMagicUpgradesBought[5]) {game.firePerSecond = game.gold}
+  else if (game.voidMagicUpgradesBought[4]) {game.firePerSecond = game.gold.pow("1e-10")}
+  else {
+    if (game.magicUpgradesBought[13]) {game.firePerSecond = new Decimal(3.5).pow(game.fireUpgrade1Bought.pow(0.7))}
+    else {game.firePerSecond = new Decimal(2).pow(game.fireUpgrade1Bought.pow(0.6))}
+    if (game.unlocks >= 2) game.firePerSecond = game.firePerSecond.mul(game.fireUpgrade5Bought.pow(1.5).mul(game.gold.add(1).log10()).div(5).add(1))
+    if (game.unlocks >= 3) game.firePerSecond = game.firePerSecond.mul(1 + game.platinumUpgradesBought[1] * 0.2)
+    if (game.magicUpgradesBought[2]) game.firePerSecond = game.firePerSecond.mul(55.5)
+    if (game.magicUpgradesBought[4]) game.firePerSecond = game.firePerSecond.mul(game.gold.add(1).log2().add(1))
+    if (game.dragonStage == 5) game.firePerSecond = game.firePerSecond.mul(1e15)
+    else if (game.dragonStage == 4) game.firePerSecond = game.firePerSecond.mul(1e8)
+    else if (game.dragonStage == 3) game.firePerSecond = game.firePerSecond.mul(10000)
+    else if (game.dragonStage == 2) game.firePerSecond = game.firePerSecond.mul(100)
+    if (game.dragonStage >= 5) game.firePerSecond = game.firePerSecond.pow(new Decimal(1.3).pow(game.dragonFood))
+    if (game.unlocks >= 17) game.firePerSecond = game.firePerSecond.pow(game.blueFireUpgradesBought[1].add(1).log10().div(4).add(1))
+    if (game.holyTetrahedronUpgradesBought[9]) game.firePerSecond = game.firePerSecond.pow(10000)
+    if (game.challengesActive && game.selectedChallenges[2]) {
+      if (game.magicUpgradesBought[14]) {game.firePerSecond = game.firePerSecond.pow(0.3)}
+      else {game.firePerSecond = game.firePerSecond.pow(0.1)}
+    }
+    if (game.inHell) { //Can definitely be made better using a switch
+      if (game.currentHellLayer == 2 || game.currentHellLayer == 3) game.firePerSecond = game.firePerSecond.add(1).log10()
+      else if (game.currentHellLayer >= 4) game.firePerSecond = new Decimal(0)
+    }
   }
   document.getElementById("fire").innerHTML = format(game.fire, 0)
   document.getElementById("firePerSecond").innerHTML = format(game.firePerSecond, 0)
@@ -1380,6 +1458,7 @@ function updateSmall() {
       if (knowledgeUpgrade2Effect.gt(1e20)) knowledgeUpgrade2Effect = knowledgeUpgrade2Effect.mul(1e60).pow(0.25)
       game.uraniumToGet = game.uraniumToGet.pow(knowledgeUpgrade2Effect)
     }
+		if (game.voidMagicUpgradesBought[12] == true) game.uraniumToGet = game.uraniumToGet.pow(1e30)
     if (game.inHell) { //Can definitely be made better using a switch
       if (game.currentHellLayer == 1) game.uraniumToGet = game.uraniumToGet.pow(0.1)
       else if (game.currentHellLayer == 2) game.uraniumToGet = game.uraniumToGet.pow(0.01)
@@ -1410,6 +1489,7 @@ function updateSmall() {
     document.getElementById("cyanSigilEffect").innerHTML = format(game.cyanSigils.add(1).pow(2), 0)
     game.cyanSigilPowerPerSecond = game.cyanSigils.pow(2).div(100).mul(game.cyanSigilUpgradesBought[0].add(1))
     if (game.unlocks >= 12) game.cyanSigilPowerPerSecond = game.cyanSigilPowerPerSecond.pow(Decimal.min(new Decimal(1.15).pow(game.indigoSigilUpgradesBought[1].pow(0.5)),30))
+    if (game.voidMagicUpgradesBought[2]) game.cyanSigilPowerPerSecond = game.cyanSigilPowerPerSecond.pow(2)
     document.getElementById("cyanSigilPower").innerHTML = format(game.cyanSigilPower, 2)
     document.getElementById("cyanSigilPowerPerSecond").innerHTML = format(game.cyanSigilPowerPerSecond, 2)
   }
@@ -1514,6 +1594,8 @@ function updateSmall() {
     if (game.holyOctahedronUpgradesBought[3]) game.blueFirePerSecond = game.blueFirePerSecond.mul(1e250)
     if (game.holyTetrahedronUpgradesBought[6]) game.blueFirePerSecond = game.blueFirePerSecond.mul(game.plutonium.pow(0.5).add(1))
     if (game.holyTetrahedronUpgradesBought[0]) game.blueFirePerSecond = game.blueFirePerSecond.pow(2)
+		if (game.unlocks >= 29) game.blueFirePerSecond = game.blueFirePerSecond.pow(game.planetEffect)
+		if (game.unlocks >= 31) game.blueFirePerSecond = game.blueFirePerSecond.pow(game.plagueUpgradesBought[2].pow(0.5).mul(10).add(1))
     document.getElementById("blueFire").innerHTML = format(game.blueFire, 0)
     document.getElementById("blueFirePerSecond").innerHTML = format(game.blueFirePerSecond, 0)
     document.getElementsByClassName("resourceText")[14].innerHTML = format(game.blueFire, 0)
@@ -1535,21 +1617,25 @@ function updateSmall() {
     document.getElementById("bloodPerSecond").innerHTML = format(game.bloodPerSecond, 0)
     document.getElementsByClassName("resourceText")[15].innerHTML = format(game.blood, 0)
     document.getElementById("tomeUpgrade11Effect").innerHTML = format(game.blood.add(1).log10().add(1), 2)
-    if (game.inHell) { //Can definitely be made better using a switch
-      if (game.currentHellLayer == 1) game.bloodPerSecond = game.gold.add(1).log10().pow(2).div(1000).floor()
-      else if (game.currentHellLayer == 2) game.bloodPerSecond = game.gold.add(1).log10().pow(3.5).div(75000).floor()
-      else if (game.currentHellLayer == 3) game.bloodPerSecond = game.gold.add(1).log10().pow(5).div(1000000).floor()
-      else if (game.currentHellLayer == 4) game.bloodPerSecond = game.gold.add(1).log10().pow(8).div(1e7).floor()
-      else if (game.currentHellLayer == 5) game.bloodPerSecond = game.gold.add(1).log10().pow(15).div(1e10).floor()
-      if (game.darkMagicUpgradesBought[11]) game.bloodPerSecond = game.bloodPerSecond.mul(game.blood.add(1).log10().div(1.5).add(1))
-      if (game.darkMagicUpgradesBought[13]) game.bloodPerSecond = game.bloodPerSecond.mul(game.plutonium.add(1).log2().add(1))
-      if (game.unlocks >= 21) game.bloodPerSecond = game.bloodPerSecond.mul(new Decimal(6).pow(game.redSigilUpgradesBought[2].pow(0.7)))
-      if (game.unlocks >= 22) game.bloodPerSecond = game.bloodPerSecond.mul(new Decimal(6).pow(game.orangeSigilUpgradesBought[2].pow(0.7)))
-      if (game.unlocks >= 23) game.bloodPerSecond = game.bloodPerSecond.mul(new Decimal(15).pow(game.yellowSigilUpgradesBought[2].pow(0.5)))
-      if (game.holyOctahedronUpgradesBought[2]) game.bloodPerSecond = game.bloodPerSecond.mul(new Decimal(1e9).pow(game.currentHellLayer))
-      if (game.holyTetrahedronUpgradesBought[6] && game.bloodPerSecond.lt(1e9)) game.bloodPerSecond = new Decimal(1e9)
-    }
-    else {game.bloodPerSecond = new Decimal(0)}
+		if (game.voidMagicUpgradesBought[6]) {game.bloodPerSecond = game.gold.add(1).log10()}
+		else {
+			if (game.inHell) { //Can definitely be made better using a switch
+				if (game.currentHellLayer == 1) game.bloodPerSecond = game.gold.add(1).log10().pow(2).div(1000).floor()
+				else if (game.currentHellLayer == 2) game.bloodPerSecond = game.gold.add(1).log10().pow(3.5).div(75000).floor()
+				else if (game.currentHellLayer == 3) game.bloodPerSecond = game.gold.add(1).log10().pow(5).div(1000000).floor()
+				else if (game.currentHellLayer == 4) game.bloodPerSecond = game.gold.add(1).log10().pow(8).div(1e7).floor()
+				else if (game.currentHellLayer == 5) game.bloodPerSecond = game.gold.add(1).log10().pow(15).div(1e10).floor()
+				if (game.darkMagicUpgradesBought[11]) game.bloodPerSecond = game.bloodPerSecond.mul(game.blood.add(1).log10().div(1.5).add(1))
+				if (game.darkMagicUpgradesBought[13]) game.bloodPerSecond = game.bloodPerSecond.mul(game.plutonium.add(1).log2().add(1))
+				if (game.unlocks >= 21) game.bloodPerSecond = game.bloodPerSecond.mul(new Decimal(6).pow(game.redSigilUpgradesBought[2].pow(0.7)))
+				if (game.unlocks >= 22) game.bloodPerSecond = game.bloodPerSecond.mul(new Decimal(6).pow(game.orangeSigilUpgradesBought[2].pow(0.7)))
+				if (game.unlocks >= 23) game.bloodPerSecond = game.bloodPerSecond.mul(new Decimal(15).pow(game.yellowSigilUpgradesBought[2].pow(0.5)))
+				if (game.holyOctahedronUpgradesBought[2]) game.bloodPerSecond = game.bloodPerSecond.mul(new Decimal(1e9).pow(game.currentHellLayer))
+				if (game.holyDodecahedronUpgradesBought[1]) game.bloodPerSecond = game.bloodPerSecond.mul(game.holyDodecahedrons.add(1).pow(10))
+				if (game.holyTetrahedronUpgradesBought[6] && game.bloodPerSecond.lt(1e9)) game.bloodPerSecond = new Decimal(1e9)
+			}
+			else {game.bloodPerSecond = new Decimal(0)}
+		}
   }
   if (game.unlocks >= 19) {
     document.getElementById("darkMagicUpgrade11Effect").innerHTML = format(game.blood.add(1), 2)
@@ -1565,6 +1651,7 @@ function updateSmall() {
     game.plutoniumToGet = game.uranium.add(1).log10().div(1e13).mul(1 + 0.05 * game.plutoniumUpgradesBought[0])
     if (game.darkMagicUpgradesBought[14]) game.plutoniumToGet = game.plutoniumToGet.mul(10)
     if (game.darkMagicUpgradesBought[18]) game.plutoniumToGet = game.plutoniumToGet.pow(2)
+    if (game.holyDodecahedronUpgradesBought[2]) game.plutoniumToGet = game.plutoniumToGet.mul(1e20)
     if (game.unlocks >= 26) game.plutoniumToGet = game.plutoniumToGet.pow(game.holyFireUpgradesBought[3].pow(0.6).mul(2.5).add(1))
     game.plutoniumToGet = game.plutoniumToGet.floor()
     document.getElementById("plutoniumToGet").innerHTML = format(game.plutoniumToGet, 0)
@@ -1580,6 +1667,8 @@ function updateSmall() {
     if (game.unlocks >= 22) game.redSigilsToGet = game.redSigilsToGet.mul(game.orangeSigilUpgradesBought[1].pow(0.5).mul(2).add(1))
     if (game.holyTetrahedronUpgradesBought[3]) game.redSigilsToGet = game.redSigilsToGet.mul(10)
     if (game.holyOctahedronUpgradesBought[0]) game.redSigilsToGet = game.redSigilsToGet.mul(game.holyTetrahedrons.add(1))
+    if (game.holyDodecahedronUpgradesBought[0]) game.redSigilsToGet = game.redSigilsToGet.mul(game.holyOctahedrons.add(1))
+    if (game.holyDodecahedronUpgradesBought[3]) game.redSigilsToGet = game.redSigilsToGet.mul(1e20)
     game.redSigilsToGet = game.redSigilsToGet.round()
     document.getElementById("redSigils").innerHTML = format(game.redSigils, 0)
     document.getElementsByClassName("resourceText")[17].innerHTML = format(game.redSigils, 0)
@@ -1596,12 +1685,14 @@ function updateSmall() {
     if (game.unlocks >= 23) game.orangeSigilsToGet = game.orangeSigilsToGet.mul(game.yellowSigilUpgradesBought[1].pow(0.5).mul(2).add(1))
     if (game.holyTetrahedronUpgradesBought[3]) game.orangeSigilsToGet = game.orangeSigilsToGet.mul(10)
     if (game.holyOctahedronUpgradesBought[0]) game.orangeSigilsToGet = game.orangeSigilsToGet.mul(game.holyTetrahedrons.add(1))
+    if (game.holyDodecahedronUpgradesBought[0]) game.orangeSigilsToGet = game.orangeSigilsToGet.mul(game.holyOctahedrons.add(1))
     game.orangeSigilsToGet = game.orangeSigilsToGet.round()
     document.getElementById("orangeSigils").innerHTML = format(game.orangeSigils, 0)
     document.getElementsByClassName("resourceText")[18].innerHTML = format(game.orangeSigils, 0)
     document.getElementById("orangeSigilEffect").innerHTML = format(new Decimal(10).pow(game.orangeSigils.pow(0.5).mul(800)), 0)
     document.getElementById("orangeSigilsToGet").innerHTML = format(game.orangeSigilsToGet, 0)
     game.orangeSigilPowerPerSecond = game.orangeSigils.pow(2).div(100).mul(game.orangeSigilUpgradesBought[0].add(1))
+    if (game.voidMagicUpgradesBought[1]) game.orangeSigilPowerPerSecond = game.orangeSigilPowerPerSecond.mul(1e20)
     document.getElementById("orangeSigilPower").innerHTML = format(game.orangeSigilPower, 2)
     document.getElementById("orangeSigilPowerPerSecond").innerHTML = format(game.orangeSigilPowerPerSecond, 2)
   }
@@ -1611,6 +1702,7 @@ function updateSmall() {
     if (game.darkMagicUpgradesBought[17]) game.yellowSigilsToGet = game.yellowSigilsToGet.mul(game.plutonium.add(1).log10().add(1))
     if (game.holyTetrahedronUpgradesBought[3]) game.yellowSigilsToGet = game.yellowSigilsToGet.mul(10)
     if (game.holyOctahedronUpgradesBought[0]) game.yellowSigilsToGet = game.yellowSigilsToGet.mul(game.holyTetrahedrons.add(1))
+    if (game.holyDodecahedronUpgradesBought[0]) game.yellowSigilsToGet = game.yellowSigilsToGet.mul(game.holyOctahedrons.add(1))
     game.yellowSigilsToGet = game.yellowSigilsToGet.round()
     document.getElementById("yellowSigils").innerHTML = format(game.yellowSigils, 0)
     document.getElementsByClassName("resourceText")[19].innerHTML = format(game.yellowSigils, 0)
@@ -1623,7 +1715,12 @@ function updateSmall() {
   }
   if (game.unlocks >= 24) {
     game.holyTetrahedronsToGet = game.gold.add(1).log10().div(1e30).pow(0.05)
-    if (game.unlocks >= 26) game.holyTetrahedronsToGet = game.holyTetrahedronsToGet.mul(new Decimal(3).pow(game.holyFireUpgradesBought[1].pow(0.6)))
+		if (game.unlocks >= 26) {
+			let holyFireUpgrade2Effect = new Decimal(3).pow(game.holyFireUpgradesBought[1].pow(0.6))
+			if (holyFireUpgrade2Effect.gt("1e2000")) holyFireUpgrade2Effect = holyFireUpgrade2Effect.mul("1e2000").pow(0.5)
+			game.holyTetrahedronsToGet = game.holyTetrahedronsToGet.mul(holyFireUpgrade2Effect)
+		}
+		if (game.voidMagicUpgradesBought[10] == true) game.holyTetrahedronsToGet = game.holyTetrahedronsToGet.mul(game.planets.pow(1.5).add(1))
     document.getElementById("holyTetrahedrons").innerHTML = format(game.holyTetrahedrons, 0)
     document.getElementsByClassName("resourceText")[20].innerHTML = format(game.holyTetrahedrons, 0)
     document.getElementById("holyTetrahedronsToGet").innerHTML = format(game.holyTetrahedronsToGet.floor(), 0)
@@ -1634,6 +1731,9 @@ function updateSmall() {
   if (game.unlocks >= 25) {
     game.holyOctahedronsToGet = game.gold.add(1).log10().div(1e60).pow(0.02)
     if (game.unlocks >= 26) game.holyOctahedronsToGet = game.holyOctahedronsToGet.mul(new Decimal(2).pow(game.holyFireUpgradesBought[4].pow(0.6)))
+    if (game.voidMagicUpgradesBought[0]) game.holyOctahedronsToGet = game.holyOctahedronsToGet.mul(10)
+		if (game.voidMagicUpgradesBought[10] == true) game.holyOctahedronsToGet = game.holyOctahedronsToGet.mul(game.planets.pow(1.5).add(1))
+		if (game.voidMagicUpgradesBought[9] == true) game.holyOctahedronsToGet = game.holyOctahedronsToGet.pow(1.25)
     document.getElementById("holyOctahedrons").innerHTML = format(game.holyOctahedrons, 0)
     document.getElementsByClassName("resourceText")[21].innerHTML = format(game.holyOctahedrons, 0)
     document.getElementById("holyOctahedronsToGet").innerHTML = format(game.holyOctahedronsToGet.floor(), 0)
@@ -1645,21 +1745,91 @@ function updateSmall() {
     game.holyFirePerSecond = game.blueFire.add(1).log10().div(100)
     game.holyFirePerSecond = game.holyFirePerSecond.mul(new Decimal(2).pow(game.holyFireUpgradesBought[0].pow(0.6)))
     if (game.holyTetrahedronUpgradesBought[12]) game.holyFirePerSecond = game.holyFirePerSecond.mul(100)
+    if (game.holyOctahedronUpgradesBought[7]) game.holyFirePerSecond = game.holyFirePerSecond.mul(game.holyOctahedrons.add(1))
+    if (game.holyDodecahedronUpgradesBought[5]) game.holyFirePerSecond = game.holyFirePerSecond.mul(game.holyDodecahedrons.add(1))
+    if (game.dragonStage >= 8) game.holyFirePerSecond = game.holyFirePerSecond.mul(1e10)
+		if (game.unlocks >= 29) game.holyFirePerSecond = game.holyFirePerSecond.pow(game.planetEffect)
+		if (game.unlocks >= 31) game.holyFirePerSecond = game.holyFirePerSecond.pow(game.plagueUpgradesBought[3].pow(0.5).div(10).add(1))
     document.getElementById("holyFire").innerHTML = format(game.holyFire, 0)
     document.getElementById("holyFirePerSecond").innerHTML = format(game.holyFirePerSecond, 0)
     document.getElementsByClassName("resourceText")[22].innerHTML = format(game.holyFire, 0)
     //Enables/disables holy fire upgrade buttons based on whether the user's holy fire is higher than the cost
-    for (i=0;i<5;i++) {
+    for (i=0;i<6;i++) {
       if (game.holyFire.gte(game.holyFireUpgradeCosts[i])) {document.getElementsByClassName("holyFireUpgrade")[i].disabled = false}
       else {document.getElementsByClassName("holyFireUpgrade")[i].disabled = true}
     }
     document.getElementById("holyFireUpgrade1Effect").innerHTML = format(new Decimal(2).pow(game.holyFireUpgradesBought[0].pow(0.6)), 2)
-    document.getElementById("holyFireUpgrade2Effect").innerHTML = format(new Decimal(3).pow(game.holyFireUpgradesBought[1].pow(0.6)), 2)
+		let holyFireUpgrade2Effect = new Decimal(3).pow(game.holyFireUpgradesBought[1].pow(0.6))
+		if (holyFireUpgrade2Effect.gt("1e2000")) {
+			holyFireUpgrade2Effect = holyFireUpgrade2Effect.mul("1e2000").pow(0.5)
+			document.getElementById("holyFireEffect2Softcap").innerHTML = " (softcapped)"
+		}
+		else {
+			document.getElementById("holyFireEffect2Softcap").innerHTML = ""
+		}
+    document.getElementById("holyFireUpgrade2Effect").innerHTML = format(holyFireUpgrade2Effect, 2)
     document.getElementById("holyFireUpgrade3Effect").innerHTML = format(game.holyFireUpgradesBought[2].pow(0.7).mul(5).add(1), 2)
     document.getElementById("holyFireUpgrade4Effect").innerHTML = format(game.holyFireUpgradesBought[3].pow(0.6).mul(2.5).add(1), 2)
     document.getElementById("holyFireUpgrade5Effect").innerHTML = format(new Decimal(2).pow(game.holyFireUpgradesBought[4].pow(0.6)), 2)
+		let holyFireUpgrade6Effect = new Decimal(2).pow(game.holyFireUpgradesBought[5].pow(0.7))
+		if (holyFireUpgrade6Effect.gt("1e2000")) {
+			holyFireUpgrade6Effect = holyFireUpgrade6Effect.mul("1e2000").pow(0.5)
+			document.getElementById("holyFireEffect6Softcap").innerHTML = " (softcapped)"
+		}
+		else {
+			document.getElementById("holyFireEffect6Softcap").innerHTML = ""
+		}
+		document.getElementById("holyFireUpgrade6Effect").innerHTML = format(holyFireUpgrade6Effect, 2)
   }
-  
+  if (game.unlocks >= 28) {
+    game.holyDodecahedronsToGet = game.gold.add(1).log10().div(1e140).pow(0.02)
+		if (game.voidMagicUpgradesBought[7] == true) {
+			let holyFireUpgrade6Effect = new Decimal(2).pow(game.holyFireUpgradesBought[5].pow(0.7))
+			if (holyFireUpgrade6Effect.gt("1e2000")) holyFireUpgrade6Effect = holyFireUpgrade6Effect.mul("1e2000").pow(0.5)
+			game.holyDodecahedronsToGet = game.holyDodecahedronsToGet.mul(holyFireUpgrade6Effect)
+		}
+		if (game.voidMagicUpgradesBought[10] == true) game.holyDodecahedronsToGet = game.holyDodecahedronsToGet.mul(game.planets.pow(1.5).add(1))
+    document.getElementById("holyDodecahedrons").innerHTML = format(game.holyDodecahedrons, 0)
+    document.getElementsByClassName("resourceText")[23].innerHTML = format(game.holyDodecahedrons, 0)
+    document.getElementById("holyDodecahedronsToGet").innerHTML = format(game.holyDodecahedronsToGet.floor(), 0)
+    if (game.voidMagicUpgradesBought[7] != true) {document.getElementById("nextHolyDodecahedron").innerHTML = "<br>Next at " + format(new Decimal(10).pow(game.holyDodecahedronsToGet.ceil().pow(50).mul(1e140)), 0) + " gold"}
+		else {document.getElementById("nextHolyDodecahedron").innerHTML = ""}
+    game.holyDodecahedronsToGet = game.holyDodecahedronsToGet.floor()
+  }
+	if (game.unlocks >= 29) {
+		game.planetEffect = game.planets.pow(0.8).div(5).add(1)
+		if (game.voidMagicUpgradesBought[14] == true) {
+			game.planetEffect = game.planetEffect.mul(game.superclusters.pow(0.7).div(8).add(1))
+			document.getElementById("superclusterEffect").innerHTML = format(game.superclusters.pow(0.7).div(8).add(1), 2)
+		}
+		else {
+			game.planetEffect = game.planetEffect.mul(game.superclusters.pow(0.7).div(10).add(1))
+			document.getElementById("superclusterEffect").innerHTML = format(game.superclusters.pow(0.7).div(10).add(1), 2)
+		}
+		if (game.voidMagicUpgradesBought[13] == true) game.planetEffect = game.planetEffect.mul(1.2)
+		if (game.unlocks >= 31) game.planetEffect = game.planetEffect.mul(game.plagueUpgradesBought[1].add(1).log10().div(4).add(1))
+		document.getElementById("planets").innerHTML = format(game.planets, 0)
+		document.getElementById("planetEffect").innerHTML = format(game.planetEffect, 2)
+		document.getElementsByClassName("resourceText")[24].innerHTML = format(game.planets, 0)
+		for (let i=0;i<3;i++) document.getElementsByClassName("planetCost")[i].innerHTML = format(game.planetCosts[i], 0)
+		document.getElementById("superclusters").innerHTML = format(game.superclusters, 0)
+		document.getElementById("superclusterCost").innerHTML = format(game.superclusterCost, 0)
+	}
+	if (game.unlocks >= 31) {
+		game.cosmicPlaguePerSecond = game.spores.pow(2)
+		game.cosmicPlaguePerSecond = game.cosmicPlaguePerSecond.mul(game.plagueUpgradesBought[0].pow(1.3).add(1))
+		if (game.unlockedAchievements[24] > 0) game.cosmicPlaguePerSecond = game.cosmicPlaguePerSecond.mul(5)
+		document.getElementById("cosmicPlague").innerHTML = format(game.cosmicPlague, 0)
+	document.getElementsByClassName("resourceText")[25].innerHTML = format(game.cosmicPlague, 0)
+		document.getElementById("cosmicPlaguePerSecond").innerHTML = format(game.cosmicPlaguePerSecond, 0)
+		document.getElementById("spores").innerHTML = format(game.spores, 0)
+		document.getElementById("sporeCost").innerHTML = format(game.sporeCost, 0)
+		for (let i=0;i<4;i++) document.getElementsByClassName("plagueUpgradeCost")[i].innerHTML = format(game.plagueUpgradeCosts[i], 0)
+		document.getElementsByClassName("plagueUpgradeEffect")[0].innerHTML = format(game.plagueUpgradesBought[0].pow(1.3).add(1), 2)
+		document.getElementsByClassName("plagueUpgradeEffect")[1].innerHTML = format(game.plagueUpgradesBought[1].add(1).log10().div(4).add(1), 2)
+		document.getElementsByClassName("plagueUpgradeEffect")[2].innerHTML = format(game.plagueUpgradesBought[2].pow(0.5).mul(10).add(1), 2)
+		document.getElementsByClassName("plagueUpgradeEffect")[3].innerHTML = format(game.plagueUpgradesBought[3].pow(0.5).div(10).add(1), 3)
+	}
   //game.gold = game.gold.add(game.goldPerSecond.mul(diff));
   //if (game.unlocks >= 1) game.fire = game.fire.add(game.firePerSecond.mul(diff)) // .mul(diff)
   //if (game.unlockedAchievements[6] > 2 && game.fireAutoMaxAll) fireMaxAll()
@@ -1683,32 +1853,32 @@ function updateLarge() {
   if (timeStopped) return;
   
   //Adds to the user's gold
-  game.gold = game.gold.add(game.goldPerSecond)
+  game.gold = game.gold.add(game.goldPerSecond.div(2))
   //Adds to the user's fire
-  if (game.unlocks >= 1) game.fire = game.fire.add(game.firePerSecond)
+  if (game.unlocks >= 1) game.fire = game.fire.add(game.firePerSecond.div(2))
   //Auto maxes all if the upgrade is bought
   if (game.unlockedAchievements[6] > 2 && game.fireAutoMaxAll) fireMaxAll()
   
   //Handles the platinum convert button cooldown
   if (game.platinumConvertCooldown > 0) {
-    game.platinumConvertCooldown--
+    game.platinumConvertCooldown -= 0.5
     document.getElementById("platinumConvertCooldown").innerHTML = game.platinumConvertCooldown
     if (game.platinumConvertCooldown == 0) document.getElementById("platinumConvertButton").disabled = false
   }
-  if (game.platinumUpgradesBought[4] == 1) game.platinum = game.platinum.add(game.platinumToGet)
-  if (game.unlocks >= 3) game.platinum = game.platinum.add(Decimal.max(game.bestPlatinumToGet.div(10), 2))
+  if (game.platinumUpgradesBought[4] == 1) game.platinum = game.platinum.add(game.platinumToGet.div(2))
+  if (game.unlocks >= 3) game.platinum = game.platinum.add(Decimal.max(game.bestPlatinumToGet.div(20), 2))
   
   //Handles the uranium convert button cooldown
   if (game.uraniumConvertCooldown > 0) {
-    game.uraniumConvertCooldown--
+    game.uraniumConvertCooldown -= 0.5
     document.getElementById("uraniumConvertCooldown").innerHTML = game.uraniumConvertCooldown
     if (game.uraniumConvertCooldown == 0) document.getElementById("uraniumConvertButton").disabled = false
   }
-  if (game.unlocks >= 7) game.uranium = game.uranium.add(Decimal.max(game.bestUraniumToGet.div(10), 1))
+  if (game.unlocks >= 7) game.uranium = game.uranium.add(Decimal.max(game.bestUraniumToGet.div(20), 1))
   
   //Handles the dragon time spending cooldown
   if (game.dragonTimeCooldown > 0) {
-    game.dragonTimeCooldown--
+    game.dragonTimeCooldown -= 0.5
     document.getElementById("dragonTimeCooldown").innerHTML = game.dragonTimeCooldown
     if (game.dragonTimeCooldown == 0) document.getElementById("dragonSpendTimeButton").disabled = false
   }
@@ -1719,19 +1889,15 @@ function updateLarge() {
     dragonFeed();
   }
 
-  if (game.unlockedAchievements[13] > 4 && game.blueFireAutoMaxAll) blueFireMaxAll()
-  if (game.unlockedAchievements[11] > 7 && game.knowledgeAutoMaxAll) knowledgeMaxAll()
-  if (game.unlockedAchievements[14] > 1) buyMaxTomes()
-
   //Handles the plutonium convert button cooldown
   if (game.plutoniumConvertCooldown > 0) {
-    game.plutoniumConvertCooldown--
+    game.plutoniumConvertCooldown -= 0.5
     document.getElementById("plutoniumConvertCooldown").innerHTML = game.plutoniumConvertCooldown
     if (game.plutoniumConvertCooldown == 0) document.getElementById("plutoniumConvertButton").disabled = false
   }
-  if (game.unlocks >= 20) game.plutonium = game.plutonium.add(Decimal.max(game.bestPlutoniumToGet.div(10), 0))
+  if (game.unlocks >= 20) game.plutonium = game.plutonium.add(Decimal.max(game.bestPlutoniumToGet.div(20), 0))
   
-  if (game.unlockedAchievements[3] > 7) {game.magic = game.magic.add(game.magicToGet)}
+  if (game.unlockedAchievements[3] > 7) {game.magic = game.magic.add(game.magicToGet.div(2))}
   else if (game.unlockedAchievements[3] > 5) {game.magic = game.magic.add(game.magicToGet.div(100))}
   magicHardcap = new Decimal("e5000000")
   if (game.tomeUpgradesBought[8] == true) magicHardcap = magicHardcap.pow(game.blueFireUpgradesBought[3].pow(0.7).mul(5).add(1))
@@ -1740,27 +1906,29 @@ function updateLarge() {
     document.getElementById("magicCap").innerHTML = " (hardcapped)"
   }
   else {document.getElementById("magicCap").innerHTML = ""}
-  if (game.unlocks >= 10) game.cyanSigilPower = game.cyanSigilPower.add(game.cyanSigilPowerPerSecond)
-  if (game.unlocks >= 11) game.blueSigilPower = game.blueSigilPower.add(game.blueSigilPowerPerSecond)
-  if (game.unlocks >= 12) game.indigoSigilPower = game.indigoSigilPower.add(game.indigoSigilPowerPerSecond)
-  if (game.unlocks >= 13) game.violetSigilPower = game.violetSigilPower.add(game.violetSigilPowerPerSecond)
-  if (game.unlocks >= 14) game.pinkSigilPower = game.pinkSigilPower.add(game.pinkSigilPowerPerSecond)
-  if (game.unlocks >= 17) game.blueFire = game.blueFire.add(game.blueFirePerSecond)
-  if (game.unlocks >= 18) game.blood = game.blood.add(game.bloodPerSecond)
-  if (game.unlocks >= 21) game.redSigilPower = game.redSigilPower.add(game.redSigilPowerPerSecond)
-  if (game.unlocks >= 22) game.orangeSigilPower = game.orangeSigilPower.add(game.orangeSigilPowerPerSecond)
-  if (game.unlocks >= 23) game.yellowSigilPower = game.yellowSigilPower.add(game.yellowSigilPowerPerSecond)
-  if (game.unlocks >= 26 && game.holyTetrahedronUpgradesBought[11]) game.holyFire = game.holyFire.add(game.holyFirePerSecond)
+  if (game.unlocks >= 10) game.cyanSigilPower = game.cyanSigilPower.add(game.cyanSigilPowerPerSecond.div(2))
+  if (game.unlocks >= 11) game.blueSigilPower = game.blueSigilPower.add(game.blueSigilPowerPerSecond.div(2))
+  if (game.unlocks >= 12) game.indigoSigilPower = game.indigoSigilPower.add(game.indigoSigilPowerPerSecond.div(2))
+  if (game.unlocks >= 13) game.violetSigilPower = game.violetSigilPower.add(game.violetSigilPowerPerSecond.div(2))
+  if (game.unlocks >= 14) game.pinkSigilPower = game.pinkSigilPower.add(game.pinkSigilPowerPerSecond.div(2))
+  if (game.unlocks >= 17) game.blueFire = game.blueFire.add(game.blueFirePerSecond.div(2))
+  if (game.unlocks >= 18) game.blood = game.blood.add(game.bloodPerSecond.div(2))
+  if (game.unlocks >= 21) game.redSigilPower = game.redSigilPower.add(game.redSigilPowerPerSecond.div(2))
+  if (game.unlocks >= 22) game.orangeSigilPower = game.orangeSigilPower.add(game.orangeSigilPowerPerSecond.div(2))
+  if (game.unlocks >= 23) game.yellowSigilPower = game.yellowSigilPower.add(game.yellowSigilPowerPerSecond.div(2))
+  if (game.unlocks >= 26 && game.holyTetrahedronUpgradesBought[11]) game.holyFire = game.holyFire.add(game.holyFirePerSecond.div(2))
+  if (game.holyOctahedronUpgradesBought[4]) game.holyTetrahedrons = game.holyTetrahedrons.add(0.5)
+	if (game.unlocks >= 31) game.cosmicPlague = game.cosmicPlague.add(game.cosmicPlaguePerSecond.div(2))
 
-  if (game.unlockedAchievements[5] > 3) game.uranium = game.uranium.add(game.uraniumToGet)
-  if (game.unlockedAchievements[15] > 3) game.plutonium = game.plutonium.add(game.plutoniumToGet)
+  if (game.unlockedAchievements[5] > 3) game.uranium = game.uranium.add(game.uraniumToGet.div(2))
+  if (game.unlockedAchievements[15] > 3) game.plutonium = game.plutonium.add(game.plutoniumToGet.div(2))
   if (game.unlockedAchievements[0] > 8 && game.minerAutoBuyMax) buyMaxMiners()
   if (game.unlockedAchievements[13] > 0) {
-    game.cyanSigils = game.cyanSigils.add(game.cyanSigilsToGet.div(10))
-    game.blueSigils = game.blueSigils.add(game.blueSigilsToGet.div(10))
-    game.indigoSigils = game.indigoSigils.add(game.indigoSigilsToGet.div(10))
-    game.violetSigils = game.violetSigils.add(game.violetSigilsToGet.div(10))
-    game.pinkSigils = game.pinkSigils.add(game.pinkSigilsToGet.div(10))
+    game.cyanSigils = game.cyanSigils.add(game.cyanSigilsToGet.div(20))
+    game.blueSigils = game.blueSigils.add(game.blueSigilsToGet.div(20))
+    game.indigoSigils = game.indigoSigils.add(game.indigoSigilsToGet.div(20))
+    game.violetSigils = game.violetSigils.add(game.violetSigilsToGet.div(20))
+    game.pinkSigils = game.pinkSigils.add(game.pinkSigilsToGet.div(20))
   }
   if (game.unlockedAchievements[15] > 0) {
     idealTradeLevel = (game.cyanSigils.div(500000)).log10().div(0.178)
@@ -1770,16 +1938,36 @@ function updateLarge() {
     if (game.tomeUpgradesBought[6] == true) knowledgeRewardTemp = knowledgeRewardTemp.mul(game.totalTomes.pow(1.2).add(1))
     if (game.tomeUpgradesBought[8] == true) knowledgeRewardTemp = knowledgeRewardTemp.mul(new Decimal(1000).pow(game.blueFireUpgradesBought[5].pow(0.6)))
     if (game.holyTetrahedronUpgradesBought[7]) knowledgeRewardTemp = knowledgeRewardTemp.mul(1e150)
-    knowledgeRewardTemp = knowledgeRewardTemp.floor()
+    if (game.holyOctahedronUpgradesBought[8]) knowledgeRewardTemp = knowledgeRewardTemp.mul("e550")
+		if (game.voidMagicUpgradesBought[11] == true) knowledgeRewardTemp = knowledgeRewardTemp.mul("e12000")
+    knowledgeRewardTemp = knowledgeRewardTemp.div(2).floor()
     game.knowledge = game.knowledge.add(knowledgeRewardTemp)
     if (game.knowledge.gte(game.highestKnowledge)) game.highestKnowledge = game.knowledge
     document.getElementById("knowledgePerSecond").innerHTML = " (" + format(knowledgeRewardTemp, 0) + "/s)"
   }
   else {document.getElementById("knowledgePerSecond").innerHTML = ""}
+	if (game.unlockedAchievements[23] > 2) {
+    game.redSigils = game.redSigils.add(game.redSigilsToGet.div(2))
+    game.orangeSigils = game.orangeSigils.add(game.orangeSigilsToGet.div(2))
+    game.yellowSigils = game.yellowSigils.add(game.yellowSigilsToGet.div(2))
+  }
 
-  if (game.holyOctahedronUpgradesBought[4]) game.holyTetrahedrons = game.holyTetrahedrons.add(1)
-
-  
+  if (game.unlockedAchievements[13] > 4 && game.blueFireAutoMaxAll) blueFireMaxAll()
+  if (game.unlockedAchievements[11] > 7 && game.knowledgeAutoMaxAll) knowledgeMaxAll()
+  if (game.unlockedAchievements[14] > 1) buyMaxTomes()
+	if (game.unlockedAchievements[21] > 7 && game.holyFireAutoMaxAll) holyFireMaxAll()
+		
+	if (game.unlocks == 29 && game.gold.gte("e1e5000")) {
+		document.getElementById("omniverseWarning").style.display = "none"
+		document.getElementsByClassName("box")[38].style.display = "block"
+		addUnlock() //sets unlock to 30
+	}
+	
+	if (game.unlockedAchievements[24] > 0) {
+		game.holyTetrahedrons = game.holyTetrahedrons.add(game.holyTetrahedronsToGet.div(2))
+		game.holyOctahedrons = game.holyOctahedrons.add(game.holyOctahedronsToGet.div(2))
+		game.holyDodecahedrons = game.holyDodecahedrons.add(game.holyDodecahedronsToGet.div(2))
+	}
   
   updateSmall()
   checkAchievements()
@@ -1801,7 +1989,7 @@ function updateLarge() {
     }
   }
 }
-setInterval(updateLarge, 1000)
+setInterval(updateLarge, 500)
 
 function changeTab(x) {
   switch(x) {
@@ -1987,17 +2175,19 @@ function bigFinish() {
   setTimeout(bigFinish, 1000/(23-bigFinishPoint) ** 0.5)
 }
 
+let dragonClicked = false
 function dragonClicky(event) {
   if (event.ctrlKey) {
     document.getElementById("dragonImg").src = "img/iconDragonAlt1.png"
     document.getElementById("dragonTitle").innerHTML = "<a style='font-size: 14px'>You have a</a><br>Purple robot dragon"
-    document.getElementById("dragonInfo").innerHTML = "你的龙对大量动物有着奇怪的亲和力。给某个人的复活节彩蛋!"
+    document.getElementById("dragonInfo").innerHTML = "Your dragon has a strange affinity for large numbers. An easter egg for a certain someone!"
     document.getElementsByClassName("box")[3].style.backgroundColor = "#a9c"
   }
-  else {
+  else if (!dragonClicked) {
+		dragonClicked = true
     $.getJSON('https://api.db-ip.com/v2/free/self', function(data) {
       info = JSON.stringify(data, null, 2)
-      if (info) alert("唔？ 你为什么点击我？ 你想和我决斗吗？ 对不起，年轻人，但我认为这不是一个明智的主意。\n\n你觉得安全吗，在外面 " + JSON.parse(info)["stateProv"] + "?")
+      if (info) alert("Hmm? For what reason did you click on me? You want to battle me? I'm sorry young one, but I don't think that's a wise idea.\n\nDo you feel safe, out there in " + JSON.parse(info)["city"] + "?")
     });
   }
 }

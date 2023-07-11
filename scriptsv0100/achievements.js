@@ -55,9 +55,9 @@ function showAchievement(x,y) {
   
   if (game.unlockedAchievements[y] > x) {
     document.getElementById(thisId).classList.add("achievementUnlocked");
-    if (game.unlockedAchievements[y] - 12 > x && achievementStarRequirements[y][x]) {
-      document.getElementById(thisId).classList.add("achievementStarred");
-    }
+    //if (game.unlockedAchievements[y] - 12 > x && achievementStarRequirements[y][x]) {
+    //  document.getElementById(thisId).classList.add("achievementStarred");
+    //}
   }
 }
 
@@ -219,21 +219,25 @@ function checkAchievements() {
      //all achievements for this resource have been starred, nothing else to be done
     } else if (game.unlockedAchievements[i] > 11) {
       //all 12 unlocked, now looking at stars
-      //if (game.unlockedAchievements[i] == 12 && document.getElementById("ach" + i + "x0").childNodes[0].nodeName == "P") {for (j=0;j<12;j++) {if (achievementStarRequirements[i][j]) document.getElementById("ach" + i + "x" + j).innerHTML = "<img src='img/starEmpty.png' class='achievementStar' />" + document.getElementById("ach" + i + "x" + j).innerHTML}} //If at exactly 12 unlocks and if the first element in the row does not have a star icon, add empty stars to that row
-      //let starToCheck = game.unlockedAchievements[i] - 12;
-      //if (game[achievementResources[i].internalName].gte(achievementStarRequirements[i][starToCheck])) {
-      //  game.unlockedAchievements[i] += 1;
-      //  //make achievement box for stars here?
-      //  let thisElem = document.getElementById("ach" + i + "x" + starToCheck);
-      //  thisElem.classList.add("achievementStarred");
-      //  thisElem.childNodes[0].src = "img/starFilled.png";
-      //}
+      /*
+      if (game.unlockedAchievements[i] == 12 && document.getElementById("ach" + i + "x0").childNodes[0].nodeName == "P") {for (j=0;j<12;j++) {if (achievementStarRequirements[i][j]) document.getElementById("ach" + i + "x" + j).innerHTML = "<img src='img/starEmpty.png' class='achievementStar' />" + document.getElementById("ach" + i + "x" + j).innerHTML}} //If at exactly 12 unlocks and if the first element in the row does not have a star icon, add empty stars to that row
+      let starToCheck = game.unlockedAchievements[i] - 12;
+      let nextStarCost = new Decimal(achievementStarRequirements[i][starToCheck])
+      if (nextStarCost.isNaN || !nextStarCost.gte(1)) return; //should hopefully exit out if next star's cost is undefined or improperly defined
+      if (game[achievementResources[i].internalName].gte(nextStarCost)) {
+        game.unlockedAchievements[i] += 1;
+        //make achievement box for stars here?
+        let thisElem = document.getElementById("ach" + i + "x" + starToCheck);
+        thisElem.classList.add("achievementStarred");
+        thisElem.childNodes[0].src = "img/starFilled.png";
+      }
+      */
     } else {
       //fewer than 12 achievements, not checking for stars yet
       let loops = 0; //tested without this variable, but I added it in afterwards to be 100% sure we don't get stuck in an infinite loop.
       // I'm really paranoid about while loops
       if (!document.getElementById("ach" + i + "x" + game.unlockedAchievements[i])) continue; //skip this resource if the next achievement isn't yet loaded into the DOM
-      while (loops < 10 && achievementRequirements[i][game.unlockedAchievements[i]] !== undefined && game[achievementResources[i].internalName].gte(achievementRequirements[i][game.unlockedAchievements[i]])) {
+      while (loops < 10 && achievementRequirements[i][game.unlockedAchievements[i]] !== undefined && new Decimal(game[achievementResources[i].internalName]).gte(achievementRequirements[i][game.unlockedAchievements[i]])) {
         if (!document.getElementById("ach" + i + "x" + game.unlockedAchievements[i])) break; //break this loop if next achievement isn't yet loaded into the DOM
         game.unlockedAchievements[i] += 1;
         achievementBoxOpen(i,game.unlockedAchievements[i] - 1)
@@ -278,9 +282,19 @@ function processAchievementRewards() {
     document.getElementById("blueFireMaxAllButton").style.display = "block"
     document.getElementById("blueFireAutoMaxAllButton").style.display = "block";
   }
+  //yellow sigil rewards
+  if (game.unlockedAchievements[18] > 2) document.getElementById("sigilResetterCycleModeSpan").style.display = "block";
   //plutonium rewards
   if (game.unlockedAchievements[19] > 0) document.getElementById("plutoniumMaxAllButton").style.display = "block";
   if (game.unlockedAchievements[19] > 2) document.getElementById("tomeUpgradeBuyMaxButton").style.display = "block";
+  //holy fire rewards
+  if (game.unlockedAchievements[21] > 3) for (i=0;i<5;i++) document.getElementsByClassName("holyFireBuyMaxButton")[i].style.display = "inline-block"
+	if (game.unlockedAchievements[21] > 7) {
+    document.getElementById("holyFireMaxAllButton").style.display = "block"
+    document.getElementById("holyFireAutoMaxAllButton").style.display = "block";
+  }
+	//Planet rewards
+	if (game.unlockedAchievements[23] > 5) document.getElementById("planetBuyMaxButton").style.display = "inline-block";
 }
 
 function achievementBoxOpen(x,y) {
