@@ -669,11 +669,11 @@
         <input type="checkbox" id="sigilResetterActive" onchange="updateSigilResetter()" tabindex="-1">
         <label for="sigilResetterActive">Enabled</label> <br><br>
         Colour: <select id="sigilResetterType" onchange="updateSigilResetter()" tabindex="-1">
-          <option>Cyan</option>
-          <option>Blue</option>
-          <option>Indigo</option>
-          <option>Violet</option>
-          <option>Pink</option>
+          <option value="Cyan">Cyan</option>
+          <option value="Blue">Blue</option>
+          <option value="Indigo">Indigo</option>
+          <option value="Violet">Violet</option>
+          <option value="Pink">Pink</option>
         </select><br>
         <input type="checkbox" id="sigilResetterCycle" onchange="updateSigilResetter()" tabindex="-1">
         <label for="sigilResetterCycle">Cycle Colour on Reset</label> <br>
@@ -682,9 +682,9 @@
           <label for="sigilResetterCycleMode" >Cycle between Red/Orange/Yellow only</label> <br>
         </span><br><br>
         Mode: <select id="sigilResetterMode" onchange="updateSigilResetter(true)" tabindex="-1">
-          <option>Potential Sigil Amount</option>
-          <option>Gold Amount</option>
-          <option>Seconds Since Reset</option>
+          <option value="Potential Sigil Amount">Potential Sigil Amount</option>
+          <option value="Gold Amount">Gold Amount</option>
+          <option value="Seconds Since Reset">Seconds Since Reset</option>
         </select><br>
         <input id="sigilResetterAmount" style="width: 200px; background-color: #cbc0b8; text-align: center; font-weight: bold" placeholder="amount" onchange="updateSigilResetter()" tabindex="-1"></input>
       <br><br>
