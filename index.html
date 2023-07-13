@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
   <meta content="DodecaDragons" property="og:title" />
-  <meta content="Guess who's back!"
+  <meta content="real ones sit on top of their pile of gold and gems like a dragon fr fr"
     property="og:description" />
   <meta content="https://demonin.com/games/dodecaDragons/" property="og:url" />
   <meta content="img/logo.png" property="og:image" />
@@ -14,7 +14,7 @@
   <title>DodecaDragons</title>
   <link rel="icon" type="image/x-icon" href="img/iconGoldCoins.png">
   <link rel="stylesheet" href="98.css" />
-  <link href="style.css" rel="stylesheet" type="text/css" /> 
+  <link href="stylev01101.css" rel="stylesheet" type="text/css" /> 
 </head>
 
 <body onclick="updateSmall()">
@@ -43,6 +43,7 @@
       <button id="unlockVoidMagicUpgradesButton" style="background-color: #222; color: white; height: 58px; display: none" onclick="unlockVoidMagicUpgrades()">&#8202;&#8202;Unlock <a style="color: #dbf; text-shadow: 1px 1px #648">Void Magic Upgrades</a><br>You are mastering control of your magic powers.<br>Costs e1.00e100 gold and 100,000,000 holy fire</button>
 			<button id="unlockPlanetsButton" style="background-color: black; background-image: url('img/spaceBack.png'); color: #b8f; height: 34px; width: 200px; display: none" onclick="unlockPlanets()">&#8202;&#8202;Unlock <b>Planets</b><br>Costs e1.00e400 gold</button>
 			<button id="omniverseWarning" style="background-color: black; color: #b0f; text-shadow: 0 1px #00f; height: 46px; display: none">&#8202;&#8202;Something unseeable looms over you. A powerful presense has taken<br>&#8202;&#8202;an interest in your actions. Perhaps it may show itself if you acquire more gold.</button>
+			<button id="unlockEssencesButton" style="background-color: white; color: black; height: 34px; width: 250px; display: none" onclick="unlockEssences()">&#8202;&#8202;Unlock the <b>Light and Dark Essences</b><br>&#8202;&#8202;Costs ee500,000 gold</button>
     </div>
   </div>
 
@@ -88,7 +89,7 @@
         <button aria-label="Close" style="background-image: url('img/close.svg'); background-repeat: no-repeat; background-position: 3px 3px" onclick="changeTab(0)"></button>
       </div>
     </div>
-    <div class="window-body" style="max-height: 90vh; overflow: auto">
+    <div class="window-body" style="max-height: calc(95vh - 75px); overflow: auto">
       <p class="resourceRow" onclick="posSet(0,0)"><img src="img/iconGoldCoins.png" class="resourceIcon"></img>Gold: <a class="resourceText">0</a></p>
       <p class="resourceRow" onclick="posSet(0,0)" style="display: none"><img src="img/iconMiner.png" class="resourceIcon"></img>Miners: <a class="resourceText">0</a></p>
       <p class="resourceRow" onclick="posSet(365,-365)" style="display: none"><img src="img/iconFire.png" class="resourceIcon"></img>Fire: <a class="resourceText">0</a></p>
@@ -115,6 +116,9 @@
       <p class="resourceRow" onclick="posSet(-1760,250)" style="display: none"><img src="img/iconPolyhedronSmall3.png" class="resourceIcon"></img>Holy dodecahedrons: <a class="resourceText">0</a></p>
 			<p class="resourceRow" onclick="posSet(515,650)" style="display: none"><img src="img/iconPlanet.png" class="resourceIcon"></img>Planets: <a class="resourceText">0</a></p>
 			<p class="resourceRow" onclick="posSet(1345,-850)" style="display: none"><img src="img/iconPlague.png" class="resourceIcon"></img>Cosmic plague: <a class="resourceText">0</a></p>
+			<p class="resourceRow" onclick="posSet(-1145,-100)" style="display: none"><img src="img/iconOganessonCoins.png" class="resourceIcon"></img>Oganesson: <a class="resourceText">0</a></p>
+			<p class="resourceRow" onclick="posSet(-1440,-100)" style="display: none"><img src="img/iconLightEssence.png" class="resourceIcon"></img>Light essence: <a class="resourceText">0</a></p>
+			<p class="resourceRow" onclick="posSet(-1755,-100)" style="display: none"><img src="img/iconDarkEssence.png" class="resourceIcon"></img>Dark essence: <a class="resourceText">0</a></p>
     </div>
   </div>
 
@@ -147,6 +151,7 @@
       <button class="upgradeDragonButton" style="height: 46px; display: none; background-color: #444; color: #bbe" onclick="upgradeDragon(5)">Enhance your dragon with incomprehensible machinery<br>&#8202;&#8202;Multiplies blue fire gain by 100<br>Costs e1.50e11 gold</button>
       <button class="upgradeDragonButton" style="height: 46px; display: none; background-color: #ffd; color: #08f" onclick="upgradeDragon(6)">Ascend your dragon with the power of the heavens themselves!<br>Multiplies blue fire gain by 1.00e50<br>&#8202;&#8202;Costs e1.00e55 gold</button>
       <button class="upgradeDragonButton" style="height: 46px; display: none; background-color: #222; color: #b8f" onclick="upgradeDragon(7)">Fuse your dragon with versions of itself from other dimensions<br>Multiplies holy fire gain by 1.00e10<br>Costs e1.00e200 gold</button>
+			<button class="upgradeDragonButton" style="height: 46px; display: none; background-color: #040; color: #8f8" onclick="upgradeDragon(8)">Infuse your dragon with the cosmic plague and gain corrupted power<br>Multiplies cosmic plague gain by 100<br>&#8202;&#8202;Costs ee35,000 gold</button>
       <div id="dragonAffectionStuff" style="display: none">
         <hr>
         <p>Your dragon is seeking affection!<br>(You cannot do anything with your dragon while inside challenges)</p><br>
@@ -586,7 +591,7 @@
         <button aria-label="Close" style="background-image: url('img/close.svg'); background-repeat: no-repeat; background-position: 3px 3px" onclick="changeTab(0)"></button>
       </div>
     </div>
-    <div class="window-body" style="max-width: 90vw; max-height: calc(95vh - 50px); overflow: auto; scrollbar-gutter: stable">
+    <div class="window-body" style="max-width: 90vw; max-height: calc(95vh - 75px); overflow: auto; scrollbar-gutter: stable">
       <div id="achievementInfo">
         <p style="font-size: 22px; line-height: 22px; margin: 4px">Achievement name</p>
         <p>Acquire X of resource Y</p>
@@ -858,8 +863,9 @@
     </div>
     <div class="window-body" style="max-height: calc(95vh - 50px); overflow: auto">
       <div style="margin-top: 8px; background-color: #111; width: 100%; border-top: 4px solid #666; border-bottom: 4px solid #666">
-        <p style="text-align: center"><a class="titleText" style="font-size: 36px; color: #ca1; text-shadow: 3px 3px #555">DodecaDragons</a><br><a style="color: #666">v0.10.0 <span id="inDevSpan"></span></a></p>
+        <p style="text-align: center"><a class="titleText" style="font-size: 36px; color: #ca1; text-shadow: 3px 3px #555">DodecaDragons</a><br><a style="color: #666">v0.11.0 <span id="inDevSpan"></span></a></p>
       </div>
+			<p id ="devinfo" style="position: absolute; top: 120px; right: 4px; text-align: right; margin: 0"><a href="changelog.txt" target="_blank">Changelog</a></p>
       <p style="margin-top: 6px">Created by <a style="color: #50a">Demonin</a><br>Co-developed by <a style="color: #a0a">Cornucanis</a><br>Additional spriting by <a style="color: #a00">Zaxolotl</a></p>
       <p style="color: #666">Move around by clicking and dragging.<br>If you find the text is too small,
         you might want to zoom in the window :)</p>
@@ -870,9 +876,15 @@
       </span>
       <p style="color: #666">You can also press/hold enter to repeat the last button you pressed!</p>
       <hr>
-      <p style="text-align: center; color: #008; margin-bottom: 4px">&#8202;&#8202;Want to discuss or suggest for<br>&#8202;&#8202;the game? Feel free to join our<br>discord community!</p>
-      <center><a href="https://discord.gg/7PChmUV3wk" target="_blank"><img src="img/discordIcon.png" style="pointer-events: auto"></a></center>
-      <p id ="devinfo" style="position: absolute; bottom: 4px; right: 4px; text-align: right; margin: 0"><a href="changelog.txt" target="_blank">Changelog</a></p>
+      
+			<div style="display: inline-block; width: 1fr">
+				<p style="color: #008; margin-bottom: 4px">&#8202;&#8202;Want to discuss or suggest for<br>&#8202;&#8202;the game? Feel free to join our<br>discord community!</p>
+				<center><a href="https://discord.gg/7PChmUV3wk" target="_blank"><img src="img/discordIcon.png" style="pointer-events: auto"></a></center>
+			</div>
+      <div style="display: inline-block; width: 1fr; border-left: 2px solid #666">
+				<p style="color: #800; margin-bottom: 4px">Want to get early access to<br>future updates? Consider<br>supporting me on Patreon! :)</p>
+				<center><a href="https://www.patreon.com/Demonin" target="_blank"><img src="img/patreonIcon.png" style="pointer-events: auto"></a></center>
+			</div>
     </div>
   </div>
 
@@ -1028,7 +1040,7 @@
 			<button class="voidMagicUpgrade" onclick="buyVoidMagicUpgrade(14)">Multiply planet effect by 1.2<br>Costs e5.25e12 magic</button>
 			<button class="voidMagicUpgrade" onclick="buyVoidMagicUpgrade(15)">Supercluster effect is improved<br>Costs e2.00e13 magic</button>
 			<button class="voidMagicUpgrade" id="plagueMagicUpgrade" onclick="buyVoidMagicUpgrade(16)">Unlock <b>Cosmic Plague</b><br>Costs e4.25e13 magic</button>
-			<button class="voidMagicUpgrade" id="oganessonMagicUpgrade">Unlock <b>Oganesson</b><br>Not available in this update!</button>
+			<button class="voidMagicUpgrade" id="oganessonMagicUpgrade" onclick="buyVoidMagicUpgrade(17)">Unlock <b>Oganesson</b><br>Costs e3.75e16 magic</button>
     </div>
   </div>
 
@@ -1069,7 +1081,7 @@
     </div>
     <div class="window-body">
 			<p class="titleText" style="color: #96f">You have <a id="planets">0</a> planets</p>
-			<p style="color: #96f">Increasing blue fire and holy fire gain by ^<span id="planetEffect">1.00</span></p><br>
+			<p style="color: #96f">Increasing blue fire and holy fire gain by ^<span id="planetEffect">1.00</span><span id="planetEffectSoftcap"></span></p><br>
 			<img src="img/planet.png" style="position: absolute; top: 32px; right: 12px; width: 64px">
 			<button class="formPlanetButton" style="background-color: #aee" onclick="formPlanet(1)">Form <span class="planetCost">1e30</span> holy tetrahedrons into a planet</button>
 			<button id="planetBuyMaxButton" style="min-width: 46px; background-color: #aee; display: none;" onclick="planetBuyMax()">Buy max</button><br>
@@ -1104,12 +1116,63 @@
 			<p class="titleText" style="color: #8f8">You have <span id="cosmicPlague">0</span> cosmic plague</p>
 			<p class="titleText" style="color: #a8f">You have <span id="spores">0</span> spores</p>
 			<p style="color: #a8f">Your spores are producing <span id="cosmicPlaguePerSecond">0</span> plague/s</p>
-			<button style="background-color: #baf; height: 34px; text-align: left" onclick="gainSpore()">Gain a spore<br>Costs <span id="sporeCost">e1.00e7,500</span> gold</button><br><br>
-			<button style="background-color: #8d8; height: 46px; text-align: left" onclick="buyPlagueUpgrade(1)">Multiply plague gain<br>Currently *<span class="plagueUpgradeEffect">1.00</span><br>Costs <span class="plagueUpgradeCost">25</span> plague</button><br>
-			<button style="background-color: #8d8; height: 46px; text-align: left" onclick="buyPlagueUpgrade(2)">Multiply planet effect<br>Currently *<span class="plagueUpgradeEffect">1.00</span><br>Costs <span class="plagueUpgradeCost">100</span> plague</button><br>
-			<button style="background-color: #8d8; height: 46px; text-align: left" onclick="buyPlagueUpgrade(3)">Increase blue fire gain<br>Currently ^<span class="plagueUpgradeEffect">1.00</span><br>Costs <span class="plagueUpgradeCost">1000</span> plague</button><br>
-			<button style="background-color: #8d8; height: 46px; text-align: left" onclick="buyPlagueUpgrade(4)">Increase holy fire gain<br>Currently ^<span class="plagueUpgradeEffect">1.000</span><br>Costs <span class="plagueUpgradeCost">10,000</span> plague</button><br>
-			<p style="color: #a8f">Current end of content is 12 spores (ee35,000 gold). Stick around for more soon!</p>
+			<button style="background-color: #baf; height: 34px; text-align: left" onclick="gainSpore()">Gain a spore<br>Costs <span id="sporeCost">e1.00e7,500</span> gold</button>
+			<button class="plagueBuyMaxButton" style="background-color: #baf" onclick="gainMaxSpores()">Gain max</button><br><br>
+			<button class="plagueUpgrade" style="background-color: #8d8; height: 46px; text-align: left" onclick="buyPlagueUpgrade(1)">Multiply plague gain<br>Currently x<span class="plagueUpgradeEffect">1.00</span><br>Costs <span class="plagueUpgradeCost">25</span> plague</button>
+			<button class="plagueBuyMaxButton" style="background-color: #8d8" onclick="plagueBuyMax(1)">Buy max</button><br>
+			<button class="plagueUpgrade" style="background-color: #8d8; height: 46px; text-align: left" onclick="buyPlagueUpgrade(2)">Multiply planet effect<br>Currently x<span class="plagueUpgradeEffect">1.00</span><br>Costs <span class="plagueUpgradeCost">100</span> plague</button>
+			<button class="plagueBuyMaxButton" style="background-color: #8d8" onclick="plagueBuyMax(2)">Buy max</button><br>
+			<button class="plagueUpgrade" style="background-color: #8d8; height: 46px; text-align: left" onclick="buyPlagueUpgrade(3)">Increase blue fire gain<br>Currently ^<span class="plagueUpgradeEffect">1.00</span><br>Costs <span class="plagueUpgradeCost">100,000</span> plague</button>
+			<button class="plagueBuyMaxButton" style="background-color: #8d8" onclick="plagueBuyMax(3)">Buy max</button><br>
+			<button class="plagueUpgrade" style="background-color: #8d8; height: 46px; text-align: left" onclick="buyPlagueUpgrade(4)">Increase holy fire gain<br>Currently ^<span class="plagueUpgradeEffect">1.000</span><br>Costs <span class="plagueUpgradeCost">1,000,000</span> plague</button>
+			<button class="plagueBuyMaxButton" style="background-color: #8d8" onclick="plagueBuyMax(4)">Buy max</button><br>
+			<button class="plagueUpgrade" style="background-color: #8d8; height: 46px; text-align: left; display: none" onclick="buyPlagueUpgrade(5)">Increase oganesson gain<br>Currently x<span class="plagueUpgradeEffect">1.00</span><br>Costs <span class="plagueUpgradeCost">1.00e13</span> plague</button>
+			<button class="plagueBuyMaxButton" style="background-color: #8d8; display: none" onclick="plagueBuyMax(5)">Buy max</button><br>
+    </div>
+  </div>
+	
+	<!--Alchemy tab IV-->
+  <div class="window box" id="tab_oganesson" style="width: 260px; height: 500px; display: none;">
+    <div class="title-bar">
+      <div class="title-bar-text">Alchemy IV</div>
+    </div>
+    <div class="window-body">
+      <p style="margin-top: 4px"><b>You have <a id="oganesson">0</a> oganesson</b><br>You are gaining <a id="oganessonPerSecond">0</a> oganesson per second (based on plutonium amount), to save your fingers from clicking!</p><br>
+			<button class="oganessonUpgrade" style="height: 46px" onclick="buyOganessonUpgrade(1)">Increase plutonium gain (<a class="oganessonUpgradesBought">0</a>/10)<br>Currently ^<a id="oganessonUpgrade1Effect">1.00</a><br>Costs 100 oganesson</button><br>
+			<button class="oganessonUpgrade" style="height: 46px" onclick="buyOganessonUpgrade(2)">Increase cosmic plague gain (<a class="oganessonUpgradesBought">0</a>/10)<br>Currently x<a id="oganessonUpgrade2Effect">1.00</a><br>Costs 1,000 oganesson</button><br>
+			<button class="oganessonUpgrade" style="height: 46px" onclick="buyOganessonUpgrade(3)">Increase planet effect (<a class="oganessonUpgradesBought">0</a>/10)<br>Currently +<a id="oganessonUpgrade3Effect">0.00</a><br>Costs 2,000 oganesson</button><br>
+			<button class="oganessonUpgrade" style="height: 34px" onclick="buyOganessonUpgrade(4)">Gain a new cosmic plague upgrade (<a class="oganessonUpgradesBought">0</a>/1)<br>Costs 5,000 oganesson</button><br>
+			<button class="oganessonUpgrade" style="height: 46px" onclick="buyOganessonUpgrade(5)">Increase blue fire gain based on oganesson (<a class="oganessonUpgradesBought">0</a>/5)<br>Currently ^<a id="oganessonUpgrade5Effect">1.00</a><br>Costs 10,000 oganesson</button><br>
+			<button class="oganessonUpgrade" style="height: 46px" onclick="buyOganessonUpgrade(6)">Increase cosmic plague gain again (<a class="oganessonUpgradesBought">0</a>/10)<br>Currently x<a id="oganessonUpgrade6Effect">1.00</a><br>Costs 100,000 oganesson</button><br>
+			<button class="oganessonUpgrade" style="height: 46px" onclick="buyOganessonUpgrade(7)">Increase essence gain (<a class="oganessonUpgradesBought">0</a>/10)<br>Currently x<a id="oganessonUpgrade7Effect">1.00</a><br>Costs 5,000,000 oganesson</button><br>
+    </div>
+  </div>
+	
+	<!--Light essence tab-->
+  <div class="window box" id="tab_lightEssence" style="width: 300px; height: 500px; background-color: white; display: none">
+    <div class="title-bar" style="background: linear-gradient(90deg,black,black)">
+      <div class="title-bar-text">Light essence</div>
+    </div>
+    <div class="window-body">
+			<p class="titleText" style="color: black">You have <span id="lightEssence">0</span><br>light essence</p>
+			<p style="color: black">Multiplying dark essence gain by <span id="lightEssenceMultiplier">1.00</span><br>You are gaining <span id="lightEssencePerSecond">0</span> light essence per second</p>
+			<button class="lightEssenceUpgrade" style="background-color: white; height: 46px; text-align: left" onclick="buyLightEssenceUpgrade(1)">Multiply light essence gain<br>Currently x<span class="lightEssenceUpgradeEffect">1.00</span><br>Costs <span class="lightEssenceUpgradeCost">100</span> light essence</button><br>
+			<button class="lightEssenceUpgrade" style="background-color: white; height: 46px; text-align: left" onclick="buyLightEssenceUpgrade(2)">Multiply cosmic plague gain<br>Currently x<span class="lightEssenceUpgradeEffect">1.00</span><br>Costs <span class="lightEssenceUpgradeCost">600</span> light essence</button><br>
+			<button class="lightEssenceUpgrade" style="background-color: white; height: 46px; text-align: left" onclick="buyLightEssenceUpgrade(3)">Increase pink sigil gain<br>Currently ^<span class="lightEssenceUpgradeEffect">1.00</span><br>Costs <span class="lightEssenceUpgradeCost">3,000</span> light essence</button><br>
+    </div>
+  </div>
+	
+	<!--Dark essence tab-->
+  <div class="window box" id="tab_darkEssence" style="width: 300px; height: 500px; background-color: black; display: none">
+    <div class="title-bar" style="background: linear-gradient(90deg,white,white)">
+      <div class="title-bar-text" style="color: black">Dark essence</div>
+    </div>
+    <div class="window-body">
+			<p class="titleText" style="color: white">You have <span id="darkEssence">0</span><br>dark essence</p>
+			<p style="color: white">Multiplying light essence gain by <span id="darkEssenceMultiplier">1.00</span><br>You are gaining <span id="darkEssencePerSecond">0</span> dark essence per second</p>
+			<button class="darkEssenceUpgrade" style="background-color: black; color: white; height: 46px; text-align: left" onclick="buyDarkEssenceUpgrade(1)">Multiply dark essence gain<br>Currently x<span class="darkEssenceUpgradeEffect">1.00</span><br>Costs <span class="darkEssenceUpgradeCost">100</span> dark essence</button><br>
+			<button class="darkEssenceUpgrade" style="background-color: black; color: white; height: 46px; text-align: left" onclick="buyDarkEssenceUpgrade(2)">Multiply oganesson gain<br>Currently x<span class="darkEssenceUpgradeEffect">1.00</span><br>Costs <span class="darkEssenceUpgradeCost">1,000</span> dark essence</button><br>
+			<button class="darkEssenceUpgrade" style="background-color: black; color: white; height: 46px; text-align: left" onclick="buyDarkEssenceUpgrade(3)">Multiply knowledge gain<br>Currently x<span class="darkEssenceUpgradeEffect">1.00</span><br>Costs <span class="darkEssenceUpgradeCost">10,000</span> dark essence</button><br>
     </div>
   </div>
 
@@ -1121,7 +1184,7 @@
   <!-- Warning box for when save is not detected-->
   <div id="autosaveWarning" class="window" style="background: #ddc0c0; display: none"> 
     <div class="title-bar" style="background: linear-gradient(90deg,#833,#fbb)">
-      <div class="title-bar-text"">WARNING</div>
+      <div class="title-bar-text">WARNING</div>
     </div>
     <div class="window-body">
       <p style="font-weight: bold">WARNING: AUTO SAVE NOT DETECTED IN THE LAST 60 SECONDS. IF THIS MESSAGE PERSISTS, SOMETHING HAS LIKELY GONE WRONG SO YOU SHOULD EXPORT YOUR SAVE AS A BACKUP!</p>
@@ -1158,25 +1221,26 @@
 
   <!--List o' scripts-->
   <script src="jquery-3.6.0.min.js"></script>
-  <script src="scriptsv0100/break_eternity.js"></script>
-  <script src="scriptsv0100/Mousetrap.js"></script>
-  <script src="scriptsv0100/constants.js"></script>
-  <script src="scriptsv0100/script.js"></script>
-  <script src="scriptsv0100/gold.js"></script>
-  <script src="scriptsv0100/dragon.js"></script>
-  <script src="scriptsv0100/fire.js"></script>
-  <script src="scriptsv0100/alchemy.js"></script>
-  <script src="scriptsv0100/magic.js"></script>
-  <script src="scriptsv0100/magicChallenges.js"></script>
-  <script src="scriptsv0100/sigils.js"></script>
-  <script src="scriptsv0100/knowledge.js"></script>
-  <script src="scriptsv0100/blood.js"></script>
-  <script src="scriptsv0100/holyPolyhedrons.js"></script>
-	<script src="scriptsv0100/planets.js"></script>
-	<script src="scriptsv0100/plague.js"></script>
-  <script src="scriptsv0100/achievements.js"></script>
-  <script src="scriptsv0100/hotkeys.js"></script>
-  <script src="scriptsv0100/render.js"></script>
+  <script src="scriptsv01101/break_eternity.js"></script>
+  <script src="scriptsv01101/Mousetrap.js"></script>
+  <script src="scriptsv01101/constants.js"></script>
+  <script src="scriptsv01101/script.js"></script>
+  <script src="scriptsv01101/gold.js"></script>
+  <script src="scriptsv01101/dragon.js"></script>
+  <script src="scriptsv01101/fire.js"></script>
+  <script src="scriptsv01101/alchemy.js"></script>
+  <script src="scriptsv01101/magic.js"></script>
+  <script src="scriptsv01101/magicChallenges.js"></script>
+  <script src="scriptsv01101/sigils.js"></script>
+  <script src="scriptsv01101/knowledge.js"></script>
+  <script src="scriptsv01101/blood.js"></script>
+  <script src="scriptsv01101/holyPolyhedrons.js"></script>
+	<script src="scriptsv01101/planets.js"></script>
+	<script src="scriptsv01101/plague.js"></script>
+	<script src="scriptsv01101/essence.js"></script>
+  <script src="scriptsv01101/achievements.js"></script>
+  <script src="scriptsv01101/hotkeys.js"></script>
+  <script src="scriptsv01101/render.js"></script>
   <script>load(); if (!isDevVersion) setAutoSave()</script>
 <!--客服 开始-->
 <link rel="stylesheet" href="//g8hh.github.io/static/css/kf.css" type="text/css" media="screen" charset="utf-8">
