@@ -580,6 +580,22 @@ img {
   color: #4b4;
 }
 
+#plagueMaxAllButton {
+  position: absolute;
+  top: 68px;
+  right: 8px;
+  display: none;
+	background-color: #8d8;
+}
+
+#plagueAutoMaxAllButton {
+  position: absolute;
+  top: 98px;
+  right: 8px;
+  display: none;
+	background-color: #8d8;
+}
+
 #oganessonMagicUpgrade {
   background-color: rgb(18, 18, 18);
   background-image: url('img/oganessonButtonBack.png');
@@ -592,6 +608,58 @@ img {
   height: 34px;
   background-color: #a9e;
   text-align: left;
+}
+
+#lightEssenceMaxAllButton, #darkEssenceMaxAllButton, #deathEssenceMaxAllButton, #finalityEssenceMaxAllButton {
+  position: absolute;
+  top: 28px;
+  right: 8px;
+  display: none;
+}
+
+#lightEssenceAutoMaxAllButton, #darkEssenceAutoMaxAllButton, #deathEssenceAutoMaxAllButton, #finalityEssenceAutoMaxAllButton {
+  position: absolute;
+  top: 58px;
+  right: 8px;
+  display: none;
+}
+
+#nuclearPastaStateInfo {
+	color: #222;
+	font-family: 'Pixelated MS Sans Serif', Arial;
+	font-size: 11px;
+}
+
+#nuclearPastaInfoWindow {
+	position: absolute;
+  top: 100px;
+  left: 100px;
+  transform: translate(-50%, -50%);
+	background-color: #fd8;
+	color: #630;
+	transform: none;
+	display: none;
+	padding-right: 12px;
+}
+
+#finalDiv {
+	position: absolute;
+	top: 50vh;
+	left: 50vw;
+	transform: translate(-50%, -50%);
+	text-align: center;
+	max-width: 98vw;
+	color: white;
+	display: none;
+}
+
+#finalText {
+	font-family: 'Alagard';
+	font-size: 64px;
+	margin: 0;
+	background: -webkit-linear-gradient(45deg, #8ff, white, #8ff);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
 }
 
 

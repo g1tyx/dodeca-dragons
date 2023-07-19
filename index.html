@@ -14,7 +14,7 @@
   <title>DodecaDragons</title>
   <link rel="icon" type="image/x-icon" href="img/iconGoldCoins.png">
   <link rel="stylesheet" href="98.css" />
-  <link href="stylev01101.css" rel="stylesheet" type="text/css" /> 
+  <link href="style.css?v100=1" rel="stylesheet" type="text/css" /> 
 </head>
 
 <body onclick="updateSmall()">
@@ -44,6 +44,11 @@
 			<button id="unlockPlanetsButton" style="background-color: black; background-image: url('img/spaceBack.png'); color: #b8f; height: 34px; width: 200px; display: none" onclick="unlockPlanets()">&#8202;&#8202;Unlock <b>Planets</b><br>Costs e1.00e400 gold</button>
 			<button id="omniverseWarning" style="background-color: black; color: #b0f; text-shadow: 0 1px #00f; height: 46px; display: none">&#8202;&#8202;Something unseeable looms over you. A powerful presense has taken<br>&#8202;&#8202;an interest in your actions. Perhaps it may show itself if you acquire more gold.</button>
 			<button id="unlockEssencesButton" style="background-color: white; color: black; height: 34px; width: 250px; display: none" onclick="unlockEssences()">&#8202;&#8202;Unlock the <b>Light and Dark Essences</b><br>&#8202;&#8202;Costs ee500,000 gold</button>
+			<button id="unlockDeathEssenceButton" style="background-color: #f88; color: black; height: 34px; width: 250px; display: none" onclick="unlockDeathEssence()">Unlock <b>Death Essence</b><br>Costs ee1,500,000 gold</button>
+			<button id="unlockNuclearPastaButton" style="background-color: #fd8; color: #630; height: 34px; display: none" onclick="unlockNuclearPasta()">&#8202;&#8202;Unlock <b>Nuclear Pasta</b><br>Costs ee3,500,000 gold</button>
+			<button id="unlockFinalityEssenceButton" style="background-color: #b8f; color: black; height: 34px; width: 250px; display: none" onclick="unlockFinalityEssence()">&#8202;&#8202;Unlock <b>Finality Essence</b><br>Costs ee150,000,000 gold</button>
+			<button id="unlockFinalityCubesButton" style="background-color: black; color: #f0f; text-shadow: 1px 1px #4300a4; height: 34px; width: 250px; display: none" onclick="unlockFinalityCubes()">Unlock <b>Finality Cubes</b><br>&#8202;&#8202;Costs ee7.50e9 gold</button>
+			<button id="bigFinishButton" style="background-color: black; color: white; height: 34px; width: 250px; display: none" onclick="bigFinishCheck()">&#8202;&#8202;Become the omniverse.<br>Costs ee1.00e12 gold</button>
     </div>
   </div>
 
@@ -119,6 +124,10 @@
 			<p class="resourceRow" onclick="posSet(-1145,-100)" style="display: none"><img src="img/iconOganessonCoins.png" class="resourceIcon"></img>Oganesson: <a class="resourceText">0</a></p>
 			<p class="resourceRow" onclick="posSet(-1440,-100)" style="display: none"><img src="img/iconLightEssence.png" class="resourceIcon"></img>Light essence: <a class="resourceText">0</a></p>
 			<p class="resourceRow" onclick="posSet(-1755,-100)" style="display: none"><img src="img/iconDarkEssence.png" class="resourceIcon"></img>Dark essence: <a class="resourceText">0</a></p>
+			<p class="resourceRow" onclick="posSet(-1437,-615)" style="display: none"><img src="img/iconDeathEssence.png" class="resourceIcon"></img>Death essence: <a class="resourceText">0</a></p>
+			<p class="resourceRow" onclick="posSet(980,650)" style="display: none"><img src="img/iconNuclearPasta.png" class="resourceIcon"></img>Nuclear pasta: <a class="resourceText">0</a></p>
+			<p class="resourceRow" onclick="posSet(-1755,-615)" style="display: none"><img src="img/iconFinalityEssence.png" class="resourceIcon"></img>Finality essence: <a class="resourceText">0</a></p>
+			<p class="resourceRow" onclick="posSet(-1541,-1105)" style="display: none"><img src="img/iconFinalityCube.png" class="resourceIcon"></img>Finality cubes: <a class="resourceText">0</a></p>
     </div>
   </div>
 
@@ -152,6 +161,8 @@
       <button class="upgradeDragonButton" style="height: 46px; display: none; background-color: #ffd; color: #08f" onclick="upgradeDragon(6)">Ascend your dragon with the power of the heavens themselves!<br>Multiplies blue fire gain by 1.00e50<br>&#8202;&#8202;Costs e1.00e55 gold</button>
       <button class="upgradeDragonButton" style="height: 46px; display: none; background-color: #222; color: #b8f" onclick="upgradeDragon(7)">Fuse your dragon with versions of itself from other dimensions<br>Multiplies holy fire gain by 1.00e10<br>Costs e1.00e200 gold</button>
 			<button class="upgradeDragonButton" style="height: 46px; display: none; background-color: #040; color: #8f8" onclick="upgradeDragon(8)">Infuse your dragon with the cosmic plague and gain corrupted power<br>Multiplies cosmic plague gain by 100<br>&#8202;&#8202;Costs ee35,000 gold</button>
+			<button class="upgradeDragonButton" style="height: 46px; display: none; background-color: white; color: black" onclick="upgradeDragon(9)">Infuse your dragon with the essences of light, dark and death<br>Multiplies light/dark essence gain by 1,000<br>&#8202;&#8202;Costs ee1,750,000 gold</button>
+			<button class="upgradeDragonButton" style="height: 46px; display: none; background-color: #80f; color: #9ff; text-shadow: 1px 1px #44f" onclick="upgradeDragon(10)">Infuse your dragon with the essence of finality<br>Multiplies death and finality essence gain by 100<br>&#8202;&#8202;Costs ee1.50e9 gold</button>
       <div id="dragonAffectionStuff" style="display: none">
         <hr>
         <p>Your dragon is seeking affection!<br>(You cannot do anything with your dragon while inside challenges)</p><br>
@@ -267,7 +278,7 @@
         magic</button>
       <button class="magicUpgrade" onclick="buyMagicUpgrade(4)">Magic multiplies its own gain<br>Currently x<a
           id="magicUpgrade4Effect">1.00</a><br>Costs 12 magic</button>
-      <button class="magicUpgrade" onclick="buyMagicUpgrade(5)">Fire multiplies its own gain<br>Currently x<a
+      <button class="magicUpgrade" onclick="buyMagicUpgrade(5)">Gold multiplies fire gain<br>Currently x<a
           id="magicUpgrade5Effect">1.00</a><br>Costs 30
         magic</button>
       <button class="magicUpgrade" onclick="buyMagicUpgrade(6)">Miners increase gold/second<br>Currently x<a
@@ -552,11 +563,10 @@
         <button aria-label="Close" style="background-image: url('img/close.svg'); background-repeat: no-repeat; background-position: 3px 3px" onclick="changeTab(0)"></button>
       </div>
     </div>
-      <div class="window-body">
-        <img src="img/theHorror.gif" style="width: 100%; margin: 0">
-      </div>
-    </div>
-  </div>
+		<div class="window-body">
+			<img src="img/theHorror.gif" style="width: 100%; margin: 0">
+		</div>
+	</div>
 
   <!--Pink sigils tab-->
   <div class="window box" id="tab_pinkSigils" style="width: 350px; height: 300px; background-color: #666; display: none;">
@@ -674,11 +684,11 @@
         <input type="checkbox" id="sigilResetterActive" onchange="updateSigilResetter()" tabindex="-1">
         <label for="sigilResetterActive">Enabled</label> <br><br>
         Colour: <select id="sigilResetterType" onchange="updateSigilResetter()" tabindex="-1">
-          <option value="Cyan">Cyan</option>
-          <option value="Blue">Blue</option>
-          <option value="Indigo">Indigo</option>
-          <option value="Violet">Violet</option>
-          <option value="Pink">Pink</option>
+          <option>Cyan</option>
+          <option>Blue</option>
+          <option>Indigo</option>
+          <option>Violet</option>
+          <option>Pink</option>
         </select><br>
         <input type="checkbox" id="sigilResetterCycle" onchange="updateSigilResetter()" tabindex="-1">
         <label for="sigilResetterCycle">Cycle Colour on Reset</label> <br>
@@ -687,9 +697,9 @@
           <label for="sigilResetterCycleMode" >Cycle between Red/Orange/Yellow only</label> <br>
         </span><br><br>
         Mode: <select id="sigilResetterMode" onchange="updateSigilResetter(true)" tabindex="-1">
-          <option value="Potential Sigil Amount">Potential Sigil Amount</option>
-          <option value="Gold Amount">Gold Amount</option>
-          <option value="Seconds Since Reset">Seconds Since Reset</option>
+          <option>Potential Sigil Amount</option>
+          <option>Gold Amount</option>
+          <option>Seconds Since Reset</option>
         </select><br>
         <input id="sigilResetterAmount" style="width: 200px; background-color: #cbc0b8; text-align: center; font-weight: bold" placeholder="amount" onchange="updateSigilResetter()" tabindex="-1"></input>
       <br><br>
@@ -863,7 +873,7 @@
     </div>
     <div class="window-body" style="max-height: calc(95vh - 50px); overflow: auto">
       <div style="margin-top: 8px; background-color: #111; width: 100%; border-top: 4px solid #666; border-bottom: 4px solid #666">
-        <p style="text-align: center"><a class="titleText" style="font-size: 36px; color: #ca1; text-shadow: 3px 3px #555">DodecaDragons</a><br><a style="color: #666">v0.11.0 <span id="inDevSpan"></span></a></p>
+        <p style="text-align: center"><a class="titleText" style="font-size: 36px; color: #ca1; text-shadow: 3px 3px #555">DodecaDragons</a><br><a style="color: #666">v1.0.0 (THE FINAL UPDATE) <span id="inDevSpan"></span></a></p>
       </div>
 			<p id ="devinfo" style="position: absolute; top: 120px; right: 4px; text-align: right; margin: 0"><a href="changelog.txt" target="_blank">Changelog</a></p>
       <p style="margin-top: 6px">Created by <a style="color: #50a">Demonin</a><br>Co-developed by <a style="color: #a0a">Cornucanis</a><br>Additional spriting by <a style="color: #a00">Zaxolotl</a></p>
@@ -876,7 +886,6 @@
       </span>
       <p style="color: #666">You can also press/hold enter to repeat the last button you pressed!</p>
       <hr>
-      
 			<div style="display: inline-block; width: 1fr">
 				<p style="color: #008; margin-bottom: 4px">&#8202;&#8202;Want to discuss or suggest for<br>&#8202;&#8202;the game? Feel free to join our<br>discord community!</p>
 				<center><a href="https://discord.gg/7PChmUV3wk" target="_blank"><img src="img/discordIcon.png" style="pointer-events: auto"></a></center>
@@ -938,7 +947,7 @@
       <button class="holyTetrahedronUpgrade" onclick="buyHolyTetrahedronUpgrade(3)" style="border: 3px solid #4af; bottom: 90px; left: 153px"><b>&#8202;&#8202;Multiply cyan sigil gain by 1.00e50</b><br>Costs 1 tetrahedron</button>
       <button class="holyTetrahedronUpgrade" onclick="buyHolyTetrahedronUpgrade(4)" style="border: 3px solid; border-color: #d22 #d72 #dd2 #d72; bottom: 90px; left: 303px"><b>&#8202;&#8202;Multiply R-O-Y sigil<br>&#8202;&#8202;gain by 10</b><br>Costs 1 tetrahedron</button>
       <button class="holyTetrahedronUpgrade" onclick="buyHolyTetrahedronUpgrade(5)" style="border: 3px solid #8ff; bottom: 170px; left: 3px"><b>Multiply platinum<br>&#8202;&#8202;gain by 1e20</b><br>&#8202;&#8202;Costs 2 tetrahedrons</button>
-      <button class="holyTetrahedronUpgrade" onclick="buyHolyTetrahedronUpgrade(6)" style="border: 3px solid #8f8; bottom: 170px; left: 153px"><b>&#8202;&#8202;Multuply uranium gain by 100</b><br>&#8202;&#8202;Costs 2 tetrahedrons</button>
+      <button class="holyTetrahedronUpgrade" onclick="buyHolyTetrahedronUpgrade(6)" style="border: 3px solid #8f8; bottom: 170px; left: 153px"><b>&#8202;&#8202;Multiply uranium gain by 100</b><br>&#8202;&#8202;Costs 2 tetrahedrons</button>
       <button class="holyTetrahedronUpgrade" onclick="buyHolyTetrahedronUpgrade(7)" style="border: 3px solid #f00; bottom: 170px; left: 303px"><b>Blood gain is always at least<br>&#8202;&#8202;1.00e9/s</b><br>&#8202;&#8202;Costs 2 tetrahedrons</button>
       <button class="holyTetrahedronUpgrade" onclick="buyHolyTetrahedronUpgrade(8)" style="border: 3px solid #a86; bottom: 250px; left: 78px"><b>Multiply knowledge<br>&#8202;&#8202;gain by 1.00e150</b><br>&#8202;&#8202;Costs 5 tetrahedrons</button>
       <button class="holyTetrahedronUpgrade" onclick="buyHolyTetrahedronUpgrade(9)" style="border: 3px solid #d0d; bottom: 250px; left: 228px"><b>&#8202;&#8202;Pink sigil gain is<br>&#8202;&#8202;squared</b><br>&#8202;&#8202;Costs 5 tetrahedrons</button>
@@ -1103,7 +1112,7 @@
 			<center><p id="hypergodName" class="titleText" style="color: white">OMNIVERSAL HYPERGOD I:<br>KARUTH</p>
 			<img id="hypergodImage" src="img/hypergod1.png" style="width: 384px">
 			<p id="hypergodText" style="color: #ffc">Your ravenous growth is causing destruction in the omniverse, creature. As the high<br>&#8202;&#8202;ruler of this section of the omniverse, I command you to cease immediately.</p>
-			<button style="background-image: linear-gradient(45deg, #aae, #bae); height: 34px; font-weight: bold" onclick="defeatHypergod()">Defeat this hypergod and claim a section of the omniverse<br>&#8202;&#8202;Requires <span id="hypergodDefeatCost">ee20,000</span> gold</button></center>
+			<button id="hypergodButton" style="background-image: linear-gradient(45deg, #aae, #bae); height: 34px; font-weight: bold" onclick="defeatHypergod()">Defeat this hypergod and claim a section of the omniverse<br>&#8202;&#8202;Requires <span id="hypergodDefeatCost">ee20,000</span> gold</button></center>
     </div>
   </div>
 	
@@ -1127,7 +1136,9 @@
 			<button class="plagueUpgrade" style="background-color: #8d8; height: 46px; text-align: left" onclick="buyPlagueUpgrade(4)">Increase holy fire gain<br>Currently ^<span class="plagueUpgradeEffect">1.000</span><br>Costs <span class="plagueUpgradeCost">1,000,000</span> plague</button>
 			<button class="plagueBuyMaxButton" style="background-color: #8d8" onclick="plagueBuyMax(4)">Buy max</button><br>
 			<button class="plagueUpgrade" style="background-color: #8d8; height: 46px; text-align: left; display: none" onclick="buyPlagueUpgrade(5)">Increase oganesson gain<br>Currently x<span class="plagueUpgradeEffect">1.00</span><br>Costs <span class="plagueUpgradeCost">1.00e13</span> plague</button>
-			<button class="plagueBuyMaxButton" style="background-color: #8d8; display: none" onclick="plagueBuyMax(5)">Buy max</button><br>
+			<button class="plagueBuyMaxButton" style="background-color: #8d8" onclick="plagueBuyMax(5)">Buy max</button><br>
+			<button id="plagueAutoMaxAllButton" onclick="plagueAutoMaxAll()">Auto max all: On</button>
+      <button id="plagueMaxAllButton" onclick="plagueMaxAll()">Max all</button>
     </div>
   </div>
 	
@@ -1159,6 +1170,7 @@
 			<button class="lightEssenceUpgrade" style="background-color: white; height: 46px; text-align: left" onclick="buyLightEssenceUpgrade(1)">Multiply light essence gain<br>Currently x<span class="lightEssenceUpgradeEffect">1.00</span><br>Costs <span class="lightEssenceUpgradeCost">100</span> light essence</button><br>
 			<button class="lightEssenceUpgrade" style="background-color: white; height: 46px; text-align: left" onclick="buyLightEssenceUpgrade(2)">Multiply cosmic plague gain<br>Currently x<span class="lightEssenceUpgradeEffect">1.00</span><br>Costs <span class="lightEssenceUpgradeCost">600</span> light essence</button><br>
 			<button class="lightEssenceUpgrade" style="background-color: white; height: 46px; text-align: left" onclick="buyLightEssenceUpgrade(3)">Increase pink sigil gain<br>Currently ^<span class="lightEssenceUpgradeEffect">1.00</span><br>Costs <span class="lightEssenceUpgradeCost">3,000</span> light essence</button><br>
+			<button id="lightEssenceMaxAllButton" style="background-color: white" onclick="lightEssenceMaxAll()">Max all</button>
     </div>
   </div>
 	
@@ -1173,6 +1185,83 @@
 			<button class="darkEssenceUpgrade" style="background-color: black; color: white; height: 46px; text-align: left" onclick="buyDarkEssenceUpgrade(1)">Multiply dark essence gain<br>Currently x<span class="darkEssenceUpgradeEffect">1.00</span><br>Costs <span class="darkEssenceUpgradeCost">100</span> dark essence</button><br>
 			<button class="darkEssenceUpgrade" style="background-color: black; color: white; height: 46px; text-align: left" onclick="buyDarkEssenceUpgrade(2)">Multiply oganesson gain<br>Currently x<span class="darkEssenceUpgradeEffect">1.00</span><br>Costs <span class="darkEssenceUpgradeCost">1,000</span> dark essence</button><br>
 			<button class="darkEssenceUpgrade" style="background-color: black; color: white; height: 46px; text-align: left" onclick="buyDarkEssenceUpgrade(3)">Multiply knowledge gain<br>Currently x<span class="darkEssenceUpgradeEffect">1.00</span><br>Costs <span class="darkEssenceUpgradeCost">10,000</span> dark essence</button><br>
+			<button id="darkEssenceMaxAllButton" style="background-color: black; color: white" onclick="darkEssenceMaxAll()">Max all</button>
+    </div>
+  </div>
+	
+	<!--Death essence tab-->
+  <div class="window box" id="tab_deathEssence" style="width: 305px; height: 500px; background-color: #f88; color: black; display: none">
+    <div class="title-bar" style="background: linear-gradient(90deg,black,black)">
+      <div class="title-bar-text" style="color: #f88">Death essence</div>
+    </div>
+    <div class="window-body">
+			<p class="titleText" style="color: black">You have <span id="deathEssence">0</span><br>death essence</p>
+			<p style="color: black">Multiplying light and dark essence gain by <span id="deathEssenceMultiplier">1.00</span><br>You are gaining <span id="deathEssencePerSecond">0</span> death essence per second (based on light and dark essence)</p>
+			<button class="deathEssenceUpgrade" style="background-color: #f88; height: 46px; text-align: left" onclick="buyDeathEssenceUpgrade(1)">Multiply death essence gain<br>Currently x<span class="deathEssenceUpgradeEffect">1.00</span><br>Costs <span class="deathEssenceUpgradeCost">1,000</span> death essence</button><br>
+			<button class="deathEssenceUpgrade" style="background-color: #f88; height: 46px; text-align: left" onclick="buyDeathEssenceUpgrade(2)">Multiply cyan sigil gain<br>Currently x<span class="deathEssenceUpgradeEffect">1.00</span><br>Costs <span class="deathEssenceUpgradeCost">10,000</span> death essence</button><br>
+			<button class="deathEssenceUpgrade" style="background-color: #f88; height: 46px; text-align: left" onclick="buyDeathEssenceUpgrade(3)">Increase uranium gain<br>Currently ^<span class="deathEssenceUpgradeEffect">1.00</span><span id="deathEssenceUpgrade3Softcap"></span><br>Costs <span class="deathEssenceUpgradeCost">200,000</span> death essence</button><br>
+			<button class="deathEssenceUpgrade" style="background-color: #f88; height: 46px; text-align: left" onclick="buyDeathEssenceUpgrade(4)">Multiply cosmic plague gain again<br>Currently x<span class="deathEssenceUpgradeEffect">1.00</span><br>Costs <span class="deathEssenceUpgradeCost">10,000,000</span> death essence</button><br>
+			<button class="deathEssenceUpgrade" style="background-color: #f88; height: 46px; text-align: left" onclick="buyDeathEssenceUpgrade(5)">Multiply light/dark essence gain<br>Currently x<span class="deathEssenceUpgradeEffect">1.00</span><br>Costs <span class="deathEssenceUpgradeCost">1.00e40</span> death essence</button><br>
+			<button id="deathEssenceMaxAllButton" style="background-color: #f88" onclick="deathEssenceMaxAll()">Max all</button>
+    </div>
+  </div>
+	
+	<!--Nuclear pasta tab-->
+  <div class="window box" id="tab_nuclearPasta" style="width: 450px; height: 450px; background-color: #fd8; color: #630; display: none;">
+    <div class="title-bar" style="background: linear-gradient(90deg,#960,#db0">
+      <div class="title-bar-text">Nuclear pasta</div>
+    </div>
+    <div class="window-body">
+			<p class="titleText">You have <span id="nuclearPasta">0</span> nuclear pasta</p><hr>
+			<p class="titleText" style="text-align: center">Current pasta state: <span id="nuclearPastaState">Gnocchi</span> <span id="nuclearPastaStateInfo" onmouseover="displayNuclearPastaInfo()" onmouseout="hideNuclearPastaInfo()">(?)</span></p>
+			<p style="text-align: center">Positive effect: <span style="color: #080" id="nuclearPastaPositiveEffect">Boost to light/dark essence gain</span><br><span style="color: #080">Current effect: <span id="nuclearPastaEffect">x1.00</span></span><br>Negative effect: <span style="color: #b00" id="nuclearPastaNegativeEffect">&#8202;&#8202;Zero death essence gain</span><br>Next state change in <span id="nuclearPastaCooldown" style="font-weight: bold">20 seconds</span></p>
+			<button id="extendNuclearPastaButton" onclick="extendNuclearPasta()">Extend this state by 60 seconds</button>
+			<hr>
+			<button style="height: 34px" onclick="gainNuclearPasta()">Gain a nuclear pasta<br>Costs <span id="nuclearPastaCost">ee3,500,000</span> gold</button>
+			<button onclick="gainMaxPasta()">&#8202;&#8202;Gain max</button><br><br>
+			<button class="nuclearPastaUpgrade" style="height: 34px; text-align: left" onclick="buyNuclearPastaUpgrade(1)">Gnocchi positive effect is permanent, and replace gnocchi with a new pasta state<br>Costs ee7,500,000 gold</button><br>
+			<button class="nuclearPastaUpgrade" style="height: 34px; text-align: left" onclick="buyNuclearPastaUpgrade(2)">Spaghetti positive effect is permanent, and replace spaghetti with a new pasta state<br>Costs ee120,000,000 gold</button><br>
+			<button class="nuclearPastaUpgrade" style="height: 34px; text-align: left" onclick="buyNuclearPastaUpgrade(3)">Waffles positive effect is permanent<br>Costs ee250,000,000 gold</button><br>
+			<button class="nuclearPastaUpgrade" style="height: 34px; text-align: left" onclick="buyNuclearPastaUpgrade(4)">Lasagna and antispaghetti positive effects are permanent, with no more negative effects<br>Costs ee750,000,000 gold</button><br>
+    </div>
+  </div>
+	
+	<!--Nuclear pasta info window-->
+	<div class="window" id="nuclearPastaInfoWindow">
+		<p id="nuclearPastaInfoText">Test text</p>
+	</div>
+	
+	<!--Finality essence tab-->
+  <div class="window box" id="tab_finalityEssence" style="width: 300px; height: 500px; background-color: #b8f; display: none">
+    <div class="title-bar" style="background: linear-gradient(90deg,black,black)">
+      <div class="title-bar-text" style="color: #b8f">Finality essence</div>
+    </div>
+    <div class="window-body">
+			<p class="titleText" style="color: black">You have <span id="finalityEssence">0</span><br>finality essence</p>
+			<p style="color: black">Multiplying death essence gain by <span id="finalityEssenceMultiplier">1.00</span><br>You are gaining <span id="finalityEssencePerSecond">0</span> finality essence per second (based on death essence)</p>
+			<button class="finalityEssenceUpgrade" style="background-color: #b8f; height: 46px; text-align: left" onclick="buyFinalityEssenceUpgrade(1)">Multiply finality essence gain<br>Currently x<span class="finalityEssenceUpgradeEffect">1.00</span><br>Costs <span class="finalityEssenceUpgradeCost">1,000</span> finality essence</button><br>
+			<button class="finalityEssenceUpgrade" style="background-color: #b8f; height: 46px; text-align: left" onclick="buyFinalityEssenceUpgrade(2)">Increase holy fire gain<br>Currently ^<span class="finalityEssenceUpgradeEffect">1.00</span><br>Costs <span class="finalityEssenceUpgradeCost">4,000</span> finality essence</button><br>
+			<button class="finalityEssenceUpgrade" style="background-color: #b8f; height: 46px; text-align: left" onclick="buyFinalityEssenceUpgrade(3)">Increase plutonium gain<br>Currently ^<span class="finalityEssenceUpgradeEffect">1.00</span><br>Costs <span class="finalityEssenceUpgradeCost">1.00e15</span> finality essence</button><br>
+			<button class="finalityEssenceUpgrade" style="background-color: #b8f; height: 46px; text-align: left" onclick="buyFinalityEssenceUpgrade(4)">Increase light/dark essence gain<br>Currently x<span class="finalityEssenceUpgradeEffect">1.00</span><br>Costs <span class="finalityEssenceUpgradeCost">1.00e20</span> finality essence</button><br>
+			<button id="finalityEssenceMaxAllButton" style="background-color: #b8f" onclick="finalityEssenceMaxAll()">Max all</button>
+    </div>
+  </div>
+	
+	<!--Finality cubes tab-->
+  <div class="window box" id="tab_finalityCubes" style="width: 512px; height: 450px; background-color: black; background-image: url('img/spaceBack2.png'); display: none">
+    <div class="title-bar" style="background: linear-gradient(90deg,#408,#f0f)">
+      <div class="title-bar-text">Finality Cubes</div>
+    </div>
+    <div class="window-body">
+			<p class="titleText" style="color: white; text-align: center">You have <span id="finalityCubes">0</span> finality cubes</p>
+			<p style="color: white; text-align: center; margin-left: 20px; margin-right: 20px">The size of a small galaxy, made of pure finality essence and perfectly smooth to the touch, the finality cubes act as beacons to boost your power.</p>
+			<hr>
+			<button style="height: 34px; background-color: black; color: #f0f; text-align: left" onclick="gainFinalityCube()">Gain a finality cube<br>Costs <span id="finalityCubeCost">ee7.50e9</span> gold</button>
+			<button style="height: 34px; background-color: black; color: #f0f; text-align: left; vertical-align: top; min-width: 50px" onclick="gainMaxFinalityCubes()">Gain max</button>
+			<button style="height: 34px; background-color: black; color: #a0f; text-align: left" onclick="boostFinalityCubes()">Boost your finality cubes<br>Costs <span id="finalityBoostCost">ee2.50e10</span> gold</button>
+			<button style="height: 34px; background-color: black; color: #06f; text-align: left" onclick="boostFinalityBoosts()">Boost your finality cube boosts<br>Costs <span id="finalityBoostBoostCost">ee1.50e11</span> gold</button>
+			<p style="color: #f8f">Your finality cubes are multiplying all essence gain  by <span id="finalityCubeEffect" style="color: #b8f">1</span> (Maxes at 1.00e100! The omniverse can only hold so much power)</p>
+			<div style="position: absolute; bottom: 7px; left: 2px; width: 512px; height: 256px; background-image: url('img/finalityCube.gif'); background-position: 128px 0px"></div>
     </div>
   </div>
 
@@ -1193,16 +1282,23 @@
   </div>
 
   <p id="alerts" style="color: white; position: absolute; top: 0; right: 0; margin: 4px; text-align: right; font-size: 24px"></p>
+	
+	<div id="finalDiv">
+		<p id="finalText">DodecaDragons</p>
+		<p style="font-size: 33px; margin: 0; color: #8f8">Game completed</p><br>
+		<p style="font-size: 22px; margin: 0">Your dragon has become the omniverse itself.<br>Your total time was <span id="finalTime">0:00:00</span>.</p><br>
+		<button onclick="hardReset()">&#8202;&#8202;Reset game</button>
+	</div>
   
-  <button style="position: absolute; top: 5px; left: 5px; min-width: 76px; min-height: 20px; margin: 0; z-index: 1;"
+  <button class="tabButton" style="position: absolute; top: 5px; left: 5px; min-width: 76px; min-height: 20px; margin: 0; z-index: 1;"
   onclick="changeTab(1)">Resources</button>
-  <button style="position: absolute; top: 5px; left: 85px; min-height: 20px; margin: 0; z-index: 1;"
+  <button class="tabButton" style="position: absolute; top: 5px; left: 85px; min-height: 20px; margin: 0; z-index: 1;"
   onclick="changeTab(2)">Settings</button>
-  <button id ="achievementTabButton" style="position: absolute; top: 5px; left: 164px; min-height: 20px; margin: 0; z-index: 1"
+  <button class="tabButton" id ="achievementTabButton" style="position: absolute; top: 5px; left: 164px; min-height: 20px; margin: 0; z-index: 1"
   onclick="changeTab(3)">Achievements</button>
-  <button style="position: absolute; top: 30px; left: 5px; min-height: 20px; margin: 0; z-index: 1"
+  <button class="tabButton" style="position: absolute; top: 30px; left: 5px; min-height: 20px; margin: 0; z-index: 1"
   onclick="changeTab(4)">Info/credits</button>
-  <button id="horrorTabButton" style="position: absolute; top: 30px; left: 85px; min-height: 20px; margin: 0; z-index: 1; display: none"
+  <button class="tabButton" id="horrorTabButton" style="position: absolute; top: 30px; left: 85px; min-height: 20px; margin: 0; z-index: 1; display: none"
   onclick="changeTab(5)">Peep the horror</button>
 
   <img src="img/homeIcon.png" id="home" class="clickButton" onclick="posSet(0,0)">
@@ -1221,26 +1317,27 @@
 
   <!--List o' scripts-->
   <script src="jquery-3.6.0.min.js"></script>
-  <script src="scriptsv01101/break_eternity.js"></script>
-  <script src="scriptsv01101/Mousetrap.js"></script>
-  <script src="scriptsv01101/constants.js"></script>
-  <script src="scriptsv01101/script.js"></script>
-  <script src="scriptsv01101/gold.js"></script>
-  <script src="scriptsv01101/dragon.js"></script>
-  <script src="scriptsv01101/fire.js"></script>
-  <script src="scriptsv01101/alchemy.js"></script>
-  <script src="scriptsv01101/magic.js"></script>
-  <script src="scriptsv01101/magicChallenges.js"></script>
-  <script src="scriptsv01101/sigils.js"></script>
-  <script src="scriptsv01101/knowledge.js"></script>
-  <script src="scriptsv01101/blood.js"></script>
-  <script src="scriptsv01101/holyPolyhedrons.js"></script>
-	<script src="scriptsv01101/planets.js"></script>
-	<script src="scriptsv01101/plague.js"></script>
-	<script src="scriptsv01101/essence.js"></script>
-  <script src="scriptsv01101/achievements.js"></script>
-  <script src="scriptsv01101/hotkeys.js"></script>
-  <script src="scriptsv01101/render.js"></script>
+  <script src="break_eternity.js?v100=1"></script>
+  <script src="Mousetrap.js?v100=1"></script>
+  <script src="constants.js?v100=1"></script>
+  <script src="script.js?v100=1"></script>
+  <script src="gold.js?v100=1"></script>
+  <script src="dragon.js?v100=1"></script>
+  <script src="fire.js?v100=1"></script>
+  <script src="alchemy.js?v100=1"></script>
+  <script src="magic.js?v100=1"></script>
+  <script src="magicChallenges.js?v100=1"></script>
+  <script src="sigils.js?v100=1"></script>
+  <script src="knowledge.js?v100=1"></script>
+  <script src="blood.js?v100=1"></script>
+  <script src="holyPolyhedrons.js?v100=1"></script>
+	<script src="planets.js?v100=1"></script>
+	<script src="plague.js?v100=1"></script>
+	<script src="essence.js?v100=1"></script>
+	<script src="nuclearPasta.js?v100=1"></script>
+  <script src="achievements.js?v100=1"></script>
+  <script src="hotkeys.js?v100=1"></script>
+  <script src="render.js?v100=1"></script>
   <script>load(); if (!isDevVersion) setAutoSave()</script>
 <!--客服 开始-->
 <link rel="stylesheet" href="//g8hh.github.io/static/css/kf.css" type="text/css" media="screen" charset="utf-8">
