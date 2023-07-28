@@ -42,7 +42,7 @@
       <button id="moreDarkMagicUpgradesButton" style="background-color: #74a; height: 34px; display: none" onclick="moreDarkMagicUpgrades()">Unlock more dark magic upgrades<br>Costs e6.66e16 gold</button>
       <button id="unlockVoidMagicUpgradesButton" style="background-color: #222; color: white; height: 58px; display: none" onclick="unlockVoidMagicUpgrades()">&#8202;&#8202;Unlock <a style="color: #dbf; text-shadow: 1px 1px #648">Void Magic Upgrades</a><br>You are mastering control of your magic powers.<br>Costs e1.00e100 gold and 100,000,000 holy fire</button>
 			<button id="unlockPlanetsButton" style="background-color: black; background-image: url('img/spaceBack.png'); color: #b8f; height: 34px; width: 200px; display: none" onclick="unlockPlanets()">&#8202;&#8202;Unlock <b>Planets</b><br>Costs e1.00e400 gold</button>
-			<button id="omniverseWarning" style="background-color: black; color: #b0f; text-shadow: 0 1px #00f; height: 46px; display: none">&#8202;&#8202;Something unseeable looms over you. A powerful presense has taken<br>&#8202;&#8202;an interest in your actions. Perhaps it may show itself if you acquire more gold.</button>
+			<button id="omniverseWarning" style="background-color: black; color: #b0f; text-shadow: 0 1px #00f; height: 46px; display: none">&#8202;&#8202;Something unseeable looms over you. A powerful presence has taken<br>&#8202;&#8202;an interest in your actions. Perhaps it may show itself if you acquire more gold.</button>
 			<button id="unlockEssencesButton" style="background-color: white; color: black; height: 34px; width: 250px; display: none" onclick="unlockEssences()">&#8202;&#8202;Unlock the <b>Light and Dark Essences</b><br>&#8202;&#8202;Costs ee500,000 gold</button>
 			<button id="unlockDeathEssenceButton" style="background-color: #f88; color: black; height: 34px; width: 250px; display: none" onclick="unlockDeathEssence()">Unlock <b>Death Essence</b><br>Costs ee1,500,000 gold</button>
 			<button id="unlockNuclearPastaButton" style="background-color: #fd8; color: #630; height: 34px; display: none" onclick="unlockNuclearPasta()">&#8202;&#8202;Unlock <b>Nuclear Pasta</b><br>Costs ee3,500,000 gold</button>
@@ -1238,7 +1238,7 @@
     </div>
     <div class="window-body">
 			<p class="titleText" style="color: black">You have <span id="finalityEssence">0</span><br>finality essence</p>
-			<p style="color: black">Multiplying death essence gain by <span id="finalityEssenceMultiplier">1.00</span><br>You are gaining <span id="finalityEssencePerSecond">0</span> finality essence per second (based on death essence)</p>
+			<p style="color: black">Multiplying death essence gain by <span id="finalityEssenceMultiplier">1.00</span><br>You are gaining <span id="finalityEssencePerSecond">0</span> finality essence per second (also based on light essence)</p>
 			<button class="finalityEssenceUpgrade" style="background-color: #b8f; height: 46px; text-align: left" onclick="buyFinalityEssenceUpgrade(1)">Multiply finality essence gain<br>Currently x<span class="finalityEssenceUpgradeEffect">1.00</span><br>Costs <span class="finalityEssenceUpgradeCost">1,000</span> finality essence</button><br>
 			<button class="finalityEssenceUpgrade" style="background-color: #b8f; height: 46px; text-align: left" onclick="buyFinalityEssenceUpgrade(2)">Increase holy fire gain<br>Currently ^<span class="finalityEssenceUpgradeEffect">1.00</span><br>Costs <span class="finalityEssenceUpgradeCost">4,000</span> finality essence</button><br>
 			<button class="finalityEssenceUpgrade" style="background-color: #b8f; height: 46px; text-align: left" onclick="buyFinalityEssenceUpgrade(3)">Increase plutonium gain<br>Currently ^<span class="finalityEssenceUpgradeEffect">1.00</span><br>Costs <span class="finalityEssenceUpgradeCost">1.00e15</span> finality essence</button><br>
@@ -1355,6 +1355,7 @@ var _hmt = _hmt || [];
 })();
 </script>
     </div>
+
 </body>
 
 </html>

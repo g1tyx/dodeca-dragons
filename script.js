@@ -1009,7 +1009,7 @@ function loadGame(loadgame) {
     document.getElementById("maxOrangeSigilUpgradesButton").style.display = "block"
     orangeSigilAutoOption = document.createElement("option")
     orangeSigilAutoOption.text = "Orange"
-    redSigilAutoOption.value = "Orange"
+    orangeSigilAutoOption.value = "Orange"
     document.getElementById("sigilResetterType").add(orangeSigilAutoOption)
     document.getElementById("orangeSigilUpgrade1Cost").innerHTML = format(game.orangeSigilUpgrade1Cost, 0)
     document.getElementById("orangeSigilUpgrade1Effect").innerHTML = format(game.orangeSigilUpgradesBought[0].add(1), 2)
@@ -1027,7 +1027,7 @@ function loadGame(loadgame) {
     document.getElementById("maxYellowSigilUpgradesButton").style.display = "block"
     yellowSigilAutoOption = document.createElement("option")
     yellowSigilAutoOption.text = "Yellow"
-    redSigilAutoOption.value = "Yellow"
+    yellowSigilAutoOption.value = "Yellow"
     document.getElementById("sigilResetterType").add(yellowSigilAutoOption)
     document.getElementById("yellowSigilUpgrade1Cost").innerHTML = format(game.yellowSigilUpgrade1Cost, 0)
     document.getElementById("yellowSigilUpgrade1Effect").innerHTML = format(game.yellowSigilUpgradesBought[0].add(1), 2)
