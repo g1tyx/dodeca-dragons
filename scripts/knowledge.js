@@ -219,6 +219,7 @@ function buyTomeUpgrade(x) {
     document.getElementById("maxRedSigilUpgradesButton").style.display = "block"
     redSigilAutoOption = document.createElement("option")
     redSigilAutoOption.text = "Red"
+    redSigilAutoOption.value = "Red"
     document.getElementById("sigilResetterType").add(redSigilAutoOption)
     document.getElementById("redSigilUpgrade1Cost").textContent = format(game.redSigilUpgrade1Cost, 0)
     document.getElementById("redSigilUpgrade1Effect").textContent = format(game.redSigilUpgradesBought[0].add(1), 2)
