@@ -8,16 +8,18 @@
   <meta content="real ones sit on top of their pile of gold and gems like a dragon fr fr"
     property="og:description" />
   <meta content="https://demonin.com/games/dodecaDragons/" property="og:url" />
-  <meta content="https://demonin.com/games/dodecaDragons/img/logo.png" property="og:image" />
+  <meta content="img/logo.png" property="og:image" />
   <meta content="#408000" data-react-helmet="true" name="theme-color" />
   <meta name="color-scheme" content="light only">
   <title>DodecaDragons</title>
   <link rel="icon" type="image/x-icon" href="img/iconGoldCoins.png">
   <link rel="stylesheet" href="98.css" />
-  <link href="style.css" rel="stylesheet" type="text/css" /> 
+  <link href="style.css?v100=1" rel="stylesheet" type="text/css" /> 
 </head>
 
 <body onclick="updateSmall()">
+  <script src="chs.js"></script>
+<script src="core.js"></script>
   <!--Main tab-->
   <div class="window box" id="tab_main" style="width: 350px; height: 300px">
     <div class="title-bar">
@@ -682,11 +684,11 @@
         <input type="checkbox" id="sigilResetterActive" onchange="updateSigilResetter()" tabindex="-1">
         <label for="sigilResetterActive">Enabled</label> <br><br>
         Colour: <select id="sigilResetterType" onchange="updateSigilResetter()" tabindex="-1">
-          <option>Cyan</option>
-          <option>Blue</option>
-          <option>Indigo</option>
-          <option>Violet</option>
-          <option>Pink</option>
+          <option value="Cyan">Cyan</option>
+          <option value="Blue">Blue</option>
+          <option value="Indigo">Indigo</option>
+          <option value="Violet">Violet</option>
+          <option value="Pink">Pink</option>
         </select><br>
         <input type="checkbox" id="sigilResetterCycle" onchange="updateSigilResetter()" tabindex="-1">
         <label for="sigilResetterCycle">Cycle Colour on Reset</label> <br>
@@ -695,9 +697,9 @@
           <label for="sigilResetterCycleMode" >Cycle between Red/Orange/Yellow only</label> <br>
         </span><br><br>
         Mode: <select id="sigilResetterMode" onchange="updateSigilResetter(true)" tabindex="-1">
-          <option>Potential Sigil Amount</option>
-          <option>Gold Amount</option>
-          <option>Seconds Since Reset</option>
+          <option value="Potential Sigil Amount">Potential Sigil Amount</option>
+          <option value="Gold Amount">Gold Amount</option>
+          <option value="Seconds Since Reset">Seconds Since Reset</option>
         </select><br>
         <input id="sigilResetterAmount" style="width: 200px; background-color: #cbc0b8; text-align: center; font-weight: bold" placeholder="amount" onchange="updateSigilResetter()" tabindex="-1"></input>
       <br><br>
@@ -871,7 +873,7 @@
     </div>
     <div class="window-body" style="max-height: calc(95vh - 50px); overflow: auto">
       <div style="margin-top: 8px; background-color: #111; width: 100%; border-top: 4px solid #666; border-bottom: 4px solid #666">
-        <p style="text-align: center"><a class="titleText" style="font-size: 36px; color: #ca1; text-shadow: 3px 3px #555">DodecaDragons</a><br><a style="color: #666">v1.0.1 (THE FINAL UPDATE) <span id="inDevSpan"></span></a></p>
+        <p style="text-align: center"><a class="titleText" style="font-size: 36px; color: #ca1; text-shadow: 3px 3px #555">DodecaDragons</a><br><a style="color: #666">v1.0.0 (THE FINAL UPDATE) <span id="inDevSpan"></span></a></p>
       </div>
 			<p id ="devinfo" style="position: absolute; top: 120px; right: 4px; text-align: right; margin: 0"><a href="changelog.txt" target="_blank">Changelog</a></p>
       <p style="margin-top: 6px">Created by <a style="color: #50a">Demonin</a><br>Co-developed by <a style="color: #a0a">Cornucanis</a><br>Additional spriting by <a style="color: #a00">Zaxolotl</a></p>
@@ -1314,29 +1316,46 @@
   <!--<div id="testdiv" class="window box"> Hello world </div>-->
 
   <!--List o' scripts-->
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="scripts/break_eternity.js"></script>
-  <script src="scripts/Mousetrap.js"></script>
-  <script src="scripts/constants.js"></script>
-  <script src="scripts/script.js"></script>
-  <script src="scripts/gold.js"></script>
-  <script src="scripts/dragon.js"></script>
-  <script src="scripts/fire.js"></script>
-  <script src="scripts/alchemy.js"></script>
-  <script src="scripts/magic.js"></script>
-  <script src="scripts/magicChallenges.js"></script>
-  <script src="scripts/sigils.js"></script>
-  <script src="scripts/knowledge.js"></script>
-  <script src="scripts/blood.js"></script>
-  <script src="scripts/holyPolyhedrons.js"></script>
-	<script src="scripts/planets.js"></script>
-	<script src="scripts/plague.js"></script>
-	<script src="scripts/essence.js"></script>
-	<script src="scripts/nuclearPasta.js"></script>
-  <script src="scripts/achievements.js"></script>
-  <script src="scripts/hotkeys.js"></script>
-  <script src="scripts/render.js"></script>
+  <script src="jquery-3.6.0.min.js"></script>
+  <script src="break_eternity.js?v100=1"></script>
+  <script src="Mousetrap.js?v100=1"></script>
+  <script src="constants.js?v100=1"></script>
+  <script src="script.js?v100=1"></script>
+  <script src="gold.js?v100=1"></script>
+  <script src="dragon.js?v100=1"></script>
+  <script src="fire.js?v100=1"></script>
+  <script src="alchemy.js?v100=1"></script>
+  <script src="magic.js?v100=1"></script>
+  <script src="magicChallenges.js?v100=1"></script>
+  <script src="sigils.js?v100=1"></script>
+  <script src="knowledge.js?v100=1"></script>
+  <script src="blood.js?v100=1"></script>
+  <script src="holyPolyhedrons.js?v100=1"></script>
+	<script src="planets.js?v100=1"></script>
+	<script src="plague.js?v100=1"></script>
+	<script src="essence.js?v100=1"></script>
+	<script src="nuclearPasta.js?v100=1"></script>
+  <script src="achievements.js?v100=1"></script>
+  <script src="hotkeys.js?v100=1"></script>
+  <script src="render.js?v100=1"></script>
   <script>load(); if (!isDevVersion) setAutoSave()</script>
+<!--客服 开始-->
+<link rel="stylesheet" href="//g8hh.github.io/static/css/kf.css" type="text/css" media="screen" charset="utf-8">
+<script src="//g8hh.github.io/static/js/kf.js"></script>
+<!-- 客服 结束 -->
+<!--站长统计--> 
+<div style="display: none">
+    <script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?028b1b5f659ed138230f4cafd7ad0dfc";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+    </div>
+
 </body>
 
 </html>
