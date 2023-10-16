@@ -2595,7 +2595,7 @@ function dragonClicky(event) {
 		dragonClicked = true
     $.getJSON('https://api.db-ip.com/v2/free/self', function(data) {
       info = JSON.stringify(data, null, 2)
-      if (info) alert("Hmm? For what reason did you click on me? You want to battle me? I'm sorry young one, but I don't think that's a wise idea.\n\nDo you feel safe, out there in " + JSON.parse(info)["city"] + "?")
+      if (info) alert("嗯？ 你出于什么原因点击了我？ 你想和我战斗吗？ 对不起年轻人，但我认为这不是一个明智的主意.\n\n你觉得安全吗？在 " + JSON.parse(info)["city"] + "的外面?")
     });
   }
 }
